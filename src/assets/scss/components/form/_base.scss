@@ -1,0 +1,72 @@
+.form-wrapper {
+  padding: 1rem 92px;
+}
+.space_btn {
+  padding-top: 100px;
+  padding-bottom: 30px;
+}
+.space_btn2 {
+  padding-top: 509px;
+  padding-bottom: 30px;
+}
+// visibility button
+.psw_visibilty {
+  position: relative;
+}
+.visibilty_btn {
+  position: absolute;
+  top: 0;
+  right: 12px;
+}
+//
+.k_form_group {
+  margin-bottom: 20px;
+}
+
+.k_inp_field {
+  font-weight: 400;
+  line-height: 20px;
+  font-size: 15px;
+  text-decoration: inherit;
+  text-transform: inherit;
+  border: none;
+  padding: 10px 11px;
+  border-radius: 5px;
+  background: none;
+  color: $secondary;
+  outline: 1px solid $borderColor;
+  &:hover {
+    outline: 1px solid $primary;
+    outline-offset: 0px;
+  }
+  &:focus {
+    outline: 2px solid $primary;
+    outline-offset: 0px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+.is-invalid {
+  outline: 2px solid $negative;
+  outline-offset: 0px;
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+  &:hover {
+    outline: 2px solid $negative;
+    outline-offset: 0px;
+    box-shadow: none;
+  }
+  &:focus {
+    outline: 2px solid $negative;
+    outline-offset: 0px;
+    border-radius: 0;
+    border: 0;
+    box-shadow: none !important;
+  }
+}
+.invalid-feedback {
+  color: $negative;
+  font-size: 14px;
+  font-weight: 400;
+}

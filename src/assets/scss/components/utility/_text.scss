@@ -1,0 +1,15 @@
+.text-secodary {
+  color: #222b45;
+  font-weight: 300;
+  font-size: 14px;
+  font-style: italic;
+}
+.text-success {
+  color: $positive !important;
+}
+.text-danger {
+  color: $negative !important;
+}
+.text-left {
+  text-align: left;
+}

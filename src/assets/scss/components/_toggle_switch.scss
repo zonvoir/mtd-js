@@ -1,0 +1,26 @@
+.k_toggle {
+  text-align: left;
+  .toggle-container {
+    .toggle-handle {
+      width: 15px;
+      height: 15px;
+    }
+    .toggle {
+      width: 32px;
+      height: 16px;
+    }
+    .toggle-on {
+      border-color: $primary;
+      outline: $primary;
+      background-color: $primary;
+    }
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  .toggle_label {
+    font-size: 14px;
+    font-weight: 600;
+    color: $heading;
+  }
+}

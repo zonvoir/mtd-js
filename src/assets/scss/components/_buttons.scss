@@ -1,0 +1,202 @@
+.k_btnfs14_w700 {
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 9px 45px;
+}
+.btn-primary {
+  background-color: $primary;
+  color: $white;
+  border-color: $primary;
+  &:hover {
+    background-color: $primary;
+    box-shadow: none;
+    border-color: $primary;
+    outline: none;
+  }
+  &:focus {
+    background-color: $primary;
+    box-shadow: none;
+    border-color: $primary;
+    outline: none;
+  }
+  &:active {
+    background-color: $primary;
+    box-shadow: none !important;
+    outline: none;
+    border-color: $primary;
+    &:focus {
+      background-color: $primary;
+      box-shadow: none;
+      border-color: $primary;
+      outline: none;
+    }
+  }
+}
+.btn-basic-3 {
+  background-color: $basic-3;
+  color: $black;
+  border-color: $basic-3;
+  &:hover {
+    background-color: $basic-3;
+    box-shadow: none;
+    border-color: $basic-3;
+  }
+  &:focus {
+    background-color: $basic-3;
+    box-shadow: none;
+    border-color: $basic-3;
+  }
+  &:active {
+    background-color: $basic-3;
+    box-shadow: none !important;
+
+    border-color: $basic-3;
+    &:focus {
+      background-color: $basic-3;
+      box-shadow: none;
+      border-color: $basic-3;
+    }
+  }
+}
+.eye_btn {
+  .eye_icon {
+    color: #8f9bb3;
+  }
+  &:hover {
+    background-color: transparent;
+    box-shadow: none;
+    border-color: transparent;
+    outline: none;
+  }
+  &:focus {
+    background-color: transparent;
+    box-shadow: none;
+    border-color: transparent;
+    outline: none;
+  }
+  &:active {
+    background-color: transparent;
+    box-shadow: none !important;
+    outline: none;
+    border-color: transparent;
+    &:focus {
+      background-color: transparent;
+      box-shadow: none;
+      border-color: transparent;
+      outline: none;
+    }
+  }
+}
+.k_btn_block {
+  font-weight: 700;
+  line-height: 16px;
+  font-size: 14px;
+  padding: 11px 8px;
+  box-shadow: none;
+  &:hover {
+    background-color: $primary;
+    box-shadow: none;
+    border-color: $primary;
+    outline: none;
+  }
+  &:focus {
+    background-color: $primary;
+    box-shadow: none;
+    border-color: $primary;
+    outline: none;
+  }
+  &:active {
+    background-color: $primary;
+    box-shadow: none !important;
+    outline: none;
+    border-color: $primary;
+    &:focus {
+      background-color: $primary;
+      box-shadow: none;
+      border-color: $primary;
+      outline: none;
+    }
+  }
+  &:disabled {
+    background-color: $primary;
+    box-shadow: none !important;
+    outline: none;
+    border-color: $primary;
+    &:focus {
+      background-color: $primary;
+      box-shadow: none;
+      border-color: $primary;
+      outline: none;
+    }
+  }
+}
+.kk-btn {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: $white;
+  background-color: $primary;
+  &.q-btn {
+    &::before {
+      box-shadow: none;
+    }
+  }
+  &:hover {
+    color: $primary;
+    background-color: $white;
+  }
+}
+.kbtn-primary-inverse {
+  color: $black;
+  background-color: $white;
+  &:hover {
+    color: $primary;
+    background-color: $primary-light;
+  }
+  &.kActive {
+    color: $white;
+    background-color: $primary;
+  }
+}
+.kbtn-primary {
+  color: $white;
+  background-color: $primary;
+  &:hover {
+    color: $primary;
+    background-color: $white;
+  }
+}
+.k-letter-btn {
+  padding: 10px 15px;
+  margin: 0 10px 10px 0;
+  &.q-btn {
+    &:before {
+      border-radius: inherit;
+      bottom: 0;
+      // box-shadow: 0 1px 5px #0003, 0 2px 2px #00000024, 0 3px 1px -2px #0000001f;
+      border: 1px solid $borderColor;
+      content: "";
+      display: block;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+  .block {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 600;
+  }
+}
+.link-btn {
+  &.q-btn {
+    padding: 5px;
+  }
+  .block {
+    font-size: 14px;
+    line-height: 32px;
+    font-weight: 500;
+  }
+}

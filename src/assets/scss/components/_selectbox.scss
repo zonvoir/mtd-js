@@ -1,0 +1,38 @@
+.k_select_single {
+  .multiselect-tag {
+    background-color: $basic;
+    color: $white;
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+  .multiselect-tags {
+    margin-top: 0;
+  }
+  .multiselect {
+    &.is-open {
+      box-shadow: none;
+      border: 0;
+    }
+    &.is-active {
+      box-shadow: none;
+      border: 0;
+    }
+    .multiselect-clear {
+      display: none;
+    }
+    .multiselect-dropdown {
+      background-color: $white !important;
+      .is-selected {
+        background: $primary;
+        background-color: $primary;
+        color: $white;
+      }
+      .is-pointed {
+        background: $primary-light;
+        background-color: $primary-light;
+        color: $primary;
+      }
+    }
+  }
+}
