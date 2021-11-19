@@ -1,0 +1,17 @@
+.bg_alert_icon {
+  @include circle(44px, $circle: true);
+}
+.logo_wrap {
+  @include circle(36px, $circle: true);
+}
+.img_center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.rounded-pill {
+  border-radius: 12px;
+  padding: 5px 12px;
+}

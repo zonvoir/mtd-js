@@ -1,0 +1,75 @@
+.sidebar_container {
+  position: fixed;
+  width: 280px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #101426;
+  &.sidebar_gray {
+    background-color: #f7f9fc !important
+;
+  }
+}
+.sidebar_link_wrap {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 16px 20px 16px 20px;
+  color: #8f9bb3;
+  cursor: pointer;
+  &:hover {
+    .link_title {
+      color: #ffffff;
+    }
+    background-color: #192038;
+    text-decoration: none;
+    padding: 16px 0 16px 20px;
+  }
+  ._link_icon_wrap {
+    margin-right: 20px;
+  }
+  .link_title {
+    font-size: 15px;
+    line-height: 24px;
+    margin-bottom: 0;
+    color: #8f9bb3;
+  }
+  &:last-child {
+    position: relative;
+    bottom: 0;
+    left: 0;
+  }
+}
+.active_sidebar_link {
+  .link_title {
+    color: #ffffff;
+  }
+  background-color: #192038;
+}
+.logo_link {
+}
+.brand_logo {
+  width: 181px;
+  height: 48px;
+}
+.sidebar_logo_wrapper {
+  padding: 14px 16px;
+}
+.logo_wraper {
+  position: relative;
+  left: -33px;
+}
+.link-list-wrapper {
+  //   &:last-child(1) {
+  //     position: relative;
+  //     bottom: 0;
+  //   }
+  //   &:last-child(2) {
+  //     position: relative;
+  //     bottom: 56px;
+  //   }
+}
+// header
+.profile-pic-conatiner {
+  @include circle(40px, $background-color: $white, $circle: true);
+}

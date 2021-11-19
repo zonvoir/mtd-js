@@ -466,10 +466,13 @@ export default {
         return;
       } else {
         this.isSubmitted = true;
+        console.log(this.registerForm);
         signupService
           .create(this.registerForm)
           .then((response) => {
+            console.log("inse=ide api");
             if (response.data.status) {
+              console.log("success");
               this.$toast.success(response.data.message, {
                 position: "bottom-left",
                 duration: 3712,
@@ -478,8 +481,10 @@ export default {
               this.formReset();
               this.modal.show();
             } else {
+              let $th = this;
               Object.keys(response.data.error).map(function (key) {
-                this.$toast.error(response.data.error[key], {
+                console.log("failed");
+                $th.$toast.error(response.data.error[key], {
                   position: "bottom-left",
                   duration: 3712,
                 });

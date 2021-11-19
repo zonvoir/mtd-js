@@ -540,8 +540,9 @@ export default {
               this.formReset();
               console.log(response);
             } else {
+              let $th = this;
               Object.keys(response.data.error).map(function (key) {
-                this.$toast.error(response.data.error[key], {
+                $th.$toast.error(response.data.error[key], {
                   position: "bottom-left",
                   duration: 3712,
                 });

@@ -4,6 +4,34 @@
   border-radius: 4px;
   padding: 9px 45px;
 }
+.btn-light {
+  background-color: #edf1f7;
+  color: $heading;
+  &:hover {
+    background-color: #edf1f7;
+    box-shadow: none;
+    border-color: #edf1f7;
+    outline: none;
+  }
+  &:focus {
+    background-color: #edf1f7;
+    box-shadow: none;
+    border-color: #edf1f7;
+    outline: none;
+  }
+  &:active {
+    background-color: #edf1f7;
+    box-shadow: none !important;
+    outline: none;
+    border-color: #edf1f7;
+    &:focus {
+      background-color: #edf1f7;
+      box-shadow: none;
+      border-color: #edf1f7;
+      outline: none;
+    }
+  }
+}
 .btn-primary {
   background-color: $primary;
   color: $white;
@@ -32,6 +60,123 @@
       outline: none;
     }
   }
+}
+.btn-transaprent {
+  background-color: transparent;
+  color: $primary;
+  border-color: transparent;
+  padding: 0;
+  &:hover {
+    background-color: transparent;
+    box-shadow: none;
+    border-color: transparent;
+    outline: none;
+  }
+  &:focus {
+    background-color: transparent;
+    box-shadow: none;
+    border-color: transparent;
+    outline: none;
+  }
+  &:active {
+    background-color: transparent;
+    box-shadow: none !important;
+    outline: none;
+    border-color: transparent;
+    &:focus {
+      background-color: transparent;
+      box-shadow: none;
+      border-color: transparent;
+      outline: none;
+    }
+  }
+}
+.k-letter-btn {
+  border: 1px solid #d1d9e9;
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 18px;
+  color: #222b45;
+  margin-bottom: 10px;
+  &:hover {
+    background-color: $white;
+    box-shadow: none;
+    border: 1px solid #d1d9e9;
+    outline: none;
+  }
+  &:focus {
+    background-color: $primary;
+    box-shadow: none;
+    color: $white;
+    border-color: $primary;
+    outline: none;
+  }
+  &:active {
+    background-color: $primary;
+    box-shadow: none !important;
+    outline: none;
+    color: $white;
+    border-color: $primary;
+    &:focus {
+      background-color: $primary;
+      box-shadow: none;
+      color: $white;
+      border-color: $primary;
+      outline: none;
+    }
+  }
+}
+// pill buttons
+.btn-pill-primary {
+  font-size: 14px;
+  font-weight: 500;
+  color: $primary;
+  background-color: $white;
+  border-color: $primary;
+  border: 1px solid $primary;
+  border-radius: 12px;
+  padding: 4px 13px;
+  line-height: 16px;
+  &:hover {
+    background-color: $white;
+    box-shadow: none;
+    color: $primary;
+    border-color: $primary;
+    outline: none;
+  }
+  &:focus {
+    background-color: $primary;
+    box-shadow: none;
+    color: $white;
+    border-color: $primary;
+    outline: none;
+  }
+  &:active {
+    background-color: $primary;
+    box-shadow: none !important;
+    outline: none;
+    color: $white !important;
+    border-color: $primary;
+    &:focus {
+      background-color: $primary;
+      box-shadow: none;
+      color: $white !important;
+      border-color: $primary;
+      outline: none;
+    }
+  }
+  // &:enabled {
+  //   background-color: $primary;
+  //   box-shadow: none !important;
+  //   outline: none;
+  //   color: $white;
+  //   border-color: $primary;
+  // }
 }
 .btn-basic-3 {
   background-color: $basic-3;
@@ -131,22 +276,7 @@
     }
   }
 }
-.kk-btn {
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 16px;
-  color: $white;
-  background-color: $primary;
-  &.q-btn {
-    &::before {
-      box-shadow: none;
-    }
-  }
-  &:hover {
-    color: $primary;
-    background-color: $white;
-  }
-}
+
 .kbtn-primary-inverse {
   color: $black;
   background-color: $white;
@@ -167,36 +297,17 @@
     background-color: $white;
   }
 }
-.k-letter-btn {
-  padding: 10px 15px;
-  margin: 0 10px 10px 0;
-  &.q-btn {
-    &:before {
-      border-radius: inherit;
-      bottom: 0;
-      // box-shadow: 0 1px 5px #0003, 0 2px 2px #00000024, 0 3px 1px -2px #0000001f;
-      border: 1px solid $borderColor;
-      content: "";
-      display: block;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-  }
-  .block {
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 600;
-  }
+.btns_wrap {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
 }
-.link-btn {
-  &.q-btn {
-    padding: 5px;
-  }
-  .block {
-    font-size: 14px;
-    line-height: 32px;
-    font-weight: 500;
-  }
+.bg_light {
+  background-color: #f7f9fc;
+}
+.btn-set {
+  font-weight: 700;
+  font-size: 14px;
+  width: 140px;
+  height: 40px;
 }

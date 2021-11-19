@@ -4,6 +4,69 @@
   font-size: 14px;
   font-style: italic;
 }
+.text-heading {
+  color: #222b45;
+}
+.bg_gray {
+  background-color: $basic-3;
+  color: $heading;
+}
+.bg-gray-0 {
+  background-color: #dadada;
+}
+.text-primary {
+  color: $primary !important;
+}
+.bg_success {
+  background-color: #0aca8a;
+  color: $white;
+}
+.bg_warn {
+  background-color: $warn;
+  color: $white;
+}
+.bg_light_teal {
+  background-color: #e5f8fa;
+}
+.bg_light_yellow {
+  background-color: #fff4e5;
+}
+.bg_light_info {
+  background-color: #e8f4fd;
+}
+.bg_light_parrot {
+  background-color: #f3f9ec;
+}
+.bg_light_pink {
+  background-color: $primary-light;
+}
+.bg_light_red {
+  background-color: #fce8ef;
+}
+.bg_light_green {
+  background-color: #e5f4f3;
+}
+.bg_light_blue {
+  background-color: #ebedf7;
+}
+.text-gray {
+  color: #8f9bb3;
+}
+.text-green {
+  color: #0aca8a;
+}
+.bg-danger {
+  background-color: #ff5353;
+}
+.bg-yellow {
+  background-color: rgba(255, 170, 0, 0.5);
+}
+.text-danger {
+  color: #ff5353;
+}
+.text-warn {
+  color: $warn;
+}
 .text-success {
   color: $positive !important;
 }
@@ -12,4 +75,27 @@
 }
 .text-left {
   text-align: left;
+}
+.text-14-400 {
+  font-size: 14px;
+  font-weight: 400;
+}
+.text-14-500 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+}
+.text-14-600 {
+  font-size: 14px;
+  font-weight: 600;
+}
+.text-14-700 {
+  font-size: 14px;
+  font-weight: 700;
+}
+.text-uppercase {
+  text-transform: uppercase;
+}
+.text-right {
+  text-align: right;
 }

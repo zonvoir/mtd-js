@@ -36,3 +36,129 @@
     }
   }
 }
+.comp_select {
+  width: 227px;
+  .multiselect-single-label {
+    color: $heading;
+    font-size: 15px;
+    font-weight: 500;
+    .character-label-icon {
+      width: 24px;
+      height: 24px;
+      padding-right: 8px;
+    }
+  }
+  .character-option-icon {
+    width: 24px;
+    height: 24px;
+    padding-right: 8px;
+  }
+  .multiselect {
+    border: 0;
+    &.is-open {
+      box-shadow: none;
+      border: 0;
+    }
+    &.is-active {
+      box-shadow: none;
+      border: 0;
+    }
+    .multiselect-clear {
+      display: none;
+    }
+    .multiselect-dropdown {
+      background-color: $white !important;
+      .is-selected {
+        background: $primary;
+        background-color: $primary;
+        color: $white;
+      }
+      .is-pointed {
+        background: $primary-light;
+        background-color: $primary-light;
+        color: $primary;
+      }
+    }
+  }
+}
+.comp_year_select {
+  width: 110px;
+  .multiselect-single-label {
+    color: $heading;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .multiselect {
+    border: 0;
+    &.is-open {
+      box-shadow: none;
+      border: 0;
+    }
+    &.is-active {
+      box-shadow: none;
+      border: 0;
+    }
+    .multiselect-clear {
+      display: none;
+    }
+    .multiselect-dropdown {
+      background-color: $white !important;
+      .is-selected {
+        background: $primary;
+        background-color: $primary;
+        color: $white;
+      }
+      .is-pointed {
+        background: $primary-light;
+        background-color: $primary-light;
+        color: $primary;
+      }
+    }
+  }
+}
+// select2 with chips
+
+.select2-container--default {
+  .select2-results__option {
+    border: 1px solid #e4e9f2;
+    color: #222b45;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .select2-selection__clear {
+    font-size: 22px;
+    line-height: 20px;
+    margin-top: 9px !important;
+  }
+  .select2-selection--multiple {
+    border: 1px solid #e4e9f2 !important;
+    .select2-selection__choice {
+      background-color: #edf1f7;
+      font-size: 14px;
+      font-weight: 500;
+      color: #222b45;
+      border-radius: 12px;
+      border: 1px solid #e4e9f2;
+
+      cursor: default;
+      float: left;
+      margin-right: 5px;
+      margin-top: 6px;
+      padding: 1px 1px 1px 10px;
+    }
+    .select2-selection__choice__remove {
+      font-size: 19px;
+      line-height: 21px;
+      float: right;
+      margin: 0 5px;
+      color: #222b45;
+      &:hover {
+        color: #222b45;
+      }
+    }
+  }
+}
+
+.select2-dropdown {
+  border: 1px solid #e4e9f2;
+}

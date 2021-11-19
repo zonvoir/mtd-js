@@ -1,0 +1,49 @@
+@mixin AfterAndBefore(
+  $content: "",
+  $font-size: null,
+  $width: null,
+  $height: null,
+  $left: null,
+  $top: null,
+  $right: null,
+  $transition: null,
+  $bottom: null,
+  $color: null,
+  $font-family: null,
+  $bg-color: null
+) {
+  content: $content;
+  position: absolute;
+  @if ($top !=null) {
+    top: $top;
+  }
+  @if ($left !=null) {
+    left: $left;
+  }
+  @if ($right !=null) {
+    right: $right;
+  }
+  @if ($bottom !=null) {
+    bottom: $bottom;
+  }
+  @if ($transition !=null) {
+    transition: $transition;
+  }
+  @if ($height !=null) {
+    height: $height;
+  }
+
+  @if ($width !=null) {
+    width: $width;
+  }
+  @if ($bg-color !=null) {
+    background-color: $bg-color;
+  }
+  @if ($font-size !=null) {
+    font-size: $font-size;
+  }
+  @if ($font-family !=null) {
+    font-family: $font-family;
+  }
+  color: $color;
+}

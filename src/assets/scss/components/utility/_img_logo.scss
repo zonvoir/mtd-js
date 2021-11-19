@@ -21,3 +21,9 @@
   width: 20px;
   height: 20px;
 }
+.svg_icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

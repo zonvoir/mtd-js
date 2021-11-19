@@ -1,0 +1,42 @@
+@mixin circle(
+  $size,
+  $background-color: null,
+  $color: null,
+  $custom-border: null,
+  $circle: null
+) {
+  width: $size;
+  height: $size;
+  line-height: $size;
+  display: inline-block;
+  text-align: center;
+
+  @if ($circle !=null) {
+    border-radius: $size/2;
+  }
+
+  @if ($background-color !=null) {
+    background-color: $background-color;
+  }
+
+  @if ($custom-border !=null) {
+    border: $custom-border;
+  }
+
+  @if ($color !=null) {
+    color: $color !important;
+  }
+}
+// @mixin circleImg(
+//   $size,
+//   $background-color: null,
+//   $color: null,
+//   $custom-border: null,
+//   $circle: null
+// ) {
+//   position: absolute;
+//       top: 50%;
+//     left: 50%;
+//     position: absolute;
+//     transform: translate(-50%, -50%);
+// }

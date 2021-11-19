@@ -1,0 +1,122 @@
+.main_layout_container {
+  background-color: $body;
+  display: flex;
+
+  .main_layout_sidebar {
+    width: 20.6%;
+  }
+  .main_layout_body {
+    width: 79.4%;
+    text-align: left;
+  }
+}
+.pages_view_container {
+  padding: 25px 28px 0 20px;
+}
+.Fte {
+  .vue-apexcharts {
+    width: 80px;
+    svg {
+      width: 150px;
+      height: 100px;
+    }
+  }
+}
+//haeder
+.left-header {
+  display: flex;
+}
+.header_select {
+  font-weight: 400;
+  line-height: 20px;
+  font-size: 15px;
+  text-decoration: inherit;
+  text-transform: inherit;
+  border: none;
+  padding: 10px 11px;
+  border-radius: 0;
+  background: none;
+  color: $secondary;
+  outline: 0;
+  &:hover {
+    outline: 0;
+    outline-offset: 0px;
+  }
+  &:focus {
+    outline: 0;
+    outline-offset: 0px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+// Page View
+.view_title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #222b45;
+  margin-bottom: 0;
+}
+
+// custom grid
+.custom_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  .custom_grid_col {
+    margin-bottom: 20px;
+  }
+  &:nth-child(4) {
+    margin-right: 0 !important;
+  }
+}
+// custom grid
+.custom_grid3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  .custom_grid_col {
+    margin-bottom: 20px;
+  }
+  &:nth-child(3) {
+    margin-right: 0 !important;
+  }
+}
+// custom grid
+.custom_grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  .custom_grid_col {
+  }
+  &:nth-child(2) {
+    margin-right: 0 !important;
+  }
+}
+// Height Chart
+.vue-highcharts {
+  width: 100%;
+  height: 150px;
+  // margin: 0 -12px;
+  .highcharts-xaxis-labels,
+  .highcharts-axis-labels {
+    display: none !important;
+  }
+}
+.highcharts-xaxis-labels,
+.highcharts-axis-labels {
+  display: none !important;
+}
+.k-high-chart {
+  width: 100% !important;
+  margin: -10px -27px !important;
+}
+// .highcharts-container {
+//   width: 100% !important;
+//   margin: 0 -27px !important;
+// }
+// .k-high-chart .highcharts-container .highcharts-root {
+//   width: 100% !important;
+//   margin: 10px -27px !important;
+// }
+.Fte {
+  .vue-apexcharts {
+    width: 160px;
+  }
+}

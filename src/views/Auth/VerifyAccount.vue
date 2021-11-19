@@ -113,29 +113,24 @@ export default {
         .verifyOTP(this.otpForm)
         .then((response) => {
           if (response.data.status) {
+            console.log("success");
             localStorage.setItem(
               "bWFpbCI6Inpvb",
               JSON.stringify(response.data.data)
             );
-
             this.$router.push({ name: "Dashboard" });
-            // let data = localStorage.getItem("staffData");
-            // console.log("session Staff data " + data);
-            // this.$q.notify({
-            //   color: "green-4",
-            //   textColor: "white",
-            //   icon: "cloud_done",
-            //   message: response.data.message,
-            // });
+
             sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
           } else {
-            // let $th = this;
-            // $th.$q.notify({
-            //   color: "red-5",
-            //   textColor: "white",
-            //   icon: "warning",
-            //   message: response.data.message,
-            // });
+            console.log("success");
+            let $th = this;
+            Object.keys(response.data.error).map(function (key) {
+              console.log("failed");
+              $th.$toast.error(response.data.error[key], {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            });
           }
         })
         .catch((error) => {

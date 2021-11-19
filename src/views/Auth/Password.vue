@@ -30,36 +30,6 @@
               >
                 Password is required
               </div>
-              <!-- <div
-                v-if="v$.loginForm.password.minimum8CharCalc.$invalid"
-                class="fs-14 text-left"
-              >
-                Strong password must be minimum 8 character
-              </div>
-              <div
-                v-if="v$.loginForm.password.upperCaseCalc.$invalid"
-                class="fs-14 text-left"
-              >
-                Password must contain uppercase alphabetic characters
-              </div>
-              <div
-                v-if="v$.loginForm.password.lowerCaseCalc.$invalid"
-                class="fs-14 text-left"
-              >
-                Password must contain lowerCaseCalc alphabetic characters
-              </div>
-              <div
-                v-if="v$.loginForm.password.specialCharCalc.$invalid"
-                class="fs-14 text-left"
-              >
-                Password must contain at least one special characters
-              </div>
-              <div
-                v-if="v$.loginForm.password.numberCalc.$invalid"
-                class="fs-14 text-left"
-              >
-                Password must contain at least one numerical characters
-              </div> -->
             </div>
             <span class="visibilty_btn">
               <button
@@ -194,9 +164,9 @@ export default {
               console.log(response);
               this.formReset();
             } else {
-              // let $th = this;
+              let $th = this;
               Object.keys(response.data.error).map(function (key) {
-                this.$toast.error(response.data.error[key], {
+                $th.$toast.error(response.data.error[key], {
                   position: "bottom-left",
                   duration: 3712,
                 });
