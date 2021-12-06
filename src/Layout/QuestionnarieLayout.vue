@@ -49,6 +49,11 @@ export default {
     questionnaire: (state) => state.questionnaire,
     questionList: (state) => state.questionList,
   }),
+
+  updated() {
+    console.log("hello");
+  },
+
   // watch: {
   //   questionList(newQuestion, oldQuestion) {
   //     console.log(newQuestion, oldQuestion);
@@ -62,8 +67,8 @@ export default {
     //   }
     let data = {
       auth_token: this.authToken,
-      department_id: "5",
-      category_id: "3",
+      department_id: this.departmentId,
+      category_id: this.categoryID,
     };
     this.getDeptAndCategoryDetails(data);
   },

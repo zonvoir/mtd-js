@@ -32,7 +32,7 @@
             :status="category.questionnaire_status"
             :image="category.image"
             :page_name="component_name"
-            :page_parmas="{ id: category.id }"
+            :page_parmas="{ ...defaultDeptId, id: category.id }"
           />
         </div>
         <!-- :page_parmas="{ ...defaultDeptId, cid: category.id }" -->
@@ -65,6 +65,7 @@ export default {
       component_name: "category-overview",
       categoryList: [],
       departmentLists: [],
+      defaultDeptId: {},
     };
   },
   methods: {
@@ -78,7 +79,7 @@ export default {
             return depts.is_default === "1";
           });
           this.defaultDeptId = { did: this.departmentLists[0].departmentid };
-          console.log("default dept ID", this.defaultDeptId);
+          console.log("default dept IDs", this.defaultDeptId);
         } else {
           console.log("no department list found");
         }

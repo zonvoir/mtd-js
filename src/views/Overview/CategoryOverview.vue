@@ -161,7 +161,10 @@ export default {
       });
     },
     startQuestionnarie() {
-      this.$router.push({ name: "questionnarie-test" });
+      this.$router.push({
+        name: "questionnarie-test",
+        params: { deparmentid: this.departmentId, categoryId: this.categoryID },
+      });
     },
   },
 };

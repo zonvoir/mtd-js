@@ -309,7 +309,7 @@ const routes = [
     ],
   },
   {
-    path: "/questionnarie",
+    path: "/:departmentid/questionnarie/:categoryId",
     component: QuestionnarieLayout,
     name: "questionnarie",
     redirect: "/questionnarie/questionnarie-test",

@@ -33,7 +33,7 @@
             :status="category.status"
             :image="category.image"
             :page_name="component_name"
-            :page_parmas="{ ...component_params, cid: category.id }"
+            :page_parmas="{ ...component_params, id: category.id }"
           />
         </div>
       </div>

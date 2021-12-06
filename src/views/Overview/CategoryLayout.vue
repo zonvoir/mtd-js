@@ -110,8 +110,8 @@ export default {
     if (this.departmentId && this.categoryID && this.authToken) {
       let data = {
         auth_token: this.authToken,
-        department_id: "5",
-        category_id: "3",
+        department_id: this.departmentId,
+        category_id: this.categoryID,
       };
       this.getDeptAndCategoryDetails(data);
     }
