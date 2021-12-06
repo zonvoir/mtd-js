@@ -1,7 +1,9 @@
 <template>
   <div class="sidenar_wrap">
     <div class="d-flex align-items-center">
-      <h4 class="m-b-0 sidebar_title">Select Department</h4>
+      <h4 class="m-b-0 sidebar_title">
+        {{ $t("results.sidebar.Select_Department") }}
+      </h4>
       <button @click="sidebarClose" class="btn btn-transaprent zp-0 m-l-auto">
         <img src="K_Icons/cancel.svg" alt="" class="cancel_icon" />
       </button>
@@ -14,7 +16,9 @@
             <img src="K_Icons/pie_30.svg" class="" alt="" />
           </div>
           <div class="img">
-            <h4 class="m-b-0 dept_title">Finance & Controling</h4>
+            <h4 class="m-b-0 dept_title">
+              {{ $t("results.sidebar.Finance_Controling") }}
+            </h4>
           </div>
         </div>
         <div class="m-l-auto">
@@ -33,7 +37,7 @@
             <img src="K_Icons/pie_30.svg" class="" alt="" />
           </div>
           <div class="img">
-            <h4 class="m-b-0 dept_title">HR</h4>
+            <h4 class="m-b-0 dept_title">{{ $t("results.sidebar.HR") }}</h4>
           </div>
         </div>
         <div class="m-l-auto">
@@ -51,7 +55,7 @@
             <img src="K_Icons/pie_30.svg" class="" alt="" />
           </div>
           <div class="img">
-            <h4 class="m-b-0 dept_title">Legal</h4>
+            <h4 class="m-b-0 dept_title">{{ $t("results.sidebar.Legal") }}</h4>
           </div>
         </div>
         <div class="m-l-auto">
@@ -69,7 +73,9 @@
             <img src="K_Icons/pie_30.svg" class="" alt="" />
           </div>
           <div class="img">
-            <h4 class="m-b-0 dept_title">Logistics</h4>
+            <h4 class="m-b-0 dept_title">
+              {{ $t("results.sidebar.Logistics") }}
+            </h4>
           </div>
         </div>
         <div class="m-l-auto">
@@ -87,7 +93,9 @@
             <img src="K_Icons/pie_30.svg" class="" alt="" />
           </div>
           <div class="img">
-            <h4 class="m-b-0 dept_title">Management</h4>
+            <h4 class="m-b-0 dept_title">
+              {{ $t("results.sidebar.Mangement") }}
+            </h4>
           </div>
         </div>
         <div class="m-l-auto">
@@ -105,7 +113,9 @@
             <img src="K_Icons/pie_30.svg" class="" alt="" />
           </div>
           <div class="img">
-            <h4 class="m-b-0 dept_title">Marketing</h4>
+            <h4 class="m-b-0 dept_title">
+              {{ $t("results.sidebar.Marketing") }}
+            </h4>
           </div>
         </div>
         <div class="m-l-auto">
@@ -123,7 +133,9 @@
             <img src="K_Icons/pie_30.svg" class="" alt="" />
           </div>
           <div class="img">
-            <h4 class="m-b-0 dept_title">Production</h4>
+            <h4 class="m-b-0 dept_title">
+              {{ $t("results.sidebar.Production") }}
+            </h4>
           </div>
         </div>
         <div class="m-l-auto">
@@ -141,7 +153,7 @@
             <img src="K_Icons/pie_30.svg" class="" alt="" />
           </div>
           <div class="img">
-            <h4 class="m-b-0 dept_title">Sales</h4>
+            <h4 class="m-b-0 dept_title">{{ $t("results.sidebar.Sales") }}</h4>
           </div>
         </div>
         <div class="m-l-auto">
@@ -170,7 +182,9 @@
               >
                 <span class="visually-hidden">Loading...</span>
               </div>
-              <span v-else data-bs-dismiss="modal"> Apply </span>
+              <span v-else data-bs-dismiss="modal">
+                {{ $t("results.sidebar.buttons.apply") }}
+              </span>
             </button>
           </div>
         </div>

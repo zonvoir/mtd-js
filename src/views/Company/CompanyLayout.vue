@@ -5,7 +5,7 @@
         <div class="view_title_wrap pb-15">
           <div class="page_title_wrap">
             <div class="">
-              <h4 class="view_title">{{ title }}</h4>
+              <h4 class="view_title">{{ $t(title) }}</h4>
             </div>
           </div>
         </div>
@@ -16,7 +16,9 @@
           <TabsHr :tabs="tablist" @changeTitle="ChangeT($event)" />
         </div>
         <div class="invite_btn_wrap">
-          <button class="btn-primary btn k_btnfs14_w700">INVITE MEMBERS</button>
+          <button class="btn-primary btn text-uppercase k_btnfs14_w700">
+            {{ $t("company_profile.buttons.invite_members") }}
+          </button>
         </div>
       </div>
       <!-- tabs end -->
@@ -31,15 +33,15 @@
 const tablist = [
   {
     tabId: 0,
-    title: "Companies",
-    tabTitle: "Company",
-    component_name: "company-list",
+    title: "company_profile.Company",
+    tabTitle: "company_profile.tab.company",
+    component_url: "/company/company-list",
   },
   {
     tabId: 1,
-    title: "Members",
-    tabTitle: "Members",
-    component_name: "company-member",
+    title: "company_profile.Members",
+    tabTitle: "company_profile.tab.member",
+    component_url: "/company/members",
   },
 ];
 import TabsHr from "../../components/Shared/TabsHr.vue";
@@ -51,7 +53,7 @@ export default {
       tablist,
       searchIcon,
       dept: true,
-      title: "Help Center",
+      title: "company_profile.Company",
     };
   },
   components: {

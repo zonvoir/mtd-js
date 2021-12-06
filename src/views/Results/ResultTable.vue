@@ -7,7 +7,9 @@
             <div
               class="th_heading justify-content-end d-flex align-items-center"
             >
-              <h4 class="m-b-0 main_heading m-r-4">Financials</h4>
+              <h4 class="m-b-0 main_heading m-r-4">
+                {{ $t("results.Financials") }}
+              </h4>
               <span class="">
                 <img src="K_Icons/info.svg" alt="" class="" />
               </span>
@@ -22,7 +24,9 @@
                 align-items-center
               "
             >
-              <h4 class="m-b-0 main_heading m-r-4">Maturity</h4>
+              <h4 class="m-b-0 main_heading m-r-4">
+                {{ $t("results.Maturity") }}
+              </h4>
               <span class="">
                 <img src="K_Icons/info.svg" alt="" class="" />
               </span>

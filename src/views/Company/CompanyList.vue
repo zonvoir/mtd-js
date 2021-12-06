@@ -7,7 +7,7 @@
           <thead></thead>
           <tbody class="company_tbody">
             <tr class="company_tr">
-              <td class="company_td add_new_company">
+              <td @click="addCompany" class="company_td add_new_company">
                 <div class="company_detail company_add">
                   <div class="company_pic">
                     <div class="add_company_button">
@@ -15,18 +15,28 @@
                     </div>
                   </div>
                   <div class="company_info">
-                    <h4 class="company_name company_new">Add new company</h4>
+                    <h4 class="company_name company_new">
+                      {{
+                        $t(
+                          "company_profile.company_tab.company_table.Add_new_company"
+                        )
+                      }}
+                    </h4>
                   </div>
                 </div>
               </td>
               <td class="company_td">
-                <div class="td_location td_wrap">Location</div>
+                <div class="td_location td_wrap">
+                  {{ $t("company_profile.company_tab.company_table.Location") }}
+                </div>
               </td>
               <td class="company_td">
-                <div class="td_members td_wrap">Members</div>
+                <div class="td_members td_wrap">
+                  {{ $t("company_profile.company_tab.company_table.Members") }}
+                </div>
               </td>
             </tr>
-            <tr class="company_tr">
+            <tr @click="companyDetails" class="company_tr">
               <td class="company_td">
                 <div class="company_detail company_add">
                   <div class="company_pic">
@@ -367,8 +377,15 @@ export default {
       categories: ["category 1", "category 2", "category 3"],
     };
   },
+  methods: {
+    addCompany() {
+      this.$router.push({ name: "company-update" });
+    },
+    companyDetails() {
+      this.$router.push({ name: "company-profile" });
+    },
+  },
   mounted() {
-    //inti tooltip
     Array.from(
       document.querySelectorAll('a[data-bs-toggle="tooltip"]')
     ).forEach((tooltipNode) => new Tooltip(tooltipNode));
@@ -386,6 +403,9 @@ export default {
   display: inline-block;
   margin-left: -12px;
   z-index: 1;
+  &:first-child {
+    margin-left: 0px;
+  }
   &:hover {
     z-index: 9;
   }
@@ -422,7 +442,7 @@ export default {
 }
 .company_tr {
   border-radius: 4px;
-  border-bottom: 10px solid #f7f9fc;
+  border-bottom: 10px solid #eff3f9;
 }
 .icons_wrap {
   margin-bottom: 0;
@@ -482,6 +502,7 @@ export default {
 .company_td {
   vertical-align: middle;
   padding: 0;
+  cursor: pointer;
   border-bottom: 1px solid #ffffff;
   background: #ffffff;
   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);

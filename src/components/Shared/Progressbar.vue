@@ -1,6 +1,8 @@
 <template>
   <div class="progess_wrappwer">
-    <p class="m-b-0 progres_value"><span>45%</span> to complete</p>
+    <p class="m-b-0 progres_value">
+      <span>{{ valuenow }}%</span> to complete
+    </p>
     <button class="btn btn-transaprent zp-0 m-l-auto">
       <img src="K_Icons/cancel.svg" alt="" class="cancel_icon" />
     </button>
@@ -9,16 +11,27 @@
     <div
       class="progress-bar k_progress_bar"
       role="progressbar"
-      style="width: 25%"
-      aria-valuenow="25"
-      aria-valuemin="0"
-      aria-valuemax="100"
+      :style="{ width: valuenow + '%' }"
+      :aria-valuenow="valuenow"
+      :aria-valuemin="valuemin"
+      :aria-valuemax="valuemax"
     ></div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    valuenow: {
+      required: true,
+    },
+    valuemin: {
+      required: true,
+    },
+    valuemax: {
+      required: true,
+    },
+  },
   setup() {
     return {};
   },

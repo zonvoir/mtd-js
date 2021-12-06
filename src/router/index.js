@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+// createWebHashHistory
 // import Home from "../views/Home.vue";
 import Authentication from "../Layout/Authentication.vue";
 import Register from "../views/Auth/Register.vue";
@@ -40,6 +41,20 @@ import HelpCenterLayout from "../views/HelpCenter/HelpCenterLayout.vue";
 import VideoFaq from "../views/HelpCenter/VideoFaq.vue";
 import ReportProblem from "../views/HelpCenter/ReportProblem.vue";
 import Glossary from "../views/HelpCenter/Glossary.vue";
+import PersonalAccount from "../views/PersonalAccount/PersonalAccount.vue";
+import PaymentLayout from "../views/Payment/PaymentLayout.vue";
+import PaymentInvoice from "../views/Payment/PaymentInvoice.vue";
+import PaymentList from "../views/Payment/PaymentList.vue";
+import QuestionHint from "../views/Questionnarie/components/QuestionHint.vue";
+import nProgress from "nprogress";
+import { loadLocaleMessages, setI18nLanguage, setupI18n } from "../i18n";
+
+const locale = localStorage.getItem("language") || "en";
+const i18n = setupI18n({
+  locale: locale, // set locale
+  fallbackLocale: locale, // set fallback locale
+});
+loadLocaleMessages(i18n, locale);
 // check if user not login then Dashboard related page not showsrc\views\Results\ResultLocked.vue
 function guardMyroute(to, from, next) {
   var isAuthenticated = false;
@@ -105,7 +120,7 @@ const routes = [
             component: Members,
           },
           {
-            path: "company-edit",
+            path: "company-setup-update",
             name: "company-update",
             component: CompanyEdit,
           },
@@ -128,33 +143,34 @@ const routes = [
       },
 
       {
-        path: "category-home",
+        path: "department/:did/categories",
         component: CategoryLayout,
-        name: "cateogry-home",
-        redirect: "/category-home/category-overview",
+        name: "cateogries",
+        redirect: "/categories/",
         children: [
           {
-            path: "category-overview",
+            path: ":id/overview",
             component: CategoryOverview,
             name: "category-overview",
           },
           {
-            path: "category-qustionlist",
+            path: ":id/qustionlist",
             component: CategoryQuestionList,
             name: "category-qustionlist",
           },
           {
-            path: "category-results",
+            path: ":id/results",
             component: CategoryResults,
             name: "category-results",
           },
           {
-            path: "category-team_management",
+            path: ":id/team-management",
             component: CategoryTeamManagement,
             name: "category-team_management",
           },
         ],
       },
+      // results routes
       {
         path: "results",
         component: Resultlayout,
@@ -168,6 +184,7 @@ const routes = [
           },
         ],
       },
+      // help Center routes
       {
         path: "help-center",
         component: HelpCenterLayout,
@@ -191,6 +208,7 @@ const routes = [
           },
         ],
       },
+      // project routes
       {
         path: "projects",
         component: ProjectsLayout,
@@ -209,18 +227,61 @@ const routes = [
           },
         ],
       },
+      // {
+      //   path: "department/:did/",
+      //   component: DepartmentLayout,
+      //   name: "departments",
+      //   redirect: "/department/",
+      //   children: [
+      //     {
+      //       path: "categories/:id?",
+      //       component: DepartmentsCategory,
+      //       name: "department-category",
+      //     },
+      //   ],
+      // },
+      // departments routes
       {
-        path: "department-home",
+        path: "departments",
         component: DepartmentLayout,
-        name: "department-home",
-        redirect: "/department-home/department-category",
+        name: "departments",
+        redirect: "/departments/",
         children: [
           {
-            path: "department-category",
+            path: ":id?/categories",
             component: DepartmentsCategory,
             name: "department-category",
           },
         ],
+      },
+      // payments routes
+      {
+        path: "payments",
+        component: PaymentLayout,
+        name: "payments",
+        redirect: "/payments/history",
+        children: [
+          {
+            path: "invoice",
+            component: PaymentInvoice,
+            name: "payment-invoice",
+          },
+          {
+            path: "history",
+            component: PaymentList,
+            name: "payment-history",
+          },
+        ],
+      },
+      // personal account routes
+      {
+        path: "personal-account",
+        component: PersonalAccount,
+        name: "personal-account",
+      },
+      {
+        path: "hint",
+        component: QuestionHint,
       },
       {
         path: "find-partner",
@@ -345,6 +406,34 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+  // mode: history,
+});
+
+router.beforeResolve((to, from, next) => {
+  // If this isn't an initial page load.
+  console.log(from);
+  if (to.name) {
+    // Start the route progress bar.
+    nProgress.start();
+  }
+  next();
+});
+
+router.beforeEach(async (to, from, next) => {
+  const paramsLocale = localStorage.getItem("language") || "en";
+  // load locale messages
+  if (!i18n.global.availableLocales.includes(paramsLocale)) {
+    await loadLocaleMessages(i18n, paramsLocale);
+  }
+  // set i18n language
+  setI18nLanguage(i18n, paramsLocale);
+  return next();
+});
+
+router.afterEach((to, from) => {
+  // Complete the animation of the route progress bar.
+  console.log(to, from);
+  nProgress.done();
 });
 
 export default router;

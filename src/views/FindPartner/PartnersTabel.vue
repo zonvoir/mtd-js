@@ -8,7 +8,7 @@
               <input
                 type="text"
                 class="form-control _search_filter k_inp_field"
-                placeholder="Search Here"
+                :placeholder="$t('find_partner.table.placeholder.search_here')"
               />
 
               <span class="search_btn">
@@ -25,12 +25,20 @@
         <th class="part_th_left">
           <div class="filter_wrap d-flex align-items-center">
             <div class="m-r-4">
-              <h6 class="m-b-0 text-gray fs-14 fw-400">Filter by:</h6>
+              <h6 class="m-b-0 text-gray fs-14 fw-400">
+                {{ $t("find_partner.table.filter_by") }}:
+              </h6>
             </div>
             <div class="d-inline-flex">
-              <button class="btn btn-pill-primary m-r-8">company</button>
-              <button class="btn btn-pill-primary m-r-8">key partners</button>
-              <button class="btn btn-pill-primary">exprerts</button>
+              <button class="btn btn-pill-primary m-r-8">
+                {{ $t("find_partner.table.buttons.company") }}
+              </button>
+              <button class="btn btn-pill-primary m-r-8">
+                {{ $t("find_partner.table.buttons.key_partners") }}
+              </button>
+              <button class="btn btn-pill-primary">
+                {{ $t("find_partner.table.buttons.experts") }}
+              </button>
             </div>
           </div>
         </th>
@@ -40,7 +48,7 @@
               <td class="sub_partner_td">
                 <div class="k_select_single zp-0 m-r-8">
                   <Multiselect
-                    placeholder="Role"
+                    :placeholder="$t('find_partner.table.placeholder.role')"
                     class="form-control k_inp_field"
                     rules="required"
                     :options="regions"
@@ -50,7 +58,7 @@
               <td class="sub_partner_td">
                 <div class="k_select_single zp-0">
                   <Multiselect
-                    placeholder="Category"
+                    :placeholder="$t('find_partner.table.placeholder.category')"
                     class="form-control k_inp_field"
                     rules="required"
                     mode="tags"
@@ -141,7 +149,7 @@
                   <div class="">
                     <div class="card_link">
                       <a class="page_link m-l-auto"
-                        >Request a call
+                        >{{ $t("find_partner.table.buttons.request_a_call") }}
                         <img
                           src="K_Icons/next.svg"
                           alt=""
@@ -150,7 +158,9 @@
                     </div>
                     <div class="card_link">
                       <a class="page_link m-l-auto"
-                        >Conatct via email
+                        >{{
+                          $t("find_partner.table.buttons.contact_via_email")
+                        }}
                         <img
                           src="K_Icons/next.svg"
                           alt=""

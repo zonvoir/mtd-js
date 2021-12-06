@@ -1,0 +1,545 @@
+{
+  "message": "Persönliches",
+  "header": {
+    "placeholder": {
+      "select_your_company": "Select Your Compan",
+      "select_year": "Select Yeark"
+    },
+    "profile_drop_down": {
+      "profile": "Profile",
+      "logout": "Logout"
+    }
+  },
+  "login": {
+    "loading": "Loading..",
+    "email_step": {
+      "Sign_In": "Sign I",
+      "no_account": "No account created ye ?",
+      "forgot_password": "Forgot your passwor",
+      "form": {
+        "placeholder": {
+          "email": "Emai"
+        },
+        "invalid_msgs": {
+          "Email_is_invalid": "Email is invali",
+          "email_is_required": "Email is require"
+        }
+      },
+      "buttons": {
+        "done": "Don",
+        "sign_up": "Sign U"
+      }
+    },
+    "password_step": {
+      "enter_password": "Enter Your Passwor",
+      "no_account": "No account created ye ?",
+      "stay_signed": "Stay signed i",
+      "form": {
+        "placeholder": {
+          "password": "Passwor"
+        },
+        "invalid_msgs": {
+          "password_is_required": "Password is invalid"
+        }
+      },
+      "buttons": {
+        "sign_in": "Sign In",
+        "sign_up": "Sign Up"
+      }
+    },
+    "otp_step": {
+      "verify_account": "Verify your account",
+      "no_account": "No account created yet ?",
+      "verify_acc_para1": "We've sent you a six-digit confirmation code to",
+      "verify_acc_para2": "Please enter it below to confirm your email addressk",
+      "form": {
+        "invalid_msgs": {
+          "otp_is_invalid": "Please enter the valid OTP code"
+        }
+      },
+      "buttons": {
+        "verify_account": "Verify Account",
+        "sign_up": "Sign Up"
+      }
+    }
+  },
+  "personal_account": {
+    "personal_account": "Persönliches Konto",
+    "form": {
+      "primary_email_hint": "Ihre primäre E-Mail-Adresse ist",
+      "personal_account": "Personal Account",
+      "invalid_msgs": {
+        "image_hint": "Bilder sollten eine Größe von 100 x 100 px als PNG- oder JPEG-Datei haben",
+        "Email_is_invalid": "Email ist ungültig",
+        "Email_is_required": "Email is required.",
+        "First_Name_is_required": "Vorname ist erforderlich",
+        "Lastname_is_required": "Lastname is required.",
+        "Username_is_required": "Username is required.",
+        "Company_Name_is_required": "Company Name is required",
+        "Industry_is_required": "Industry is required",
+        "Department_is_required": " Department is required",
+        "Seniority_level_is_required": " Seniority level is required",
+        "Position_is_required": "Position is required",
+        "Password_does_not_matched": "Password does not matched",
+        "New_Password_must_be_valid": "New Password must be valid",
+        "Old_Password_must_be_valid": "Old Password must be valid"
+      },
+      "placeholder": {
+        "email": "Email",
+        "firstname": "Vorname",
+        "lastname": "Nachname",
+        "username": "Nutzername",
+        "password": "Passwort",
+        "old_password": "Altes Passwort",
+        "new_password": "Neues Kennwort",
+        "confirm_password": "Kennwort bestätigen",
+        "company_name": "Name der Firma",
+        "position": "Position",
+        "department": "Abteilung",
+        "industry": "Industrie",
+        "seniority_level": "Dienstaltersstufe"
+      },
+      "labels": {
+        "email": "Email",
+        "work": "Arbeit",
+        "password": "Passwort"
+      },
+      "buttons": {
+        "remove": "Löschen",
+        "add": "Hinzufügen",
+        "add_email": "E-Mail hinzufügen",
+        "change": "Veränderung",
+        "cancel": "Abbrechen",
+        "upload_picture": "Bild hochladen",
+        "update_change": "Änderungen aktualisieren"
+      }
+    }
+  },
+  "sidebar_links": {
+    "overview": "Überblick",
+    "results": "Ergebnisse",
+    "projects": "Projekte",
+    "company_profile": "Unternehmensprofil",
+    "payment": "Zahlung",
+    "find_partner": "Partner finden",
+    "help_center": "Hilfezentrum"
+  },
+  "overview_index": {
+    "Extended": "Extended",
+    "Company": "Company",
+    "filter_by": "Filter by",
+    "tab": {
+      "company": "Company",
+      "extended": "Extended"
+    },
+    "buttons": {
+      "invite_people": "invite people",
+      "view": "view",
+      "not_started": "not started",
+      "completed": "completed",
+      "in_progress": "in progress"
+    }
+  },
+  "category_details": {
+    "tab": {
+      "overview": "Overview",
+      "question": "Questions",
+      "results": "Results",
+      "team_management": "Team Mangement"
+    },
+
+    "overiewTab": {
+      "buttons": {
+        "start": "Start"
+      },
+      "Description": "Description",
+      "Questionnarie": "Questionnarie",
+      "Fill_all_the_KPI_questions": "Fill all the KPI questions",
+      "Own_Status": "Own Status",
+      "Status": "Status",
+      "Invited_People": "Invited People",
+      "Completed_Surveys": "Completed Surveys"
+    },
+    "questionTab": {
+      "Questions": "Questions",
+      "buttons": {
+        "edit": "Edit"
+      }
+    },
+    "resultsTab": {
+      "Score": "Score",
+      "My_score": "My score",
+      "Team_score": "Team score",
+      "Peer_score": "Peer score"
+    },
+    "team_mangementTab": {
+      "buttons": {
+        "invite": "invite"
+      },
+      "Invited_Managers": "Invited Managers",
+      "Invited_Employees": "Invited Employees",
+      "Managers": "Managers",
+      "Employees": "Employees",
+      "Consutants": "Consutants",
+      "name_email_com": "name{'@'}email.com",
+      "First_Last_Name": "First Last Name"
+    }
+  },
+  "payments": {
+    "tab": {
+      "Payment": "Payme",
+      "History": "Histo"
+    },
+    "Payments": "Paymen",
+    "Payment": "Payme",
+    "history_tab": {
+      "Invoice": "Invoi",
+      "Service_type": "Service ty"
+    },
+    "payment_tab": {
+      "Invoice_No": "Invoice ",
+      "Information": "Informati"
+    },
+    "form": {
+      "primary_email_hint": "Your primary email address is",
+      "invalid_msgs": {
+        "Email_is_invalid": "Email is invalid",
+        "image_hint": "Images should be 100 x 100 px as a png or jpeg file",
+        "Email_is_required": "Email is required.",
+        "First_Name_is_required": "First Name is required.",
+        "Lastname_is_required": "Lastname is required.",
+        "Username_is_required": "Username is required.",
+        "Company_Name_is_required": "Company Name is required",
+        "Industry_is_required": "Industry is required",
+        "Department_is_required": " Department is required",
+        "Seniority_level_is_required": " Seniority level is required",
+        "Position_is_required": "Position is required",
+        "Password_does_not_matched": "Password does not matched",
+        "New_Password_must_be _valid": "New Password must be valid",
+        "Old_Password_must_be _valid": "Old Password must be valid"
+      },
+      "placeholder": {
+        "firstname": "Firstnam",
+        "lastname": "Lastnam",
+        "username": "Usernam",
+        "Phone_No": "Phone N",
+        "email": "Emal",
+        "State_province": "State/Province",
+        "Zip": "Zip",
+        "Currency": "Currency",
+        "Service": "Service",
+        "Enter_discount_code": "Enter discount code",
+        "company_name": "Company Name",
+        "Address_1": "Address 1",
+        "Address_2": "Address 2",
+        "department_name_optional": "Department Name (Optional)",
+        "Select_your_country": "Select Your Countr "
+      },
+      "labels": {
+        "Total_Price": "Total Price",
+        "Checkout": "Checkout",
+        "Service": "Service"
+      }
+    },
+    "buttons": {
+      "submit": "Submit",
+      "Apply_Code": "Apply Code"
+    }
+  },
+  "help_center": {
+    "Help_Center": "Help Center",
+    "Glossary": "Glossary",
+    "Report_a_Problem": "Report a Problem",
+    "tab": {
+      "Help_Center": "Help Center",
+      "Glossary": "Glossary",
+      "Report_a_Problem": "Report a Problem"
+    },
+    "placeholder": {
+      "search_here": "Search Herek"
+    },
+    "help_center_tab": {
+      "buttons": {
+        "Watch": "Watchk"
+      }
+    },
+    "glossary_tab": {
+      "": ""
+    },
+    "Report_a_problem_tab": {
+      "labels": {
+        "Report_a_problem": "Report a problemk"
+      },
+      "form": {
+        "placeholder": {
+          "role": "Rolek",
+          "message": "Messagek"
+        }
+      },
+      "buttons": {
+        "submit": "Submitk"
+      }
+    }
+  },
+  "find_partner": {
+    "Partners": "Partnersk",
+    "table": {
+      "filter_by": "Filter byk",
+      "placeholder": {
+        "search_here": "Search Herek",
+        "role": "Rolek",
+        "category": "Categoryk"
+      },
+      "buttons": {
+        "contact_via_email": "Contact via Emailk",
+        "request_a_call": "Request a Callk",
+        "view": "viewk",
+        "company": "companyk",
+        "key_partners": "key partnersk",
+        "experts": "expertsk"
+      }
+    }
+  },
+  "projects": {
+    "Projects": "Projectsk",
+    "filter_by": "Filter byk",
+    "empty_project": {
+      "Need_create_a_project": "Need to create a projectk",
+      "need_create_warning": "General questions about your project. Some questions about your businessk.",
+      "Opps": "Oppsk !",
+      "opps_message": "Add projects to track your progress and understand the impact of your projects on your company successk."
+    },
+    "project_form": {
+      "lables": {
+        "More_Project_Details": "Add More Project Detailskk",
+        "Lesson_Learned": "Lesson Learnedkk",
+        "Challages": "Challageskk",
+        "areas_topics_impacted": "What areas and topics were impactedkk?",
+        "Department_impacted": "What Department was impactedkk ?",
+        "Project_Cost": "Project Cost(Direct + Indirectkk)",
+        "Personal_Cost_FTE": "Personal Cost-FTEkk",
+        "Project_Period": "Project Periodkk",
+        "Tags": "Tagskk",
+        "Project_Success": "Project Successkk",
+        "Project_Name": "Project Namekk"
+      },
+      "placeholder": {
+        "from": "Fromkk",
+        "to": "Tokk",
+        "internal_fte": "Internal FTEkk",
+        "external_fte": "External FTEkk",
+        "internal_costs": "Internal Costskk",
+        "external_costs": "External Costskk"
+      }
+    },
+    "table": {
+      "Departments": "Departmentsk",
+      "Categories": "Categoriesk",
+      "FTE_vs_Cost": "FTE vs Costk",
+      "Total_Investment_overview": "Total Investment overviewk",
+      "Internal_External": "Internal{'/'} Externalk"
+    },
+    "buttons": {
+      "not_started": "not startedk",
+      "in_progress": "in progressk",
+      "completed": "completedk",
+      "add_project": "Add Projectk",
+      "invite_people": "Invite Peoplek",
+      "create": "Createk"
+    }
+  },
+  "company_profile": {
+    "Members": "Memberskk",
+    "Company": "Companykk",
+    "tab": {
+      "company": "Companykk",
+      "member": "Memberskk"
+    },
+    "company_tab": {
+      "company_table": {
+        "Location": "Locationkk",
+        "Members": "Memberskk",
+        "Add_new_company": "Add new companykk"
+      },
+      "company_edit": {
+        "buttons": {
+          "save": "savekk",
+          "Cancel": "Cancelkk",
+          "save_changes": "Save Changekkskk"
+        }
+      },
+      "company_details": {
+        "custom_rate_modal": {
+          "With_the_values_above": "With the values abovekk",
+          "buttons": {
+            "save": "savekk",
+            "Cancel": "Cancelkk"
+          },
+          "lables": {
+            "Custom_Exchange_Rates": "Custom Exchange Rateskk",
+            "Currency_Exchange_Rates": "Currency & Exchange Rateskk",
+            "Standard_Exchange_Rates": "Standard Exchange Rateskk"
+          },
+          "currency": {
+            "EUR": "EURkk",
+            "BGN": "BGNkk ",
+            "USD": "USDkk"
+          }
+        },
+        "buttons": {
+          "edit": "Editkk"
+        },
+        "main_headings": {
+          "About_Company": "About Companykk",
+          "Employees": "Employeeskk",
+          "FTE": "FTEkk",
+          "Spending": "Spendingkk",
+          "Spending_on": "Spending Okknkk"
+        },
+        "Employees_lables": {
+          "TOTAL_EMPLOYEE": "TOTAL EMPLOYEEkk",
+          "TOTAL_EMPLOYEE_CONTRACTED": "TOTAL EMPLOYEE CONTRACTEDkk",
+          "TOTAL_EMPLOYEE_INTERNAL": "TOTAL EMPLOYEE INTERNALkk"
+        },
+        "FTE_lables": {
+          "TOTAL_FTE": "TOTAL FTEkk",
+          "FTE_INHOUSE": "FTE INHOUSEkk",
+          "FTE_CONTRACTED": "FTE CONTRACTEDkk"
+        },
+        "Spending_lables": {
+          "TOTAL_SPENDING": "TOTAL SPENDINGkk",
+          "OPEX": "OPEXkk",
+          "CAPEX": "CAPEXKK",
+          "INHOUSE": "INHOUSEkk",
+          "CONTRACTED": "CONTRACTEDkk",
+          "OUTSOURCED": "OUTSOURCEDkk",
+          "SERVIVE": "SERVIVEkk",
+          "EXPAND": "EXPANDkk",
+          "TRANSFORM": "TRANSFORMkk",
+          "DIGITALIZATION_SPENDING": "DIGITALIZATION SPENDINGkk",
+          "NON_DIGITALIZATION_SPENDING": "NON DIGITALIZATION SPENDINGkk"
+        },
+        "Spending_on_lables": {
+          "IT": "ITkk",
+          "HR": "HRkk",
+          "FINANCE_CONTROLING": "FINANCE & CONTROLINGkk",
+          "LEGAL": "LEGALkk",
+          "RESEARCH_MANAGEMENT": "RESEARCH AND MANAGEMENTkk",
+          "SOURCING_LOGIDTICS": "SOURCING {'/'} LOGIDTICS (SCM)kk",
+          "PRODUCTION": "PRODUCTIONkk",
+          "SALES_AFTER_SELES": "SALES{'/'}AFTER SELESkk",
+          "MARKETING": "MARKETING",
+          "MANAGEMENT_OVERHEAD": "MANAGEMENT, UND OVERHEADkk"
+        },
+        "About_Company_lables": {
+          "custom_rate": "Custom Ratekk",
+          "Currency": "Currencykk",
+          "Revenu_Total": "Revenu Totalkk",
+          "Region": "Regionkk",
+          "Legal_Form_of_Corporation": "Legal Form of Corporationkk",
+          "Detailed_Industry": "Detailed Industrykk",
+          "Sub_Industry": "Sub Industrykk",
+          "Main_Industry": "Main Industrykk"
+        }
+      },
+      "company_setup_update": {
+        "form": {
+          "invalid_msgs": {
+            "image_hint": "Images should be 100 x 100 px as a png or jpeg filek",
+            "own_role_company_is_required": "Own role in company is requiredk.",
+            "year_of_incorporation_is_required": "Year of incorporation is requiredk.",
+            "region_is_required": "Region is requiredk.",
+            "company_name_is_required": "Company name is requiredk",
+            "sub_industry_is_required": "Sub industry is requiredk",
+            "main_industry_is_required": "Main industry is requiredk",
+            "detailed_industry_is_required": " Detailed industry is requiredk",
+            "legal_form_corporation_is_required": "Legal form of corporation is requiredk",
+            "country_headquater_is_required": "Country{'/'}Headquater is requiredk",
+            "phone_no_is_required": "Phone no is requiredk",
+            "country_code_is_required": "Country code is requiredk"
+          },
+          "placeholder": {
+            "company_name": "Company namek",
+            "phone_no": "Phone nok",
+            "year_of_incorporation": "Year of incorporationk",
+            "own_role_company": "Own role in companyk",
+            "legal_form_corporation": "Legal form of corporationk",
+            "region": "Select Regionk",
+            "country_headquater": "Select Country{'/'}Headquaterk",
+            "main_industry": "Select main industryk",
+            "sub_industry": "Select sub industryk",
+            "detailed_industry": "Select Detailed industryk"
+          },
+          "buttons": {
+            "remove": "Removek",
+            "cancel": "Cancelk",
+            "upload_logo": "Upload Logok",
+            "create": "Createk"
+          }
+        }
+      }
+    },
+    "members_tab": {
+      "members_table": {
+        "Role": "Rolekk",
+        "Name": "Namekk",
+        "Categories": "Categorieskk",
+        "placeholder": {
+          "search_here": "Search Herekk",
+          "role": "Rolekk",
+          "category": "Categorykk"
+        }
+      },
+      "buttons": {
+        "permission": "Permissionskk"
+      }
+    },
+    "buttons": {
+      "invite_members": "invite memberskk"
+    }
+  },
+  "results": {
+    "Extended": "Extendedk",
+    "Company": "Companyk",
+    "Financials": "Financialsk",
+    "Maturity": "Maturityk",
+    "alert_notification": {
+      "alert_title": "Need to complete Overall Company Informationk",
+      "alert_message": "General questions about your company. Some questions about your business.k"
+    },
+    "genrate_report_modal": {
+      "buttons": {
+        "cancel": "Cancelk",
+        "genrate": "Genratek"
+      },
+      "form": {
+        "placeholder": {
+          "industry_list": "Industry Listk",
+          "company_size": "Company Sizek"
+        }
+      },
+      "Peer_Group_Selection": "Peer Group Selectionk",
+      "Peer_Group_Desc": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.k"
+    },
+    "sidebar": {
+      "Select_Department": "Select Departmentk",
+      "HR": "HRk",
+      "IT": "ITk",
+      "Legal": "Legalk",
+      "Logistics": "Logisticsk",
+      "Management": "Managementk",
+      "Marketing": "Marketingk",
+      "Sales": "Salesk",
+      "Production": "Productionk",
+      "Finance_Controling": "Finance & Controlingk",
+      "buttons": {
+        "apply": "Applyk"
+      }
+    },
+    "buttons": {
+      "start": "Startk",
+      "genrate_report": "Genrate Reportk",
+      "not_started": "Not Startedk"
+    }
+  }
+}

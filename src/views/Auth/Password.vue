@@ -3,7 +3,9 @@
     <div class="">
       <div class="">
         <div class="main-heading-wrap text-center">
-          <h2 class="main-heading">Enter your password</h2>
+          <h2 class="main-heading">
+            {{ $t("login.password_step.enter_password") }}
+          </h2>
         </div>
       </div>
       <div class="form-wrapper">
@@ -15,7 +17,7 @@
               @blur="v$.loginForm.password.$touch"
               v-model.trim="loginForm.password"
               class="form-control k_inp_field"
-              placeholder="Password"
+              :placeholder="$t('login.password_step.form.placeholder.password')"
               :class="{
                 'is-invalid': v$.loginForm.password.$error,
               }"
@@ -28,7 +30,11 @@
                 v-if="v$.loginForm.password.required.$invalid"
                 class="text-left fs-14"
               >
-                Password is required
+                {{
+                  $t(
+                    "login.password_step.form.invalid_msgs.password_is_required"
+                  )
+                }}
               </div>
             </div>
             <span class="visibilty_btn">
@@ -43,35 +49,41 @@
           </div>
           <div class="k_form_group k_toggle">
             <Toggle v-model="value1" />
-            <label id="toggle-label" class="toggle_label m-l-12"
-              >Stay signed in</label
-            >
+            <label id="toggle-label" class="toggle_label m-l-12">{{
+              $t("login.password_step.stay_signed")
+            }}</label>
           </div>
 
           <div class="d-grid space_btn_psw">
             <button
               :disabled="isSubmitted"
               type="submit"
-              class="btn k_btn_block btn-primary"
+              class="btn k_btn_block btn-primary text-uppercase"
             >
               <div
                 v-if="isSubmitted"
                 class="spinner-border text-light"
                 role="status"
               >
-                <span class="visually-hidden">Loading...</span>
+                <span class="visually-hidden">{{
+                  $t("login.password_step.loading")
+                }}</span>
               </div>
-              <span v-else> SIGN IN </span>
+              <span v-else>
+                {{ $t("login.password_step.buttons.sign_in") }}
+              </span>
             </button>
           </div>
 
           <div class="im-user flex justify-center">
-            <span class="para14"> No account yet ?</span>
+            <span class="para14">{{
+              $t("login.password_step.no_account")
+            }}</span>
             <router-link
               target="_blank"
               class="custom-link"
               :to="{ name: 'signup-register' }"
-              >Sign Up</router-link
+              >{{ $t("login.password_step.buttons.sign_up") }}</router-link
             >
           </div>
         </form>
@@ -165,12 +177,19 @@ export default {
               this.formReset();
             } else {
               let $th = this;
-              Object.keys(response.data.error).map(function (key) {
-                $th.$toast.error(response.data.error[key], {
+              if ("error" in response.data) {
+                Object.keys(response.data.error).map(function (key) {
+                  $th.$toast.error(response.data.error[key], {
+                    position: "bottom-left",
+                    duration: 3712,
+                  });
+                });
+              } else {
+                $th.$toast.error(response.data.message, {
                   position: "bottom-left",
                   duration: 3712,
                 });
-              });
+              }
             }
           })
           .catch((error) => {

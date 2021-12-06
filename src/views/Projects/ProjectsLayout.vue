@@ -13,13 +13,15 @@
               <img src="K_Icons/green_pie_logo.svg" class="" alt="" />
             </div> -->
             <div class="">
-              <h4 class="view_title">{{ title }}</h4>
+              <h4 class="view_title">{{ $t("projects.Projects") }}</h4>
             </div>
           </div>
         </div>
         <!-- This button is available on project list is available -->
         <div class="invite_btn_wrap m-l-auto">
-          <button class="btn-primary btn k_btn_people">INVITE PEOPLE</button>
+          <button class="btn-primary btn k_btn_people">
+            {{ $t("projects.buttons.invite_people") }}
+          </button>
         </div>
       </div>
       <!-- tabs start -->
@@ -65,5 +67,6 @@ export default {
   font-size: 14px;
   font-weight: 700;
   line-height: 16px;
+  text-transform: uppercase;
 }
 </style>

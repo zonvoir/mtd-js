@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="link_label_wrap">
-      <h5 class="link_title">{{ title }}</h5>
+      <h5 class="link_title">{{ $t(title) }}</h5>
     </div>
   </a>
 </template>

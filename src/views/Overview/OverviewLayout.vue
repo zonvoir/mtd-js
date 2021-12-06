@@ -13,12 +13,14 @@
               <img src="K_Icons/green_pie_logo.svg" class="" alt="" />
             </div> -->
             <div class="">
-              <h4 class="view_title">{{ title }}</h4>
+              <h4 class="view_title">{{ $t(title) }}</h4>
             </div>
           </div>
         </div>
         <div class="invite_btn_wrap m-l-auto">
-          <button class="btn-primary btn k_btn_people">INVITE PEOPLE</button>
+          <button class="btn-primary btn k_btn_people">
+            {{ $t("overview_index.buttons.invite_people") }}
+          </button>
         </div>
       </div>
       <!-- tabs  -->
@@ -40,15 +42,15 @@
 const tablist = [
   {
     tabId: 0,
-    title: "Company",
-    tabTitle: "Company",
-    pageUrl: "overview-home",
+    title: "overview_index.Company",
+    tabTitle: "overview_index.tab.company",
+    component_url: "/overview/index",
   },
   {
     tabId: 1,
-    title: "Extended",
-    tabTitle: "Extended",
-    pageUrl: "overview-extended",
+    title: "overview_index.Extended",
+    tabTitle: "overview_index.tab.extended",
+    component_url: "/overview/extended",
   },
 ];
 import TabsHr from "../../components/Shared/TabsHr.vue";
@@ -60,9 +62,11 @@ export default {
       title: "Company",
     };
   },
+
   components: {
     TabsHr,
   },
+
   methods: {
     ChangeT(title) {
       this.title = title;
@@ -85,5 +89,6 @@ export default {
   font-size: 14px;
   font-weight: 700;
   line-height: 16px;
+  text-transform: uppercase;
 }
 </style>

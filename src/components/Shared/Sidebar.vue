@@ -22,94 +22,88 @@
 </template>
 
 <script>
-const linksList = [
-  {
-    id: 1,
-    title: "Overview",
-    icon: "icons/layout.svg",
-    component_name: "overview",
-  },
-  // {
-  //   title: "Questions Quiz",
-  //   icon: "icons/layout.svg",
-  //   link: "/quiz",
-  // },
-  // {
-  //   title: "Questions Overview",
-  //   icon: "icons/layout.svg",
-  //   link: "/overview/question-overview",
-  // },
-  {
-    id: 2,
-    title: "Results",
-    icon: "icons/pie-chart.svg",
-    component_name: "results",
-  },
-  {
-    id: 3,
-    title: "Projects",
-    icon: "icons/book.svg",
-    component_name: "projects",
-  },
-  {
-    id: 4,
-    title: "Company Profile",
-    icon: "icons/camera.svg",
-    component_name: "company",
-  },
-  {
-    id: 5,
-    title: "Payment",
-    icon: "icons/Payment_icon.svg",
-    component_name: "payments",
-  },
-  // {
-  //   title: "Glossary",
-  //   icon: "icons/book.svg",
-  //   link: "/glossary",
-  // },
-
-  {
-    id: 6,
-    title: "Find Partner",
-    icon: "icons/partners-icon.svg",
-    component_name: "find-partner",
-  },
-  {
-    id: 7,
-    title: "Help Center",
-    icon: "icons/question-mark-circle.svg",
-    component_name: "help-center",
-  },
-  // {
-  //   title: "Logout",
-  //   icon: "icons/question-mark-circle.svg",
-  //   link: "",
-  // },
-  // {
-  //   title: "Settings",
-  //   icon: "icons/settings-2.svg",
-  //   link: "/settings",
-  // },
-  // {
-  //   title: 'Twitter',
-  //   caption: '@quasarframework',
-  //   icon: 'rss_feed',
-  //   link: 'https://twitter.quasar.dev'
-  // },
-  // {
-  //   title: 'Facebook',
-  //   caption: '@QuasarFramework',
-  //   icon: 'public',
-  //   link: 'https://facebook.quasar.dev'
-  // },
-  // {
-  //   title: 'Quasar Awesome',
-  //   caption: 'Community Quasar projects',
-  //   icon: 'favorite',
-  //   link: 'https://awesome.quasar.dev'
-  // }
-];
+// const linksList = [
+//   {
+//     id: 1,
+//     title: this.$t("message"),
+//     icon: "icons/layout.svg",
+//     component_name: "overview",
+//   },
+//   // {
+//   //   title: "Questions Quiz",
+//   //   icon: "icons/layout.svg",
+//   //   link: "/quiz",
+//   // },
+//   // {
+//   //   title: "Questions Overview",
+//   //   icon: "icons/layout.svg",
+//   //   link: "/overview/question-overview",
+//   // },
+//   {
+//     id: 2,
+//     title: "Results",
+//     icon: "icons/pie-chart.svg",
+//     component_name: "results",
+//   },
+//   {
+//     id: 3,
+//     title: "Projects",
+//     icon: "icons/book.svg",
+//     component_name: "projects",
+//   },
+//   {
+//     id: 4,
+//     title: "Company Profile",
+//     icon: "icons/camera.svg",
+//     component_name: "company",
+//   },
+//   {
+//     id: 5,
+//     title: "Payment",
+//     icon: "icons/Payment_icon.svg",
+//     component_name: "payments",
+//   },
+//   {
+//     id: 6,
+//     title: "Find Partner",
+//     icon: "icons/partners-icon.svg",
+//     component_name: "find-partner",
+//   },
+//   {
+//     id: 7,
+//     title: "Help Center",
+//     icon: "icons/question-mark-circle.svg",
+//     component_name: "help-center",
+//   },
+//   // {
+//   //   title: "Logout",
+//   //   icon: "icons/question-mark-circle.svg",
+//   //   link: "",
+//   // },
+//   // {
+//   //   title: "Settings",
+//   //   icon: "icons/settings-2.svg",
+//   //   link: "/settings",
+//   // },
+//   // {
+//   //   title: 'Twitter',
+//   //   caption: '@quasarframework',
+//   //   icon: 'rss_feed',
+//   //   link: 'https://twitter.quasar.dev'
+//   // },
+//   // {
+//   //   title: 'Facebook',
+//   //   caption: '@QuasarFramework',
+//   //   icon: 'public',
+//   //   link: 'https://facebook.quasar.dev'
+//   // },
+//   // {
+//   //   title: 'Quasar Awesome',
+//   //   caption: 'Community Quasar projects',
+//   //   icon: 'favorite',
+//   //   link: 'https://awesome.quasar.dev'
+//   // }
+// ];
 import EssentialLink from "./EssentialLinks.vue";
 // import logo from "../assets/images/mtd-logos-rgb_Main-Logo-Size-1-pos.png";
 import logo from "../../assets/images/mtd-logos-rgb_Main-Logo-Size-1-pos.png";
@@ -118,11 +112,57 @@ export default {
   data() {
     return {
       logo,
-      essentialLinks: linksList,
+      essentialLinks: [
+        {
+          id: 1,
+          title: "sidebar_links.overview",
+          icon: "icons/layout.svg",
+          component_name: "overview",
+        },
+        {
+          id: 2,
+          title: "sidebar_links.results",
+          icon: "icons/pie-chart.svg",
+          component_name: "results",
+        },
+        {
+          id: 3,
+          title: "sidebar_links.projects",
+          icon: "icons/book.svg",
+          component_name: "projects",
+        },
+        {
+          id: 4,
+          title: "sidebar_links.company_profile",
+          icon: "icons/camera.svg",
+          component_name: "company",
+        },
+        {
+          id: 5,
+          title: "sidebar_links.payment",
+          icon: "icons/Payment_icon.svg",
+          component_name: "payments",
+        },
+        {
+          id: 6,
+          title: "sidebar_links.find_partner",
+          icon: "icons/partners-icon.svg",
+          component_name: "find-partner",
+        },
+        {
+          id: 7,
+          title: "sidebar_links.help_center",
+          icon: "icons/question-mark-circle.svg",
+          component_name: "help-center",
+        },
+      ],
     };
   },
   components: {
     EssentialLink,
+  },
+  created() {
+    console.log("vis", this.$i18n.t("personalAccount.personalAccount"));
   },
 };
 </script>
@@ -131,11 +171,13 @@ export default {
 .menu_link {
   &:nth-last-child(2) {
     position: absolute;
+    // background-color: #04050a;
     bottom: 56px;
     width: 100%;
   }
   &:last-child {
     position: absolute;
+    // background-color: #04050a;
     bottom: 0;
     width: 100%;
   }

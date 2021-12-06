@@ -1,0 +1,541 @@
+{
+  "message": "hello i18n !!",
+  "header": {
+    "placeholder": {
+      "select_your_company": "Select Your Company",
+      "select_year": "Select Year"
+    },
+    "profile_drop_down": {
+      "profile": "Profile",
+      "logout": "Logout"
+    }
+  },
+  "login": {
+    "loading": "Loading...",
+    "email_step": {
+      "Sign_In": "Sign In",
+      "no_account": "No account created yet ?",
+      "forgot_password": "Forgot your password",
+      "form": {
+        "placeholder": {
+          "email": "Email"
+        },
+        "invalid_msgs": {
+          "Email_is_invalid": "Email is invalid",
+          "email_is_required": "Email is required"
+        }
+      },
+      "buttons": {
+        "done": "Done",
+        "sign_up": "Sign Up"
+      }
+    },
+    "password_step": {
+      "enter_password": "Enter Your Password",
+      "no_account": "No account created yet ?",
+      "stay_signed": "Stay signed in",
+      "form": {
+        "placeholder": {
+          "password": "Password"
+        },
+        "invalid_msgs": {
+          "password_is_required": "Password is invalid"
+        }
+      },
+      "buttons": {
+        "sign_in": "Sign In",
+        "sign_up": "Sign Up"
+      }
+    },
+    "otp_step": {
+      "verify_account": "Verify your account",
+      "no_account": "No account created yet ?",
+      "verify_acc_para1": "We've sent you a six-digit confirmation code to",
+      "verify_acc_para2": "Please enter it below to confirm your email address.",
+      "form": {
+        "invalid_msgs": {
+          "otp_is_invalid": "Please enter the valid OTP code"
+        }
+      },
+      "buttons": {
+        "verify_account": "Verify Account",
+        "sign_up": "Sign Up"
+      }
+    }
+  },
+  "personal_account": {
+    "personal_account": "Personal Account",
+    "form": {
+      "primary_email_hint": "Your primary email address is",
+      "invalid_msgs": {
+        "Email_is_invalid": "Email is invalid",
+        "image_hint": "Images should be 100 x 100 px as a png or jpeg file",
+        "Email_is_required": "Email is required.",
+        "First_Name_is_required": "First Name is required.",
+        "Lastname_is_required": "Lastname is required.",
+        "Username_is_required": "Username is required.",
+        "Company_Name_is_required": "Company Name is required",
+        "Industry_is_required": "Industry is required",
+        "Department_is_required": " Department is required",
+        "Seniority_level_is_required": " Seniority level is required",
+        "Position_is_required": "Position is required",
+        "Password_does_not_matched": "Password does not matched",
+        "New_Password_must_be _valid": "New Password must be valid",
+        "Old_Password_must_be _valid": "Old Password must be valid"
+      },
+      "placeholder": {
+        "firstname": "Firstname",
+        "lastname": "Lastname",
+        "username": "Username",
+        "password": "Password",
+        "email": "Email",
+        "old_password": "Old Password",
+        "new_password": "New Password",
+        "confirm_password": "Confirm Password",
+        "company_name": "Company Name",
+        "position": "Position",
+        "department": "Department",
+        "industry": "Industry",
+        "seniority_level": "Seniority Level"
+      },
+      "labels": {
+        "email": "Email",
+        "work": "Work",
+        "password": "Password"
+      },
+      "buttons": {
+        "add": "Add",
+        "add_email": "Add Email",
+        "remove": "Remove",
+        "cancel": "Cancel",
+        "change": "Change",
+        "upload_picture": "Upload Picture",
+        "update_change": "Update Changes"
+      }
+    }
+  },
+  "sidebar_links": {
+    "overview": "Overview",
+    "results": "Results",
+    "projects": "Projects",
+    "company_profile": "Company Profile",
+    "payment": "Payment",
+    "find_partner": "Find Partner",
+    "help_center": "Help Center"
+  },
+  "overview_index": {
+    "Extended": "Extended",
+    "Company": "Company",
+    "filter_by": "Filter by",
+    "tab": {
+      "company": "Company",
+      "extended": "Extended"
+    },
+    "buttons": {
+      "invite_people": "invite people",
+      "view": "view",
+      "not_started": "not started",
+      "completed": "completed",
+      "in_progress": "in progress"
+    }
+  },
+  "category_details": {
+    "tab": {
+      "overview": "Overview",
+      "question": "Questions",
+      "results": "Results",
+      "team_management": "Team Mangement"
+    },
+
+    "overiewTab": {
+      "buttons": {
+        "start": "Start"
+      },
+      "Description": "Description",
+      "Questionnarie": "Questionnarie",
+      "Fill_all_the_KPI_questions": "Fill all the KPI questions",
+      "Own_Status": "Own Status",
+      "Status": "Status",
+      "Invited_People": "Invited People",
+      "Completed_Surveys": "Completed Surveys"
+    },
+    "questionTab": {
+      "Questions": "Questions",
+      "buttons": {
+        "edit": "Edit"
+      }
+    },
+    "team_mangementTab": {
+      "buttons": {
+        "invite": "invite"
+      },
+      "Invited_Managers": "Invited Managers",
+      "Invited_Employees": "Invited Employees",
+      "Managers": "Managers",
+      "Employees": "Employees",
+      "Consutants": "Consutants",
+      "name_email_com": "name{'@'}email.com",
+      "First_Last_Name": "First Last Name"
+    },
+    "resultsTab": {
+      "Score": "Score",
+      "My_score": "My score",
+      "Team_score": "Team score",
+      "Peer_score": "Peer score"
+    }
+  },
+  "payments": {
+    "tab": {
+      "Payment": "Payment",
+      "History": "History"
+    },
+    "Payments": "Payments",
+    "Payment": "Payment",
+    "history_tab": {
+      "Invoice": "Invoice",
+      "Service_type": "Service type"
+    },
+    "payment_tab": {
+      "Invoice_No": "Invoice No",
+      "Information": "Information"
+    },
+    "form": {
+      "primary_email_hint": "Your primary email address is",
+      "invalid_msgs": {
+        "Email_is_invalid": "Email is invalid",
+        "image_hint": "Images should be 100 x 100 px as a png or jpeg file",
+        "Email_is_required": "Email is required.",
+        "First_Name_is_required": "First Name is required.",
+        "Lastname_is_required": "Lastname is required.",
+        "Username_is_required": "Username is required.",
+        "Company_Name_is_required": "Company Name is required",
+        "Industry_is_required": "Industry is required",
+        "Department_is_required": " Department is required",
+        "Seniority_level_is_required": " Seniority level is required",
+        "Position_is_required": "Position is required",
+        "Password_does_not_matched": "Password does not matched",
+        "New_Password_must_be _valid": "New Password must be valid",
+        "Old_Password_must_be _valid": "Old Password must be valid"
+      },
+      "placeholder": {
+        "firstname": "First Name",
+        "lastname": "Last Name",
+        "username": "Username",
+        "Phone_No": "Phone No",
+        "email": "Email",
+        "State_province": "State/Province",
+        "Zip": "Zip",
+        "Currency": "Currency",
+        "Service": "Service",
+        "Enter_discount_code": "Enter discount code",
+        "company_name": "Company Name",
+        "Address_1": "Address 1",
+        "Address_2": "Address 2",
+        "department_name_optional": "Department Name (Optional)",
+        "Select_your_country": "Select Your Country"
+      },
+      "labels": {
+        "Total_Price": "Total Price",
+        "Checkout": "Checkout",
+        "Service": "Service"
+      }
+    },
+    "buttons": {
+      "submit": "Submit",
+      "Apply_Code": "Apply Code"
+    }
+  },
+  "help_center": {
+    "tab": {
+      "Help_Center": "Help Center",
+      "Glossary": "Glossary",
+      "Report_a_Problem": "Report a Problem"
+    },
+    "placeholder": {
+      "search_here": "Search Here"
+    },
+    "help_center_tab": {
+      "buttons": {
+        "Watch": "Watch"
+      }
+    },
+    "glossary_tab": {
+      "": ""
+    },
+    "Report_a_problem_tab": {
+      "labels": {
+        "Report_a_problem": "Report a problem"
+      },
+      "form": {
+        "placeholder": {
+          "role": "Role",
+          "message": "Message"
+        }
+      },
+      "buttons": {
+        "submit": "Submit"
+      }
+    }
+  },
+  "find_partner": {
+    "Partners": "Partners",
+    "table": {
+      "filter_by": "Filter by",
+      "placeholder": {
+        "search_here": "Search Here",
+        "role": "Role",
+        "category": "Category"
+      },
+      "buttons": {
+        "contact_via_email": "Contact via Email",
+        "request_a_call": "Request a Call",
+        "view": "view",
+        "company": "company",
+        "key_partners": "key partners",
+        "experts": "experts"
+      }
+    }
+  },
+  "projects": {
+    "Projects": "Projects",
+    "filter_by": "Filter by",
+    "table": {
+      "Departments": "Departments",
+      "Categories": "Categories",
+      "FTE_vs_Cost": "FTE vs Cost",
+      "Total_Investment_overview": "Total Investment overview",
+      "Internal_External": "Internal{'/'} External"
+    },
+    "project_form": {
+      "lables": {
+        "More_Project_Details": "Add More Project Details",
+        "Lesson_Learned": "Lesson Learned",
+        "Challages": "Challages",
+        "areas_topics_impacted?": "What areas and topics were impacted?",
+        "Department_impacted ?": "What Department was impacted ?",
+        "Project_Cost": "Project Cost(Direct + Indirect)",
+        "Personal_Cost_FTE": "Personal Cost-FTE",
+        "Project_Period": "Project Period",
+        "Tags": "Tags",
+        "Project_Success": "Project Success",
+        "Project_Name": "Project Name"
+      },
+      "placeholder": {
+        "from": "From",
+        "to": "To",
+        "internal_fte": "Internal FTE",
+        "external_fte": "External FTE",
+        "internal_costs": "Internal Costs",
+        "external_costs": "External Costs"
+      }
+    },
+    "buttons": {
+      "not_started": "not started",
+      "in_progress": "in progress",
+      "completed": "completed",
+      "add_project": "Add Project",
+      "invite_people": "Invite People",
+      "create": "Create"
+    },
+    "empty_project": {
+      "Need_create_a_project": "Need to create a project",
+      "need_create_warning": "General questions about your project. Some questions about your business.",
+      "Opps": "Opps !",
+      "opps_message": "Add projects to track your progress and understand the impact of your projects on your company success."
+    }
+  },
+  "company_profile": {
+    "Members": "Members",
+    "Company": "Company",
+    "tab": {
+      "company": "Company",
+      "member": "Members"
+    },
+    "company_tab": {
+      "company_table": {
+        "Location": "Location",
+        "Members": "Members",
+        "Add_new_company": "Add new company"
+      },
+      "company_edit": {
+        "buttons": {
+          "save": "save",
+          "Cancel": "Cancel",
+          "save_changes": "Save Changes"
+        }
+      },
+      "company_details": {
+        "custom_rate_modal": {
+          "With_the_values_above": "With the values above",
+          "buttons": {
+            "save": "save",
+            "Cancel": "Cancel"
+          },
+          "lables": {
+            "Custom_Exchange_Rates": "Custom Exchange Rates",
+            "Currency_Exchange_Rates": "Currency & Exchange Rates",
+            "Standard_Exchange_Rates": "Standard Exchange Rates"
+          },
+          "currency": {
+            "EUR": "EUR",
+            "BGN ": "BGN ",
+            "USD": "USD"
+          }
+        },
+        "buttons": {
+          "edit": "Edit"
+        },
+        "main_headings": {
+          "About_Company": "About Company",
+          "Employees": "Employees",
+          "FTE": "FTE",
+          "Spending": "Spending",
+          "Spending_on": "Spending On"
+        },
+        "Employees_lables": {
+          "TOTAL_EMPLOYEE": "TOTAL EMPLOYEE",
+          "TOTAL_EMPLOYEE_CONTRACTED": "TOTAL EMPLOYEE CONTRACTED",
+          "TOTAL_EMPLOYEE_INTERNAL": "TOTAL EMPLOYEE INTERNAL"
+        },
+        "FTE_lables": {
+          "TOTAL_FTE": "TOTAL FTE",
+          "FTE_INHOUSE": "FTE INHOUSE",
+          "FTE_CONTRACTED": "FTE CONTRACTED"
+        },
+        "Spending_lables": {
+          "TOTAL_SPENDING": "TOTAL SPENDING",
+          "OPEX": "OPEX",
+          "CAPEX": "CAPEX",
+          "INHOUSE": "INHOUSE",
+          "CONTRACTED": "CONTRACTED",
+          "OUTSOURCED": "OUTSOURCED",
+          "SERVIVE": "SERVIVE",
+          "EXPAND": "EXPAND",
+          "TRANSFORM": "TRANSFORM",
+          "DIGITALIZATION_SPENDING": "DIGITALIZATION SPENDING",
+          "NON_DIGITALIZATION_SPENDING": "NON DIGITALIZATION SPENDING"
+        },
+        "Spending_on_lables": {
+          "IT": "IT",
+          "HR": "HR",
+          "FINANCE_CONTROLING": "FINANCE & CONTROLING",
+          "LEGAL": "LEGAL",
+          "RESEARCH_MANAGEMENT": "RESEARCH AND MANAGEMENT",
+          "SOURCING_LOGIDTICS": "SOURCING {'/'} LOGIDTICS (SCM)",
+          "PRODUCTION": "PRODUCTION",
+          "SALES_AFTER_SELES": "SALES{'/'}AFTER SELES",
+          "MARKETING": "MARKETING",
+          "MANAGEMENT_OVERHEAD": "MANAGEMENT, UND OVERHEAD"
+        },
+        "About_Company_lables": {
+          "custom_rate": "Custom Rate",
+          "Currency": "Currency",
+          "Revenu_Total": "Revenu Total",
+          "Region": "Region",
+          "Legal_Form_of_Corporation": "Legal Form of Corporation",
+          "Detailed_Industry": "Detailed Industry",
+          "Sub_Industry": "Sub Industry",
+          "Main_Industry": "Main Industry"
+        }
+      },
+      "company_setup_update": {
+        "form": {
+          "invalid_msgs": {
+            "image_hint": "Images should be 100 x 100 px as a png or jpeg file",
+            "own_role_company_is_required": "Own role in company is required.",
+            "year_of_incorporation_is_required": "Year of incorporation is required.",
+            "region_is_required": "Region is required.",
+            "company_name_is_required": "Company name is required",
+            "sub_industry_is_required": "Sub industry is required",
+            "main_industry_is_required": "Main industry is required",
+            "detailed_industry_is_required": " Detailed industry is required",
+            "legal_form_corporation_is_required": "Legal form of corporation is required",
+            "country_headquater_is_required": "Country{'/'}Headquater is required",
+            "phone_no_is_required": "Phone no is required",
+            "country_code_is_required": "Country code is required"
+          },
+          "placeholder": {
+            "company_name": "Company name",
+            "phone_no": "Phone No",
+            "year_of_incorporation": "Year of incorporation",
+            "own_role_company": "Own role in company",
+            "legal_form_corporation": "Legal form of corporation",
+            "region": "Select Region",
+            "country_headquater": "Select Country{'/'}Headquater",
+            "main_industry": "Select main industry",
+            "sub_industry": "Select sub industry",
+            "detailed_industry": "Select Detailed industry"
+          },
+          "buttons": {
+            "remove": "Remove",
+            "cancel": "Cancel",
+            "upload_logo": "Upload Logo",
+            "create": "Create"
+          }
+        }
+      }
+    },
+    "members_tab": {
+      "members_table": {
+        "Role": "Role",
+        "Name": "Name",
+        "Categories": "Categories",
+        "placeholder": {
+          "search_here": "Search Here",
+          "role": "Role",
+          "category": "Category"
+        }
+      },
+      "buttons": {
+        "permission": "Permissions"
+      }
+    },
+    "buttons": {
+      "invite_members": "invite members"
+    }
+  },
+  "results": {
+    "Extended": "Extended",
+    "Company": "Company",
+    "Financials": "Financials",
+    "Maturity": "Maturity",
+    "alert_notification": {
+      "alert_title": "Need to complete Overall Company Information",
+      "alert_message": "General questions about your company. Some questions about your business."
+    },
+    "genrate_report_modal": {
+      "buttons": {
+        "cancel": "Cancel",
+        "genrate": "Genrate"
+      },
+      "form": {
+        "placeholder": {
+          "industry_list": "Industry List",
+          "company_size": "Company Size"
+        }
+      },
+      "Peer_Group_Selection": "Peer Group Selection",
+      "Peer_Group_Desc": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour."
+    },
+    "sidebar": {
+      "Select_Department": "Select Department",
+      "HR": "HR",
+      "IT": "IT",
+      "Legal": "Legal",
+      "Logistics": "Logistics",
+      "Management": "Management",
+      "Marketing": "Marketing",
+      "Sales": "Sales",
+      "Production": "Production",
+      "Finance_Controling": "Finance & Controling",
+      "buttons": {
+        "apply": "Apply"
+      }
+    },
+    "buttons": {
+      "start": "Start",
+      "genrate_report": "Genrate Report",
+      "not_started": "Not Started"
+    }
+  }
+}

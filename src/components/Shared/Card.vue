@@ -2,35 +2,37 @@
   <div class="dept_card card_specing">
     <div class="card_header">
       <div class="dept_logo position-relative m-r-11">
-        <img src="K_Icons/clipbaord_logo.svg" alt="" />
-        <!-- <div class="logo_wrap">
-        </div> -->
+        <div class="logo_wrap">
+          <img :src="image ? image : 'K_Icons/clipbaord_logo.svg'" alt="" />
+        </div>
       </div>
+
       <div class="dept_name">
-        <h4 class="m-b-0 dept_name">{{ categories.catTitle }}</h4>
+        <h4 class="m-b-0 dept_name">{{ title }}</h4>
       </div>
     </div>
     <div class="card_body">
       <p class="dept_desc">
-        {{ categories.cat_desc }}
+        <span v-html="description"> </span>
       </p>
     </div>
     <div class="card_footer">
       <div class="">
         <span
-          v-if="categories.status"
+          v-if="status"
           :class="{
-            bg_gray: categories.status == 'not started',
-            bg_warn: categories.status == 'in progress',
-            bg_success: categories.status == 'completed',
+            bg_gray: status == 'not started',
+            bg_warn: status == 'in progress',
+            bg_success: status == 'completed',
           }"
           class="dept_status bg-gray"
-          >{{ categories.status }}</span
+          >{{ status }}</span
         >
       </div>
-      <div @click="sectionDetail(categories.component_name)" class="card_link">
+      <div @click="sectionDetail(id)" class="card_link">
         <a class="page_link m-l-auto"
-          >view <img src="K_Icons/next.svg" alt="" class="next_icon p-l-6"
+          >{{ $t("overview_index.buttons.view") }}
+          <img src="K_Icons/next.svg" alt="" class="next_icon p-l-6"
         /></a>
       </div>
     </div>
@@ -39,13 +41,55 @@
 
 <script>
 export default {
-  props: ["categories"],
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: false,
+    },
+    page_name: {
+      type: String,
+      required: true,
+    },
+    page_parmas: {
+      type: Object,
+      required: true,
+    },
+  },
+  created() {
+    // Object.assign({ cid: this.id }, this.page_parmas);
+    // console.log("new params", this.page_parmas);
+  },
   data() {
     return {};
   },
   methods: {
-    sectionDetail(url_name) {
-      this.$router.push({ name: url_name });
+    sectionDetail(componentId) {
+      console.log(
+        "current dept id",
+        this.page_name,
+        this.page_parmas,
+        componentId
+      );
+      this.$router.push({
+        name: this.page_name,
+        params: this.page_parmas,
+      });
     },
   },
 };

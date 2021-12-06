@@ -4,7 +4,7 @@
     color: $white;
     font-size: 12px;
     font-weight: 400;
-    margin-bottom: 0;
+    margin-bottom: 4px;
   }
   .multiselect-tags {
     margin-top: 0;
@@ -161,4 +161,25 @@
 
 .select2-dropdown {
   border: 1px solid #e4e9f2;
+}
+// select country Codes
+.country_codes {
+  background: #edf1f7 !important;
+  border-radius: 4px;
+  width: 75px;
+  height: 46px;
+  &.multiselect {
+    border: transparent !important;
+  }
+  .multiselect-caret {
+    margin-right: 0;
+  }
+  &:hover {
+    outline: 1px solid #edf1f7 !important;
+    outline-offset: 0px;
+  }
+  &:focus {
+    outline: 1px solid #edf1f7 !important;
+    outline-offset: 0px;
+  }
 }

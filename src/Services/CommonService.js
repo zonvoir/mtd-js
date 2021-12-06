@@ -1,5 +1,9 @@
 import http from "@/http-common";
 class CommonService {
+  //  Change Language
+  setLanguage(data) {
+    return http.post("staffs/change_staff_language", data);
+  }
   // get All Industries
   getAllIndustries() {
     return http.get("lists/industry");
@@ -7,6 +11,14 @@ class CommonService {
   //get All deparartments
   getAllDepartments() {
     return http.get("lists/department");
+  }
+  //get deparartment by ID
+  getOneDepartment(id) {
+    return http.get(`lists/department/${id}`);
+  }
+  // get all Categories
+  getAllCategories() {
+    return http.get("lists/categories");
   }
   // get Seniority Leveles
   getAllSeniorityLevels() {
@@ -29,6 +41,7 @@ class CommonService {
   getAllOwnRoleInCompany() {
     return http.get("lists/company_role");
   }
+
   // get all Region
   getAllRegion() {
     return http.get("lists/region");

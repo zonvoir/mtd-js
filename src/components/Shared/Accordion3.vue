@@ -1,35 +1,46 @@
 <template>
-  <div
-    class="accordion-item acc_sub_item"
-    v-for="(item, index) in items"
-    :key="item.id"
-  >
-    <h2 class="accordion-header" :id="'sub-heading-nested' + item.id">
-      <button
-        class="accordion-button k_acc_sub_btn"
-        :class="{ collapsed: index !== 0 }"
-        type="button"
-        data-bs-toggle="collapse"
-        :data-bs-target="'#collapse-nested' + item.id"
-        aria-expanded="true"
-        :aria-controls="'collapse-nested' + item.id"
+  <div class="accordion custom_acc" :id="'accordionExample'">
+    <div
+      class="accordion-item acc_sub_item"
+      v-for="(item, index) in items"
+      :key="item.id"
+    >
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button k_acc_sub_btn"
+          :class="{ collapsed: index !== 0 }"
+          type="button"
+          data-bs-toggle="collapse"
+          :data-bs-target="'#collapse-nested' + item.id"
+        >
+          <div class="d-inline-flex align-items-center">
+            <div class="">
+              <h2 class="m-b-0 sub_acc_title">{{ item.title }}</h2>
+            </div>
+          </div>
+        </button>
+      </h2>
+      <div
+        :id="'collapse-nested' + item.id"
+        class="accordion-collapse collapse"
+        :class="{ show: index === 0 }"
+        :aria-labelledby="'sub-heading-nested' + item.id"
+        :data-bs-parent="'#accordionExample' + acc_id"
       >
-        <div class="d-inline-flex align-items-center">
-          <div class="">
-            <h2 class="m-b-0 sub_acc_title">{{ item.title }}</h2>
+        <div class="accordion-body sub_acc_body">
+          <!-- <slot name="accordionbody1"> </slot> -->
+          <div class="list_wrap">
+            <ul>
+              <li v-for="point in item.points" :key="point.id">
+                <div class="list_item">
+                  <h4 class="m-b-0 list_title">
+                    <span class="m-r-2">{{ point.id }}.</span>{{ point.title }}
+                  </h4>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
-      </button>
-    </h2>
-    <div
-      :id="'collapse-nested' + item.id"
-      class="accordion-collapse collapse"
-      :class="{ show: index === 0 }"
-      :aria-labelledby="'sub-heading-nested' + item.id"
-      data-bs-parent="#accordionExample1"
-    >
-      <div class="accordion-body sub_acc_body">
-        <slot name="accordionbody1"> </slot>
       </div>
     </div>
   </div>
@@ -41,7 +52,9 @@
 export default {
   props: ["items"],
   data() {
-    return {};
+    return {
+      acc_id: 1,
+    };
   },
 };
 </script>

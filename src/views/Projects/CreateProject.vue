@@ -5,7 +5,9 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="k_form_group">
-              <label for="" class="k_form_label">Project Name</label>
+              <label for="" class="k_form_label">{{
+                $t("projects.project_form.lables.Project_Name")
+              }}</label>
               <input
                 type="text"
                 name="ProjectName"
@@ -15,17 +17,17 @@
           </div>
           <div class="col-lg-12">
             <div class="k_form_group">
-              <label for="" class="k_form_label">Project Success</label>
-              <input
-                type="text"
-                name="ProjectName"
-                class="form-control k_inp_field"
-              />
+              <label for="" class="k_form_label">{{
+                $t("projects.project_form.lables.Project_Success")
+              }}</label>
+              <p class="bold">5 start Come here</p>
             </div>
           </div>
           <div class="col-lg-12">
             <div class="k_form_group">
-              <label for="" class="k_form_label">Tags</label>
+              <label for="" class="k_form_label">{{
+                $t("projects.project_form.lables.Tags")
+              }}</label>
               <input
                 type="text"
                 name="ProjectName"
@@ -34,11 +36,15 @@
             </div>
           </div>
           <div class="col-lg-12">
-            <label for="" class="k_form_label">Project Period </label>
+            <label for="" class="k_form_label"
+              >{{ $t("projects.project_form.lables.Project_Period") }}
+            </label>
             <div class="row">
               <div class="col-lg-6">
                 <div class="k_form_group position-relative">
-                  <label for="" class="date_label">From</label>
+                  <label for="" class="date_label">{{
+                    $t("projects.project_form.placeholder.from")
+                  }}</label>
                   <Datepicker
                     class="project_date_picker custom_label"
                     v-model="date"
@@ -48,7 +54,9 @@
               </div>
               <div class="col-lg-6">
                 <div class="k_form_group position-relative">
-                  <label for="" class="date_label">To</label>
+                  <label for="" class="date_label">{{
+                    $t("projects.project_form.placeholder.to")
+                  }}</label>
                   <Datepicker
                     class="project_date_picker custom_label"
                     placeholder="dd/mm/yyyy"
@@ -58,14 +66,18 @@
             </div>
           </div>
           <div class="col-lg-12">
-            <label for="" class="k_form_label">Personal Cost-FTE </label>
+            <label for="" class="k_form_label"
+              >{{ $t("projects.project_form.lables.Personal_Cost_FTE") }}
+            </label>
             <div class="row">
               <div class="col-lg-6">
                 <div class="k_form_group">
                   <input
                     type="text"
-                    name="ProjectName"
-                    placeholder="Internal FTE"
+                    name="Internal Fte"
+                    :placeholder="
+                      $t('projects.project_form.placeholder.internal_fte')
+                    "
                     class="form-control k_inp_field"
                   />
                 </div>
@@ -73,24 +85,28 @@
               <div class="col-lg-6">
                 <input
                   type="text"
-                  name="ProjectName"
-                  placeholder="External FTE"
+                  name="External FTE"
+                  :placeholder="
+                    $t('projects.project_form.placeholder.external_fte')
+                  "
                   class="form-control k_inp_field"
                 />
               </div>
             </div>
           </div>
           <div class="col-lg-12">
-            <label for="" class="k_form_label"
-              >Project Cost(Direct + Indirect)</label
-            >
+            <label for="" class="k_form_label">{{
+              $t("projects.project_form.lables.Project_Cost")
+            }}</label>
             <div class="row">
               <div class="col-lg-6">
                 <div class="k_form_group">
                   <input
                     type="text"
-                    name="internalCosts "
-                    placeholder="Internal costs"
+                    name="internal Costs "
+                    :placeholder="
+                      $t('projects.project_form.placeholder.internal_costs')
+                    "
                     class="form-control k_inp_field"
                   />
                 </div>
@@ -98,17 +114,19 @@
               <div class="col-lg-6">
                 <input
                   type="text"
-                  name="externalCosts"
-                  placeholder="External costs"
+                  name="external Costs"
+                  :placeholder="
+                    $t('projects.project_form.placeholder.external_costs')
+                  "
                   class="form-control k_inp_field"
                 />
               </div>
             </div>
           </div>
           <div class="col-lg-12">
-            <label for="" class="k_form_label"
-              >What Department was impacted ?</label
-            >
+            <label for="" class="k_form_label">{{
+              $t("projects.project_form.lables.Department_impacted")
+            }}</label>
             <div class="row">
               <div
                 class="col-lg-3"
@@ -132,9 +150,9 @@
             </div>
           </div>
           <div class="col-lg-12">
-            <label for="" class="k_form_label"
-              >What areas and topics were impacted?</label
-            >
+            <label for="" class="k_form_label">{{
+              $t("projects.project_form.lables.areas_topics_impacted")
+            }}</label>
             <div class="row">
               <div
                 class="col-lg-3"
@@ -159,26 +177,32 @@
           </div>
           <div class="col-lg-12">
             <div class="k_form_group">
-              <label for="" class="k_form_label">Challages</label>
+              <label for="" class="k_form_label">{{
+                $t("projects.project_form.lables.Challages")
+              }}</label>
               <textarea class="form-control k_inp_field" rows="5"></textarea>
             </div>
           </div>
           <div class="col-lg-12">
             <div class="k_form_group">
-              <label for="" class="k_form_label">Lesson Learned</label>
+              <label for="" class="k_form_label">{{
+                $t("projects.project_form.lables.Lesson_Learned")
+              }}</label>
               <textarea class="form-control k_inp_field" rows="5"></textarea>
             </div>
           </div>
           <div class="col-lg-12">
             <div class="k_form_group">
-              <label for="" class="k_form_label"
-                >Add More Project Details</label
-              >
+              <label for="" class="k_form_label">{{
+                $t("projects.project_form.lables.More_Project_Details")
+              }}</label>
               <textarea class="form-control k_inp_field" rows="5"></textarea>
             </div>
           </div>
           <div class="text-right">
-            <button class="btn btn-primary btn-set">Create</button>
+            <button class="btn btn-primary btn-set">
+              {{ $t("projects.buttons.create") }}
+            </button>
           </div>
         </div>
       </form>

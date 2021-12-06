@@ -33,18 +33,27 @@
           </div>
         </div>
         <div class="staff_list_wrapper">
-          <h6 class="mb-0 text-primary text-14-500 p-b-16">Invited Managers</h6>
+          <h6 class="mb-0 text-primary text-14-500 p-b-16">
+            <!-- Invited Managers -->
+          </h6>
           <div class="list_wrap m-b-20">
             <ul class="list-group">
               <li class="list_group_item d-inline-flex m-b-8">
                 <div class="list_wrapper">
                   <div class="name_wrap">
                     <p class="text-14-600 m-b-0 text-capitalize text-heading">
-                      first last name
+                      <!-- first last name  -->
+                      {{
+                        $t("category_details.team_mangementTab.First_Last_Name")
+                      }}
                     </p>
                   </div>
                   <div class="email_wrap">
-                    <p class="text-14-600 m-b-0 text-heading">name@email.com</p>
+                    <p class="text-14-600 m-b-0 text-heading">
+                      <!-- name@email.com -->{{
+                        $t("category_details.team_mangementTab.name_email_com")
+                      }}
+                    </p>
                   </div>
                   <div class="icon_wrap">
                     <p class="text-14-600 m-b-0 text-heading">
@@ -145,13 +154,15 @@
           </div>
           <div class="btn_wrap">
             <button class="btn-primary btn btn-set text-uppercase">
-              invite
+              {{ $t("category_details.team_mangementTab.buttons.invite") }}
             </button>
           </div>
         </div>
         <div class="staff_list_wrapper">
           <h6 class="mb-0 text-primary text-14-500 p-b-16">
-            Invited Employees
+            <!-- Invited Employees -->{{
+              $t("category_details.team_mangementTab.Invited_Employees")
+            }}
           </h6>
           <div class="list_wrap m-b-20">
             <ul class="list-group">
@@ -159,11 +170,17 @@
                 <div class="list_wrapper">
                   <div class="name_wrap">
                     <p class="text-14-600 m-b-0 text-capitalize text-heading">
-                      first last name
+                      {{
+                        $t("category_details.team_mangementTab.First_Last_Name")
+                      }}
                     </p>
                   </div>
                   <div class="email_wrap">
-                    <p class="text-14-600 m-b-0 text-heading">name@email.com</p>
+                    <p class="text-14-600 m-b-0 text-heading">
+                      {{
+                        $t("category_details.team_mangementTab.name_email_com")
+                      }}
+                    </p>
                   </div>
                   <div class="icon_wrap">
                     <p class="text-14-600 m-b-0 text-heading">
@@ -245,9 +262,10 @@ export default {
     return {
       myValue: "",
       settings: {},
-      myOptions: [], // or [{id: key, text: value}, {id: key, text: value}]
+      myOptions: [],
     };
   },
+
   created() {
     this.settings = {
       tags: true,

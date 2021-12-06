@@ -1,18 +1,28 @@
 <template>
   <div class="team_wrapper m-b-20">
     <div class="m-b-14">
-      <h4 class="m-b-0 title-dark">Questions</h4>
+      <h4 class="m-b-0 title-dark">
+        {{ $t("category_details.questionTab.Questions") }}
+      </h4>
     </div>
     <div class="question_list_wrapper">
       <div class="list_wrap m-b-20">
         <ul class="list-group">
-          <li class="d-inline-flex">
+          <li
+            v-for="(question, idx) in questionList"
+            :key="question.id"
+            class="d-inline-flex"
+          >
             <div class="list_wrapper">
               <div class="list_counter_wrap">
-                <div class="counter_status bg_success m-r-13">
-                  <span class="q_no">1</span>
+                <div
+                  :class="question.is_answered ? 'bg_success' : 'bg-gray-0'"
+                  class="counter_status m-r-13"
+                >
+                  <span class="q_no">{{ idx + 1 }}</span>
                   <span class="q_check_icon">
                     <img
+                      v-if="question.is_answered"
                       src="K_Icons/checkmark-circle-fill.svg"
                       alt=""
                       class="check_icon"
@@ -21,15 +31,17 @@
                 </div>
                 <div class="">
                   <p class="m-b-0 ques_title">
-                    The earliest moment that the critical event and
-                    measurability
+                    {{ question.name }}
+                    <!-- The earliest moment that the critical event and
+                    measurability -->
                   </p>
-                  <p class="m-b-0 ques_ans">Ok</p>
+                  <p class="m-b-0 ques_ans">{{ question.answer }}</p>
                 </div>
               </div>
               <div class="list_action m-l-auto">
                 <button
-                  @click="editQuetion"
+                  v-if="question.is_answered"
+                  @click="editQuetion(question.id)"
                   class="
                     btn
                     text-primary
@@ -39,122 +51,8 @@
                     btn-transaprent
                   "
                 >
-                  edit
+                  {{ $t("category_details.questionTab.buttons.edit") }}
                 </button>
-              </div>
-            </div>
-          </li>
-          <li class="d-inline-flex">
-            <div class="list_wrapper">
-              <div class="list_counter_wrap">
-                <div class="counter_status bg_success m-r-13">
-                  <span class="q_no">2</span>
-                  <span class="q_check_icon">
-                    <img
-                      src="K_Icons/checkmark-circle-fill.svg"
-                      alt=""
-                      class="check_icon"
-                    />
-                  </span>
-                </div>
-                <div class="">
-                  <p class="m-b-0 ques_title">
-                    The earliest moment that the critical event and
-                    measurability
-                  </p>
-                  <p class="m-b-0 ques_ans">Ok</p>
-                </div>
-              </div>
-              <div class="list_action m-l-auto">
-                <button
-                  @click="editQuetion"
-                  class="
-                    btn
-                    text-primary
-                    fs-16
-                    text-capitalize
-                    fw-500
-                    btn-transaprent
-                  "
-                >
-                  edit
-                </button>
-              </div>
-            </div>
-          </li>
-          <li class="d-inline-flex">
-            <div class="list_wrapper">
-              <div class="list_counter_wrap">
-                <div class="counter_status bg_success m-r-13">
-                  <span class="q_no">3</span>
-                  <span class="q_check_icon">
-                    <!--  <img
-                      src="K_Icons/checkmark-circle-fill.svg"
-                      alt=""
-                      class="check_icon"
-                    /> -->
-                  </span>
-                </div>
-                <div class="">
-                  <p class="m-b-0 ques_title">
-                    The earliest moment that the critical event and
-                    measurability
-                  </p>
-                  <p class="m-b-0 ques_ans">Ok</p>
-                </div>
-              </div>
-              <div class="list_action m-l-auto">
-                <!-- <button
-                  @click="editQuetion"
-                  class="
-                    btn
-                    text-primary
-                    fs-16
-                    text-capitalize
-                    fw-500
-                    btn-transaprent
-                  "
-                >
-                  edit
-                </button> -->
-              </div>
-            </div>
-          </li>
-          <li class="d-inline-flex">
-            <div class="list_wrapper">
-              <div class="list_counter_wrap">
-                <div class="counter_status bg-gray-0 m-r-13">
-                  <span class="q_no">4</span>
-                  <span class="q_check_icon">
-                    <!--  <img
-                      src="K_Icons/checkmark-circle-fill.svg"
-                      alt=""
-                      class="check_icon"
-                    /> -->
-                  </span>
-                </div>
-                <div class="">
-                  <p class="m-b-0 ques_title">
-                    The earliest moment that the critical event and
-                    measurability
-                  </p>
-                  <!-- <p class="m-b-0 ques_ans">Ok</p> -->
-                </div>
-              </div>
-              <div class="list_action m-l-auto">
-                <!-- <button
-                  @click="editQuetion"
-                  class="
-                    btn
-                    text-primary
-                    fs-16
-                    text-capitalize
-                    fw-500
-                    btn-transaprent
-                  "
-                >
-                  edit
-                </button> -->
               </div>
             </div>
           </li>
@@ -165,12 +63,66 @@
 </template>
 
 <script>
+import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
 export default {
   data() {
-    return {};
+    return {
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      answered: true,
+      questionnaire: {},
+      questionList: [],
+    };
+  },
+  created() {
+    // this.url_dataID = this.$route.params.id;
+    // this.getDeptAndCategoryDetails();
+    // this.questionList = this.questionnaire;
+    // console.log("questions are", this.questionList);
+    // if (this.url_dataID) {
+    //   console.log(this.url_dataID);
+    // }
+  },
+  mounted() {
+    this.departmentId = this.$route.params.did;
+    this.categoryID = this.$route.params.id;
+    this.authToken = this.staffData.auth_token;
+    if (this.departmentId && this.categoryID && this.authToken) {
+      let data = {
+        auth_token: this.authToken,
+        department_id: "5",
+        category_id: "3",
+      };
+      this.getDeptAndCategoryDetails(data);
+    }
   },
   methods: {
-    editQuetion() {},
+    getDeptAndCategoryDetails(data) {
+      QuestionnaireService.getOneCategory(data).then((res) => {
+        if (res.data.status) {
+          this.questionList = res.data.data.questionnaire.questions;
+          console.log("questionlist", this.questionList);
+        } else {
+          let $th = this;
+          if ("error" in res.data) {
+            Object.keys(res.data.error).map(function (key) {
+              $th.$toast.error(res.data.error[key], {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            });
+          } else {
+            $th.$toast.error(res.data.message, {
+              position: "bottom-left",
+              duration: 3712,
+            });
+          }
+        }
+      });
+    },
+
+    editQuetion(id) {
+      console.log("edit Question by Id", id);
+    },
   },
 };
 </script>

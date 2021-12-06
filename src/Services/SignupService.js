@@ -27,7 +27,14 @@ class SignupService {
   checkCompany(data) {
     return http.post(`staffs/is_company_setup`, data);
   }
-
+  // Personal Details get
+  updatePersonalDetails(data) {
+    return http.post("staffs/update_personal_account", data);
+  }
+  // Personal Details update
+  getPersonalDetails(data) {
+    return http.post("staffs/staff_by_token", { auth_token: data.auth_token });
+  }
   //   delete(id) {
   //     return http.delete(`/posts/${id}`);
   //   }

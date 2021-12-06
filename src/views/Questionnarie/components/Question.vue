@@ -1,17 +1,67 @@
 <template>
-  <div class="">
+  <div>
+    <!-- {{ questions }} -->
     <!-- question Section Start -->
-    <div class="">
+    <div>
       <!-- <QuestionTitle :questionTitle="question.questrionTitle" /> -->
       <h4 class="m-b-0 question_title m-b-14">
-        {{ quiz.questrionTitle }}
+        {{ quiz.name }}
         <!-- The earliest moment that the critical event and measurability are both
         satisfied for revenue recognition is usually? -->
       </h4>
     </div>
     <!-- question Section Start -->
+
+    <!-- Answer Section Start -->
+    <!-- {{ quiz.answers }} -->
+    <div class="option_wrapper">
+      <div v-if="quiz.type == 'multiple_choice'">
+        <AnsCheckbox :data="quiz.choices" />
+      </div>
+      <div v-if="quiz.type == 'radio_button'">
+        <AnsRadio :data="quiz.answers" />
+      </div>
+      <div v-if="quiz.type == 'yesNo'">
+        <AnsSwitch :data="quiz.answers" />
+      </div>
+      <div v-if="quiz.type == 'richText'">
+        <AnsTextArea :data="quiz.answers" />
+      </div>
+      <div v-if="quiz.type == 'text'">
+        <AnsInput :data="quiz.answers" />
+      </div>
+      <div v-if="quiz.type == 'website'">
+        <AnsWebsite :data="quiz.answers" />
+      </div>
+      <div v-if="quiz.type == 'select'">
+        <AnsSelect :data="quiz.answers" />
+      </div>
+      <div v-if="quiz.type == 'manySelect'">
+        <AnsMultiSelect :data="quiz.answers" />
+      </div>
+      <div v-if="quiz.type == 'email'">
+        <AnsEmail :data="quiz.answers" />
+      </div>
+      <div v-if="quiz.type == 'phone'">
+        <AnsPhone :data="quiz.answers" />
+      </div>
+      <div v-if="quiz.type == 'onlyNumber'">
+        <AnsSingleNumber :data="quiz.answers" />
+      </div>
+      <div v-if="quiz.type == 'moreNumber'">
+        <AnsMultipleNumber :data="quiz.answers" />
+      </div>
+      <div v-if="quiz.type == 'editor'">
+        <AnsTextEditor :data="quiz.answers" />
+      </div>
+
+      <div v-if="quiz.type == 'date'">
+        <AnsDate :data="quiz.answers" />
+      </div>
+    </div>
+    <!-- Answer Section Ends -->
     <!-- explanation Section Start -->
-    <div class="d-flex align-items-center m-b-28">
+    <div class="d-flex align-items-center exp_wrap m-b-28">
       <!-- <QuestionExpalnaion /> -->
       <div class="info_icon_wrap m-r-10">
         <img src="K_Icons/info_gray_24dp.svg" alt="" class="svg_icon" />
@@ -21,54 +71,6 @@
       </h6>
     </div>
     <!-- explanation Section Ends -->
-    <!-- Answer Section Start -->
-
-    <div class="option_wrapper">
-      <div v-if="quiz.ansType == 'checkbox'" class="">
-        <AnsCheckbox :data="quiz.options" />
-      </div>
-      <div v-if="quiz.ansType == 'radio'" class="">
-        <AnsRadio :data="quiz.options" />
-      </div>
-      <div v-if="quiz.ansType == 'yesNo'" class="">
-        <AnsSwitch :data="quiz.options" />
-      </div>
-      <div v-if="quiz.ansType == 'richText'" class="">
-        <AnsTextArea :data="quiz.options" />
-      </div>
-      <div v-if="quiz.ansType == 'freeText'" class="">
-        <AnsInput :data="quiz.options" />
-      </div>
-      <div v-if="quiz.ansType == 'website'" class="">
-        <AnsWebsite :data="quiz.options" />
-      </div>
-      <div v-if="quiz.ansType == 'select'" class="">
-        <AnsSelect :data="quiz.options" />
-      </div>
-      <div v-if="quiz.ansType == 'manySelect'" class="">
-        <AnsMultiSelect :data="quiz.options" />
-      </div>
-      <div v-if="quiz.ansType == 'email'" class="">
-        <AnsEmail :data="quiz.options" />
-      </div>
-      <div v-if="quiz.ansType == 'phone'" class="">
-        <AnsPhone :data="quiz.options" />
-      </div>
-      <div v-if="quiz.ansType == 'onlyNumber'" class="">
-        <AnsSingleNumber :data="quiz.options" />
-      </div>
-      <div v-if="quiz.ansType == 'moreNumber'" class="">
-        <AnsMultipleNumber :data="quiz.options" />
-      </div>
-      <div v-if="quiz.ansType == 'editor'" class="">
-        <AnsTextEditor :data="quiz.options" />
-      </div>
-
-      <div v-if="quiz.ansType == 'date'" class="">
-        <AnsDate :data="quiz.options" />
-      </div>
-    </div>
-    <!-- Answer Section Ends -->
     <!-- bottom section start -->
     <div class="btns_wrap">
       <button
@@ -80,7 +82,7 @@
       </button>
       <button
         type="button"
-        @click="nextQuestion"
+        @click="nextQuestion(quiz.id)"
         class="btn text-uppercase btn-primary btn-set"
       >
         next
@@ -91,176 +93,6 @@
 </template>
 
 <script>
-const questionnaire = [
-  {
-    id: "1",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "checkbox",
-    options: [
-      { id: 1, value: true, choice: "Before the sale" },
-      { id: 2, value: false, choice: "After the sale" },
-      { id: 3, value: false, choice: "At the Time of the sale" },
-    ],
-    isAnswerd: true,
-  },
-  {
-    id: "2",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "radio",
-    options: [
-      { id: 1, value: "beforeSale", choice: "Before the sale" },
-      { id: 2, value: "afterSale", choice: "After the sale" },
-      { id: 3, value: "attimeofSale", choice: "At the Time of the sale" },
-    ],
-    isAnswerd: true,
-  },
-  {
-    id: "3",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "select",
-    options: [
-      { choice: "Before the sale" },
-      { choice: "After the sale" },
-      { choice: "At the Time of the sale" },
-    ],
-    isAnswerd: true,
-  },
-  {
-    id: "4",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "email",
-    options: [
-      { choice: "Before the sale" },
-      { choice: "After the sale" },
-      { choice: "At the Time of the sale" },
-    ],
-    isAnswerd: true,
-  },
-  {
-    id: "5",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "phone",
-    options: [
-      { choice: "Before the sale" },
-      { choice: "After the sale" },
-      { choice: "At the Time of the sale" },
-    ],
-    isAnswerd: true,
-  },
-  {
-    id: "6",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "website",
-    options: [
-      { choice: "Before the sale" },
-      { choice: "After the sale" },
-      { choice: "At the Time of the sale" },
-    ],
-    isAnswerd: false,
-  },
-  {
-    id: "7",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "onlyNumber",
-    options: [
-      { choice: "Before the sale" },
-      { choice: "After the sale" },
-      { choice: "At the Time of the sale" },
-    ],
-    isAnswerd: false,
-  },
-  {
-    id: "8",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "moreNumber",
-    options: [
-      { choice: "Before the sale" },
-      { choice: "After the sale" },
-      { choice: "At the Time of the sale" },
-    ],
-    isAnswerd: false,
-  },
-  {
-    id: "9",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "manySelect",
-    options: [
-      { choice: "Before the sale" },
-      { choice: "After the sale" },
-      { choice: "At the Time of the sale" },
-    ],
-    isAnswerd: false,
-  },
-  {
-    id: "10",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "date",
-    options: [
-      { choice: "Before the sale" },
-      { choice: "After the sale" },
-      { choice: "At the Time of the sale" },
-    ],
-    isAnswerd: false,
-  },
-  {
-    id: "11",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "yesNo",
-    options: [
-      { choice: "Before the sale" },
-      { choice: "After the sale" },
-      { choice: "At the Time of the sale" },
-    ],
-    isAnswerd: false,
-  },
-  {
-    id: "12",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "editor",
-    options: [
-      { choice: "Before the sale" },
-      { choice: "After the sale" },
-      { choice: "At the Time of the sale" },
-    ],
-    isAnswerd: false,
-  },
-  {
-    id: "13",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "freeText",
-    options: [
-      { choice: "Before the sale" },
-      { choice: "After the sale" },
-      { choice: "At the Time of the sale" },
-    ],
-    isAnswerd: false,
-  },
-  {
-    id: "14",
-    questrionTitle:
-      "The earliest moment that the criticle event and measurability",
-    ansType: "richText",
-    options: [
-      { choice: "Before the sale" },
-      { choice: "After the sale" },
-      { choice: "At the Time of the sale" },
-    ],
-    isAnswerd: false,
-  },
-];
 import AnsCheckbox from "./AnsCheckbox.vue";
 import AnsRadio from "./AnsRadio.vue";
 import AnsSwitch from "./AnsSwitch.vue";
@@ -275,7 +107,16 @@ import AnsWebsite from "./AnsWebsite.vue";
 import AnsSelect from "./AnsSelect.vue";
 import AnsTextEditor from "./AnsTextEditor.vue";
 import AnsDate from "./AnsDate.vue";
+import QuestionnaireService from "../../../Services/QuestionnaireServices/Questionnaire";
+import { mapState } from "vuex";
+
 export default {
+  props: {
+    // questions: {
+    //   type: Array,
+    //   required: true,
+    // },
+  },
   components: {
     AnsTextEditor,
     AnsCheckbox,
@@ -295,20 +136,63 @@ export default {
   data() {
     return {
       currentIdx: 0,
-      quiz: questionnaire[0],
+      quiz: [],
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      authToken: "",
     };
   },
+  computed: mapState({
+    questions: (state) => state.questionList,
+  }),
+  mounted() {
+    this.quiz = this.questions[this.currentIdx];
+    this.authToken = this.staffData.auth_token;
+  },
   methods: {
-    nextQuestion() {
-      this.currentIdx = this.currentIdx + 1;
-      (this.quiz = questionnaire[this.currentIdx]),
-        console.log("nextQ" + this.quiz);
+    nextQuestion(id) {
+      console.log(id);
+
+      let data = {
+        auth_token: this.authToken,
+        question_id: id,
+        answer: "Kuldip ",
+      };
+      this.submitAnswer(data);
+
       return this.currentIdx;
     },
     prevoiusQuestion() {
       this.currentIdx = this.currentIdx - 1;
-      this.quiz = questionnaire[this.currentIdx];
+      this.quiz = this.questions[this.currentIdx];
       return this.currentIdx;
+    },
+    submitAnswer(data) {
+      // console.log(data);
+      QuestionnaireService.submitAnswer(data).then((res) => {
+        this.questions[this.currentIdx].is_answered = true;
+        this.$store.dispatch("getQuestionList", this.questions);
+        if (res.data.status) {
+          console.log(this.questions[this.currentIdx]);
+          this.currentIdx = this.currentIdx + 1;
+          this.quiz = this.questions[this.currentIdx];
+          console.log("responce after submit answer", res);
+        } else {
+          let $th = this;
+          if ("error" in res.data) {
+            Object.keys(res.data.error).map((key) => {
+              $th.toast.error(res.data.error[key], {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            });
+          } else {
+            $th.$toast.error(res.data.message, {
+              position: "bottom-left",
+              duration: 3712,
+            });
+          }
+        }
+      });
     },
   },
 };
@@ -321,9 +205,11 @@ export default {
     color: #7900d8;
   }
 }
+.exp_wrap {
+  margin-bottom: 210px;
+}
 .option_wrapper {
   padding: 0 0 0 36px;
-  height: 320px;
 }
 .question_title {
   font-size: 22px;

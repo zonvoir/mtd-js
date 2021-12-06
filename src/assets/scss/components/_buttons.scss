@@ -60,6 +60,11 @@
       outline: none;
     }
   }
+  &:disabled {
+    background-color: $primary;
+    color: $white;
+    border-color: $primary;
+  }
 }
 .btn-transaprent {
   background-color: transparent;
@@ -142,6 +147,7 @@
   border-radius: 12px;
   padding: 4px 13px;
   line-height: 16px;
+  text-transform: lowercase;
   &:hover {
     background-color: $white;
     box-shadow: none;
@@ -308,6 +314,6 @@
 .btn-set {
   font-weight: 700;
   font-size: 14px;
-  width: 140px;
+  // width: 140px;
   height: 40px;
 }

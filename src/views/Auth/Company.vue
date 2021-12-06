@@ -396,6 +396,42 @@
                   </div>
                 </div>
               </div>
+              <div class="col-lg-6">
+                <div class="wrap_phone_inp">
+                  <div class="k_form_group codes_select k_select_single">
+                    <Multiselect
+                      v-model="value"
+                      label="name"
+                      class="form-control country_codes"
+                      :options="countryCodes"
+                    >
+                      <template v-slot:singlelabel="{ value }">
+                        <div class="multiselect-single-label">
+                          <img
+                            class="character-label-icon country_flag p-r-10"
+                            :src="value.icon"
+                          />
+                          {{ value.name }}
+                        </div>
+                      </template>
+
+                      <template v-slot:option="{ option }">
+                        <img
+                          class="character-option-icon country_flag p-r-10"
+                          :src="option.icon"
+                        />
+                      </template>
+                    </Multiselect>
+                  </div>
+                  <div class="k_form_group k_inp_number phone_field">
+                    <input
+                      type="number"
+                      class="form-control shift_number k_inp_field"
+                      placeholder="Phone No."
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="d-grid space_btn">
@@ -541,12 +577,19 @@ export default {
               console.log(response);
             } else {
               let $th = this;
-              Object.keys(response.data.error).map(function (key) {
-                $th.$toast.error(response.data.error[key], {
+              if ("error" in response.data) {
+                Object.keys(response.data.error).map(function (key) {
+                  $th.$toast.error(response.data.error[key], {
+                    position: "bottom-left",
+                    duration: 3712,
+                  });
+                });
+              } else {
+                $th.$toast.error(response.data.message, {
                   position: "bottom-left",
                   duration: 3712,
                 });
-              });
+              }
             }
           })
           .catch((error) => {
@@ -809,6 +852,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wrap_phone_inp {
+  position: relative;
+  .phone_field {
+    width: 100%;
+    .shift_number {
+      padding-left: 90px !important;
+    }
+  }
+  .codes_select {
+    position: absolute;
+    left: -3px;
+    top: -3px;
+  }
+}
 .upload_image_wrapper {
   display: flex;
   width: 100%;

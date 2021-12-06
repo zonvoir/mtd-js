@@ -1,56 +1,29 @@
 <template>
-  <div class="container">
-    <h2>Video Category</h2>
+  <div class="col-lg-6">
+    <div class="k_form_group k_select_single">
+      <Multiselect
+        v-model="value"
+        placeholder="Select your Country"
+        label="name"
+        class="form-control country_select k_inp_field"
+        :options="checboxSelect"
+      >
+        <template v-slot:singlelabel="{ value }">
+          <div class="multiselect-single-label">
+            {{ value.name }}
+          </div>
+        </template>
 
-    <div class="select-box">
-      <div class="options-container">
-        <div class="option">
-          <input type="radio" class="radio" id="automobiles" name="category" />
-          <label for="automobiles">Automobiles</label>
-        </div>
-
-        <div class="option">
-          <input type="radio" class="radio" id="film" name="category" />
-          <label for="film">Film & Animation</label>
-        </div>
-
-        <div class="option">
-          <input type="radio" class="radio" id="science" name="category" />
-          <label for="science">Science & Technology</label>
-        </div>
-
-        <div class="option">
-          <input type="radio" class="radio" id="art" name="category" />
-          <label for="art">Art</label>
-        </div>
-
-        <div class="option">
-          <input type="radio" class="radio" id="music" name="category" />
-          <label for="music">Music</label>
-        </div>
-
-        <div class="option">
-          <input type="radio" class="radio" id="travel" name="category" />
-          <label for="travel">Travel & Events</label>
-        </div>
-
-        <div class="option">
-          <input type="radio" class="radio" id="sports" name="category" />
-          <label for="sports">Sports</label>
-        </div>
-
-        <div class="option">
-          <input type="radio" class="radio" id="news" name="category" />
-          <label for="news">News & Politics</label>
-        </div>
-
-        <div class="option">
-          <input type="radio" class="radio" id="tutorials" name="category" />
-          <label for="tutorials">Tutorials</label>
-        </div>
-      </div>
-
-      <div class="selected">Select Video Category</div>
+        <template v-slot:option="{ option }">
+          <div class="check_box_wrapper">
+            <label class="k_checkbox check_lable">
+              {{ option.name }}
+              <input type="checkbox" v-model="option.value" checked="checked" />
+              <span class="checkmark"></span>
+            </label>
+          </div>
+        </template>
+      </Multiselect>
     </div>
   </div>
 </template>
@@ -58,7 +31,22 @@
 <script>
 export default {
   setup() {
-    return {};
+    return {
+      checboxSelect: [
+        {
+          value: false,
+          name: "India",
+        },
+        {
+          value: false,
+          name: "Usa",
+        },
+        {
+          value: false,
+          name: "Australia",
+        },
+      ],
+    };
   },
 };
 </script>

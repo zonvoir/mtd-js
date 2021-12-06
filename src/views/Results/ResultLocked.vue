@@ -7,18 +7,21 @@
         </div>
         <div class="">
           <h5 class="m-b-0 alert_title">
-            Need to complete Overall Company Information
+            {{ $t("results.alert_notification.alert_title") }}
           </h5>
           <p class="m-b-0 alert_message">
-            General questions about your project. Some questions about your
-            business.
+            {{ $t("results.alert_notification.alert_message") }}
           </p>
         </div>
       </div>
       <div class="m-l-auto">
         <div class="d-inline-flex align-items-center">
-          <h4 class="m-b-0 st_title">Not Started</h4>
-          <button class="btn btn-primary btn-set">Start</button>
+          <h4 class="m-b-0 st_title">
+            {{ $t("results.buttons.not_started") }}
+          </h4>
+          <button class="btn btn-primary btn-set">
+            {{ $t("results.buttons.start") }}
+          </button>
         </div>
       </div>
     </div>
@@ -26,7 +29,7 @@
       <Resulttable :data="head1" />
     </div>
     <div class="m-b-20">
-      <h3 class="m-b-0 ext_title">Extended</h3>
+      <h3 class="m-b-0 ext_title">{{ $t("results.Extended") }}</h3>
     </div>
     <div class="m-b-20">
       <Resulttable :data="head2" />

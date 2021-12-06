@@ -1,12 +1,16 @@
 <template>
   <div class="help_conatiner m-b-20">
     <div class="">
-      <h5 class="m-b-0 m_title">Report a problem</h5>
+      <h5 class="m-b-0 m_title">
+        {{ $t("help_center.Report_a_problem_tab.labels.Report_a_problem") }}
+      </h5>
     </div>
     <div class="form_container">
       <div class="k_select_single k_inp_half m-b-20">
         <Multiselect
-          placeholder="Role"
+          :placeholder="
+            $t('help_center.Report_a_problem_tab.form.placeholder.role')
+          "
           class="form-control k_inp_field"
           rules="required"
           :options="issues"
@@ -14,13 +18,17 @@
       </div>
       <div class="k_form_group p-b-49">
         <textarea
-          placeholder="Message"
+          :placeholder="
+            $t('help_center.Report_a_problem_tab.form.placeholder.message')
+          "
           class="form-control k_inp_field"
           rows="5"
         ></textarea>
       </div>
       <div class="m-l-auto p-t-49">
-        <button type="submit" class="btn btn-primary btn-set">Submit</button>
+        <button type="submit" class="btn btn-primary btn-set">
+          {{ $t("help_center.Report_a_problem_tab.buttons.submit") }}
+        </button>
       </div>
     </div>
   </div>

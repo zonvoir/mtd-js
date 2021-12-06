@@ -1,25 +1,33 @@
 <template>
   <div class="team_wrapper m-b-20">
     <div class="m-b-14">
-      <h4 class="m-b-0 title-dark">Questions</h4>
+      <h4 class="m-b-0 title-dark">
+        {{ $t("category_details.resultsTab.Score") }}
+      </h4>
     </div>
     <div class="score_wrapper">
       <div class="custom_grid">
         <div class="custom_grid_col bg-yellow">
           <div class="k_grid">
-            <h6 class="m-b-0 tabb_title">My Score</h6>
+            <h6 class="m-b-0 tabb_title">
+              {{ $t("category_details.resultsTab.My_score") }}
+            </h6>
             <h1 class="m-b-0 tabb_val">10.3</h1>
           </div>
         </div>
         <div class="custom_grid_col bg_success">
           <div class="k_grid">
-            <h6 class="m-b-0 tabb_title">My Score</h6>
+            <h6 class="m-b-0 tabb_title">
+              {{ $t("category_details.resultsTab.Team_score") }}
+            </h6>
             <h1 class="m-b-0 tabb_val">10.3</h1>
           </div>
         </div>
         <div class="custom_grid_col">
           <div class="k_grid bg-danger">
-            <h6 class="m-b-0 tabb_title">My Score</h6>
+            <h6 class="m-b-0 tabb_title">
+              {{ $t("category_details.resultsTab.Peer_score") }}
+            </h6>
             <h1 class="m-b-0 tabb_val">10.3</h1>
           </div>
         </div>
@@ -39,6 +47,8 @@
 <script>
 import ScatterdChart from "../../components/Shared/ScatterdChart.vue";
 import DonutChart from "../../components/Shared/DonutChart.vue";
+import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
+
 export default {
   components: {
     ScatterdChart,
@@ -46,6 +56,32 @@ export default {
   },
   data() {
     return {};
+  },
+  mounted() {
+    this.url_dataID = this.$route.params.id;
+    if (this.url_dataID) {
+      this.getDeptAndCategoryDetails(this.url_dataID);
+    }
+  },
+  methods: {
+    getDeptAndCategoryDetails() {
+      // departmemntID, categoryID, staffID
+
+      QuestionnaireService.getOneCategory(5, 3, 37).then((res) => {
+        if (res.data.status) {
+          console.log(res.data.data);
+        } else {
+          console.log("no department list found");
+          let $th = this;
+          Object.keys(res.data.error).map(function (key) {
+            $th.$toast.error(res.data.error[key], {
+              position: "bottom-left",
+              duration: 3712,
+            });
+          });
+        }
+      });
+    },
   },
 };
 </script>

@@ -15,7 +15,7 @@
             <div class="card_footer">
               <div class="card_link">
                 <a class="page_link m-l-auto"
-                  >view
+                  >{{ $t("find_partner.table.buttons.view") }}
                   <img src="K_Icons/next.svg" alt="" class="next_icon p-l-6"
                 /></a>
               </div>
@@ -35,7 +35,7 @@
             <div class="card_footer">
               <div class="card_link">
                 <a class="page_link m-l-auto"
-                  >view
+                  >{{ $t("find_partner.table.buttons.view") }}
                   <img src="K_Icons/next.svg" alt="" class="next_icon p-l-6"
                 /></a>
               </div>
@@ -55,7 +55,7 @@
             <div class="card_footer">
               <div class="card_link">
                 <a class="page_link m-l-auto"
-                  >view
+                  >{{ $t("find_partner.table.buttons.view") }}
                   <img src="K_Icons/next.svg" alt="" class="next_icon p-l-6"
                 /></a>
               </div>
@@ -65,7 +65,7 @@
       </div>
     </div>
     <div class="">
-      <h5 class="head_title m-b-20">Parners</h5>
+      <h5 class="head_title m-b-20">{{ $t("find_partner.Partners") }}</h5>
     </div>
     <div class="table_container">
       <PartnerTable />

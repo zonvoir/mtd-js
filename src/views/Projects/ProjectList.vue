@@ -2,24 +2,35 @@
   <div>
     <div class="filter_wrap d-flex align-items-center m-b-20">
       <div class="m-r-4">
-        <h6 class="m-b-0 text-gray fs-14 fw-400">Filter by:</h6>
+        <h6 class="m-b-0 text-gray fs-14 fw-400">
+          {{ $t("projects.filter_by") }}:
+        </h6>
       </div>
       <div class="d-inline-flex">
-        <button class="btn btn-pill-primary m-r-8">not started</button>
-        <button class="btn btn-pill-primary m-r-8">in progress</button>
-        <button class="btn btn-pill-primary">completed</button>
+        <button class="btn btn-pill-primary m-r-8">
+          {{ $t("projects.buttons.not_started") }}
+        </button>
+        <button class="btn btn-pill-primary m-r-8">
+          {{ $t("projects.buttons.in_progress") }}
+        </button>
+        <button class="btn btn-pill-primary">
+          {{ $t("projects.buttons.completed") }}
+        </button>
       </div>
     </div>
-    <div class="alert-notification">
+    <div v-if="isData" class="alert-notification">
       <div class="img_wrap m-r-24">
         <img src="K_Icons/alert_yellow.svg" alt="" class="icon_name" />
       </div>
 
       <div class="">
-        <h5 class="m-b-0 alert_title">Need to create a project</h5>
+        <h5 class="m-b-0 alert_title">
+          {{ $t("projects.empty_project.Need_create_a_project") }}
+        </h5>
         <p class="m-b-0 alert_message">
-          General questions about your project. Some questions about your
-          business.
+          {{ $t("projects.empty_project.need_create_warning") }}
+          <!-- General questions about your project. Some questions about your
+          business. -->
         </p>
       </div>
     </div>
@@ -28,16 +39,17 @@
       <!-- empty Project list -->
       <div v-if="isData" class="icons_container m-t-36">
         <img src="K_Icons/add_files.svg" class="icon_file m-b-20" alt="" />
-        <h5 class="m-b-0 alert_title fs-18">Oppps !</h5>
+        <h5 class="m-b-0 alert_title fs-18">
+          {{ $t("projects.empty_project.Opps") }}
+        </h5>
         <p class="m-b-35 alert_message">
-          Add projects to track your progress and understand the impact of your
-          projects on your company success.
+          {{ $t("projects.empty_project.opps_message") }}
         </p>
         <button
           @click="createProject"
           class="btn btn-primary btn-set text-uppercase m-bottom"
         >
-          Add Project
+          {{ $t("projects.buttons.add_project") }}
         </button>
       </div>
       <!-- Empty Project List closed -->
@@ -52,18 +64,26 @@
               </th>
               <th class="project_th">
                 <div class="label_name">
-                  <h3 class="m-b-0 label_th">Total Investment overview</h3>
-                  <p class="m-b-0 label_th_sub">Internal/ External</p>
+                  <h3 class="m-b-0 label_th">
+                    {{ $t("projects.table.Total_Investment_overview") }}
+                  </h3>
+                  <p class="m-b-0 label_th_sub">
+                    {{ $t("projects.table.Internal_External") }}
+                  </p>
                 </div>
               </th>
               <th class="project_th">
                 <div class="label_name">
-                  <h3 class="label_th">Departments</h3>
+                  <h3 class="label_th">
+                    {{ $t("projects.table.Departments") }}
+                  </h3>
                 </div>
               </th>
               <th class="project_th">
                 <div class="label_name">
-                  <h3 class="label_th">Categories</h3>
+                  <h3 class="label_th">
+                    {{ $t("projects.table.Categories") }}
+                  </h3>
                 </div>
               </th>
             </tr>
@@ -81,7 +101,9 @@
               <td class="project_td">
                 <div class="project_visualization">
                   <div class="label_name">
-                    <h6 class="label_comprision">FTE vs Cost</h6>
+                    <h6 class="label_comprision">
+                      {{ $t("projects.table.FTE_vs_Cost") }}
+                    </h6>
                     <div class="chart-wrap">
                       <div class="Fte">
                         <StackedBar2 class="k-high-chart" />
@@ -261,7 +283,7 @@ export default {
   },
   data() {
     return {
-      isData: true,
+      isData: false,
     };
   },
   methods: {

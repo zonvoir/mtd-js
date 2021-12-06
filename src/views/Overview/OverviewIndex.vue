@@ -2,12 +2,20 @@
   <div class="overview_index">
     <div class="filter_wrap d-flex align-items-center m-b-20">
       <div class="m-r-4">
-        <h6 class="m-b-0 text-gray fs-14 fw-400">Filter by:</h6>
+        <h6 class="m-b-0 text-gray fs-14 fw-400">
+          {{ $t("overview_index.filter_by") }}:
+        </h6>
       </div>
       <div class="d-inline-flex">
-        <button class="btn btn-pill-primary m-r-8">not started</button>
-        <button class="btn btn-pill-primary m-r-8">in progress</button>
-        <button class="btn btn-pill-primary">completed</button>
+        <button class="btn btn-pill-primary p_btrm m-r-8">
+          {{ $t("overview_index.buttons.not_started") }}
+        </button>
+        <button class="btn btn-pill-primary p_btrm m-r-8">
+          {{ $t("overview_index.buttons.in_progress") }}
+        </button>
+        <button class="btn btn-pill-primary p_btrm">
+          {{ $t("overview_index.buttons.completed") }}
+        </button>
       </div>
     </div>
     <div class="dept_wrapper">
@@ -17,133 +25,99 @@
           :key="index"
           class="custom_grid_col"
         >
-          <Card :categories="category" />
+          <Card
+            :id="category.id"
+            :title="category.name"
+            :description="category.description"
+            :status="category.questionnaire_status"
+            :image="category.image"
+            :page_name="component_name"
+            :page_parmas="{ id: category.id }"
+          />
         </div>
+        <!-- :page_parmas="{ ...defaultDeptId, cid: category.id }" -->
       </div>
-      <!-- <div class="custom_grid">
-        <div
-          v-for="(category, index) in categoryList"
-          :key="index"
-          class="dept_card custom_grid_col card_specing"
-        >
-          <div class="card_header">
-            <div class="dept_logo position-relative m-r-11">
-              <div class="logo_wrap">
-                <img src="K_Icons/clipboard.svg" alt="" />
-              </div>
-            </div>
-            <div class="dept_name_wrap">
-              <h4 class="m-b-0 dept_name">{{ category.catTitle }}</h4>
-            </div>
-          </div>
-          <div class="card_body">
-            <p class="dept_desc">
-              {{ category.cat_desc }}
-            </p>
-          </div>
-          <div class="card_footer">
-            <div class="">
-              <span
-                :class="{
-                  bg_gray: category.status == 'not started',
-                  bg_warn: category.status == 'in progress',
-                  bg_success: category.status == 'completed',
-                }"
-                class="dept_status bg-gray"
-                >{{ category.status }}</span
-              >
-            </div>
-            <div class="card_link">
-              <a to="" class="page_link"
-                >view
-                <img src="K_Icons/next.svg" alt="" class="next_icon p-l-6"
-              /></a>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
 
 <script>
-const categoryList = [
-  {
-    id: 0,
-    catTitle: "IT&Technology",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    status: "not started",
-    component_name: "cateogry-home",
-  },
-  {
-    id: 1,
-    catTitle: "Processes and Operation",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    status: "not started",
-    component_name: "cateogry-home",
-  },
-  {
-    id: 2,
-    catTitle: "Data & Analytics",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    status: "not started",
-    component_name: "cateogry-home",
-  },
-  {
-    id: 3,
-    catTitle: "Customer & Customer Engagement dfsfgfdsgds",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    status: "in progress",
-    component_name: "cateogry-home",
-  },
-  {
-    id: 4,
-    catTitle: "Advanced KPI",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    status: "in progress",
-    component_name: "cateogry-home",
-  },
-  {
-    id: 5,
-    catTitle: "Strategy",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    status: "in progress",
-    component_name: "cateogry-home",
-  },
-  {
-    id: 6,
-    catTitle: "KPI",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    status: "completed",
-    component_name: "cateogry-home",
-  },
-  {
-    id: 7,
-    catTitle: "People and Culture",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    status: "completed",
-    component_name: "cateogry-home",
-  },
-];
 import Card from "../../components/Shared/Card.vue";
+import CommonService from "../../Services/CommonService";
 export default {
   components: {
     Card,
   },
+  created() {
+    if (
+      localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
+      localStorage.getItem("bWFpbCI6Inpvb") == null ||
+      localStorage.getItem("bWFpbCI6Inpvb") == ""
+    ) {
+      this.$router.push({ name: "signup-signin" });
+    }
+    this.getDefaultDeptCategories();
+    this.getdDepartmentList();
+  },
+
   data() {
     return {
-      categoryList,
+      component_name: "category-overview",
+      categoryList: [],
+      departmentLists: [],
     };
   },
-  methods: {},
+  methods: {
+    // get departmens lists
+    getdDepartmentList() {
+      // this.$store.commit("loadingStatus", true);
+      CommonService.getAllDepartments().then((resp) => {
+        // this.$store.commit("loadingStatus", false);
+        if (resp.data.status) {
+          this.departmentLists = resp.data.data.filter(function (depts) {
+            return depts.is_default === "1";
+          });
+          this.defaultDeptId = { did: this.departmentLists[0].departmentid };
+          console.log("default dept ID", this.defaultDeptId);
+        } else {
+          console.log("no department list found");
+        }
+      });
+      // .catch((err) => {
+      //   console.log(err);
+      // })
+      // .finally(() => {
+      //   console.log("fianly");
+      //   // this.$store.commit("loadingStatus", false);
+      // });
+    },
+    // get categories lists
+    getDefaultDeptCategories() {
+      console.log("department deatil");
+      CommonService.getAllCategories()
+        .then((resp) => {
+          if (resp.data.status) {
+            this.categoryList = resp.data.data;
+            console.log("list", this.categoryList);
+          } else {
+            console.log("no department list found");
+            let $th = this;
+            Object.keys(resp.data.error).map(function (key) {
+              $th.$toast.error(resp.data.error[key], {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("finaly");
+        });
+    },
+  },
 };
 </script>
 

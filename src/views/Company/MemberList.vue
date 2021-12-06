@@ -8,17 +8,25 @@
             <tr>
               <th class="member_name">
                 <div class="label_name">
-                  <h3 class="table_label">Name</h3>
+                  <h3 class="table_label">
+                    {{ $t("company_profile.members_tab.members_table.Name") }}
+                  </h3>
                 </div>
               </th>
               <th class="member_role">
                 <div class="label_name">
-                  <h3 class="table_label">Role</h3>
+                  <h3 class="table_label">
+                    {{ $t("company_profile.members_tab.members_table.Role") }}
+                  </h3>
                 </div>
               </th>
               <th class="member_category">
                 <div class="label_name">
-                  <h3 class="table_label">Categories</h3>
+                  <h3 class="table_label">
+                    {{
+                      $t("company_profile.members_tab.members_table.Categories")
+                    }}
+                  </h3>
                 </div>
               </th>
             </tr>
@@ -29,7 +37,11 @@
                     <td class="member_name_td">
                       <div class="k_select_single member_filter m-r-8">
                         <Multiselect
-                          placeholder="Role"
+                          :placeholder="
+                            $t(
+                              'company_profile.members_tab.members_table.placeholder.role'
+                            )
+                          "
                           class="form-control k_inp_field"
                           rules="required"
                           :options="roles"
@@ -39,7 +51,11 @@
                     <td class="member_name_td">
                       <div class="k_select_single member_filter">
                         <Multiselect
-                          placeholder="Category"
+                          :placeholder="
+                            $t(
+                              'company_profile.members_tab.members_table.placeholder.category'
+                            )
+                          "
                           class="form-control k_inp_field"
                           rules="required"
                           :options="categories"
@@ -58,7 +74,11 @@
                         <input
                           type="text"
                           class="form-control _search_filter k_inp_field"
-                          placeholder="Search Here"
+                          :placeholder="
+                            $t(
+                              'company_profile.members_tab.members_table.placeholder.search_here'
+                            )
+                          "
                         />
 
                         <span class="search_btn">
@@ -139,8 +159,10 @@
                     </li>
                   </ul>
                   <div class="permission_btns">
-                    <button class="btn-light fs-14 btn-set fw-700 btn">
-                      PERMISSIONS
+                    <button
+                      class="btn-light text-uppercase fs-14 btn-set fw-700 btn"
+                    >
+                      {{ $t("company_profile.members_tab.buttons.permission") }}
                     </button>
                   </div>
                 </div>

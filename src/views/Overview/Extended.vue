@@ -2,136 +2,25 @@
   <div class="dept_wrapper">
     <div class="custom_grid">
       <div
-        v-for="(category, index) in departmentList"
+        v-for="(deparment, index) in departmentLists"
         :key="index"
         class="custom_grid_col"
       >
-        <Card :categories="category" />
+        <Card
+          :id="deparment.departmentid"
+          :title="deparment.name"
+          :description="deparment.description"
+          :image="deparment.image"
+          :page_name="component_name"
+          :page_parmas="{ id: deparment.departmentid }"
+        />
       </div>
     </div>
-    <!-- <div class="dept_wrapper">
-      <div class="custom_grid">
-        <div
-          v-for="(category, index) in departmentList"
-          :key="index"
-          class="dept_card custom_grid_col card_specing"
-        >
-          <div class="card_header">
-            <div class="dept_logo position-relative m-r-11">
-              <div :class="getClass(category.catTitle)" class="logo_wrap">
-                <img :src="category.icon" alt="" />
-              </div>
-            </div>
-            <div class="dept_name_wrap">
-              <h4 class="m-b-0 dept_name">{{ category.catTitle }}</h4>
-            </div>
-          </div>
-          <div class="card_body">
-            <p class="dept_desc">
-              {{ category.cat_desc }}
-            </p>
-          </div>
-          <div class="card_footer">
-            <div class="">
-              <span
-                :class="{
-                  bg_gray: category.status == 'not started',
-                  bg_warn: category.status == 'in progress',
-                  bg_success: category.status == 'completed',
-                }"
-                class="dept_status bg-gray"
-                >{{ category.status }}</span
-              >
-            </div>
-            <div class="card_link">
-              <a to="" class="page_link"
-                >view
-                <img src="K_Icons/next.svg" alt="" class="next_icon p-l-6"
-              /></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
 <script>
-const departmentList = [
-  {
-    id: 0,
-    catTitle: "Marketing",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    icon: "K_Icons/green_pie.svg",
-    icon_bg: "",
-    component_name: "department-category",
-  },
-  {
-    id: 1,
-    catTitle: "IT",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    icon: "K_Icons/hierarchy.svg",
-    component_name: "department-category",
-  },
-  {
-    id: 2,
-    catTitle: "Sourcing/Supply",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    icon: "K_Icons/hiring.svg",
-    component_name: "department-category",
-  },
-  {
-    id: 3,
-    catTitle: "Sales/AfterSales",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    icon: "K_Icons/price_tag.svg",
-    component_name: "department-category",
-  },
-  {
-    id: 4,
-    catTitle: "Finance",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    icon: "K_Icons/price_tag.svg",
-    component_name: "department-category",
-  },
-  {
-    id: 5,
-    catTitle: "Legal",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    icon: "K_Icons/hiring.svg",
-    component_name: "department-category",
-  },
-  {
-    id: 6,
-    catTitle: "HR",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    icon: "K_Icons/green_pie.svg",
-    component_name: "department-category",
-  },
-  {
-    id: 7,
-    catTitle: "R&D",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    icon: "K_Icons/weighing_scale.svg",
-    component_name: "department-category",
-  },
-  {
-    id: 8,
-    catTitle: "Production",
-    cat_desc:
-      "General questions about your company. Some questions about your business.General questions about your",
-    icon: "K_Icons/settings.svg",
-    component_name: "department-category",
-  },
-];
+import CommonService from "../../Services/CommonService";
 import Card from "../../components/Shared/Card.vue";
 export default {
   components: {
@@ -139,22 +28,46 @@ export default {
   },
   data() {
     return {
-      departmentList,
+      component_name: "department-category",
+      departmentLists: [],
     };
   },
+  created() {
+    if (
+      localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
+      localStorage.getItem("bWFpbCI6Inpvb") == null ||
+      localStorage.getItem("bWFpbCI6Inpvb") == ""
+    ) {
+      this.$router.push({ name: "signup-signin" });
+    }
+    this.getdDepartmentList();
+  },
   methods: {
-    getClass(value) {
-      return {
-        default: "bg_light_teal",
-        Marketing: "bg_light_green",
-        HR: "bg_light_green",
-        // IT: "bg_light_parrot",
-        Finance: "bg_light_parrot",
-        Legal: "bg_light_red",
-        //  R&D: "bg_light_teal",
-        IT: "bg_light_blue",
-        Production: "bg_light_info",
-      }[value];
+    // getClass(value) {
+    //   return {
+    //     default: "bg_light_teal",
+    //     Marketing: "bg_light_green",
+    //     HR: "bg_light_green",
+    //     Finance: "bg_light_parrot",
+    //     Legal: "bg_light_red",
+    //     //  R&D: "bg_light_teal",
+    //     IT: "bg_light_blue",
+    //     Production: "bg_light_info",
+    //   }[value];
+    // },
+
+    // get departmens lists
+    getdDepartmentList() {
+      CommonService.getAllDepartments().then((resp) => {
+        if (resp.data.status) {
+          this.departmentLists = resp.data.data.filter(function (depts) {
+            return depts.is_default === "0";
+          });
+          console.log("dept_list", this.departmentLists);
+        } else {
+          console.log("no department list found");
+        }
+      });
     },
   },
 };

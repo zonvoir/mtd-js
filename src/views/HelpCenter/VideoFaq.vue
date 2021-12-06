@@ -81,6 +81,67 @@ export default {
             },
           ],
         },
+
+        {
+          id: 2,
+          title: "Adv KPI",
+          video_title: "What is Advanced KPI ?",
+          subItems: [
+            {
+              id: 1,
+              title: "How do you measure KPI?",
+              points: [
+                {
+                  id: 1,
+                  title: "Yearly new leads/prospects.",
+                },
+                {
+                  id: 2,
+                  title: "Yearly new leads/prospects.",
+                },
+                {
+                  id: 3,
+                  title: "Yearly new leads/prospects.",
+                },
+                {
+                  id: 4,
+                  title: "Yearly new leads/prospects.",
+                },
+                {
+                  id: 5,
+                  title: "Yearly new leads/prospects.",
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: "What are good KPI examples?",
+              points: [
+                {
+                  id: 1,
+                  title: "Yearly new leads/prospects.",
+                },
+                {
+                  id: 2,
+                  title: "Yearly new leads/prospects.",
+                },
+                {
+                  id: 3,
+                  title: "Yearly new leads/prospects.",
+                },
+                {
+                  id: 4,
+                  title: "Yearly new leads/prospects.",
+                },
+                {
+                  id: 5,
+                  title: "Yearly new leads/prospects.",
+                },
+              ],
+            },
+          ],
+        },
+
         {
           id: 3,
           title: "Advanced KPI",

@@ -4,9 +4,9 @@
       <li class="hr_links" v-for="(tab, tabId) in tabs" :key="tabId">
         <a
           @click="activateTab(tab)"
-          :class="tabsId == tab.tabId ? 'activehr_tab' : ''"
+          :class="url == tab.component_url ? 'activehr_tab' : ''"
           class="hr_link"
-          >{{ tab.tabTitle }}</a
+          >{{ $t(tab.tabTitle) }}</a
         >
       </li>
       <!-- <li class="hr_links">
@@ -27,16 +27,23 @@ export default {
   props: ["tabs"],
   data() {
     return {
-      tabsId: 0,
+      // tabsId: 0,
+      url: "",
     };
+  },
+  mounted() {
+    this.url = this.$route.path;
+    console.log("url ", this.url);
   },
   methods: {
     activateTab(tab) {
-      if (this.tabsId != tab.tabId) {
-        this.tabsId = tab.tabId;
-      }
+      // if (this.tabsId != tab.tabId) {
+      //   this.tabsId = tab.tabId;
+      // }
       this.$emit("changeTitle", tab.title);
-      this.$router.push({ name: tab.component_name });
+      console.log(this.$route.path);
+      this.url = tab.component_url;
+      this.$router.push({ path: tab.component_url });
     },
   },
 };

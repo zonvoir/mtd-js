@@ -27,24 +27,40 @@
                 <button
                   type="button"
                   @click="onPickFile"
-                  class="btn k_btnfs14_w700 btn-primary m-r-20"
+                  class="btn k_btnfs14_w700 text-uppercase btn-primary m-r-20"
                 >
-                  upload logo
+                  {{
+                    $t(
+                      "company_profile.company_tab.company_setup_update.form.buttons.upload_logo"
+                    )
+                  }}
                 </button>
                 <button
                   @click="removeImage"
                   type="button"
-                  class="btn k_btnfs14_w700 btn-basic-3"
+                  class="btn k_btnfs14_w700 text-uppercase btn-basic-3"
                 >
-                  Remove
+                  {{
+                    $t(
+                      "company_profile.company_tab.company_setup_update.form.buttons.remove"
+                    )
+                  }}
                 </button>
               </div>
               <div class="hint_message_wrap">
                 <p v-if="valiImage" class="text-secodary m-t-10">
-                  Images should be 100 x 100 px as a png or jpeg file
+                  {{
+                    $t(
+                      "company_profile.company_tab.company_setup_update.form.invalid_msgs.image_hint"
+                    )
+                  }}
                 </p>
                 <p v-else class="text-danger m-t-10">
-                  Images Must be 100 x 100 px as a png or jpeg file
+                  {{
+                    $t(
+                      "company_profile.company_tab.company_setup_update.form.invalid_msgs.image_hint"
+                    )
+                  }}
                 </p>
               </div>
             </div>
@@ -55,7 +71,11 @@
                 <input
                   type="text"
                   class="form-control k_inp_field"
-                  placeholder="Company Name"
+                  :placeholder="
+                    $t(
+                      'company_profile.company_tab.company_setup_update.form.placeholder.company_name'
+                    )
+                  "
                   @blur="v$.companyForm.company.$touch"
                   v-model="companyForm.company"
                   :class="{
@@ -70,7 +90,11 @@
                     v-if="v$.companyForm.company.required.$invalid"
                     class="text-left fs-14"
                   >
-                    Company is required
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.invalid_msgs.company_name_is_required"
+                      )
+                    }}
                   </span>
                 </div>
               </div>
@@ -78,7 +102,11 @@
             <div class="col-lg-6">
               <div class="k_form_group k_select_single">
                 <Multiselect
-                  placeholder="Own Role in Company"
+                  :placeholder="
+                    $t(
+                      'company_profile.company_tab.company_setup_update.form.placeholder.own_role_company'
+                    )
+                  "
                   class="form-control k_inp_field"
                   rules="required"
                   :options="ownRoleLists"
@@ -96,7 +124,11 @@
                     v-if="v$.companyForm.company_role.required.$invalid"
                     class="text-left fs-14"
                   >
-                    Role in company is required
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.invalid_msgs.own_role_company_is_required"
+                      )
+                    }}
                   </span>
                 </div>
               </div>
@@ -104,7 +136,11 @@
             <div class="col-lg-6">
               <div class="k_form_group k_select_single">
                 <Multiselect
-                  placeholder="Legal from of corporation"
+                  :placeholder="
+                    $t(
+                      'company_profile.company_tab.company_setup_update.form.placeholder.legal_form_corporation'
+                    )
+                  "
                   class="form-control k_inp_field"
                   rules="required"
                   :options="legalCorpLists"
@@ -124,7 +160,11 @@
                     "
                     class="text-left fs-14"
                   >
-                    Corporation legal form is required
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.invalid_msgs.legal_form_corporation_is_required"
+                      )
+                    }}
                   </span>
                 </div>
               </div>
@@ -141,7 +181,11 @@
                   }"
                 >
                   <option :value="null" disabled selected>
-                    Select Main Industry
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.placeholder.main_industry"
+                      )
+                    }}
                   </option>
                   <option
                     v-for="mainInd in industryLists"
@@ -161,7 +205,11 @@
                     v-if="v$.companyForm.main_industry.required.$invalid"
                     class="text-left fs-14"
                   >
-                    Main industry is required
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.invalid_msgs.main_industry_is_required"
+                      )
+                    }}
                   </span>
                 </div>
               </div>
@@ -178,7 +226,11 @@
                   }"
                 >
                   <option :value="null" disabled selected>
-                    Select sub Industry
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.placeholder.sub_industry"
+                      )
+                    }}
                   </option>
                   <option
                     v-for="subInd in subIndustryLists"
@@ -198,7 +250,11 @@
                     v-if="v$.companyForm.sub_industry.required.$invalid"
                     class="text-left fs-14"
                   >
-                    Sub industry is required
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.invalid_msgs.sub_industry_is_required"
+                      )
+                    }}
                   </span>
                 </div>
               </div>
@@ -214,7 +270,11 @@
                   }"
                 >
                   <option :value="null" disabled selected>
-                    Select Detailed Industry
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.placeholder.detailed_industry"
+                      )
+                    }}
                   </option>
                   <option
                     v-for="detailInd in detailedIndustryLists"
@@ -234,7 +294,11 @@
                     v-if="v$.companyForm.detailed_industry.required.$invalid"
                     class="text-left fs-14"
                   >
-                    Detailed industry is required
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.invalid_msgs.detailed_industry_is_required"
+                      )
+                    }}
                   </span>
                 </div>
               </div>
@@ -250,7 +314,13 @@
                     'is-invalid': v$.companyForm.region.$error,
                   }"
                 >
-                  <option :value="null" disabled selected>Select Region</option>
+                  <option :value="null" disabled selected>
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.placeholder.region"
+                      )
+                    }}
+                  </option>
                   <option
                     v-for="region in regionLists"
                     :key="'region' + region.value"
@@ -269,7 +339,11 @@
                     v-if="v$.companyForm.region.required.$invalid"
                     class="text-left fs-14"
                   >
-                    Region is required
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.invalid_msgs.region_is_required"
+                      )
+                    }}
                   </span>
                 </div>
               </div>
@@ -285,7 +359,11 @@
                   }"
                 >
                   <option :value="null" disabled selected>
-                    Select Country
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.placeholder.country_headquater"
+                      )
+                    }}
                   </option>
                   <option
                     v-for="country in countryLists"
@@ -305,7 +383,11 @@
                     v-if="v$.companyForm.country.required.$invalid"
                     class="text-left fs-14"
                   >
-                    Country is required
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.invalid_msgs.country_headquater_is_required"
+                      )
+                    }}
                   </span>
                 </div>
               </div>
@@ -313,7 +395,11 @@
             <div class="col-lg-6">
               <div class="k_form_group k_select_single">
                 <Multiselect
-                  placeholder="Year of incorporation"
+                  :placeholder="
+                    $t(
+                      'company_profile.company_tab.company_setup_update.form.placeholder.year_of_incorporation'
+                    )
+                  "
                   class="form-control k_inp_field"
                   rules="required"
                   :options="InCorpYearLists"
@@ -331,19 +417,69 @@
                     v-if="v$.companyForm.incorporation_year.required.$invalid"
                     class="text-left fs-14"
                   >
-                    Year of incorporation is required
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.invalid_msgs.year_of_incorporation_is_required"
+                      )
+                    }}
                   </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="wrap_phone_inp">
+                <div class="k_form_group codes_select k_select_single">
+                  <Multiselect
+                    v-model="value"
+                    label="name"
+                    class="form-control country_codes"
+                    :options="countryCodes"
+                  >
+                    <template v-slot:singlelabel="{ value }">
+                      <div class="multiselect-single-label">
+                        <img
+                          class="character-label-icon country_flag p-r-10"
+                          :src="value.icon"
+                        />
+                        {{ value.name }}
+                      </div>
+                    </template>
+
+                    <template v-slot:option="{ option }">
+                      <img
+                        class="character-option-icon country_flag p-r-10"
+                        :src="option.icon"
+                      />
+                    </template>
+                  </Multiselect>
+                </div>
+                <div class="k_form_group k_inp_number phone_field">
+                  <input
+                    type="number"
+                    class="form-control shift_number k_inp_field"
+                    :placeholder="
+                      $t(
+                        'company_profile.company_tab.company_setup_update.form.placeholder.phone_no'
+                      )
+                    "
+                  />
                 </div>
               </div>
             </div>
           </div>
 
           <div class="btns_wrap">
-            <button class="btn btn-light btn-set m-r-20">Cancel</button>
+            <button class="btn btn-light btn-set text-uppercase m-r-20">
+              {{
+                $t(
+                  "company_profile.company_tab.company_setup_update.form.buttons.cancel"
+                )
+              }}
+            </button>
             <button
               :disabled="isSubmitted"
               type="submit"
-              class="btn btn-primary btn-set"
+              class="btn btn-primary btn-set text-uppercase"
             >
               <div
                 v-if="isSubmitted"
@@ -352,7 +488,13 @@
               >
                 <span class="visually-hidden">Loading...</span>
               </div>
-              <span v-else> Craete </span>
+              <span v-else>
+                {{
+                  $t(
+                    "company_profile.company_tab.company_setup_update.form.buttons.create"
+                  )
+                }}</span
+              >
             </button>
           </div>
         </form>
@@ -362,34 +504,18 @@
 </template>
 
 <script>
-const tablist = [
-  {
-    tabId: 0,
-    title: "Company",
-    pageUrl: "company-member",
-  },
-  {
-    tabId: 1,
-    title: "Member",
-    pageUrl: "company-member",
-  },
-];
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import signupService from "../../Services/SignupService";
 import Multiselect from "@vueform/multiselect";
 import CommonService from "../../Services/CommonService";
-import SignupService from "../../Services/SignupService";
-// import TabsHr from "../../components/Shared/TabsHr.vue";
 
 export default {
   components: {
     Multiselect,
-    // TabsHr,
   },
   data() {
     return {
-      tablist,
       valiImage: true,
       isSubmitted: false,
       defaultImg: "icons/cloud-upload.svg",
@@ -421,13 +547,13 @@ export default {
   },
   created() {
     console.log(this.defaultImg == "icons/cloud-upload.svg");
-    if (
-      localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-      localStorage.getItem("bWFpbCI6Inpvb") == null
-    ) {
-      this.$router.push({ name: "signup-signin" });
-    }
-    this.checkCompany();
+    // if (
+    //   localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
+    //   localStorage.getItem("bWFpbCI6Inpvb") == null
+    // ) {
+    //   this.$router.push({ name: "signup-signin" });
+    // }
+    // this.checkCompany();
     this.getIndustryList();
     this.getLegalCoporation();
     this.getRoleInCompany();
@@ -440,7 +566,6 @@ export default {
   },
   validations() {
     return {
-      // $th = this,
       companyForm: {
         company: { required },
         country: { required },
@@ -474,12 +599,20 @@ export default {
               this.formReset();
               console.log(response);
             } else {
-              Object.keys(response.data.error).map(function (key) {
-                this.$toast.error(response.data.error[key], {
+              let $th = this;
+              if ("error" in response.data) {
+                Object.keys(response.data.error).map(function (key) {
+                  $th.$toast.error(response.data.error[key], {
+                    position: "bottom-left",
+                    duration: 3712,
+                  });
+                });
+              } else {
+                $th.$toast.error(response.data.message, {
                   position: "bottom-left",
                   duration: 3712,
                 });
-              });
+              }
             }
           })
           .catch((error) => {
@@ -696,16 +829,6 @@ export default {
         }
       });
     },
-
-    checkCompany() {
-      SignupService.checkCompany({
-        auth_token: this.staffData.auth_token,
-      }).then((resp) => {
-        if (resp.data.status) {
-          this.$router.push({ name: "Dashboard" });
-        }
-      });
-    },
     // get country lists
     getCountries(id) {
       CommonService.getAllCountry(id).then((resp) => {
@@ -731,6 +854,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wrap_phone_inp {
+  position: relative;
+  .phone_field {
+    width: 100%;
+    .shift_number {
+      padding-left: 90px !important;
+    }
+  }
+  .codes_select {
+    position: absolute;
+    left: -3px;
+    top: -3px;
+  }
+}
 .logo_action_container1 {
 }
 .logo_holder1 {

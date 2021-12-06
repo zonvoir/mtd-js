@@ -17,21 +17,18 @@
 </template>
 
 <script>
-import logo from "../assets/images/mtd-logos-rgb_Main-Logo-Size-1-pos.png";
+// import logo from "../assets/images/mtd-logos-rgb_Main-Logo-Size-1-pos.png";
 import Header from "../components/Shared/Header.vue";
 import Sidebar from "../components/Shared/Sidebar.vue";
-
 export default {
   components: {
     Header,
     Sidebar,
   },
+
   data() {
-    return {};
-  },
-  setup() {
     return {
-      logo,
+      // logo,
     };
   },
   methods: {
@@ -47,5 +44,6 @@ export default {
 <style lang="scss" scoped>
 .k-header-wrapprer {
   background-color: #ffffff;
+  z-index: 999;
 }
 </style>

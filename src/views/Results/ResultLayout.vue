@@ -5,7 +5,7 @@
         <div class="view_title_wrap pb-15">
           <div class="page_title_wrap">
             <div class="">
-              <h4 class="view_title">{{ title }}</h4>
+              <h4 class="view_title">{{ $t("results.Company") }}</h4>
             </div>
           </div>
         </div>
@@ -13,7 +13,7 @@
         <div class="m-l-auto"></div>
         <div class="invite_btn_wrap m-r-20">
           <button @click="openCustomModal" class="btn-primary btn k_btn_people">
-            Genrate Report
+            {{ $t("results.buttons.genrate_report") }}
           </button>
         </div>
         <div class="">
@@ -44,18 +44,22 @@
       <div class="modal-content modal_body">
         <div class="modal-body">
           <div class="m-t-10">
-            <h4 class="m-b-0 report_title">Peer Group Selection</h4>
+            <h4 class="m-b-0 report_title">
+              {{ $t("results.genrate_report_modal.Peer_Group_Selection") }}
+            </h4>
             <p class="m-b-0 desc_content">
-              There are many variations of passages of Lorem Ipsum available,
-              but the majority have suffered alteration in some form, by
-              injected humour.
+              {{ $t("results.genrate_report_modal.Peer_Group_Desc") }}
             </p>
           </div>
           <div class="from_wrapper">
             <form action="">
               <div class="k_form_group k_select_single">
                 <Multiselect
-                  placeholder="Industry List"
+                  :placeholder="
+                    $t(
+                      'results.genrate_report_modal.form.placeholder.industry_list'
+                    )
+                  "
                   class="form-control k_inp_field m-b-16"
                   rules="required"
                   :options="industryLists"
@@ -63,7 +67,11 @@
               </div>
               <div class="k_form_group k_select_single">
                 <Multiselect
-                  placeholder="Company Size"
+                  :placeholder="
+                    $t(
+                      'results.genrate_report_modal.form.placeholder.company_size'
+                    )
+                  "
                   class="form-control k_inp_field m-b-16"
                   rules="required"
                   :options="companySize"
@@ -75,7 +83,7 @@
                     class="btn btn-light btn-set m-r-10"
                     data-bs-dismiss="modal"
                   >
-                    Cancel
+                    {{ $t("results.genrate_report_modal.buttons.cancel") }}
                   </button>
                   <button
                     :disabled="isSubmitted"
@@ -89,7 +97,9 @@
                     >
                       <span class="visually-hidden">Loading...</span>
                     </div>
-                    <span v-else data-bs-dismiss="modal"> Save </span>
+                    <span v-else data-bs-dismiss="modal">
+                      {{ $t("results.genrate_report_modal.buttons.genrate") }}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -248,5 +258,6 @@ export default {
   font-size: 14px;
   font-weight: 700;
   line-height: 16px;
+  text-transform: uppercase;
 }
 </style>

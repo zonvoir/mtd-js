@@ -2,8 +2,8 @@
   <div class="">
     <div class="check_box_wrapper" :key="index" v-for="(option, index) in data">
       <label class="k_checkbox check_lable">
-        {{ option.choice }}
-        <input type="checkbox" v-model="option.value" checked="checked" />
+        {{ option.choices }}
+        <input type="checkbox" v-model="option.option_id" checked="checked" />
         <span class="checkmark"></span>
       </label>
     </div>

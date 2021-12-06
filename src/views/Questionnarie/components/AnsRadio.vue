@@ -12,13 +12,8 @@
     class="check_box_wrapper m-b-28"
   >
     <label class="k_radio_btn check_lable"
-      >{{ option.choice }}
-      <input
-        type="radio"
-        v-model="option.value"
-        checked="checked"
-        name="radio"
-      />
+      >{{ option.choices }}
+      <input type="radio" v-model="option.value" name="radio" />
       <span class="radio_btn"></span>
     </label>
   </div>

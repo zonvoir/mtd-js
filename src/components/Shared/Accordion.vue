@@ -38,30 +38,26 @@
             <button class="btn btn-primary btn-set">Watch</button>
           </div>
           <div>
-            <div
-              class="accordion custom_acc"
-              :id="'accordionExample' + item.id"
-            >
-              <Accordion3 :items="item.subItems">
-                <template v-slot:accordionbody1>
-                  <div class="list_wrap">
-                    <ul>
-                      <li
-                        v-for="point in item.subItems[index].points"
-                        :key="point.id"
-                      >
-                        <div class="list_item">
-                          <h4 class="m-b-0 list_title">
-                            <span class="m-r-2">{{ point.id }}.</span
-                            >{{ point.title }}
-                          </h4>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </template>
-              </Accordion3>
-            </div>
+            <Accordion3 :items="item.subItems">
+              <!-- <template v-slot:accordionbody1>
+                <div class="list_wrap">
+                  <ul>
+                    <li>{{ item.subItems }}</li>
+                    <li
+                      v-for="point in item.subItems[index].points"
+                      :key="point.id"
+                    >
+                      <div class="list_item">
+                        <h4 class="m-b-0 list_title">
+                          <span class="m-r-2">{{ point.id }}.</span
+                          >{{ point.title }}
+                        </h4>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </template> -->
+            </Accordion3>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@
         <div class="view_title_wrap pb-15">
           <div class="page_title_wrap">
             <div class="">
-              <h4 class="view_title">{{ title }}</h4>
+              <h4 class="view_title">{{ $t(title) }}</h4>
             </div>
           </div>
         </div>
@@ -14,7 +14,7 @@
             <input
               type="text"
               class="form-control _search_filter k_inp_field"
-              placeholder="Search Here"
+              :placeholder="$t('help_center.placeholder.search_here')"
             />
 
             <span class="search_btn">
@@ -43,21 +43,21 @@
 const tablist = [
   {
     tabId: 0,
-    title: "Help Center",
-    tabTitle: "Help Center",
-    component_name: "video-faq",
+    title: "help_center.Help_Center",
+    tabTitle: "help_center.tab.Help_Center",
+    component_url: "/help-center/video-faq",
   },
   {
     tabId: 1,
-    title: "Glossary",
-    tabTitle: "Glossary",
-    component_name: "glossary",
+    title: "help_center.Glossary",
+    tabTitle: "help_center.tab.Glossary",
+    component_url: "/help-center/glossary",
   },
   {
     tabId: 3,
-    title: "Report a problem",
-    tabTitle: "Report a problem",
-    component_name: "report-problem",
+    title: "help_center.Report_a_Problem",
+    tabTitle: "help_center.tab.Report_a_Problem",
+    component_url: "/help-center/report-problem",
   },
 ];
 import TabsHr from "../../components/Shared/TabsHr.vue";

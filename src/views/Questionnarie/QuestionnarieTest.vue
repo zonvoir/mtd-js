@@ -5,10 +5,18 @@
       <div class="view_title_wrap pb-15">
         <div class="page_title_wrap">
           <div class="k_icon_wrap m-r-10">
-            <img src="K_Icons/clipboard_60_logo.svg" class="" alt="" />
+            <img
+              :src="
+                questionnaire.image
+                  ? questionnaire.image
+                  : 'K_Icons/clipboard_60_logo.svg'
+              "
+              class="catLogo"
+              alt=""
+            />
           </div>
           <div class="">
-            <h4 class="view_title">{{ title }}</h4>
+            <h4 class="view_title">{{ questionnaire.name }}</h4>
           </div>
         </div>
       </div>
@@ -16,25 +24,54 @@
     <!-- category ends -->
     <div class="">
       <Question />
+      <!--  -->
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import Question from "../Questionnarie/components/Question.vue";
 export default {
+  props: {
+    questionsArr: {
+      type: Array,
+      required: true,
+    },
+    // categoryName: {
+    //   type: String,
+    //   required: true,
+    // },
+    // categoryImage: {
+    //   type: String,
+    //   required: true,
+    // },
+    // questionnaireStatus: {
+    //   type: String,
+    //   required: true,
+    // },
+  },
   components: {
     Question,
   },
+  computed: mapState({
+    questionnaire: (state) => state.questionnaire,
+  }),
   data() {
-    return {
-      title: "KPI",
-    };
+    return {};
+  },
+
+  created() {
+    console.log(this.questionnaire);
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.catLogo {
+  width: 60px;
+  height: 60px;
+}
 .page_title_wrap {
   display: flex;
   align-items: center;

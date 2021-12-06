@@ -3,7 +3,7 @@
     <div class="">
       <div class="">
         <div class="main-heading-wrap text-center">
-          <h2 class="main-heading">Sign In</h2>
+          <h2 class="main-heading">{{ $t("login.email_step.Sign_In") }}</h2>
         </div>
       </div>
       <div class="form-wrapper">
@@ -14,7 +14,7 @@
               @blur="v$.emailVerify.email.$touch"
               v-model.trim="emailVerify.email"
               class="form-control k_inp_field"
-              placeholder="Email"
+              :placeholder="$t('login.email_step.form.placeholder.email')"
               :class="{
                 'is-invalid': v$.emailVerify.email.$error,
               }"
@@ -27,44 +27,51 @@
                 v-if="v$.emailVerify.email.required.$invalid"
                 class="text-left fs-14"
               >
-                Email is required
+                {{ $t("login.email_step.form.invalid_msgs.email_is_required") }}
               </span>
 
               <span
                 class="text-left fs-14"
                 v-if="v$.emailVerify.email.email.$invalid"
-                >Email is invalid</span
               >
+                {{ $t("login.email_step.form.invalid_msgs.Email_is_invalid") }}
+              </span>
             </div>
-          </div>
-          <div class="forgot_action_wrap">
-            <router-link target="_blank" class="muted_link" to="/signup/signin"
-              >Forgot your password</router-link
-            >
+            <div class="error_data_wrap">
+              <div class="forgot_action_wrap m-l-auto">
+                <router-link
+                  target="_blank"
+                  class="muted_link"
+                  to="/signup/signin"
+                >
+                  {{ $t("login.email_step.forgot_password") }}</router-link
+                >
+              </div>
+            </div>
           </div>
           <div class="d-grid space_btn2">
             <button
               :disabled="isSubmitted"
               type="submit"
-              class="btn k_btn_block btn-primary"
+              class="btn text-uppercase k_btn_block btn-primary"
             >
               <div
                 v-if="isSubmitted"
                 class="spinner-border text-light"
                 role="status"
               >
-                <span class="visually-hidden">Loading...</span>
+                <span class="visually-hidden">{{ $t("login.loading") }}</span>
               </div>
-              <span v-else> Done </span>
+              <span v-else> {{ $t("login.email_step.buttons.done") }} </span>
             </button>
           </div>
           <div class="im-user flex justify-center">
-            <span class="para14"> No account yet ?</span>
+            <span class="para14"> {{ $t("login.email_step.no_account") }}</span>
             <router-link
               target="_blank"
               class="custom-link"
               :to="{ name: 'signup-register' }"
-              >Sign Up</router-link
+              >{{ $t("login.email_step.buttons.sign_up") }}</router-link
             >
           </div>
         </form>
@@ -122,12 +129,26 @@ export default {
               this.formReset();
             } else {
               let $th = this;
-              Object.keys(response.data.error).map(function (key) {
-                $th.$toast.error(response.data.error[key], {
+              if ("error" in response.data) {
+                if ("error" in response.data) {
+                  Object.keys(response.data.error).map(function (key) {
+                    $th.$toast.error(response.data.error[key], {
+                      position: "bottom-left",
+                      duration: 3712,
+                    });
+                  });
+                } else {
+                  $th.$toast.error(response.data.message, {
+                    position: "bottom-left",
+                    duration: 3712,
+                  });
+                }
+              } else {
+                $th.$toast.error(response.data.message, {
                   position: "bottom-left",
                   duration: 3712,
                 });
-              });
+              }
             }
           })
           .catch((error) => {
@@ -150,8 +171,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.error_data_wrap {
+  display: flex;
+  justify-content: space-between;
+}
 .forgot_action_wrap {
   text-align: right;
+  white-space: nowrap;
   .muted_link {
     color: #8f9bb3;
     font-size: 14px;

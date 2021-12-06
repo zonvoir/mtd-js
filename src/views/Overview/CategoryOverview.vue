@@ -4,29 +4,32 @@
       <div class="bg-white zp-10">
         <div class="zp-10">
           <div class="description_wrapper">
-            <h4 class="m-b-0 desc_title">Description</h4>
+            <h4 class="m-b-0 desc_title">
+              {{ $t("category_details.overiewTab.Description") }}
+            </h4>
           </div>
           <div class="border-bottom-1 m-b-10">
             <p class="desc_content">
-              A Key Performance Indicator is a measurable value that
-              demonstrates how effectively a company is achieving key business
-              objectives. Organizations use KPIs at multiple levels to evaluate
-              their success at reaching targets. High-level KPIs may focus on
-              the overall performance of the business, while low-level KPIs may
-              focus on processes in departments such as sales, marketing, HR,
-              support and others.
+              <span class="" v-html="category.description"></span>
             </p>
           </div>
         </div>
+
         <div class="bottom_section_wrapper zp-10">
-          <h4 class="desc_title m-b-18">Questionnarie</h4>
-          <p class="text-gray text-14-400 m-b-33">Fill all the KPI questions</p>
+          <h4 class="desc_title m-b-18">
+            {{ $t("category_details.overiewTab.Questionnarie") }}
+          </h4>
+          <p class="text-gray text-14-400 m-b-33">
+            {{ $t("category_details.overiewTab.Fill_all_the_KPI_questions") }}
+            <!-- Fill all the KPI questions -->
+          </p>
           <div class="m-l-auto">
             <button
+              :disabled="permissionStatus"
               @click="startQuestionnarie"
               class="btn-primary btn btn-set text-uppercase"
             >
-              start
+              {{ $t("category_details.overiewTab.buttons.start") }}
             </button>
           </div>
         </div>
@@ -35,7 +38,9 @@
     <div class="col lg-6 m-b-20">
       <div class="status_wrapper bg-white zp-20">
         <div class="description_wrapper">
-          <h4 class="m-b-0 desc_title">Own Status</h4>
+          <h4 class="m-b-0 desc_title">
+            {{ $t("category_details.overiewTab.Own_Status") }}
+          </h4>
         </div>
         <div class="list_wrap m-b-20">
           <ul class="list-group">
@@ -48,13 +53,17 @@
                 text-14-600 text-heading
               "
             >
-              KPI
-              <span class="bg_warn rounded-pill">in progress</span>
+              {{ category.name }}
+              <span class="bg_warn rounded-pill">{{
+                category.questionnaire_status
+              }}</span>
             </li>
           </ul>
         </div>
         <div class="description_wrapper">
-          <h4 class="m-b-0 desc_title">Status</h4>
+          <h4 class="m-b-0 desc_title">
+            {{ $t("category_details.overiewTab.Status") }}
+          </h4>
         </div>
         <div class="list_wrap m-b-20">
           <ul class="list-group">
@@ -68,7 +77,7 @@
                 m-b-8
               "
             >
-              Invited people
+              {{ $t("category_details.overiewTab.Invited_People") }}
               <span class="text-warn">22</span>
             </li>
             <li
@@ -80,7 +89,7 @@
                 text-14-600 text-heading
               "
             >
-              Completed surveys
+              {{ $t("category_details.overiewTab.Completed_Surveys") }}
               <span class="text-green">22/22</span>
             </li>
           </ul>
@@ -96,18 +105,64 @@
 
 <script>
 import DonutChart from "../../components/Shared/DonutChart.vue";
-
+import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
 export default {
   components: {
     DonutChart,
   },
+  data() {
+    return {
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      category: [],
+      permissionStatus: Boolean,
+      authToken: "",
+      categoryID: "",
+      departmentId: "",
+    };
+  },
+
+  mounted() {
+    this.departmentId = this.$route.params.did;
+    this.categoryID = this.$route.params.id;
+    this.authToken = this.staffData.auth_token;
+    if (this.departmentId && this.categoryID && this.authToken) {
+      let data = {
+        auth_token: this.authToken,
+        department_id: "5",
+        category_id: "3",
+      };
+      this.getDeptAndCategoryDetails(data);
+    }
+  },
   methods: {
+    getDeptAndCategoryDetails(data) {
+      QuestionnaireService.getOneCategory(data).then((res) => {
+        if (res.data.status) {
+          this.category = res.data.data.category_details;
+          this.permissionStatus =
+            res.data.data.questionnaire.detail.is_accessible;
+        } else {
+          console.log("no department list found");
+          let $th = this;
+          if ("error" in res.data) {
+            Object.keys(res.data.error).map(function (key) {
+              $th.$toast.error(res.data.error[key], {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            });
+          } else {
+            $th.$toast.error(res.data.message, {
+              position: "bottom-left",
+              duration: 3712,
+            });
+          }
+        }
+      });
+    },
     startQuestionnarie() {
       this.$router.push({ name: "questionnarie-test" });
     },
-  },
-  setup() {
-    return {};
   },
 };
 </script>

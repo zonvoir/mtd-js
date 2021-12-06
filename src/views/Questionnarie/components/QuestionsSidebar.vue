@@ -12,14 +12,23 @@
       <div class="link-list-wrapper">
         <div class="question_list_wrapper">
           <div class="list_wrap m-b-20">
+            <!-- {{ question }} -->
             <ul class="list-group">
-              <li class="d-inline-flex">
+              <li
+                v-for="(question, idx) in questions"
+                :key="question.id"
+                class="d-inline-flex"
+              >
                 <div class="list_wrapper">
                   <div class="list_counter_wrap">
-                    <div class="counter_status bg_success m-r-13">
-                      <span class="q_no">1</span>
+                    <div
+                      :class="question.is_answered ? 'bg_success' : 'bg-gray-0'"
+                      class="counter_status m-r-13"
+                    >
+                      <span class="q_no">{{ idx + 1 }}</span>
                       <span class="q_check_icon">
                         <img
+                          v-if="question.is_answered"
                           src="K_Icons/checkmark-circle-fill.svg"
                           alt=""
                           class="check_icon"
@@ -28,14 +37,13 @@
                     </div>
                     <div class="">
                       <p class="m-b-0 ques_title">
-                        The earliest moment that the critical event and
-                        measurability
+                        {{ question.name }}
                       </p>
                     </div>
                   </div>
                 </div>
               </li>
-              <li class="d-inline-flex">
+              <!-- <li class="d-inline-flex">
                 <div class="list_wrapper">
                   <div class="list_counter_wrap">
                     <div class="counter_status bg_success m-r-13">
@@ -90,7 +98,7 @@
                   </div>
                   <div class="list_action m-l-auto"></div>
                 </div>
-              </li>
+              </li> -->
             </ul>
           </div>
         </div>
@@ -101,15 +109,21 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 // import logo from "../assets/images/mtd-logos-rgb_Main-Logo-Size-1-pos.png";
 import logo from "../../../assets/images/mtd-logos-rgb_Main-Logo-Size-1-black.png";
 
 export default {
+  // props: ["questions"],
   data() {
     return {
       logo,
     };
   },
+
+  computed: mapState({
+    questions: (state) => state.questionList,
+  }),
 };
 </script>
 

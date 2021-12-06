@@ -3,13 +3,15 @@
     <div class="">
       <div class="">
         <div class="main-heading-wrap text-center">
-          <h2 class="main-heading p-b-20">Verify your account</h2>
+          <h2 class="main-heading p-b-20">
+            {{ $t("login.otp_step.verify_account") }}
+          </h2>
           <div class="verify-subtitle">
             <h6 class="email_verify_message">
-              We've sent you a six-digit confirmation code to
+              {{ $t("login.otp_step.verify_acc_para1") }}
               <strong>{{ otpForm.email }}</strong
               ><br />
-              Please enter it below to confirm your email address.
+              {{ $t("login.otp_step.verify_acc_para2") }}
             </h6>
           </div>
         </div>
@@ -48,18 +50,20 @@
                 class="spinner-border text-light"
                 role="status"
               >
-                <span class="visually-hidden">Loading...</span>
+                <span class="visually-hidden">{{ $t("login.loading") }}</span>
               </div>
-              <span v-else> Verify Account </span>
+              <span v-else>
+                {{ $t("login.otp_step.buttons.verify_account") }}
+              </span>
             </button>
           </div>
           <div class="im-user flex justify-center">
-            <span class="para14"> No account yet ?</span>
+            <span class="para14"> {{ $t("login.otp_step.no_account") }}</span>
             <router-link
               target="_blank"
               class="custom-link"
               :to="{ name: 'signup-register' }"
-              >Sign Up</router-link
+              >{{ $t("login.otp_step.buttons.sign_up") }}</router-link
             >
           </div>
         </form>
@@ -124,13 +128,19 @@ export default {
           } else {
             console.log("success");
             let $th = this;
-            Object.keys(response.data.error).map(function (key) {
-              console.log("failed");
-              $th.$toast.error(response.data.error[key], {
+            if ("error" in response.data) {
+              Object.keys(response.data.error).map(function (key) {
+                $th.$toast.error(response.data.error[key], {
+                  position: "bottom-left",
+                  duration: 3712,
+                });
+              });
+            } else {
+              $th.$toast.error(response.data.message, {
                 position: "bottom-left",
                 duration: 3712,
               });
-            });
+            }
           }
         })
         .catch((error) => {
