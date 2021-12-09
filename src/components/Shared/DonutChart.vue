@@ -145,7 +145,7 @@ export default {
         },
       },
 
-      series: [44],
+      series: [22],
     };
   },
 };

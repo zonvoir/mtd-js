@@ -10,7 +10,6 @@
               </button>
             </div>
             <div class="k_icon_wrap m-r-10">
-              <!-- <img src="K_Icons/clipboard_60_logo.svg" alt="" /> -->
               <img
                 :src="
                   category.image
@@ -45,6 +44,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import TabsHr from "../../components/Shared/TabsHr.vue";
 import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
 
@@ -56,13 +56,16 @@ export default {
       dept: true,
       title: "KPI",
       url_dataID: "",
-      category: [],
       authToken: "",
       categoryID: "",
       departmentId: "",
     };
   },
-
+  computed: {
+    ...mapState({
+      category: (state) => state.questionnaire,
+    }),
+  },
   created() {
     this.tablist = [
       {
@@ -124,7 +127,15 @@ export default {
     getDeptAndCategoryDetails(data) {
       QuestionnaireService.getOneCategory(data).then((res) => {
         if (res.data.status) {
-          this.category = res.data.data.category_details;
+          this.$store.dispatch(
+            "getQuestionnaire",
+            res.data.data.category_details
+          );
+          this.$store.dispatch(
+            "getQuestionList",
+            res.data.data.questionnaire.questions
+          );
+          // this.category = res.data.data.category_details;
         } else {
           let $th = this;
           if ("error" in res.data) {
@@ -139,29 +150,13 @@ export default {
               position: "bottom-left",
               duration: 3712,
             });
+            if (res.data.message === "Authentication token mismatch") {
+              this.$router.push({ name: "signup-signin" });
+            }
           }
         }
       });
     },
-    // getDeptAndCategoryDetails() {
-    //   // departmemntID, categoryID, staffID
-
-    //   QuestionnaireService.getOneCategory(5, 3, 37).then((res) => {
-    //     if (res.data.status) {
-    //       this.category = res.data.data.category_details[0];
-    //       console.log("Category Layout", res.data.data);
-    //     } else {
-    //       console.log("no department list found");
-    //       let $th = this;
-    //       Object.keys(res.data.error).map(function (key) {
-    //         $th.$toast.error(res.data.error[key], {
-    //           position: "bottom-left",
-    //           duration: 3712,
-    //         });
-    //       });
-    //     }
-    //   });
-    // },
     ChangeT(title) {
       this.title = title;
     },

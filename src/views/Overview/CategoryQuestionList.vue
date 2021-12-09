@@ -35,7 +35,9 @@
                     <!-- The earliest moment that the critical event and
                     measurability -->
                   </p>
-                  <p class="m-b-0 ques_ans">{{ question.answer }}</p>
+                  <p v-if="question.is_answered" class="m-b-0 ques_ans">
+                    {{ getValueOfAns(question) }}
+                  </p>
                 </div>
               </div>
               <div class="list_action m-l-auto">
@@ -68,20 +70,13 @@ export default {
   data() {
     return {
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      answered: true,
+      // answered: true,
+      optionsArr: [],
       questionnaire: {},
       questionList: [],
     };
   },
-  created() {
-    // this.url_dataID = this.$route.params.id;
-    // this.getDeptAndCategoryDetails();
-    // this.questionList = this.questionnaire;
-    // console.log("questions are", this.questionList);
-    // if (this.url_dataID) {
-    //   console.log(this.url_dataID);
-    // }
-  },
+  created() {},
   mounted() {
     this.departmentId = this.$route.params.did;
     this.categoryID = this.$route.params.id;
@@ -93,14 +88,16 @@ export default {
         category_id: this.categoryID,
       };
       this.getDeptAndCategoryDetails(data);
+      // this.optionsArr= this.questionList.
     }
   },
   methods: {
     getDeptAndCategoryDetails(data) {
       QuestionnaireService.getOneCategory(data).then((res) => {
         if (res.data.status) {
+          this.optionsArr = res.data.data.questionnaire.questions;
           this.questionList = res.data.data.questionnaire.questions;
-          console.log("questionlist", this.questionList);
+          console.log("questionlist", res.data.data);
         } else {
           let $th = this;
           if ("error" in res.data) {
@@ -115,13 +112,50 @@ export default {
               position: "bottom-left",
               duration: 3712,
             });
+            if (res.data.message === "Authentication token mismatch") {
+              this.$router.push({ name: "signup-signin" });
+            }
           }
         }
       });
     },
-
+    getValueOfAns(value) {
+      // return{
+      //   'text':value.staff_anwser
+      // }[value]
+      if (value.type === "text") {
+        return value.staff_anwser;
+      } else if (value.type === "multiple_choice") {
+        let ansArr = [];
+        value.staff_anwser.forEach((element) => {
+          let ans = value.choices.find((item) => {
+            return item.option_id === element;
+          });
+          ansArr.push(ans.choices);
+        });
+        return ansArr.toString();
+      } else if (value.type === "radio_button") {
+        let ansArr = [];
+        value.staff_anwser.forEach((element) => {
+          let ans = value.choices.find((item) => {
+            return item.option_id === element;
+          });
+          ansArr.push(ans.choices);
+        });
+        return ansArr.toString();
+      } else if (value.type === "number") {
+        return value.staff_anwser;
+      }
+    },
     editQuetion(id) {
       console.log("edit Question by Id", id);
+      this.$router.push({
+        name: "questionnarie-test",
+        params: {
+          departmentid: this.departmentId,
+          categoryId: this.categoryID,
+        },
+      });
     },
   },
 };

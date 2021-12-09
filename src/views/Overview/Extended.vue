@@ -58,14 +58,30 @@ export default {
 
     // get departmens lists
     getdDepartmentList() {
-      CommonService.getAllDepartments().then((resp) => {
-        if (resp.data.status) {
-          this.departmentLists = resp.data.data.filter(function (depts) {
+      CommonService.getAllDepartments().then((res) => {
+        if (res.data.status) {
+          this.departmentLists = res.data.data.filter(function (depts) {
             return depts.is_default === "0";
           });
           console.log("dept_list", this.departmentLists);
         } else {
-          console.log("no department list found");
+          let $th = this;
+          if ("error" in res.data) {
+            Object.keys(res.data.error).map(function (key) {
+              $th.$toast.error(res.data.error[key], {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            });
+          } else {
+            $th.$toast.error(res.data.message, {
+              position: "bottom-left",
+              duration: 3712,
+            });
+            if (res.data.message === "Authentication token mismatch") {
+              this.$router.push({ name: "signup-signin" });
+            }
+          }
         }
       });
     },
@@ -100,7 +116,6 @@ export default {
   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
   border-radius: 4px;
   padding: 14px 10px 10px 10px;
-  width: 240px;
   .card_header {
     display: inline-flex;
     align-items: center;

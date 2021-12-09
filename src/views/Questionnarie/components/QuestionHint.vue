@@ -1,17 +1,30 @@
 <template>
   <div class="hint_box">
-    <div class="" v-html="value"></div>
+    <div class="" v-if="hintType == 'text'" v-html="hint"></div>
+    <div class="" v-if="hintType == 'image'">
+      <img :src="hint" />
+    </div>
+
+    <div class="" v-if="hintType == 'video'">
+      <div class="text-center">
+        <video height="180" width="305" controls>
+          <source :src="hint" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+
+    <div v-if="hintType == 'pdf'" class="">
+      <div class="">
+        <iframe :src="hint" width="100%" height="230"></iframe>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      value:
-        "this article we’ll show you how to easily set-up dynamic forms with custom validation using Storyblok, Vuelidate and TailwindCSS.",
-    };
-  },
+  props: ["hint", "hintType"],
 };
 </script>
 
@@ -21,6 +34,6 @@ export default {
   padding: 20px 25px;
   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
   border-radius: 4px;
-  height: 300px;
+  height: 260px;
 }
 </style>

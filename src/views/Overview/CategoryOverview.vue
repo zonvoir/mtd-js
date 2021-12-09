@@ -104,6 +104,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import DonutChart from "../../components/Shared/DonutChart.vue";
 import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
 export default {
@@ -113,7 +114,6 @@ export default {
   data() {
     return {
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      category: [],
       permissionStatus: Boolean,
       authToken: "",
       categoryID: "",
@@ -121,28 +121,34 @@ export default {
     };
   },
 
+  computed: mapState({
+    category: (state) => state.questionnaire,
+  }),
   mounted() {
+    console.log("route", this.$route);
     this.departmentId = this.$route.params.did;
     this.categoryID = this.$route.params.id;
     this.authToken = this.staffData.auth_token;
-    if (this.departmentId && this.categoryID && this.authToken) {
-      let data = {
-        auth_token: this.authToken,
-        department_id: "5",
-        category_id: "3",
-      };
-      this.getDeptAndCategoryDetails(data);
-    }
+    let data = {
+      auth_token: this.authToken,
+      department_id: this.departmentId,
+      category_id: this.categoryID,
+    };
+
+    this.getDeptAndCategoryDetails(data);
   },
   methods: {
     getDeptAndCategoryDetails(data) {
       QuestionnaireService.getOneCategory(data).then((res) => {
         if (res.data.status) {
-          this.category = res.data.data.category_details;
           this.permissionStatus =
             res.data.data.questionnaire.detail.is_accessible;
+          console.log("questionlist", this.permissionStatus);
+          this.$store.dispatch(
+            "getQuestionnaire",
+            res.data.data.category_details
+          );
         } else {
-          console.log("no department list found");
           let $th = this;
           if ("error" in res.data) {
             Object.keys(res.data.error).map(function (key) {
@@ -156,6 +162,9 @@ export default {
               position: "bottom-left",
               duration: 3712,
             });
+            if (res.data.message === "Authentication token mismatch") {
+              this.$router.push({ name: "signup-signin" });
+            }
           }
         }
       });
@@ -163,7 +172,10 @@ export default {
     startQuestionnarie() {
       this.$router.push({
         name: "questionnarie-test",
-        params: { deparmentid: this.departmentId, categoryId: this.categoryID },
+        params: {
+          departmentid: this.departmentId,
+          categoryId: this.categoryID,
+        },
       });
     },
   },

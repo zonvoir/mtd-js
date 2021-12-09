@@ -33,24 +33,7 @@
 import { mapState } from "vuex";
 import Question from "../Questionnarie/components/Question.vue";
 export default {
-  props: {
-    questionsArr: {
-      type: Array,
-      required: true,
-    },
-    // categoryName: {
-    //   type: String,
-    //   required: true,
-    // },
-    // categoryImage: {
-    //   type: String,
-    //   required: true,
-    // },
-    // questionnaireStatus: {
-    //   type: String,
-    //   required: true,
-    // },
-  },
+  props: {},
   components: {
     Question,
   },
@@ -61,9 +44,7 @@ export default {
     return {};
   },
 
-  created() {
-    console.log(this.questionnaire);
-  },
+  created() {},
 };
 </script>
 

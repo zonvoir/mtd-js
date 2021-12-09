@@ -1,8 +1,14 @@
 <template>
   <div>
     <div class="k_form_group k_inp_half">
-      <label for="" class="form-label">Enter Project Name</label>
-      <input type="text" name="firstName" class="form-control k_inp_field" />
+      <!-- <label for="" class="form-label">Enter Project Name</label> -->
+      <input
+        type="text"
+        v-model="input"
+        @input="$emit('update:modelValue', $event.target.value)"
+        name="input"
+        class="form-control k_inp_field"
+      />
       <!-- <div class="k_form_group">
                   <input
                     type="text"
@@ -31,10 +37,17 @@
 </template>
 
 <script>
+import { ref } from "vue";
 export default {
   props: ["data"],
+  data() {
+    return {
+      ansValue: ref(""),
+    };
+  },
   setup() {
-    return {};
+    const input = ref("");
+    return { input };
   },
 };
 </script>

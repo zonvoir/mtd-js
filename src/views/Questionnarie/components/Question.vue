@@ -1,92 +1,124 @@
 <template>
   <div>
-    <!-- {{ questions }} -->
-    <!-- question Section Start -->
-    <div>
-      <!-- <QuestionTitle :questionTitle="question.questrionTitle" /> -->
-      <h4 class="m-b-0 question_title m-b-14">
-        {{ quiz.name }}
-        <!-- The earliest moment that the critical event and measurability are both
-        satisfied for revenue recognition is usually? -->
-      </h4>
-    </div>
-    <!-- question Section Start -->
+    <div v-if="questions.length">
+      <!-- question Section Start -->
+      <div>
+        <h4 class="m-b-0 question_title m-b-14">
+          {{ questions[currentIdx].name }}
+        </h4>
+      </div>
+      <!-- question Section Start -->
 
-    <!-- Answer Section Start -->
-    <!-- {{ quiz.answers }} -->
-    <div class="option_wrapper">
-      <div v-if="quiz.type == 'multiple_choice'">
-        <AnsCheckbox :data="quiz.choices" />
-      </div>
-      <div v-if="quiz.type == 'radio_button'">
-        <AnsRadio :data="quiz.answers" />
-      </div>
-      <div v-if="quiz.type == 'yesNo'">
-        <AnsSwitch :data="quiz.answers" />
-      </div>
-      <div v-if="quiz.type == 'richText'">
-        <AnsTextArea :data="quiz.answers" />
-      </div>
-      <div v-if="quiz.type == 'text'">
-        <AnsInput :data="quiz.answers" />
-      </div>
-      <div v-if="quiz.type == 'website'">
-        <AnsWebsite :data="quiz.answers" />
-      </div>
-      <div v-if="quiz.type == 'select'">
-        <AnsSelect :data="quiz.answers" />
-      </div>
-      <div v-if="quiz.type == 'manySelect'">
-        <AnsMultiSelect :data="quiz.answers" />
-      </div>
-      <div v-if="quiz.type == 'email'">
-        <AnsEmail :data="quiz.answers" />
-      </div>
-      <div v-if="quiz.type == 'phone'">
-        <AnsPhone :data="quiz.answers" />
-      </div>
-      <div v-if="quiz.type == 'onlyNumber'">
-        <AnsSingleNumber :data="quiz.answers" />
-      </div>
-      <div v-if="quiz.type == 'moreNumber'">
-        <AnsMultipleNumber :data="quiz.answers" />
-      </div>
-      <div v-if="quiz.type == 'editor'">
-        <AnsTextEditor :data="quiz.answers" />
-      </div>
+      <!-- Answer Section Start -->
+      <div class="option_wrapper">
+        <div v-if="questions[currentIdx].type == 'multiple_choice'">
+          <AnsCheckbox
+            @getUserSelected="userGivenAnswer"
+            :data="questions[currentIdx].choices"
+            :currentAns="questions.staff_anwser"
+          />
+        </div>
+        <div v-if="questions[currentIdx].type == 'radio_button'">
+          <AnsRadio
+            @getUserSelected="userGivenAnswer"
+            :data="questions[currentIdx].choices"
+            :currentAns="questions.staff_anwser"
+          />
+        </div>
+        <div v-if="questions[currentIdx].type == 'yesNo'">
+          <AnsSwitch :data="questions[currentIdx].choices" />
+        </div>
+        <div v-if="questions[currentIdx].type == 'richText'">
+          <AnsTextArea :data="questions[currentIdx].choices" />
+        </div>
+        <div v-if="questions[currentIdx].type == 'text'">
+          <!-- @getUserSelected="userGivenAnswer" -->
+          <AnsInput
+            v-model="answerValue"
+            :data="questions[currentIdx].choices"
+            :currentAns="questions.staff_anwser"
+          />
+        </div>
+        <div v-if="questions[currentIdx].type == 'website'">
+          <AnsWebsite :data="questions[currentIdx].choices" />
+        </div>
+        <div v-if="questions[currentIdx].type == 'select'">
+          <AnsSelect :data="questions[currentIdx].choices" />
+        </div>
+        <div v-if="questions[currentIdx].type == 'manySelect'">
+          <AnsMultiSelect :data="questions[currentIdx].choices" />
+        </div>
+        <div v-if="questions[currentIdx].type == 'email'">
+          <AnsEmail :data="questions[currentIdx].choices" />
+        </div>
+        <div v-if="questions[currentIdx].type == 'phone'">
+          <AnsPhone :data="questions[currentIdx].choices" />
+        </div>
+        <div v-if="questions[currentIdx].type == 'number'">
+          <AnsSingleNumber
+            v-model="answerValue"
+            :data="questions[currentIdx].choices"
+            :currentAns="questions.staff_anwser"
+          />
+        </div>
+        <div v-if="questions[currentIdx].type == 'moreNumber'">
+          <AnsMultipleNumber :data="questions[currentIdx].choices" />
+        </div>
+        <div v-if="questions[currentIdx].type == 'editor'">
+          <AnsTextEditor :data="questions[currentIdx].choices" />
+        </div>
 
-      <div v-if="quiz.type == 'date'">
-        <AnsDate :data="quiz.answers" />
+        <div v-if="questions[currentIdx].type == 'date'">
+          <AnsDate :data="questions[currentIdx].choices" />
+        </div>
       </div>
-    </div>
-    <!-- Answer Section Ends -->
-    <!-- explanation Section Start -->
-    <div class="d-flex align-items-center exp_wrap m-b-28">
-      <!-- <QuestionExpalnaion /> -->
-      <div class="info_icon_wrap m-r-10">
-        <img src="K_Icons/info_gray_24dp.svg" alt="" class="svg_icon" />
+      <!-- Answer Section Ends -->
+      <!-- explanation Section Start -->
+      <div class="d-flex align-items-center m-b-15">
+        <!-- <QuestionExpalnaion /> -->
+        <div class="info_icon_wrap m-r-10">
+          <img src="K_Icons/info_gray_24dp.svg" alt="" class="svg_icon" />
+        </div>
+        <h6 class="question_expaltion">
+          Question explanation
+          <a class="custom-link" @click="updateIsHint()">see here</a>
+        </h6>
+        <br />
       </div>
-      <h6 class="question_expaltion">
-        Question explanation <a class="custom-link">see here</a>
-      </h6>
-    </div>
-    <!-- explanation Section Ends -->
-    <!-- bottom section start -->
-    <div class="btns_wrap">
-      <button
-        type="button"
-        @click="prevoiusQuestion"
-        class="btn dis_btn text-uppercase btn-transaprent btn-set m-r-20"
-      >
-        previous
-      </button>
-      <button
-        type="button"
-        @click="nextQuestion(quiz.id)"
-        class="btn text-uppercase btn-primary btn-set"
-      >
-        next
-      </button>
+      <QuestionHint
+        v-if="isHint"
+        :hint="questions[currentIdx].hint"
+        :hint-type="questions[currentIdx].hint_type"
+      />
+      <!-- explanation Section Ends -->
+      <!-- bottom section start -->
+      <div class="btns_wrap">
+        <button
+          type="button"
+          :disabled="currentIdx == 0"
+          @click="prevoiusQuestion"
+          class="btn text-uppercase btn-primary btn-set m-r-20"
+        >
+          previous
+        </button>
+        <button
+          type="button"
+          :class="currentIdx >= questions.length - 1 ? 'd-none' : ''"
+          @click="nextQuestion(questions[currentIdx].id)"
+          class="btn text-uppercase btn-primary btn-set"
+        >
+          next
+        </button>
+
+        <button
+          type="button"
+          :class="currentIdx >= questions.length - 1 ? '' : 'd-none'"
+          @click="finishQuestion(questions[currentIdx].id)"
+          class="btn text-uppercase btn-danger btn-set"
+        >
+          Finish
+        </button>
+      </div>
     </div>
     <!-- bottom section ends -->
   </div>
@@ -109,14 +141,10 @@ import AnsTextEditor from "./AnsTextEditor.vue";
 import AnsDate from "./AnsDate.vue";
 import QuestionnaireService from "../../../Services/QuestionnaireServices/Questionnaire";
 import { mapState } from "vuex";
+import QuestionHint from "./QuestionHint.vue";
 
 export default {
-  props: {
-    // questions: {
-    //   type: Array,
-    //   required: true,
-    // },
-  },
+  props: {},
   components: {
     AnsTextEditor,
     AnsCheckbox,
@@ -131,56 +159,90 @@ export default {
     AnsEmail,
     AnsMultiSelect,
     AnsWebsite,
+    QuestionHint,
     AnsSelect,
   },
   data() {
     return {
       currentIdx: 0,
       quiz: [],
+      isHint: false,
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       authToken: "",
+      answerValue: "" | [],
     };
   },
   computed: mapState({
     questions: (state) => state.questionList,
   }),
-  mounted() {
+  created() {
     this.quiz = this.questions[this.currentIdx];
     this.authToken = this.staffData.auth_token;
   },
   methods: {
+    userGivenAnswer(value) {
+      this.answerValue = value;
+      console.log("ans Array", this.answerValue);
+    },
+    updateIsHint() {
+      this.isHint = !this.isHint;
+    },
     nextQuestion(id) {
+      this.isHint = false;
       console.log(id);
-
       let data = {
         auth_token: this.authToken,
         question_id: id,
-        answer: "Kuldip ",
+        // answer: "static data",
+        answer: this.answerValue,
       };
       this.submitAnswer(data);
 
       return this.currentIdx;
     },
+    finishQuestion(id) {
+      console.log(id);
+      let data = {
+        auth_token: this.authToken,
+        question_id: id,
+        // answer: "static data",
+        answer: this.answerValue,
+      };
+      this.submitAnswer(data);
+    },
     prevoiusQuestion() {
+      this.isHint = false;
       this.currentIdx = this.currentIdx - 1;
       this.quiz = this.questions[this.currentIdx];
       return this.currentIdx;
     },
     submitAnswer(data) {
-      // console.log(data);
+      console.log("userdata", data);
       QuestionnaireService.submitAnswer(data).then((res) => {
         this.questions[this.currentIdx].is_answered = true;
         this.$store.dispatch("getQuestionList", this.questions);
         if (res.data.status) {
           console.log(this.questions[this.currentIdx]);
-          this.currentIdx = this.currentIdx + 1;
-          this.quiz = this.questions[this.currentIdx];
+          if (this.currentIdx >= this.questions.length - 1) {
+            this.$toast.success("Questionniare completed.", {
+              position: "bottom-left",
+              duration: 3712,
+            });
+            let ro = this.$route.params;
+            this.$router.push({
+              name: "category-results",
+              params: { did: ro.departmentid, id: ro.categoryId },
+            });
+          } else {
+            this.currentIdx = this.currentIdx + 1;
+            this.quiz = this.questions[this.currentIdx];
+          }
           console.log("responce after submit answer", res);
         } else {
           let $th = this;
           if ("error" in res.data) {
             Object.keys(res.data.error).map((key) => {
-              $th.toast.error(res.data.error[key], {
+              $th.$toast.error(res.data.error[key], {
                 position: "bottom-left",
                 duration: 3712,
               });
@@ -199,6 +261,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.btns_wrap {
+  position: fixed;
+  bottom: 16px;
+  right: 20px;
+}
 .dis_btn {
   color: #7900d8;
   &:hover {
@@ -219,6 +286,7 @@ export default {
 }
 .question_expaltion {
   font-size: 14px;
+  margin-bottom: 0;
   font-weight: 300;
   line-height: 20px;
   font-style: italic;

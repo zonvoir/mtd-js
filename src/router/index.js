@@ -74,7 +74,12 @@ function guardMyroute(to, from, next) {
   if (isAuthenticated) {
     next("/signup/signin"); // go to '/login';
   } else {
-    next();
+    if (user.is_career_information_setup && user.is_company_setup) {
+      next(); // go to '/login';
+    } else {
+      next({ name: "signup-career" });
+    }
+    // next();
   }
 }
 
@@ -95,7 +100,11 @@ function loginGaurd(to, from, next) {
     isAuthenticated = true;
   }
   if (isAuthenticated) {
-    next({ name: "Dashboard" }); // go to '/login';
+    if (user.is_career_information_setup && user.is_company_setup) {
+      next({ name: "Dashboard" }); // go to '/login';
+    } else {
+      next();
+    }
   } else {
     next();
   }

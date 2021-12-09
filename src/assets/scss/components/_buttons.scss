@@ -4,6 +4,10 @@
   border-radius: 4px;
   padding: 9px 45px;
 }
+button[disabled] {
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
 .btn-light {
   background-color: #edf1f7;
   color: $heading;

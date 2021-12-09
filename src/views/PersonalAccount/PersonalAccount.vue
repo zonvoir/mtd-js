@@ -14,7 +14,7 @@
         <div class="search_wrap m-l-auto">
           <div class="k_form_group k_lang k_select_single">
             <Multiselect
-              placeholder="Hindi"
+              placeholder="English"
               :searchable="true"
               class="form-control k_inp_field"
               rules="required"
@@ -844,13 +844,22 @@ export default {
               localStorage.setItem("memberPic", res.data.data.profile_image);
             } else {
               let $th = this;
-              Object.keys(res.data.error).map(function (key) {
-                console.log("failed");
-                $th.$toast.error(res.data.error[key], {
+              if ("error" in res.data) {
+                Object.keys(res.data.error).map(function (key) {
+                  $th.$toast.error(res.data.error[key], {
+                    position: "bottom-left",
+                    duration: 3712,
+                  });
+                });
+              } else {
+                $th.$toast.error(res.data.message, {
                   position: "bottom-left",
                   duration: 3712,
                 });
-              });
+                if (res.data.message === "Authentication token mismatch") {
+                  this.$router.push({ name: "signup-signin" });
+                }
+              }
             }
           })
           .catch((err) => {
@@ -1012,8 +1021,8 @@ export default {
     },
     getLanguage(value) {
       return {
-        de: "german",
         en: "english",
+        de: "german",
       }[value];
     },
     uploadCompanyLogo(file) {

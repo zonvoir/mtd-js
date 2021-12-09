@@ -11,32 +11,32 @@
     }
   },
   "login": {
-    "loading": "Loading..",
+    "loading": "Loading...",
     "email_step": {
-      "Sign_In": "Sign I",
-      "no_account": "No account created ye ?",
-      "forgot_password": "Forgot your passwor",
+      "Sign_In": "Sign In",
+      "no_account": "No account created yet ?",
+      "forgot_password": "Forgot your password",
       "form": {
         "placeholder": {
-          "email": "Emai"
+          "email": "Email"
         },
         "invalid_msgs": {
-          "Email_is_invalid": "Email is invali",
-          "email_is_required": "Email is require"
+          "Email_is_invalid": "Email is invalid",
+          "email_is_required": "Email is required"
         }
       },
       "buttons": {
-        "done": "Don",
-        "sign_up": "Sign U"
+        "done": "Done",
+        "sign_up": "Sign Up"
       }
     },
     "password_step": {
-      "enter_password": "Enter Your Passwor",
-      "no_account": "No account created ye ?",
-      "stay_signed": "Stay signed i",
+      "enter_password": "Enter Your Password",
+      "no_account": "No account created yet ?",
+      "stay_signed": "Stay signed in",
       "form": {
         "placeholder": {
-          "password": "Passwor"
+          "password": "Password"
         },
         "invalid_msgs": {
           "password_is_required": "Password is invalid"
@@ -51,7 +51,7 @@
       "verify_account": "Verify your account",
       "no_account": "No account created yet ?",
       "verify_acc_para1": "We've sent you a six-digit confirmation code to",
-      "verify_acc_para2": "Please enter it below to confirm your email addressk",
+      "verify_acc_para2": "Please enter it below to confirm your email address.",
       "form": {
         "invalid_msgs": {
           "otp_is_invalid": "Please enter the valid OTP code"

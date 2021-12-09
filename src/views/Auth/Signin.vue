@@ -78,11 +78,56 @@
       </div>
     </div>
   </div>
+  <!-- Modal To check Email for varification -->
+  <!-- <div
+    class="modal fade"
+    id="emailVerifyModal"
+    ref="emailVerifyModal"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="emailVerifyModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="verify_email">
+            <h2 class="verify_title">
+              <strong>Verify your email</strong>
+            </h2>
+          </div>
+          <div class="verify-subtitle q-pb-none">
+            <h6 class="">
+              We've not setup your company and career information
+              <strong>{{ registerForm.email }}</strong>
+              <br />
+              Please setup your Company first.
+              <br />
+              If you dont't see it please check it in your
+              <strong>spam</strong> folder
+            </h6>
+          </div>
+        </div>
+        <div class="modal_action_btn">
+          <button
+            type="button"
+            data-bs-dismiss="modal"
+            @click="closeModal"
+            class="btn k_btnfs14_w700 btn-primary"
+          >
+            Ok
+          </button>
+        </div>
+      </div>
+    </div>
+  </div> -->
 </template>
 
 <script>
 import { required, email } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+// import { Modal } from "bootstrap";
 import loginService from "../../Services/LoginService";
 export default {
   data() {
@@ -92,6 +137,9 @@ export default {
         email: "",
       },
     };
+  },
+  mounted() {
+    // this.modal = new Modal(this.$refs.emailVerifyModal);
   },
   setup() {
     return {
@@ -158,6 +206,9 @@ export default {
             this.isSubmitted = false;
           });
       }
+    },
+    closeModal() {
+      // this.modal.hide();
     },
     formReset() {
       this.v$.$reset();

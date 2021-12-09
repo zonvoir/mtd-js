@@ -17,9 +17,9 @@
               <li
                 v-for="(question, idx) in questions"
                 :key="question.id"
-                class="d-inline-flex"
+                class="d-inline-flex pointer"
               >
-                <div class="list_wrapper">
+                <div @click="getQuestionById(question.id)" class="list_wrapper">
                   <div class="list_counter_wrap">
                     <div
                       :class="question.is_answered ? 'bg_success' : 'bg-gray-0'"
@@ -118,16 +118,26 @@ export default {
   data() {
     return {
       logo,
+      // indexQ=""
     };
   },
 
   computed: mapState({
     questions: (state) => state.questionList,
   }),
+  methods: {
+    getQuestionById(id) {
+      let indexQ = this.$store.getters.getQuestionById(id);
+      console.log("index value", indexQ);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.pointer {
+  cursor: pointer;
+}
 .ques_title {
   font-size: 13px;
   font-weight: 400;

@@ -110,7 +110,7 @@ export default {
   font-weight: 700;
 }
 .card_specing {
-  margin: 0 10px 20px 10px;
+  margin: 0 10px !important;
 }
 .page_link {
   font-size: 16px;
@@ -128,7 +128,7 @@ export default {
   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
   border-radius: 4px;
   padding: 14px 10px 10px 10px;
-  width: 240px;
+  // width: auto;
   .card_header {
     display: inline-flex;
     align-items: center;

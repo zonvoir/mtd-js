@@ -72,13 +72,13 @@ export default {
           console.log(res.data.data);
         } else {
           console.log("no department list found");
-          let $th = this;
-          Object.keys(res.data.error).map(function (key) {
-            $th.$toast.error(res.data.error[key], {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          });
+          // let $th = this;
+          // Object.keys(res.data.error).map(function (key) {
+          //   $th.$toast.error(res.data.error[key], {
+          //     position: "bottom-left",
+          //     duration: 3712,
+          //   });
+          // });
         }
       });
     },

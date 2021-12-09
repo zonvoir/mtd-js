@@ -20,7 +20,7 @@ class SignupService {
     return http.post(`staffs/career_info`, data);
   }
 
-  checkCareerInformation(data) {
+  checkCareerInfo(data) {
     return http.post(`staffs/is_career_information_setup`, data);
   }
 

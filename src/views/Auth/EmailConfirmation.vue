@@ -59,8 +59,8 @@ export default {
         .verifyEmailToken({ token: token })
         .then((response) => {
           if (response.data.status) {
-            localStorage.setItem(
-              "bWFpbCI6Inpvb",
+            sessionStorage.setItem(
+              "OiJKV1QiLCJhbGciOiJIUzI1",
               JSON.stringify(response.data.data)
             );
             this.verificationMessage = response.data.message;

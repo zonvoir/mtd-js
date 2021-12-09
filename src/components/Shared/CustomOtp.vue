@@ -125,6 +125,7 @@ export default {
   display: flex;
   align-items: center;
   margin: 10px;
+  justify-content: center;
 }
 .single_num_inp {
   font-size: 24px;

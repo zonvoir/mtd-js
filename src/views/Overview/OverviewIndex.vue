@@ -72,16 +72,33 @@ export default {
     // get departmens lists
     getdDepartmentList() {
       // this.$store.commit("loadingStatus", true);
-      CommonService.getAllDepartments().then((resp) => {
+      CommonService.getAllDepartments().then((res) => {
         // this.$store.commit("loadingStatus", false);
-        if (resp.data.status) {
-          this.departmentLists = resp.data.data.filter(function (depts) {
+        if (res.data.status) {
+          this.departmentLists = res.data.data.filter(function (depts) {
             return depts.is_default === "1";
           });
           this.defaultDeptId = { did: this.departmentLists[0].departmentid };
           console.log("default dept IDs", this.defaultDeptId);
         } else {
-          console.log("no department list found");
+          let $th = this;
+          if ("error" in res.data) {
+            Object.keys(res.data.error).map(function (key) {
+              $th.$toast.error(res.data.error[key], {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            });
+          } else {
+            if (res.data.message === "Authentication token mismatch") {
+              console.log("token Mismatch");
+              this.$router.push({ name: "signup-signin" });
+            }
+            $th.$toast.error(res.data.message, {
+              position: "bottom-left",
+              duration: 3712,
+            });
+          }
         }
       });
       // .catch((err) => {
@@ -96,19 +113,28 @@ export default {
     getDefaultDeptCategories() {
       console.log("department deatil");
       CommonService.getAllCategories()
-        .then((resp) => {
-          if (resp.data.status) {
-            this.categoryList = resp.data.data;
+        .then((res) => {
+          if (res.data.status) {
+            this.categoryList = res.data.data;
             console.log("list", this.categoryList);
           } else {
-            console.log("no department list found");
             let $th = this;
-            Object.keys(resp.data.error).map(function (key) {
-              $th.$toast.error(resp.data.error[key], {
+            if ("error" in res.data) {
+              Object.keys(res.data.error).map(function (key) {
+                $th.$toast.error(res.data.error[key], {
+                  position: "bottom-left",
+                  duration: 3712,
+                });
+              });
+            } else {
+              $th.$toast.error(res.data.message, {
                 position: "bottom-left",
                 duration: 3712,
               });
-            });
+              if (res.data.message === "Authentication token mismatch") {
+                this.$router.push({ name: "signup-signin" });
+              }
+            }
           }
         })
         .catch((error) => {

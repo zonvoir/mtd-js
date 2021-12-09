@@ -411,7 +411,7 @@
                             class="character-label-icon country_flag p-r-10"
                             :src="value.icon"
                           />
-                          {{ value.name }}
+                          {{ value.icon }}
                         </div>
                       </template>
 
@@ -447,7 +447,7 @@
                 >
                   <span class="visually-hidden">Loading...</span>
                 </div>
-                <span v-else> Craete Company </span>
+                <span v-else> Create Company </span>
               </button>
             </div>
             <div class="im-user flex justify-center">
@@ -465,6 +465,211 @@
     </div>
     <Toast />
   </div>
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    ref="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header conf_header">
+          <div class="header_wrap">
+            <div class="m-r-20">
+              <img src="K_Icons/info.svg" alt="" />
+            </div>
+            <div class="tittle">
+              <h5 class="m-b-0 terms_title">confidential information!</h5>
+            </div>
+          </div>
+          <!-- <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5> -->
+        </div>
+        <div class="modal-body confidencil_msg_body">
+          <div class="terms_wrapper">
+            <p class="temrs_para">
+              The information is confidential, privileged and only for the
+              information of the intended recipient and may not be used,
+              published or redistributed.It is a long established fact that a
+              reader will be distracted by the readable content of a page when
+              looking at its layout. The point of using Lorem Ipsum is that it
+              has a more-or-less normal distribution of letters, as opposed to
+              using 'Content here, content here', making it look like readable
+              English. Many desktop publishing packages and web page editors now
+              use Lorem Ipsum as their default model text, and a search for
+              'lorem ipsum' will uncover many web sites still in their infancy.
+              Various versions have evolved over the years, sometimes by
+              accident, sometimes on purpose (injected humour and the like).The
+              information is confidential, privileged and only for the
+              information of the intended recipient and may not be used,
+              published or redistributed.It is a long established fact that a
+              reader will be distracted by the readable content of a page when
+              looking at its layout. The point of using Lorem Ipsum is that it
+              has a more-or-less normal distribution of letters, as opposed to
+              using 'Content here, content here', making it look like readable
+              English. Many desktop publishing packages and web page editors now
+              use Lorem Ipsum as their default model text, and a search for
+              'lorem ipsum' will uncover many web sites still in their infancy.
+              Various versions have evolved over the years, sometimes by
+              accident, sometimes on purpose (injected humour and the like).The
+              information is confidential, privileged and only for the
+              information of the intended recipient and may not be used,
+              published or redistributed.It is a long established fact that a
+              reader will be distracted by the readable content of a page when
+              looking at its layout. The point of using Lorem Ipsum is that it
+              has a more-or-less normal distribution of letters, as opposed to
+              using 'Content here, content here', making it look like readable
+              English. Many desktop publishing packages and web page editors now
+              use Lorem Ipsum as their default model text, and a search for
+              'lorem ipsum' will uncover many web sites still in their infancy.
+              Various versions have evolved over the years, sometimes by
+              accident, sometimes on purpose (injected humour and the like).The
+              information is confidential, privileged and only for the
+              information of the intended recipient and may not be used,
+              published or redistributed.It is a long established fact that a
+              reader will be distracted by the readable content of a page when
+              looking at its layout. The point of using Lorem Ipsum is that it
+              has a more-or-less normal distribution of letters, as opposed to
+              using 'Content here, content here', making it look like readable
+              English. Many desktop publishing packages and web page editors now
+              use Lorem Ipsum as their default model text, and a search for
+              'lorem ipsum' will uncover many web sites still in their infancy.
+              Various versions have evolved over the years, sometimes by
+              accident, sometimes on purpose (injected humour and the like).The
+              information is confidential, privileged and only for the
+              information of the intended recipient and may not be used,
+              published or redistributed.It is a long established fact that a
+              reader will be distracted by the readable content of a page when
+              looking at its layout. The point of using Lorem Ipsum is that it
+              has a more-or-less normal distribution of letters, as opposed to
+              using 'Content here, content here', making it look like readable
+              English. Many desktop publishing packages and web page editors now
+              use Lorem Ipsum as their default model text, and a search for
+              'lorem ipsum' will uncover many web sites still in their infancy.
+              Various versions have evolved over the years, sometimes by
+              accident, sometimes on purpose (injected humour and the like).The
+              information is confidential, privileged and only for the
+              information of the intended recipient and may not be used,
+              published or redistributed.It is a long established fact that a
+              reader will be distracted by the readable content of a page when
+              looking at its layout. The point of using Lorem Ipsum is that it
+              has a more-or-less normal distribution of letters, as opposed to
+              using 'Content here, content here', making it look like readable
+              English. Many desktop publishing packages and web page editors now
+              use Lorem Ipsum as their default model text, and a search for
+              'lorem ipsum' will uncover many web sites still in their infancy.
+              Various versions have evolved over the years, sometimes by
+              accident, sometimes on purpose (injected humour and the like).The
+              information is confidential, privileged and only for the
+              information of the intended recipient and may not be used,
+              published or redistributed.It is a long established fact that a
+              reader will be distracted by the readable content of a page when
+              looking at its layout. The point of using Lorem Ipsum is that it
+              has a more-or-less normal distribution of letters, as opposed to
+              using 'Content here, content here', making it look like readable
+              English. Many desktop publishing packages and web page editors now
+              use Lorem Ipsum as their default model text, and a search for
+              'lorem ipsum' will uncover many web sites still in their infancy.
+              Various versions have evolved over the years, sometimes by
+              accident, sometimes on purpose (injected humour and the like).The
+              information is confidential, privileged and only for the
+              information of the intended
+            </p>
+          </div>
+        </div>
+        <div class="modal-footer modal_footer">
+          <form action="">
+            <div class="k_form_group">
+              <div class="check_box_wrapper">
+                <label class="k_checkbox check_lable">
+                  I agree with the
+                  <a
+                    target="_blank"
+                    class="custom-link"
+                    href="https://www.w3schools.com"
+                    >Terms of Service!</a
+                  >
+                  <input
+                    type="checkbox"
+                    v-model="termsCondtionForm.terms_service"
+                    checked="checked"
+                  />
+                  <!-- :class="{
+                    'is-invalid': v$.termsCondtionForm.terms_service.$error,
+                  }"
+                <span
+                  v-if="v$.termsCondtionForm.terms_service.$error"
+                  class="invalid-feedback text-left"
+                >
+                  <span
+                    v-if="v$.termsCondtionForm.terms_service.required.$invalid"
+                    class="text-left"
+                  >
+                    Please accept terms and conditions required
+                  </span>
+                </span> -->
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="k_form_group">
+              <div class="check_box_wrapper">
+                <label class="k_checkbox check_lable">
+                  I have read and accept the
+                  <a
+                    target="_blank"
+                    class="custom-link"
+                    href="https://www.w3schools.com"
+                    >Privacy Policy!</a
+                  >
+                  <input
+                    type="checkbox"
+                    v-model="termsCondtionForm.privacy_policy"
+                    checked="checked"
+                  />
+                  <span class="checkmark"></span>
+                  <!-- :class="{
+                    'is-invalid': v$.termsCondtionForm.privacy_policy.$error,
+                  }"
+                <span
+                  v-if="v$.termsCondtionForm.privacy_policy.$error"
+                  class="invalid-feedback text-left"
+                >
+                  <span
+                    v-if="v$.termsCondtionForm.privacy_policy.required.$invalid"
+                    class="text-left"
+                  >
+                    Please accept privacy and policy required
+                  </span>
+                </span> -->
+                </label>
+              </div>
+            </div>
+            <div class="d-grid">
+              <button
+                @click="acceptTermsCondtions"
+                data-bs-dismiss="modal"
+                :disabled="
+                  !termsCondtionForm.privacy_policy ||
+                  !termsCondtionForm.terms_service
+                "
+                type="button"
+                class="btn k_btn_block btn-block text-uppercase btn-primary"
+              >
+                I Agree
+              </button>
+            </div>
+          </form>
+          <!-- <button type="button" class="btn btn-primary">Understood</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -475,6 +680,8 @@ import Multiselect from "@vueform/multiselect";
 import CommonService from "../../Services/CommonService";
 import Toast from "../../components/Shared/Toast.vue";
 import SignupService from "../../Services/SignupService";
+import { Modal } from "bootstrap";
+
 export default {
   components: {
     Multiselect,
@@ -485,7 +692,9 @@ export default {
       valiImage: true,
       isSubmitted: false,
       defaultImg: "icons/cloud-upload.svg",
-      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      staffData:
+        JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
+        JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       industryLists: [],
       legalCorpLists: [],
       regionLists: [],
@@ -495,7 +704,18 @@ export default {
       InCorpYearLists: ["2021"],
       countryLists: [],
       value: null,
+      modal: null,
       options: ["Batman", "Robin", "Joker"],
+      countryCodes: [
+        // {
+        //   name: "german",
+        //   icon: "K_Icons/flag1.svg",
+        // },
+      ],
+      termsCondtionForm: {
+        privacy_policy: false,
+        terms_service: false,
+      },
       companyForm: {
         auth_token: "",
         company: "",
@@ -511,24 +731,48 @@ export default {
       },
     };
   },
-  // watch: {
-  //   main_industry: function (val) {
-  //     console.log("dsadf", val);
-  //   },
-  //   sub_industry: function (val) {
-  //     this.getDetailedIndustryList(val);
-  //   },
-  //   region: function (val) {
-  //     this.getCountries(val);
-  //   },
-  // },
-  created() {
+
+  mounted() {
+    this.modal = new Modal(this.$refs.staticBackdrop);
     if (
-      localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-      localStorage.getItem("bWFpbCI6Inpvb") == null
+      localStorage.getItem("bWFpbCI6Inpvb") != null ||
+      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null
     ) {
-      this.$router.push({ name: "signup-signin" });
+      this.modal.show();
     }
+    // this.showModal();
+  },
+  beforeCreate() {
+    // this.modal = new Modal(this.$refs.staticBackdrop);
+  },
+  created() {
+    // this.showModal();
+    // this.modal = new Modal(this.$refs.staticBackdrop);
+    // this.modal.show();
+    console.log("vishal from created at career.....");
+    if (
+      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
+      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == null ||
+      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == ""
+    ) {
+      if (
+        localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
+        localStorage.getItem("bWFpbCI6Inpvb") == null ||
+        localStorage.getItem("bWFpbCI6Inpvb") == ""
+      ) {
+        this.$router.push({ name: "signup-signin" });
+      }
+    } else {
+      console.log("ejejke");
+      // if (
+      //   localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
+      //   localStorage.getItem("bWFpbCI6Inpvb") == null ||
+      //   localStorage.getItem("bWFpbCI6Inpvb") == ""
+      // ) {
+      //   this.$router.push({ name: "signup-signin" });
+      // }
+    }
+
     this.checkCompany();
     this.getIndustryList();
     this.getLegalCoporation();
@@ -556,7 +800,18 @@ export default {
       },
     };
   },
+  beforeUnmount() {
+    this.modal.hide();
+  },
+  unmounted() {
+    console.log("vishal from unmounted", this.modal);
+    this.modal.hide();
+  },
   methods: {
+    visRedirect() {
+      // this.modal.hide();
+      this.$router.push({ name: "signup-signin" });
+    },
     saveCompanyInfo() {
       this.v$.$touch();
       if (this.v$.$invalid) {
@@ -602,7 +857,7 @@ export default {
     },
     formReset() {
       this.v$.$reset();
-      (this.companyForm = {
+      this.companyForm = {
         auth_token: "",
         company: "",
         country: null,
@@ -614,8 +869,23 @@ export default {
         incorporation_year: null,
         client_logo: "",
         detailed_industry: null,
-      }),
+      };
+      if (localStorage.getItem("bWFpbCI6Inpvb") != null) {
+        this.staffData.is_company_setup = true;
+        localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
+        this.$router.push({ name: "Dashboard" });
+      } else {
         this.$router.push({ name: "signup-signin" });
+      }
+    },
+    showModal() {
+      // this.$refs["staticBackdrop"].show();
+      this.modal.show();
+      // new Modal(this.$refs.staticBackdrop).show();
+      // this.$refs.staticBackdrop;
+    },
+    acceptTermsCondtions() {
+      this.modal.hide();
     },
     // file select
     onPickFile() {
@@ -658,28 +928,15 @@ export default {
     removeImage() {
       this.defaultImg = "icons/cloud-upload.svg";
     },
-    // imageValidation(file, msg) {
-    //   // console.log(file, msg);
-    //   let $th = this;
-    //   let fileUpload = this.$refs.uploader.getNativeElement();
 
-    //   // let $th = this;
-    // },
     uploadCompanyLogo(file) {
-      // if (/\.(jpe?g|png)$/i.test(file.name)) {}
       let $th = this;
       var reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = function () {
-        // $th.companyForm.client_logo = reader.result;
         $th.defaultImg = reader.result.toString();
         $th.companyForm.client_logo = $th.defaultImg;
-        // console.log($th.defaultImg);
-
-        // $th.companyForm.client_logo = $th.defaultImg;
-        // $th.defaultImg.replace("data:image/png;base64,", "");
         console.log($th.defaultImg);
-        // $th.companyForm.client_logo=$th.defaultImg
       };
       reader.onerror = function (error) {
         console.log("Error: ", error);
@@ -819,13 +1076,15 @@ export default {
     },
 
     checkCompany() {
-      SignupService.checkCompany({
-        auth_token: this.staffData.auth_token,
-      }).then((resp) => {
-        if (resp.data.status) {
-          this.$router.push({ name: "Dashboard" });
-        }
-      });
+      if (this.staffData != null) {
+        SignupService.checkCompany({
+          auth_token: this.staffData.auth_token,
+        }).then((resp) => {
+          if (resp.data.status) {
+            this.$router.push({ name: "Dashboard" });
+          }
+        });
+      }
     },
     // get country lists
     getCountries(id) {
@@ -852,6 +1111,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.confidencil_msg_body {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 79.69%,
+    #ffffff 100%
+  );
+  border-radius: 4px;
+}
+.terms_wrapper {
+  // padding: 17px 34px 34px 34px;
+}
+.temrs_para {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #222b45;
+  text-align: justify;
+}
+.header_wrap {
+  display: flex;
+  align-items: center;
+  padding: 10px 30px;
+  width: 100%;
+}
+.conf_header {
+  background: #edf1f7;
+  border-radius: 4px 4px 0px 0px;
+}
+.terms_title {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  text-transform: uppercase;
+}
 .wrap_phone_inp {
   position: relative;
   .phone_field {

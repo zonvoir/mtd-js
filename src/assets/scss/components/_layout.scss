@@ -3,10 +3,11 @@
   display: flex;
 
   .main_layout_sidebar {
-    width: 20.6%;
+    // width: 20.6%;
   }
   .main_layout_body {
-    width: 79.4%;
+    width: 100%;
+    margin-left: 280px;
     text-align: left;
   }
 }

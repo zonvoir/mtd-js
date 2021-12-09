@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div class="main_layout_container" v-if="questionList.length">
+    <div class="main_layout_container">
       <div class="main_layout_sidebar">
-        <QuestionsSidebar :questions="questionList" />
+        <!-- :questions="questionList" -->
+        <QuestionsSidebar />
       </div>
       <div class="main_layout_body text_container bg-white">
         <div class="k-header-wrapprer m-b-18">
@@ -13,7 +14,8 @@
           />
         </div>
         <div class="">
-          <QuestionTest :questionsArr="questionList" />
+          <!-- :questionsArr="questionList" -->
+          <QuestionTest />
         </div>
         <!--  -->
         <!-- <router-view /> -->
@@ -38,39 +40,34 @@ export default {
   data() {
     return {
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      // questionnaire: {},
-      // questionList: [],
       valuenow: 0,
       valuemin: 0,
       valuemax: 100,
+      questionArr: [],
     };
   },
-  computed: mapState({
-    questionnaire: (state) => state.questionnaire,
-    questionList: (state) => state.questionList,
-  }),
-
-  updated() {
-    console.log("hello");
+  computed: {
+    ...mapState({
+      questionnaire: (state) => state.questionnaire,
+      questionList: (state) => state.questionList,
+    }),
+    // getPercentValue() {
+    //   return this.calculateAnserdQuestion();
+    // },
   },
-
-  // watch: {
-  //   questionList(newQuestion, oldQuestion) {
-  //     console.log(newQuestion, oldQuestion);
-  //   },
-  // },
   mounted() {
-    this.departmentId = this.$route.params.did;
-    this.categoryID = this.$route.params.id;
+    this.departmentId = this.$route.params.departmentid;
+    this.categoryID = this.$route.params.categoryId;
     this.authToken = this.staffData.auth_token;
-    // if (this.departmentId && this.categoryID && this.authToken) {
-    //   }
     let data = {
       auth_token: this.authToken,
       department_id: this.departmentId,
       category_id: this.categoryID,
     };
     this.getDeptAndCategoryDetails(data);
+    this.questionArr = this.$store.getters.questionList;
+    console.log("total question", this.$store.getters.questionList);
+    this.calculateAnserdQuestion();
   },
   methods: {
     getDeptAndCategoryDetails(data) {
@@ -84,8 +81,6 @@ export default {
             "getQuestionList",
             res.data.data.questionnaire.questions
           );
-          // this.questionnaire = res.data.data.category_details;
-          // this.questionList = res.data.data.questionnaire.questions;
           console.log("questionlist", this.questionList);
         } else {
           let $th = this;
@@ -101,34 +96,29 @@ export default {
               position: "bottom-left",
               duration: 3712,
             });
+            if (res.data.message === "Authentication token mismatch") {
+              this.$router.push({ name: "signup-signin" });
+            }
           }
         }
       });
     },
-    // getDeptAndCategoryDetails() {
-    //   // departmemntID, categoryID, staffID
-
-    //   QuestionnaireService.getOneCategory(5, 3, 37).then((res) => {
-    //     if (res.data.status) {
-    //       this.questionnaire = res.data.data;
-    //       console.log("questionnaire", this.questionnaire);
-    //       this.questionList = res.data.data.questionnaire.questions;
-    //       // console.log("questionlist", this.questionList);
-    //     } else {
-    //       console.log("no department list found");
-    //       let $th = this;
-    //       Object.keys(res.data.error).map(function (key) {
-    //         $th.$toast.error(res.data.error[key], {
-    //           position: "bottom-left",
-    //           duration: 3712,
-    //         });
-    //       });
-    //     }
-    //   });
-    // },
-    editQuetion(id) {
-      console.log("edit Question by Id", id);
+    calculateAnserdQuestion() {
+      let answeredArr = [];
+      let totalQuestions = this.questionArr.length;
+      this.questionArr.forEach((e, idx, array) => {
+        let answered = array.filter((item) => {
+          return item.is_answered === true;
+        });
+        answeredArr.push(answered);
+      });
+      let answeredQuestions = answeredArr.length;
+      this.dadd = (answeredQuestions / totalQuestions) * 100;
+      console.log("total percentage", this.dadd);
     },
+    // editQuetion(id) {
+    //   console.log("edit Question by Id", id);
+    // },
   },
 };
 </script>

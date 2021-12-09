@@ -13,7 +13,13 @@
   >
     <label class="k_radio_btn check_lable"
       >{{ option.choices }}
-      <input type="radio" v-model="option.value" name="radio" />
+      <input
+        type="radio"
+        :value="option.option_id"
+        v-model="answer"
+        @change="updateAnswer"
+        name="radio"
+      />
       <span class="radio_btn"></span>
     </label>
   </div>
@@ -23,7 +29,22 @@
 export default {
   props: ["data"],
   data() {
-    return {};
+    return {
+      answer: undefined,
+    };
+  },
+  methods: {
+    updateAnswer() {
+      let ansArr = [this.answer];
+      // this.answer.forEach((val, ind) => {
+      //   if (val) {
+      //     ansArr.push(this.data[ind].option_id);
+      //   }
+      //   console.log(val, ind, ansArr);
+      // });
+      this.$emit("getUserSelected", ansArr);
+      // console.log(ansArr);
+    },
   },
 };
 </script>

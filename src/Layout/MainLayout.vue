@@ -10,6 +10,8 @@
         </div>
         <div class="pages_view_container">
           <router-view />
+          <!-- <p class="m-b-0">Please Complete Company setup first</p>
+          <button class="btn btn-primary btn-set">setup Company First</button> -->
         </div>
       </div>
     </div>

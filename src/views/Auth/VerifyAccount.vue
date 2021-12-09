@@ -20,15 +20,6 @@
         <form @submit.prevent="OTPInput" action="">
           <div class="k_form_group">
             <div>
-              <!-- <input
-                v-for="index in Array(6).keys()"
-                :key="index"
-                type="text"
-                v-model="otpForm.code[index]"
-                maxlength="1"
-                minlength="0"
-                class="k_inp_field single_num_inp"
-              /> -->
               <CustomOtp
                 :classesName="'k_inp_field single_num_inp'"
                 :counters="6"
@@ -70,9 +61,56 @@
       </div>
     </div>
   </div>
+  <!-- Modal To check Company Info -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    ref="exampleModal"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="verify_email">
+            <h2 class="verify_title">
+              <strong>Please setup your Company first.</strong>
+            </h2>
+          </div>
+          <div class="verify-subtitle q-pb-none">
+            <h6 class="">
+              You've not setup your company and career information
+              <!-- <strong>{{ registerForm.email }}</strong 
+              > -->
+              <!-- <br />
+              Please setup your Company first.
+              <br /> -->
+              <!-- If you dont't see it please check it in your
+              <strong>spam</strong> folder -->
+            </h6>
+          </div>
+        </div>
+        <div class="modal_action_btn text-right">
+          <button
+            type="button"
+            data-bs-dismiss="modal"
+            @click="closeModal"
+            class="btn k_btnfs14_w700 btn-primary"
+          >
+            Ok
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+// import { ref } from "vue";
+import { Modal } from "bootstrap";
 import loginService from "../../Services/LoginService";
 import CustomOtp from "../../components/Shared/CustomOtp.vue";
 export default {
@@ -83,6 +121,9 @@ export default {
     return {
       isStatus: false,
       isSubmitted: true,
+      isCompany: undefined,
+      isCareer: undefined,
+      modal: null,
       logData: JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")),
       otpForm: {
         email: "",
@@ -90,6 +131,9 @@ export default {
         code: [],
       },
     };
+  },
+  mounted() {
+    this.modal = new Modal(this.$refs.exampleModal);
   },
   created() {
     if (
@@ -115,28 +159,42 @@ export default {
       this.isStatus = true;
       loginService
         .verifyOTP(this.otpForm)
-        .then((response) => {
-          if (response.data.status) {
-            console.log("success");
+        .then((res) => {
+          if (res.data.status) {
+            sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
             localStorage.setItem(
               "bWFpbCI6Inpvb",
-              JSON.stringify(response.data.data)
+              JSON.stringify(res.data.data)
             );
-            this.$router.push({ name: "Dashboard" });
+            this.isCareer = res.data.data.is_career_information_setup;
+            this.isCompany = res.data.data.is_company_setup;
 
-            sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
+            console.log(
+              "is career",
+              this.isCareer,
+              "is Company",
+              this.isCompany
+            );
+            if (
+              res.data.data.is_career_information_setup &&
+              res.data.data.is_company_setup
+            ) {
+              this.$router.push({ name: "Dashboard" });
+            } else {
+              this.modal.show();
+            }
           } else {
             console.log("success");
             let $th = this;
-            if ("error" in response.data) {
-              Object.keys(response.data.error).map(function (key) {
-                $th.$toast.error(response.data.error[key], {
+            if ("error" in res.data) {
+              Object.keys(res.data.error).map(function (key) {
+                $th.$toast.error(res.data.error[key], {
                   position: "bottom-left",
                   duration: 3712,
                 });
               });
             } else {
-              $th.$toast.error(response.data.message, {
+              $th.$toast.error(res.data.message, {
                 position: "bottom-left",
                 duration: 3712,
               });
@@ -157,11 +215,25 @@ export default {
       this.otpForm.code = ev.lists;
       console.log("completed", ev, this.isSubmitted);
     },
+
     getChange(ev) {
       this.isSubmitted = !ev.valiated;
       this.otpForm.otp = ev.asString;
       this.otpForm.code = ev.lists;
       console.log("input Change", ev, this.isSubmitted);
+    },
+    closeModal() {
+      console.log(this.isCompany, this.isCareer);
+      this.modal.hide();
+      this.$router.push({ name: "signup-career" });
+      // if (this.isCareer) {
+
+      // } else if (this.isCompany) {
+      //   this.$router.push({ name: "signup-company" });
+      //   this.modal.hide();
+      // } else {
+      //   console.log("please Setup Career");
+      // }
     },
     formReset() {
       this.v$.$reset();
@@ -173,6 +245,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.modal_action_btn {
+  padding: 0 16px 16px 16px;
+}
 .space_btn_acc_ver {
   padding-top: 384px;
   padding-bottom: 30px;

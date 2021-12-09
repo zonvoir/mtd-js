@@ -182,7 +182,9 @@ export default {
     return {
       value: null,
       options: ["Batman", "Robin", "Joker"],
-      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      staffData:
+        JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
+        JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       isSubmitted: false,
       errorType: Boolean,
       toastMessage: "",
@@ -202,15 +204,31 @@ export default {
   },
 
   created() {
+    console.log("vishal from created at career.....");
     if (
-      localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-      localStorage.getItem("bWFpbCI6Inpvb") == null ||
-      localStorage.getItem("bWFpbCI6Inpvb") == ""
+      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
+      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == null ||
+      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == ""
     ) {
-      this.$router.push({ name: "signup-signin" });
+      if (
+        localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
+        localStorage.getItem("bWFpbCI6Inpvb") == null ||
+        localStorage.getItem("bWFpbCI6Inpvb") == ""
+      ) {
+        this.$router.push({ name: "signup-signin" });
+      }
+    } else {
+      console.log("eley");
+      // if (
+      //   localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
+      //   localStorage.getItem("bWFpbCI6Inpvb") == null ||
+      //   localStorage.getItem("bWFpbCI6Inpvb") == ""
+      // ) {
+      //   this.$router.push({ name: "signup-signin" });
+      // }
     }
 
-    this.checkCareerInformation();
+    this.checkCareerSetup();
     this.getIndustryList();
     this.getdDepartmentList();
     this.getSeniorityLevel();
@@ -247,9 +265,9 @@ export default {
             if (response.data.status) {
               this.errorType = true;
               this.isNotification = true;
-              setTimeout(() => {
-                this.isNotification = false;
-              }, 4000);
+              // setTimeout(() => {
+              //   this.isNotification = false;
+              // }, 4000);
               this.$toast.success(response.data.message, {
                 position: "bottom-left",
                 duration: 3712,
@@ -283,6 +301,11 @@ export default {
       }
     },
     formReset() {
+      if (localStorage.getItem("bWFpbCI6Inpvb") != null) {
+        this.staffData.is_career_information_setup = true;
+        localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
+      }
+
       this.v$.$reset();
       this.carreerForm = {
         company: "",
@@ -349,13 +372,23 @@ export default {
       });
     },
 
-    checkCareerInformation() {
+    checkCareerSetup() {
+      console.log(
+        this.staffData,
+        this.staffData != null,
+        this.staffData,
+        this.staffData != null &&
+          (this.staffData.auth_token != undefined ||
+            this.staffData.auth_token != "",
+          this.staffData.auth_token != null)
+      );
       if (
+        this.staffData != null &&
         (this.staffData.auth_token != undefined ||
           this.staffData.auth_token != "",
         this.staffData.auth_token != null)
       ) {
-        SignupService.checkCareerInformation({
+        SignupService.checkCareerInfo({
           auth_token: this.staffData.auth_token,
         }).then((resp) => {
           if (resp.data.status) {
@@ -363,6 +396,7 @@ export default {
           }
         });
       } else {
+        console.log("vishal from checkCareerSetup at career.....");
         this.$router.push({ name: "signup-signin" });
       }
     },
