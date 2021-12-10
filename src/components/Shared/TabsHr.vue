@@ -33,7 +33,7 @@ export default {
   },
   mounted() {
     this.url = this.$route.path;
-    console.log("url ", this.url);
+    // console.log("url ", this.url);
   },
   methods: {
     activateTab(tab) {
@@ -41,7 +41,7 @@ export default {
       //   this.tabsId = tab.tabId;
       // }
       this.$emit("changeTitle", tab.title);
-      console.log(this.$route.path);
+      // console.log(this.$route.path);
       this.url = tab.component_url;
       this.$router.push({ path: tab.component_url });
     },

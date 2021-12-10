@@ -40,21 +40,18 @@ export default {
   data() {
     return {
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      valuenow: 0,
+      // valuenow: 0,
       valuemin: 0,
       valuemax: 100,
       questionArr: [],
     };
   },
-  computed: {
-    ...mapState({
-      questionnaire: (state) => state.questionnaire,
-      questionList: (state) => state.questionList,
-    }),
-    // getPercentValue() {
-    //   return this.calculateAnserdQuestion();
-    // },
-  },
+  computed: mapState({
+    questionnaire: (state) => state.questionnaire,
+    questionList: (state) => state.questionList,
+    valuenow: (state) => state.quizProgressValue,
+  }),
+
   mounted() {
     this.departmentId = this.$route.params.departmentid;
     this.categoryID = this.$route.params.categoryId;
@@ -66,8 +63,7 @@ export default {
     };
     this.getDeptAndCategoryDetails(data);
     this.questionArr = this.$store.getters.questionList;
-    console.log("total question", this.$store.getters.questionList);
-    this.calculateAnserdQuestion();
+    // console.log("total question", this.$store.getters.questionList);
   },
   methods: {
     getDeptAndCategoryDetails(data) {
@@ -81,7 +77,7 @@ export default {
             "getQuestionList",
             res.data.data.questionnaire.questions
           );
-          console.log("questionlist", this.questionList);
+          // console.log("questionlist", this.questionList);
         } else {
           let $th = this;
           if ("error" in res.data) {
@@ -103,19 +99,7 @@ export default {
         }
       });
     },
-    calculateAnserdQuestion() {
-      let answeredArr = [];
-      let totalQuestions = this.questionArr.length;
-      this.questionArr.forEach((e, idx, array) => {
-        let answered = array.filter((item) => {
-          return item.is_answered === true;
-        });
-        answeredArr.push(answered);
-      });
-      let answeredQuestions = answeredArr.length;
-      this.dadd = (answeredQuestions / totalQuestions) * 100;
-      console.log("total percentage", this.dadd);
-    },
+
     // editQuetion(id) {
     //   console.log("edit Question by Id", id);
     // },

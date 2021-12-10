@@ -18,11 +18,30 @@
 
 <script>
 export default {
-  props: ["data"],
+  props: {
+    data: {
+      type: Array,
+      required: true,
+    },
+    currentAns: {
+      type: Array,
+      required: true,
+    },
+  },
+
   data() {
     return {
       answer: new Array(this.data.length).fill(false),
     };
+  },
+  created() {
+    console.log(this.currentAns);
+
+    this.data.forEach((opt, index) => {
+      if (this.currentAns.includes(opt.option_id)) {
+        this.answer[index] = true;
+      }
+    });
   },
   methods: {
     updateAnswer() {
@@ -34,7 +53,7 @@ export default {
         // console.log(val, ind, ansArr);
       });
       this.$emit("getUserSelected", ansArr);
-      // console.log(ansArr);
+      console.log(ansArr);
     },
   },
 };

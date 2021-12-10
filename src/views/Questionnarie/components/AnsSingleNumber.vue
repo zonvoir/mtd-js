@@ -1,32 +1,40 @@
 <template>
   <div>
     <div class="k_form_group k_inp_half k_inp_number">
-      <!-- <label for="" class="form-label">Single Number</label> -->
       <input
         type="number"
         name="single"
-        minlength="0"
-        v-model="input"
-        @input="$emit('update:modelValue', $event.target.value)"
+        v-model="ansValue"
+        @input="onInput"
         placeholder="Ex.1"
         class="form-control k_inp_field"
       />
+      <!--  @input="$emit('update:modelValue', $event.target.value)" -->
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+// import { ref } from "vue";
 export default {
-  props: ["data"],
+  props: {
+    currentAns: {
+      required: true,
+      type: String,
+    },
+  },
   data() {
     return {
-      ansValue: ref(""),
+      ansValue: "",
     };
   },
-  setup() {
-    const input = ref("");
-    return { input };
+  created() {
+    this.ansValue = this.currentAns;
+  },
+  methods: {
+    onInput(event) {
+      this.$emit("getUserSelected", event.target.value);
+    },
   },
 };
 </script>

@@ -43,62 +43,6 @@
                   </div>
                 </div>
               </li>
-              <!-- <li class="d-inline-flex">
-                <div class="list_wrapper">
-                  <div class="list_counter_wrap">
-                    <div class="counter_status bg_success m-r-13">
-                      <span class="q_no">2</span>
-                      <span class="q_check_icon">
-                        <img
-                          src="K_Icons/checkmark-circle-fill.svg"
-                          alt=""
-                          class="check_icon"
-                        />
-                      </span>
-                    </div>
-                    <div class="">
-                      <p class="m-b-0 ques_title">
-                        The earliest moment that the critical event and
-                        measurability
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="d-inline-flex">
-                <div class="list_wrapper">
-                  <div class="list_counter_wrap">
-                    <div class="counter_status bg_success m-r-13">
-                      <span class="q_no">3</span>
-                      <span class="q_check_icon"> </span>
-                    </div>
-                    <div class="">
-                      <p class="m-b-0 ques_title">
-                        The earliest moment that the critical event and
-                        measurability
-                      </p>
-                    </div>
-                  </div>
-                  <div class="list_action m-l-auto"></div>
-                </div>
-              </li>
-              <li class="d-inline-flex">
-                <div class="list_wrapper">
-                  <div class="list_counter_wrap">
-                    <div class="counter_status bg-gray-0 m-r-13">
-                      <span class="q_no">4</span>
-                      <span class="q_check_icon"> </span>
-                    </div>
-                    <div class="">
-                      <p class="m-b-0 ques_title">
-                        The earliest moment that the critical event and
-                        measurability
-                      </p>
-                    </div>
-                  </div>
-                  <div class="list_action m-l-auto"></div>
-                </div>
-              </li> -->
             </ul>
           </div>
         </div>
@@ -122,13 +66,18 @@ export default {
     };
   },
 
-  computed: mapState({
-    questions: (state) => state.questionList,
-  }),
+  computed: {
+    ...mapState({
+      questions: (state) => state.questionList,
+    }),
+  },
+
   methods: {
     getQuestionById(id) {
-      let indexQ = this.$store.getters.getQuestionById(id);
-      console.log("index value", indexQ);
+      this.$store.dispatch("getRandomQuestionIndex", id);
+      // console.log("index value", id);
+      // let indexQ = this.$store.getters.randomQuestionIndex();
+      // console.log("index value", indexQ);
     },
   },
 };
@@ -192,6 +141,32 @@ li {
   padding: 6px 8px 6px 14px;
 }
 .link-list-wrapper {
-  padding: 22px 10px 10px;
+  padding: 10px 22px 10px 10px;
+  height: 86vh;
+  overflow: auto;
+  /* width */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #f7f9fc;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #e1e2e4;
+    border-radius: 4px;
+    width: 10px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #cbcbcc;
+    width: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
 }
 </style>

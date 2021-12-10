@@ -3,7 +3,8 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     questionnaire: {},
-    // categoryDetails: {},
+    quizProgressValue: 0.0,
+    randomQuestionIndex: undefined,
     questionList: [],
     getAnsweredQuestion: 0,
   },
@@ -14,6 +15,15 @@ export default createStore({
     setQuestionList(state, questionList) {
       state.questionList = questionList;
     },
+    setIncrementProgressValue(state, val) {
+      state.quizProgressValue = val;
+    },
+    setRandomQuestionIndex(state, id) {
+      state.randomQuestionIndex = state.questionList.findIndex(
+        (question) => question.id === id
+      );
+      // return state.randomQuestionIndex;
+    },
   },
   actions: {
     async getQuestionnaire(context, val) {
@@ -23,25 +33,32 @@ export default createStore({
     async getQuestionList(context, val) {
       context.commit("setQuestionList", val);
     },
+    async getIncrementProgressValue(context, val) {
+      context.commit("setIncrementProgressValue", val);
+    },
+
+    getRandomQuestionIndex(context, id) {
+      context.commit("setRandomQuestionIndex", id);
+    },
   },
   modules: {},
   getters: {
+    quizProgressValue: (state) => state.quizProgressValue,
     questionnaire: (state) => state.questionnaire,
     questionList: (state) => state.questionList,
     getQuestionList(state) {
       return state.questionList;
     },
-    // getQuestionById(state, id) {
-    //   return state.questionList.indexOf((question) => question.id === id);
-    //   // return state.questionList.find((question) => question.id === id);
+    // getQuestionById: (state) => (id) => {
+    //   console.log(id);
+    //   return state.questionList.findIndex((question) => question.id === id);
     // },
-    getQuestionById: (state) => (id) => {
-      console.log(id);
-      return state.questionList.findIndex((question) => question.id === id);
-
-      // return state.questionList.indexOf((question) => question.id === id);
-      // return state.pages.find((pages) => pages.id === 5);
-    },
+    randomQuizIndex: (state) => state.randomQuestionIndex,
+    // randomQuestionIndex(state) {
+    //   return state.randomQuestionIndex;
+    // },
+    // return state.questionList.indexOf((question) => question.id === id);
+    // return state.pages.find((pages) => pages.id === 5);
     // methods: {
     //   getSettings() {
     //     return this.$store.getters.getPageSettings(this.pageId);

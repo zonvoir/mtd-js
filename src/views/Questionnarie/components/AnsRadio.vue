@@ -27,23 +27,29 @@
 
 <script>
 export default {
-  props: ["data"],
+  props: {
+    data: {
+      type: Array,
+      required: true,
+    },
+    currentAns: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       answer: undefined,
     };
   },
+  created() {
+    this.answer = this.currentAns[0];
+  },
   methods: {
     updateAnswer() {
       let ansArr = [this.answer];
-      // this.answer.forEach((val, ind) => {
-      //   if (val) {
-      //     ansArr.push(this.data[ind].option_id);
-      //   }
-      //   console.log(val, ind, ansArr);
-      // });
+
       this.$emit("getUserSelected", ansArr);
-      // console.log(ansArr);
     },
   },
 };

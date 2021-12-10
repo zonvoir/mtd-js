@@ -66,6 +66,7 @@
 
 <script>
 import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
+// import { bus } from "../../main";
 export default {
   data() {
     return {
@@ -120,9 +121,6 @@ export default {
       });
     },
     getValueOfAns(value) {
-      // return{
-      //   'text':value.staff_anwser
-      // }[value]
       if (value.type === "text") {
         return value.staff_anwser;
       } else if (value.type === "multiple_choice") {
@@ -148,7 +146,7 @@ export default {
       }
     },
     editQuetion(id) {
-      console.log("edit Question by Id", id);
+      this.$store.dispatch("getRandomQuestionIndex", id);
       this.$router.push({
         name: "questionnarie-test",
         params: {

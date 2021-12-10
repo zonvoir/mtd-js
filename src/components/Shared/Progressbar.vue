@@ -3,7 +3,10 @@
     <p class="m-b-0 progres_value">
       <span>{{ valuenow }}%</span> to complete
     </p>
-    <button class="btn btn-transaprent zp-0 m-l-auto">
+    <button
+      @click="closeQuestionnaire"
+      class="btn btn-transaprent zp-0 m-l-auto"
+    >
       <img src="K_Icons/cancel.svg" alt="" class="cancel_icon" />
     </button>
   </div>
@@ -34,6 +37,15 @@ export default {
   },
   setup() {
     return {};
+  },
+  methods: {
+    closeQuestionnaire() {
+      let ro = this.$route.params;
+      this.$router.push({
+        name: "category-overview",
+        params: { did: ro.departmentid, id: ro.categoryId },
+      });
+    },
   },
 };
 </script>

@@ -125,7 +125,7 @@ export default {
     category: (state) => state.questionnaire,
   }),
   mounted() {
-    console.log("route", this.$route);
+    // console.log("route", this.$route);
     this.departmentId = this.$route.params.did;
     this.categoryID = this.$route.params.id;
     this.authToken = this.staffData.auth_token;
@@ -143,7 +143,7 @@ export default {
         if (res.data.status) {
           this.permissionStatus =
             res.data.data.questionnaire.detail.is_accessible;
-          console.log("questionlist", this.permissionStatus);
+          // console.log("questionlist", this.permissionStatus);
           this.$store.dispatch(
             "getQuestionnaire",
             res.data.data.category_details

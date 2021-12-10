@@ -4,12 +4,13 @@
       <!-- <label for="" class="form-label">Enter Project Name</label> -->
       <input
         type="text"
-        v-model="input"
-        @input="$emit('update:modelValue', $event.target.value)"
+        v-model="ansValue"
+        @input="onInput"
         name="input"
         class="form-control k_inp_field"
       />
       <!-- <div class="k_form_group">
+         @input="$emit('update:modelValue', $event.target.value)
                   <input
                     type="text"
                     class="form-control k_inp_field"
@@ -37,17 +38,25 @@
 </template>
 
 <script>
-import { ref } from "vue";
 export default {
-  props: ["data"],
+  props: {
+    currentAns: {
+      required: true,
+      type: String,
+    },
+  },
   data() {
     return {
-      ansValue: ref(""),
+      ansValue: "",
     };
   },
-  setup() {
-    const input = ref("");
-    return { input };
+  created() {
+    this.ansValue = this.currentAns;
+  },
+  methods: {
+    onInput(event) {
+      this.$emit("getUserSelected", event.target.value);
+    },
   },
 };
 </script>

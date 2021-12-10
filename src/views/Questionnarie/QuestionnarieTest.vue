@@ -22,7 +22,7 @@
       </div>
     </div>
     <!-- category ends -->
-    <div class="">
+    <div class="sec_scrollbar">
       <Question />
       <!--  -->
     </div>
@@ -49,6 +49,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.sec_scrollbar {
+  height: 65vh;
+  overflow: auto;
+  /* width */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #f7f9fc;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #e1e2e4;
+    border-radius: 4px;
+    width: 10px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #cbcbcc;
+    width: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+}
 .catLogo {
   width: 60px;
   height: 60px;

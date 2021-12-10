@@ -1,5 +1,7 @@
 import axios from "axios";
 import nProgress from "nprogress";
+
+const languages = { en: "english", de: "german" };
 const apiToken =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoicmFnaHZlbmRyYSIsIm5hbWUiOiJjaGF5dWRoYXJ5IiwiQVBJX1RJTUUiOjE2MzIyMTY1MDN9.xQCikbSWKG8_xfIOMsZ7puyXcmhj3Y9Vg7nNT4C26gI";
 const instance = axios.create({
@@ -7,6 +9,9 @@ const instance = axios.create({
   headers: {
     authtoken: apiToken,
     "Content-type": "application/json",
+    "Accept-Language": localStorage.getItem("language")
+      ? languages[localStorage.getItem("language")]
+      : "english",
   },
 });
 

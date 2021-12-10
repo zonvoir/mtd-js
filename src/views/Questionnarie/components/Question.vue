@@ -1,28 +1,27 @@
 <template>
   <div>
     <div v-if="questions.length">
-      <!-- question Section Start -->
+      <!-- question Section Start {{ questionIdex }} -->
       <div>
-        <h4 class="m-b-0 question_title m-b-14">
+        <h4 class="m-b-0 question_title m-b-14" :data-index="questionIdex">
           {{ questions[currentIdx].name }}
         </h4>
       </div>
       <!-- question Section Start -->
-
       <!-- Answer Section Start -->
       <div class="option_wrapper">
         <div v-if="questions[currentIdx].type == 'multiple_choice'">
           <AnsCheckbox
             @getUserSelected="userGivenAnswer"
             :data="questions[currentIdx].choices"
-            :currentAns="questions.staff_anwser"
+            :currentAns="questions[currentIdx].staff_anwser"
           />
         </div>
         <div v-if="questions[currentIdx].type == 'radio_button'">
           <AnsRadio
             @getUserSelected="userGivenAnswer"
             :data="questions[currentIdx].choices"
-            :currentAns="questions.staff_anwser"
+            :currentAns="questions[currentIdx].staff_anwser"
           />
         </div>
         <div v-if="questions[currentIdx].type == 'yesNo'">
@@ -35,8 +34,8 @@
           <!-- @getUserSelected="userGivenAnswer" -->
           <AnsInput
             v-model="answerValue"
-            :data="questions[currentIdx].choices"
-            :currentAns="questions.staff_anwser"
+            @getUserSelected="userGivenAnswer"
+            :currentAns="questions[currentIdx].staff_anwser"
           />
         </div>
         <div v-if="questions[currentIdx].type == 'website'">
@@ -57,8 +56,8 @@
         <div v-if="questions[currentIdx].type == 'number'">
           <AnsSingleNumber
             v-model="answerValue"
-            :data="questions[currentIdx].choices"
-            :currentAns="questions.staff_anwser"
+            @getUserSelected="userGivenAnswer"
+            :currentAns="questions[currentIdx].staff_anwser"
           />
         </div>
         <div v-if="questions[currentIdx].type == 'moreNumber'">
@@ -172,17 +171,36 @@ export default {
       answerValue: "" | [],
     };
   },
-  computed: mapState({
-    questions: (state) => state.questionList,
-  }),
+  computed: {
+    ...mapState({
+      questions: (state) => state.questionList,
+    }),
+    questionIdex() {
+      return this.$store.getters.randomQuizIndex;
+    },
+  },
+
+  watch: {
+    questionIdex: function () {
+      this.currentIdx = this.questionIdex || this.currentIdx;
+    },
+    questions: function () {
+      // console.log()
+      this.calculateAnserdQuestion();
+    },
+  },
+
   created() {
     this.quiz = this.questions[this.currentIdx];
     this.authToken = this.staffData.auth_token;
   },
+  mounted() {
+    this.currentIdx = this.questionIdex || 0;
+    this.calculateAnserdQuestion();
+  },
   methods: {
     userGivenAnswer(value) {
       this.answerValue = value;
-      console.log("ans Array", this.answerValue);
     },
     updateIsHint() {
       this.isHint = !this.isHint;
@@ -193,11 +211,10 @@ export default {
       let data = {
         auth_token: this.authToken,
         question_id: id,
-        // answer: "static data",
-        answer: this.answerValue,
+        answer:
+          this.answerValue || this.questions[this.currentIdx].staff_anwser,
       };
       this.submitAnswer(data);
-
       return this.currentIdx;
     },
     finishQuestion(id) {
@@ -205,24 +222,23 @@ export default {
       let data = {
         auth_token: this.authToken,
         question_id: id,
-        // answer: "static data",
         answer: this.answerValue,
       };
+
       this.submitAnswer(data);
     },
     prevoiusQuestion() {
       this.isHint = false;
       this.currentIdx = this.currentIdx - 1;
       this.quiz = this.questions[this.currentIdx];
+      // this.$store.dispatch("getIncrementProgressValue", 10);
       return this.currentIdx;
     },
     submitAnswer(data) {
       console.log("userdata", data);
       QuestionnaireService.submitAnswer(data).then((res) => {
         this.questions[this.currentIdx].is_answered = true;
-        this.$store.dispatch("getQuestionList", this.questions);
         if (res.data.status) {
-          console.log(this.questions[this.currentIdx]);
           if (this.currentIdx >= this.questions.length - 1) {
             this.$toast.success("Questionniare completed.", {
               position: "bottom-left",
@@ -234,10 +250,14 @@ export default {
               params: { did: ro.departmentid, id: ro.categoryId },
             });
           } else {
+            this.questions[this.currentIdx].is_answered = true;
+            this.questions[this.currentIdx].staff_anwser = data.answer;
+            console.log("vis csum", this.questions);
+
             this.currentIdx = this.currentIdx + 1;
             this.quiz = this.questions[this.currentIdx];
           }
-          console.log("responce after submit answer", res);
+          this.calculateAnserdQuestion();
         } else {
           let $th = this;
           if ("error" in res.data) {
@@ -255,6 +275,25 @@ export default {
           }
         }
       });
+    },
+    calculateAnserdQuestion() {
+      let answeredArr = [];
+      // console.log(this.questions);
+      let totalQuestions = this.questions.length;
+      this.questions.forEach((e) => {
+        if (e.is_answered) {
+          answeredArr.push(e);
+        }
+      });
+      let answeredQuestions = answeredArr.length;
+      // console.log("total percentage", answeredQuestions, totalQuestions);
+      let perValue = (answeredQuestions / totalQuestions) * 100;
+      // console.log(perValue, answeredQuestions, totalQuestions);
+      if (isNaN(perValue)) {
+        perValue = 0;
+      }
+      perValue = parseInt(perValue);
+      this.$store.dispatch("getIncrementProgressValue", perValue);
     },
   },
 };
