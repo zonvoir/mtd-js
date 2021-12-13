@@ -10,7 +10,10 @@
           </div>
           <div class="border-bottom-1 m-b-10">
             <p class="desc_content">
-              <span class="" v-html="category.description"></span>
+              <span
+                class=""
+                v-html="questionnaireDetails.long_description"
+              ></span>
             </p>
           </div>
         </div>
@@ -23,9 +26,10 @@
             {{ $t("category_details.overiewTab.Fill_all_the_KPI_questions") }}
             <!-- Fill all the KPI questions -->
           </p>
+          <!-- {{ questionnaireDetails.expiration_date }} fill -->
           <div class="m-l-auto">
             <button
-              :disabled="permissionStatus"
+              :disabled="questionnaireDetails.is_accessible"
               @click="startQuestionnarie"
               class="btn-primary btn btn-set text-uppercase"
             >
@@ -54,9 +58,21 @@
               "
             >
               {{ category.name }}
-              <span class="bg_warn rounded-pill">{{
-                category.questionnaire_status
-              }}</span>
+              <span
+                :class="{
+                  bg_gray:
+                    questionnaireDetails.questionnaire_status ==
+                    $t('status.not_started'),
+                  bg_warn:
+                    questionnaireDetails.questionnaire_status ==
+                    $t('status.in_progress'),
+                  bg_success:
+                    questionnaireDetails.questionnaire_status ==
+                    $t('status.completed'),
+                }"
+                class="bg_gray rounded-pill"
+                >{{ questionnaireDetails.questionnaire_status }}</span
+              >
             </li>
           </ul>
         </div>
@@ -121,11 +137,14 @@ export default {
     };
   },
 
-  computed: mapState({
-    category: (state) => state.questionnaire,
-  }),
+  computed: {
+    ...mapState({
+      category: (state) => state.questionnaire,
+      questionnaireDetails: (state) => state.questionnaireDetails,
+    }),
+  },
   mounted() {
-    // console.log("route", this.$route);
+    console.log("kuldip  Details", this.category, this.questionnaireDetails);
     this.departmentId = this.$route.params.did;
     this.categoryID = this.$route.params.id;
     this.authToken = this.staffData.auth_token;
@@ -143,7 +162,7 @@ export default {
         if (res.data.status) {
           this.permissionStatus =
             res.data.data.questionnaire.detail.is_accessible;
-          // console.log("questionlist", this.permissionStatus);
+          console.log("questionlist", this.permissionStatus);
           this.$store.dispatch(
             "getQuestionnaire",
             res.data.data.category_details
@@ -169,6 +188,31 @@ export default {
         }
       });
     },
+    // get categories lists
+    // getDefaultDeptCategories(Dept_id) {
+    //   CommonService.getAllCategories(Dept_id)
+    //     .then((resp) => {
+    //       if (resp.data.status) {
+    //         this.categoryList = resp.data.data;
+    //         console.log("latest category", this.categoryList);
+    //       } else {
+    //         console.log("no department list found");
+    //         let $th = this;
+    //         Object.keys(resp.data.error).map(function (key) {
+    //           $th.$toast.error(resp.data.error[key], {
+    //             position: "bottom-left",
+    //             duration: 3712,
+    //           });
+    //         });
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     })
+    //     .finally(() => {
+    //       console.log("");
+    //     });
+    // },
     startQuestionnarie() {
       this.$router.push({
         name: "questionnarie-test",

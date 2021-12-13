@@ -33,6 +33,7 @@
         <div v-if="questions[currentIdx].type == 'text'">
           <!-- @getUserSelected="userGivenAnswer" -->
           <AnsInput
+            :key="currentIdx"
             v-model="answerValue"
             @getUserSelected="userGivenAnswer"
             :currentAns="questions[currentIdx].staff_anwser"
@@ -171,21 +172,27 @@ export default {
       answerValue: "" | [],
     };
   },
+
   computed: {
     ...mapState({
       questions: (state) => state.questionList,
     }),
     questionIdex() {
+      console.log(this.$store.getters.randomQuizIndex);
       return this.$store.getters.randomQuizIndex;
     },
   },
 
   watch: {
     questionIdex: function () {
-      this.currentIdx = this.questionIdex || this.currentIdx;
+      if (this.questionIdex == 0) {
+        this.currentIdx = this.questionIdex;
+      } else {
+        this.currentIdx = this.questionIdex || this.currentIdx;
+      }
+      this.answerValue = this.questions[this.currentIdx].staff_anwser;
     },
     questions: function () {
-      // console.log()
       this.calculateAnserdQuestion();
     },
   },
@@ -278,7 +285,6 @@ export default {
     },
     calculateAnserdQuestion() {
       let answeredArr = [];
-      // console.log(this.questions);
       let totalQuestions = this.questions.length;
       this.questions.forEach((e) => {
         if (e.is_answered) {
@@ -286,9 +292,7 @@ export default {
         }
       });
       let answeredQuestions = answeredArr.length;
-      // console.log("total percentage", answeredQuestions, totalQuestions);
       let perValue = (answeredQuestions / totalQuestions) * 100;
-      // console.log(perValue, answeredQuestions, totalQuestions);
       if (isNaN(perValue)) {
         perValue = 0;
       }

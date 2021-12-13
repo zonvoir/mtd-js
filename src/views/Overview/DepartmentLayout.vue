@@ -5,12 +5,11 @@
         <div class="view_title_wrap pb-15">
           <div class="page_title_wrap">
             <div class="m-r-6">
-              <button class="btn btn-transaprent">
+              <button @click="backToMain" class="btn btn-transaprent">
                 <img src="K_Icons/arrowhead-right.svg" alt="" />
               </button>
             </div>
             <div class="k_icon_wrap m-r-10">
-              <!-- <img src="K_Icons/green_pie_logo.svg" class="" alt="" /> -->
               <img
                 :src="image ? image : 'K_Icons/clipboard_36.svg'"
                 class="dept_logo"
@@ -63,7 +62,6 @@ export default {
     },
     // get DepartmentDetail
     getDepartmentDetails(id) {
-      console.log("department layout");
       CommonService.getOneDepartment(id).then((resp) => {
         if (resp.data.status) {
           console.log("dept layout", resp.data.data);
@@ -75,6 +73,9 @@ export default {
           console.log("no department details found");
         }
       });
+    },
+    backToMain() {
+      this.$router.push({ name: "overview-extended" });
     },
   },
 };

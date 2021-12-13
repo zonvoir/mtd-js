@@ -43,20 +43,6 @@ export default {
     this.getdDepartmentList();
   },
   methods: {
-    // getClass(value) {
-    //   return {
-    //     default: "bg_light_teal",
-    //     Marketing: "bg_light_green",
-    //     HR: "bg_light_green",
-    //     Finance: "bg_light_parrot",
-    //     Legal: "bg_light_red",
-    //     //  R&D: "bg_light_teal",
-    //     IT: "bg_light_blue",
-    //     Production: "bg_light_info",
-    //   }[value];
-    // },
-
-    // get departmens lists
     getdDepartmentList() {
       CommonService.getAllDepartments().then((res) => {
         if (res.data.status) {

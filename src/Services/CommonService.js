@@ -17,8 +17,11 @@ class CommonService {
     return http.get(`lists/department/${id}`);
   }
   // get all Categories
-  getAllCategories() {
-    return http.get("lists/categories");
+  // getAllCategories(dept_id) {
+  //   return http.get(`lists/categories/${dept_id}`);
+  // }
+  getAllCategories(data) {
+    return http.post("questionnaire_api/questionnaire_list", data);
   }
   // get Seniority Leveles
   getAllSeniorityLevels() {

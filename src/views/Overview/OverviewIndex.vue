@@ -20,22 +20,21 @@
     </div>
     <div class="dept_wrapper">
       <div class="custom_grid">
-        <div
-          v-for="(category, index) in categoryList"
-          :key="index"
-          class="custom_grid_col"
-        >
-          <Card
-            :id="category.id"
-            :title="category.name"
-            :description="category.description"
-            :status="category.questionnaire_status"
-            :image="category.image"
-            :page_name="component_name"
-            :page_parmas="{ ...defaultDeptId, id: category.id }"
-          />
-        </div>
-        <!-- :page_parmas="{ ...defaultDeptId, cid: category.id }" -->
+        <template v-for="(category, index) in categoryList" :key="index">
+          <div class="custom_grid_col" v-if="category.questionnaire != ''">
+            <div class="">
+              <Card
+                :id="category.id"
+                :title="category.name"
+                :description="category.questionnaire.short_description"
+                :status="category.questionnaire.questionnaire_status"
+                :image="category.image"
+                :page_name="component_name"
+                :page_parmas="{ ...defaultDeptId, id: category.id }"
+              />
+            </div>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -56,7 +55,7 @@ export default {
     ) {
       this.$router.push({ name: "signup-signin" });
     }
-    this.getDefaultDeptCategories();
+    this.authToken = this.staffData.auth_token;
     this.getdDepartmentList();
   },
 
@@ -66,18 +65,28 @@ export default {
       categoryList: [],
       departmentLists: [],
       defaultDeptId: {},
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      authToken: "",
+      dept_id_default: undefined,
     };
   },
   methods: {
     // get departmens lists
     getdDepartmentList() {
-      // this.$store.commit("loadingStatus", true);
       CommonService.getAllDepartments().then((res) => {
-        // this.$store.commit("loadingStatus", false);
         if (res.data.status) {
           this.departmentLists = res.data.data.filter(function (depts) {
             return depts.is_default === "1";
           });
+          this.dept_id_default = this.departmentLists[0].departmentid;
+          console.log("authToken", this.authToken);
+          let data = {
+            department_id: this.dept_id_default,
+            auth_token: this.authToken,
+          };
+          console.log("send new", data);
+          this.getDefaultDeptCategories(data);
+          console.log("dept_id by default", this.dept_id_default);
           this.defaultDeptId = { did: this.departmentLists[0].departmentid };
           console.log("default dept IDs", this.defaultDeptId);
         } else {
@@ -101,22 +110,15 @@ export default {
           }
         }
       });
-      // .catch((err) => {
-      //   console.log(err);
-      // })
-      // .finally(() => {
-      //   console.log("fianly");
-      //   // this.$store.commit("loadingStatus", false);
-      // });
     },
     // get categories lists
-    getDefaultDeptCategories() {
-      console.log("department deatil");
-      CommonService.getAllCategories()
+    getDefaultDeptCategories(data) {
+      CommonService.getAllCategories(data)
         .then((res) => {
           if (res.data.status) {
             this.categoryList = res.data.data;
-            console.log("list", this.categoryList);
+
+            console.log("list", res.data.data);
           } else {
             let $th = this;
             if ("error" in res.data) {

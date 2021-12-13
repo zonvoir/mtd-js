@@ -3,6 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     questionnaire: {},
+    questionnaireDetails: {},
     quizProgressValue: 0.0,
     randomQuestionIndex: undefined,
     questionList: [],
@@ -11,6 +12,9 @@ export default createStore({
   mutations: {
     setQuestionnaire(state, questionnaire) {
       state.questionnaire = questionnaire;
+    },
+    setQuestionnaireDetails(state, details) {
+      state.questionnaireDetails = details;
     },
     setQuestionList(state, questionList) {
       state.questionList = questionList;
@@ -22,14 +26,15 @@ export default createStore({
       state.randomQuestionIndex = state.questionList.findIndex(
         (question) => question.id === id
       );
-      // return state.randomQuestionIndex;
     },
   },
   actions: {
     async getQuestionnaire(context, val) {
       context.commit("setQuestionnaire", val);
     },
-
+    async getQuestionnaireDetails(context, val) {
+      context.commit("setQuestionnaireDetails", val);
+    },
     async getQuestionList(context, val) {
       context.commit("setQuestionList", val);
     },
@@ -44,6 +49,7 @@ export default createStore({
   modules: {},
   getters: {
     quizProgressValue: (state) => state.quizProgressValue,
+    questionnaireDetails: (state) => state.questionnaireDetails,
     questionnaire: (state) => state.questionnaire,
     questionList: (state) => state.questionList,
     getQuestionList(state) {

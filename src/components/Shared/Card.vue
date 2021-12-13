@@ -21,9 +21,9 @@
         <span
           v-if="status"
           :class="{
-            bg_gray: status == 'not started',
-            bg_warn: status == 'in progress',
-            bg_success: status == 'completed',
+            bg_gray: status == $t('status.not_started'),
+            bg_warn: status == $t('status.in_progress'),
+            bg_success: status == $t('status.completed'),
           }"
           class="dept_status bg-gray"
           >{{ status }}</span
@@ -71,10 +71,7 @@ export default {
       required: true,
     },
   },
-  created() {
-    // Object.assign({ cid: this.id }, this.page_parmas);
-    // console.log("new params", this.page_parmas);
-  },
+
   data() {
     return {};
   },

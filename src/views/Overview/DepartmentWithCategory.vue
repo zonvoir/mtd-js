@@ -20,22 +20,21 @@
     </div>
     <div class="dept_wrapper">
       <div class="custom_grid">
-        {{ category }}
-        <div
-          v-for="(category, index) in categoryList"
-          :key="index"
-          class="custom_grid_col"
-        >
-          <Card
-            :id="category.id"
-            :title="category.name"
-            :description="category.description"
-            :status="category.status"
-            :image="category.image"
-            :page_name="component_name"
-            :page_parmas="{ ...component_params, id: category.id }"
-          />
-        </div>
+        <template v-for="(category, index) in categoryList" :key="index">
+          <div v-if="category.questionnaire" class="custom_grid_col">
+            <div class="">
+              <Card
+                :id="category.id"
+                :title="category.name"
+                :description="category.questionnaire.short_description"
+                :status="category.questionnaire.questionnaire_status"
+                :image="category.image"
+                :page_name="component_name"
+                :page_parmas="{ ...component_params, id: category.id }"
+              />
+            </div>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -61,7 +60,7 @@ export default {
   created() {
     this.component_params = { did: this.$route.params.id };
     this.departmentId = this.$route.params.id;
-    console.log(this.$route.params.id, this.departmentId);
+    // console.log(this.$route.params.id, this.departmentId);
     if (
       localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
       localStorage.getItem("bWFpbCI6Inpvb") == null ||
@@ -69,22 +68,23 @@ export default {
     ) {
       this.$router.push({ name: "signup-signin" });
     }
-    this.getDefaultDeptCategories();
+    this.getDefaultDeptCategories(this.departmentId);
   },
   mounted() {
     this.url_dataID = this.$route.params.id;
     console.log("id from url ", this.url_dataID);
-    if (this.url_dataID) {
-      this.getDepartmentDetails(this.url_dataID);
-    }
+    // if (this.url_dataID) {
+    //   this.getDepartmentDetails(this.url_dataID);
+    // }
   },
   methods: {
     // get categories lists
-    getDefaultDeptCategories() {
-      CommonService.getAllCategories()
+    getDefaultDeptCategories(Dept_id) {
+      CommonService.getAllCategories(Dept_id)
         .then((resp) => {
           if (resp.data.status) {
             this.categoryList = resp.data.data;
+            console.log("latest category", this.categoryList);
           } else {
             console.log("no department list found");
             let $th = this;
@@ -104,15 +104,15 @@ export default {
         });
     },
     // get DepartmentDetail
-    getDepartmentDetails(id) {
-      CommonService.getOneDepartment(id).then((res) => {
-        if (res.data.status) {
-          console.log("departmentWithCategory list ", res.data.data);
-        } else {
-          console.log("no department details found");
-        }
-      });
-    },
+    // getDepartmentDetails(id) {
+    //   CommonService.getOneDepartment(id).then((res) => {
+    //     if (res.data.status) {
+    //       console.log("departmentWithCategory list ", res.data.data);
+    //     } else {
+    //       console.log("no department details found");
+    //     }
+    //   });
+    // },
   },
 };
 </script>

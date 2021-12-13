@@ -8,36 +8,23 @@
         @input="onInput"
         name="input"
         class="form-control k_inp_field"
+        @blur="v$.ansValue.$touch"
+        :class="{
+          'is-invalid': v$.ansValue.$error,
+        }"
       />
-      <!-- <div class="k_form_group">
-         @input="$emit('update:modelValue', $event.target.value)
-                  <input
-                    type="text"
-                    class="form-control k_inp_field"
-                    placeholder="Company Name"
-                    @blur="v$.companyForm.company.$touch"
-                    v-model="companyForm.company"
-                    :class="{
-                      'is-invalid': v$.companyForm.company.$error,
-                    }"
-                  />
-                  <div
-                    v-if="v$.companyForm.company.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.companyForm.company.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Company is required
-                    </span>
-                  </div>
-                </div> -->
+      <div v-if="v$.ansValue.$error" class="invalid-feedback text-left">
+        <span v-if="v$.ansValue.required.$invalid" class="text-left fs-14">
+          Answer is required
+        </span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { required } from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
 export default {
   props: {
     currentAns: {
@@ -53,9 +40,24 @@ export default {
   created() {
     this.ansValue = this.currentAns;
   },
+  validations() {
+    return {
+      ansValue: { required },
+    };
+  },
+  setup() {
+    return {
+      v$: useVuelidate(),
+    };
+  },
   methods: {
     onInput(event) {
-      this.$emit("getUserSelected", event.target.value);
+      this.v$.$touch();
+      if (this.v$.$invalid) {
+        return;
+      } else {
+        this.$emit("getUserSelected", event.target.value);
+      }
     },
   },
 };

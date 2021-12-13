@@ -8,14 +8,24 @@
         @input="onInput"
         placeholder="Ex.1"
         class="form-control k_inp_field"
+        @blur="v$.ansValue.$touch"
+        :class="{
+          'is-invalid': v$.ansValue.$error,
+        }"
       />
+      <div v-if="v$.ansValue.$error" class="invalid-feedback text-left">
+        <span v-if="v$.ansValue.required.$invalid" class="text-left fs-14">
+          Answer is required
+        </span>
+      </div>
       <!--  @input="$emit('update:modelValue', $event.target.value)" -->
     </div>
   </div>
 </template>
 
 <script>
-// import { ref } from "vue";
+import { required } from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
 export default {
   props: {
     currentAns: {
@@ -31,9 +41,24 @@ export default {
   created() {
     this.ansValue = this.currentAns;
   },
+  validations() {
+    return {
+      ansValue: { required },
+    };
+  },
+  setup() {
+    return {
+      v$: useVuelidate(),
+    };
+  },
   methods: {
     onInput(event) {
-      this.$emit("getUserSelected", event.target.value);
+      this.v$.$touch();
+      if (this.v$.$invalid) {
+        return;
+      } else {
+        this.$emit("getUserSelected", event.target.value);
+      }
     },
   },
 };

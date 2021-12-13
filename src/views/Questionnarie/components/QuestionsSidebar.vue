@@ -54,15 +54,12 @@
 
 <script>
 import { mapState } from "vuex";
-// import logo from "../assets/images/mtd-logos-rgb_Main-Logo-Size-1-pos.png";
 import logo from "../../../assets/images/mtd-logos-rgb_Main-Logo-Size-1-black.png";
 
 export default {
-  // props: ["questions"],
   data() {
     return {
       logo,
-      // indexQ=""
     };
   },
 
@@ -75,9 +72,6 @@ export default {
   methods: {
     getQuestionById(id) {
       this.$store.dispatch("getRandomQuestionIndex", id);
-      // console.log("index value", id);
-      // let indexQ = this.$store.getters.randomQuestionIndex();
-      // console.log("index value", indexQ);
     },
   },
 };

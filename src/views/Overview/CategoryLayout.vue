@@ -131,11 +131,18 @@ export default {
             "getQuestionnaire",
             res.data.data.category_details
           );
+          // console.log(
+          //   "questionaarie_details",
+          //   res.data.data.questionnaire.detail
+          // );
+          this.$store.dispatch(
+            "getQuestionnaireDetails",
+            res.data.data.questionnaire.detail
+          );
           this.$store.dispatch(
             "getQuestionList",
             res.data.data.questionnaire.questions
           );
-          // this.category = res.data.data.category_details;
         } else {
           let $th = this;
           if ("error" in res.data) {

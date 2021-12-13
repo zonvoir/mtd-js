@@ -13,6 +13,8 @@
         <span class="checkmark"></span>
       </label>
     </div>
+    <div v-if="isValid" class="custom_error">Answer is required</div>
+    <!-- <div class="invalid-feedback text-left">Answer is required</div> -->
   </div>
 </template>
 
@@ -31,12 +33,12 @@ export default {
 
   data() {
     return {
+      isValid: false,
       answer: new Array(this.data.length).fill(false),
     };
   },
   created() {
-    console.log(this.currentAns);
-
+    // console.log(this.currentAns);
     this.data.forEach((opt, index) => {
       if (this.currentAns.includes(opt.option_id)) {
         this.answer[index] = true;
@@ -52,8 +54,11 @@ export default {
         }
         // console.log(val, ind, ansArr);
       });
-      this.$emit("getUserSelected", ansArr);
-      console.log(ansArr);
+      this.isValid = this.answer.every((e) => e === false);
+      console.log(this.isValid);
+      if (this.isValid) {
+        this.$emit("getUserSelected", ansArr);
+      }
     },
   },
 };
@@ -62,8 +67,13 @@ export default {
 <style lang="scss" scoped>
 .check_box_wrapper {
   margin-bottom: 28px;
-  &:lastchild() {
-    margin-bottom: 0;
+  &:nth-last-child() {
+    margin-bottom: 0 !important;
   }
+}
+.custom_error {
+  color: #db2c66;
+  font-size: 14px;
+  font-weight: 400;
 }
 </style>

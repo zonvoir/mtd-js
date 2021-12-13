@@ -5,6 +5,11 @@
       "select_your_company": "Select Your Compan",
       "select_year": "Select Yeark"
     },
+    "status": {
+      "not_started": "not_started",
+      "in_progress": "in_progress",
+      "completed": "completed"
+    },
     "profile_drop_down": {
       "profile": "Profile",
       "logout": "Logout"

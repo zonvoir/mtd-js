@@ -54,7 +54,6 @@ export default {
 .progess_wrappwer {
   display: flex;
   align-items: center;
-  //   margin-bottom: 2px;
 }
 .progres_value {
   font-size: 15px;
