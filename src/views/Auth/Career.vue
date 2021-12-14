@@ -37,8 +37,8 @@
               <Multiselect
                 placeholder="Industry"
                 class="form-control k_inp_field"
-                rules="required"
                 :options="industryLists"
+                rules="required"
                 @blur="v$.carreerForm.industry.$touch"
                 v-model="carreerForm.industry"
                 :class="{

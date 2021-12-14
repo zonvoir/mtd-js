@@ -24,7 +24,7 @@
             :currentAns="questions[currentIdx].staff_anwser"
           />
         </div>
-        <div v-if="questions[currentIdx].type == 'yesNo'">
+        <div v-if="questions[currentIdx].type == 'yes_no'">
           <AnsSwitch :data="questions[currentIdx].choices" />
         </div>
         <div v-if="questions[currentIdx].type == 'richText'">
@@ -40,19 +40,43 @@
           />
         </div>
         <div v-if="questions[currentIdx].type == 'website'">
-          <AnsWebsite :data="questions[currentIdx].choices" />
+          <AnsWebsite
+            :key="currentIdx"
+            v-model="answerValue"
+            @getUserSelected="userGivenAnswer"
+            :currentAns="questions[currentIdx].staff_anwser"
+          />
         </div>
-        <div v-if="questions[currentIdx].type == 'select'">
-          <AnsSelect :data="questions[currentIdx].choices" />
+        <div v-if="questions[currentIdx].type == 'dropdown'">
+          <AnsSelect
+            :key="currentIdx"
+            v-model="answerValue"
+            @getUserSelected="userGivenAnswer"
+            :currentAns="questions[currentIdx].staff_anwser"
+            :data="questions[currentIdx].choices"
+          />
         </div>
         <div v-if="questions[currentIdx].type == 'manySelect'">
-          <AnsMultiSelect :data="questions[currentIdx].choices" />
+          <AnsMultiSelect
+            v-model="answerValue"
+            @getUserSelected="userGivenAnswer"
+            :currentAns="questions[currentIdx].staff_anwser"
+          />
         </div>
         <div v-if="questions[currentIdx].type == 'email'">
-          <AnsEmail :data="questions[currentIdx].choices" />
+          <AnsEmail
+            :key="currentIdx"
+            v-model="answerValue"
+            @getUserSelected="userGivenAnswer"
+            :currentAns="questions[currentIdx].staff_anwser"
+          />
         </div>
-        <div v-if="questions[currentIdx].type == 'phone'">
-          <AnsPhone :data="questions[currentIdx].choices" />
+        <div v-if="questions[currentIdx].type == 'phone_number'">
+          <AnsPhone
+            v-model="answerValue"
+            @getUserSelected="userGivenAnswer"
+            :currentAns="questions[currentIdx].staff_anwser"
+          />
         </div>
         <div v-if="questions[currentIdx].type == 'number'">
           <AnsSingleNumber
@@ -62,7 +86,11 @@
           />
         </div>
         <div v-if="questions[currentIdx].type == 'moreNumber'">
-          <AnsMultipleNumber :data="questions[currentIdx].choices" />
+          <AnsMultipleNumber
+            v-model="answerValue"
+            @getUserSelected="userGivenAnswer"
+            :currentAns="questions[currentIdx].staff_anwser"
+          />
         </div>
         <div v-if="questions[currentIdx].type == 'editor'">
           <AnsTextEditor :data="questions[currentIdx].choices" />
@@ -103,6 +131,7 @@
         </button>
         <button
           type="button"
+          :disabled="!isValidated"
           :class="currentIdx >= questions.length - 1 ? 'd-none' : ''"
           @click="nextQuestion(questions[currentIdx].id)"
           class="btn text-uppercase btn-primary btn-set"
@@ -112,9 +141,10 @@
 
         <button
           type="button"
+          :disabled="!isValidated"
           :class="currentIdx >= questions.length - 1 ? '' : 'd-none'"
           @click="finishQuestion(questions[currentIdx].id)"
-          class="btn text-uppercase btn-danger btn-set"
+          class="btn text-uppercase btn-primary btn-set"
         >
           Finish
         </button>
@@ -167,6 +197,7 @@ export default {
       currentIdx: 0,
       quiz: [],
       isHint: false,
+      isValidated: undefined,
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       authToken: "",
       answerValue: "" | [],
@@ -207,7 +238,9 @@ export default {
   },
   methods: {
     userGivenAnswer(value) {
-      this.answerValue = value;
+      console.log("value date", value);
+      this.answerValue = value.ansData;
+      this.isValidated = value.isFieldValid;
     },
     updateIsHint() {
       this.isHint = !this.isHint;

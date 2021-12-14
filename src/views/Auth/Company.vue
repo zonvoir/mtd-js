@@ -252,17 +252,7 @@
                       {{ detailInd.label }}
                     </option>
                   </select>
-                  <!-- <Multiselect
-                    placeholder="Detailed Industry"
-                    class="form-control k_inp_field"
-                    rules="required"
-                    :options="detailedIndustryLists"
-                    @blur="v$.companyForm.detailed_industry.$touch"
-                    v-model="companyForm.detailed_industry"
-                    :class="{
-                      'is-invalid': v$.companyForm.detailed_industry.$error,
-                    }"
-                  /> -->
+
                   <div
                     v-if="v$.companyForm.detailed_industry.$error"
                     class="invalid-feedback text-left"
@@ -299,18 +289,6 @@
                       {{ region.label }}
                     </option>
                   </select>
-                  <!-- <Multiselect
-                    placeholder="Region"
-                    class="form-control k_inp_field"
-                    rules="required"
-                    @change="getCountries()"
-                    :options="regionLists"
-                    @blur="v$.companyForm.region.$touch"
-                    v-model="companyForm.region"
-                    :class="{
-                      'is-invalid': v$.companyForm.region.$error,
-                    }"
-                  /> -->
                   <div
                     v-if="v$.companyForm.region.$error"
                     class="invalid-feedback text-left"
@@ -346,17 +324,7 @@
                       {{ country.label }}
                     </option>
                   </select>
-                  <!-- <Multiselect
-                    placeholder="Country/Headquater"
-                    class="form-control k_inp_field"
-                    rules="required"
-                    :options="countryLists"
-                    @blur="v$.companyForm.country.$touch"
-                    v-model="companyForm.country"
-                    :class="{
-                      'is-invalid': v$.companyForm.country.$error,
-                    }"
-                  /> -->
+
                   <div
                     v-if="v$.companyForm.country.$error"
                     class="invalid-feedback text-left"

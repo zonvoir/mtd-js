@@ -1,13 +1,12 @@
 <template>
   <div>
     <div class="k_form_group k_inp_half">
-      <!-- <label for="" class="form-label">Enter Project Name</label> -->
       <input
         type="text"
-        v-model="ansValue"
-        @input="onInput"
         name="input"
         class="form-control k_inp_field"
+        v-model="ansValue"
+        @input="onInput"
         @blur="v$.ansValue.$touch"
         :class="{
           'is-invalid': v$.ansValue.$error,
@@ -35,10 +34,14 @@ export default {
   data() {
     return {
       ansValue: "",
+      isFieldValid: undefined,
     };
   },
   created() {
-    this.ansValue = this.currentAns;
+    this.ansValue = new Date();
+    if (this.currentAns != "") {
+      this.ansValue = this.currentAns;
+    }
   },
   validations() {
     return {
@@ -52,12 +55,19 @@ export default {
   },
   methods: {
     onInput(event) {
+      console.log("close date picker");
       this.v$.$touch();
+      this.isFieldValid = false;
+      console.log(this.v$.$invalid);
       if (this.v$.$invalid) {
-        return;
+        console.log(event.target.value);
       } else {
-        this.$emit("getUserSelected", event.target.value);
+        this.isFieldValid = true;
       }
+      this.$emit("getUserSelected", {
+        ansData: event.target.value,
+        isFieldValid: this.isFieldValid,
+      });
     },
   },
 };

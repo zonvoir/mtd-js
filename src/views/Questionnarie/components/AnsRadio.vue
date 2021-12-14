@@ -34,6 +34,7 @@ export default {
     return {
       isValid: false,
       answer: undefined,
+      isFieldValid: true,
     };
   },
   created() {
@@ -45,9 +46,14 @@ export default {
       let ansArr = [this.answer];
       console.log(ansArr);
       if (ansArr.length > 0) {
-        this.$emit("getUserSelected", ansArr);
+        // this.$emit("getUserSelected", ansArr);
+        this.$emit("getUserSelected", {
+          ansData: ansArr,
+          isFieldValid: this.isFieldValid,
+        });
       } else {
         this.isValid = true;
+        this.isFieldValid = !this.isValid;
       }
     },
   },

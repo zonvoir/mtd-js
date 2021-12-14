@@ -1,31 +1,87 @@
 <template>
   <div class="k_form_group k_inp_half k_select_single">
-    <label for="" class="form-label">Select 1</label>
     <Multiselect
-      placeholder="Seniority Level"
+      placeholder="Please select"
       class="form-control k_inp_field"
+      @select="updateAnswer"
       rules="required"
-      :options="seniorityLevels"
+      :options="dropdownArray"
+      @blur="v$.ansValue.$touch"
+      v-model="ansValue"
+      :class="{
+        'is-invalid': v$.ansValue.$error,
+      }"
     />
+    <div v-if="v$.ansValue.$error" class="invalid-feedback text-left">
+      <span v-if="v$.ansValue.required.$invalid" class="text-left fs-14">
+        Answer is required
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
 import Multiselect from "@vueform/multiselect";
-
+import { required } from "@vuelidate/validators";
+import useValidator from "@vuelidate/core";
 export default {
-  components: {
-    Multiselect,
+  props: {
+    data: {
+      type: Array,
+      required: true,
+    },
+    currentAns: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
-      seniorityLevels: [
-        { value: 0, label: "Level 1" },
-        { value: 1, label: "Level 2" },
-        { value: 2, label: "Level 3" },
-        { value: 3, label: "Level 4" },
-      ],
+      ansValue: null,
+      isFieldValid: undefined,
+      dropdownArray: [],
+      tempAns: [],
     };
+  },
+  components: {
+    Multiselect,
+  },
+  setup() {
+    return {
+      v$: useValidator(),
+    };
+  },
+  validations() {
+    return {
+      ansValue: { required },
+    };
+  },
+  created() {
+    this.ansValue = this.currentAns;
+    this.data.forEach((item) => {
+      const element = {
+        value: item.option_id,
+        label: item.choices,
+      };
+      this.dropdownArray.push(element);
+    });
+    if (this.currentAns != "") {
+      this.ansValue = this.currentAns;
+    }
+  },
+  methods: {
+    updateAnswer() {
+      this.v$.$touch();
+      this.isFieldValid = false;
+      if (!this.v$.$invalid) {
+        this.isFieldValid = true;
+        this.tempAns.push(this.ansValue);
+      }
+      this.$emit("getUserSelected", {
+        ansData: this.tempAns,
+        isFieldValid: this.isFieldValid,
+      });
+    },
   },
 };
 </script>

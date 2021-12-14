@@ -141,7 +141,28 @@ export default {
           ansArr.push(ans.choices);
         });
         return ansArr.toString();
+      } else if (value.type === "multi_number") {
+        let ansArr = [];
+        value.staff_anwser.forEach((element) => {
+          let ans = value.choices.find((item) => {
+            return item.option_id === element;
+          });
+          ansArr.push(ans.choices);
+        });
+        return ansArr.toString();
       } else if (value.type === "number") {
+        return value.staff_anwser;
+      } else if (value.type === "phone_number") {
+        return value.staff_anwser;
+      } else if (value.type === "website") {
+        return value.staff_anwser;
+      } else if (value.type === "date") {
+        return value.staff_anwser;
+      } else if (value.type === "dropdown") {
+        return value.staff_anwser;
+      } else if (value.type === "email") {
+        return value.staff_anwser;
+      } else if (value.type === "yes_no") {
         return value.staff_anwser;
       }
     },

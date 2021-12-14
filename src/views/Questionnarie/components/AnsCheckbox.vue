@@ -34,11 +34,11 @@ export default {
   data() {
     return {
       isValid: false,
+      isFieldValid: undefined,
       answer: new Array(this.data.length).fill(false),
     };
   },
   created() {
-    // console.log(this.currentAns);
     this.data.forEach((opt, index) => {
       if (this.currentAns.includes(opt.option_id)) {
         this.answer[index] = true;
@@ -52,13 +52,16 @@ export default {
         if (val) {
           ansArr.push(this.data[ind].option_id);
         }
-        // console.log(val, ind, ansArr);
       });
       this.isValid = this.answer.every((e) => e === false);
-      console.log(this.isValid);
+      this.isFieldValid = true;
       if (this.isValid) {
-        this.$emit("getUserSelected", ansArr);
+        this.isFieldValid = !this.isValid;
       }
+      this.$emit("getUserSelected", {
+        ansData: ansArr,
+        isFieldValid: this.isFieldValid,
+      });
     },
   },
 };
@@ -67,7 +70,7 @@ export default {
 <style lang="scss" scoped>
 .check_box_wrapper {
   margin-bottom: 28px;
-  &:nth-last-child() {
+  &:last-child() {
     margin-bottom: 0 !important;
   }
 }
