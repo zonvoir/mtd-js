@@ -37,11 +37,15 @@ export default {
   data() {
     return {
       ansValue: "",
-      isFieldValid: undefined,
+      isFieldValid: false,
     };
   },
   created() {
-    this.ansValue = this.currentAns;
+    if (this.currentAns != "") {
+      this.isFieldValid = true;
+      this.ansValue = this.currentAns;
+      this.emitData(this.ansValue);
+    }
   },
   validations() {
     return {
@@ -57,11 +61,17 @@ export default {
     onInput(event) {
       this.v$.$touch();
       this.isFieldValid = false;
+      let val;
       if (!this.v$.$invalid) {
+        val = event.target.value;
         this.isFieldValid = true;
       }
+
+      this.emitData(val);
+    },
+    emitData(val) {
       this.$emit("getUserSelected", {
-        ansData: event.target.value,
+        ansData: val,
         isFieldValid: this.isFieldValid,
       });
     },

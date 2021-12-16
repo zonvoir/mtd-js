@@ -3,17 +3,36 @@
     <div class="filter_wrap d-flex align-items-center m-b-20">
       <div class="m-r-4">
         <h6 class="m-b-0 text-gray fs-14 fw-400">
-          {{ $t("overview_index.filter_by") }}:
+          {{ $t("overview_index.filter_by") }}
         </h6>
       </div>
       <div class="d-inline-flex">
-        <button class="btn btn-pill-primary p_btrm m-r-8">
+        <button
+          @click="filterCategory('all')"
+          class="btn btn-pill-primary p_btrm m-r-8"
+          :class="{ 'btn-pill-primary-active': isFiltered == 'all' }"
+        >
+          {{ $t("overview_index.buttons.all") }}
+        </button>
+        <button
+          @click="filterCategory('not_started')"
+          class="btn btn-pill-primary p_btrm m-r-8"
+          :class="{ 'btn-pill-primary-active': isFiltered == 'not_started' }"
+        >
           {{ $t("overview_index.buttons.not_started") }}
         </button>
-        <button class="btn btn-pill-primary p_btrm m-r-8">
+        <button
+          @click="filterCategory('in_progress')"
+          class="btn btn-pill-primary p_btrm m-r-8"
+          :class="{ 'btn-pill-primary-active': isFiltered == 'in_progress' }"
+        >
           {{ $t("overview_index.buttons.in_progress") }}
         </button>
-        <button class="btn btn-pill-primary p_btrm">
+        <button
+          @click="filterCategory('completed')"
+          class="btn btn-pill-primary p_btrm"
+          :class="{ 'btn-pill-primary-active': isFiltered == 'completed' }"
+        >
           {{ $t("overview_index.buttons.completed") }}
         </button>
       </div>
@@ -21,7 +40,15 @@
     <div class="dept_wrapper">
       <div class="custom_grid">
         <template v-for="(category, index) in categoryList" :key="index">
-          <div class="custom_grid_col" v-if="category.questionnaire != ''">
+          <div
+            class="custom_grid_col"
+            v-if="
+              category.questionnaire != '' &&
+              [category.questionnaire.questionnaire_status, 'all'].includes(
+                isFiltered
+              )
+            "
+          >
             <div class="">
               <Card
                 :id="category.id"
@@ -41,11 +68,32 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Card from "../../components/Shared/Card.vue";
 import CommonService from "../../Services/CommonService";
 export default {
+  data() {
+    return {
+      component_name: "category-overview",
+      // categoryList: [],
+      departmentLists: [],
+      isFiltered: "all",
+      defaultDeptId: {},
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      authToken: "",
+      dept_id_default: undefined,
+    };
+  },
   components: {
     Card,
+  },
+  computed: {
+    // categoryList() {
+    //   return this.$store.getters.categoryArrayItems;
+    // },
+    ...mapGetters({
+      categoryList: "categoryArrayItems",
+    }),
   },
   created() {
     if (
@@ -59,17 +107,6 @@ export default {
     this.getdDepartmentList();
   },
 
-  data() {
-    return {
-      component_name: "category-overview",
-      categoryList: [],
-      departmentLists: [],
-      defaultDeptId: {},
-      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      authToken: "",
-      dept_id_default: undefined,
-    };
-  },
   methods: {
     // get departmens lists
     getdDepartmentList() {
@@ -79,16 +116,12 @@ export default {
             return depts.is_default === "1";
           });
           this.dept_id_default = this.departmentLists[0].departmentid;
-          console.log("authToken", this.authToken);
           let data = {
             department_id: this.dept_id_default,
             auth_token: this.authToken,
           };
-          console.log("send new", data);
           this.getDefaultDeptCategories(data);
-          console.log("dept_id by default", this.dept_id_default);
           this.defaultDeptId = { did: this.departmentLists[0].departmentid };
-          console.log("default dept IDs", this.defaultDeptId);
         } else {
           let $th = this;
           if ("error" in res.data) {
@@ -99,10 +132,6 @@ export default {
               });
             });
           } else {
-            if (res.data.message === "Authentication token mismatch") {
-              console.log("token Mismatch");
-              this.$router.push({ name: "signup-signin" });
-            }
             $th.$toast.error(res.data.message, {
               position: "bottom-left",
               duration: 3712,
@@ -116,9 +145,8 @@ export default {
       CommonService.getAllCategories(data)
         .then((res) => {
           if (res.data.status) {
-            this.categoryList = res.data.data;
-
-            console.log("list", res.data.data);
+            this.$store.dispatch("getCategoryArray", res.data.data);
+            console.log(res.data.data);
           } else {
             let $th = this;
             if ("error" in res.data) {
@@ -133,21 +161,26 @@ export default {
                 position: "bottom-left",
                 duration: 3712,
               });
-              if (res.data.message === "Authentication token mismatch") {
-                this.$router.push({ name: "signup-signin" });
-              }
             }
           }
         })
         .catch((error) => {
           console.log(error);
-        })
-        .finally(() => {
-          console.log("finaly");
         });
+    },
+    filterCategory(val) {
+      this.isFiltered = val;
     },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btn-pill-primary-active {
+  background-color: #7900d8;
+  box-shadow: none !important;
+  outline: none;
+  color: #ffffff !important;
+  border-color: #7900d8;
+}
+</style>

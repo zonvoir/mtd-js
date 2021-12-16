@@ -4,6 +4,7 @@
       <input
         type="text"
         name="input"
+        placeholder=""
         class="form-control k_inp_field"
         v-model="ansValue"
         @input="onInput"
@@ -37,10 +38,12 @@ export default {
       isFieldValid: undefined,
     };
   },
+
   created() {
-    this.ansValue = new Date();
     if (this.currentAns != "") {
+      this.isFieldValid = true;
       this.ansValue = this.currentAns;
+      this.emitData(this.ansValue);
     }
   },
   validations() {
@@ -55,17 +58,19 @@ export default {
   },
   methods: {
     onInput(event) {
-      console.log("close date picker");
       this.v$.$touch();
       this.isFieldValid = false;
-      console.log(this.v$.$invalid);
-      if (this.v$.$invalid) {
-        console.log(event.target.value);
-      } else {
+      let val;
+      if (!this.v$.$invalid) {
+        val = event.target.value;
         this.isFieldValid = true;
       }
+
+      this.emitData(val);
+    },
+    emitData(val) {
       this.$emit("getUserSelected", {
-        ansData: event.target.value,
+        ansData: val,
         isFieldValid: this.isFieldValid,
       });
     },

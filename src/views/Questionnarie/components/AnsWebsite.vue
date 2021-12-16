@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="k_form_group k_inp_half">
-      <!-- <label for="" class="form-label">Enter Project Name</label> -->
       <input
         type="text"
         name="input"
@@ -38,11 +37,16 @@ export default {
   data() {
     return {
       ansValue: "",
-      isFieldValid: undefined,
+      tempVal: "",
+      isFieldValid: false,
     };
   },
   created() {
-    this.ansValue = this.currentAns;
+    if (this.currentAns != "") {
+      this.ansValue = this.currentAns;
+      this.isFieldValid = true;
+      this.emitData(this.ansValue);
+    }
   },
   validations() {
     return {
@@ -56,15 +60,25 @@ export default {
   },
   methods: {
     onInput(event) {
-      this.isFieldValid = false;
       this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
-      } else {
+      this.isFieldValid = false;
+      let val;
+      if (!this.v$.$invalid) {
+        val = event.target.value;
         this.isFieldValid = true;
       }
+      this.emitData(val);
+      // if (this.v$.$invalid) {
+      //   return;
+      // } else {
+      //   this.isFieldValid = true;
+      // }
+      // this.tempVal = event.target.value;
+      // this.emitData(this.tempVal);
+    },
+    emitData(val) {
       this.$emit("getUserSelected", {
-        ansData: event.target.value,
+        ansData: val,
         isFieldValid: this.isFieldValid,
       });
     },

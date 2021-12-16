@@ -8,6 +8,7 @@ export default createStore({
     randomQuestionIndex: undefined,
     questionList: [],
     getAnsweredQuestion: 0,
+    categoryArray: [],
   },
   mutations: {
     setQuestionnaire(state, questionnaire) {
@@ -18,6 +19,9 @@ export default createStore({
     },
     setQuestionList(state, questionList) {
       state.questionList = questionList;
+    },
+    setCategoryArray(state, categories) {
+      state.categoryArray = categories;
     },
     setIncrementProgressValue(state, val) {
       state.quizProgressValue = val;
@@ -38,6 +42,9 @@ export default createStore({
     async getQuestionList(context, val) {
       context.commit("setQuestionList", val);
     },
+    async getCategoryArray(context, val) {
+      context.commit("setCategoryArray", val);
+    },
     async getIncrementProgressValue(context, val) {
       context.commit("setIncrementProgressValue", val);
     },
@@ -51,14 +58,16 @@ export default createStore({
     quizProgressValue: (state) => state.quizProgressValue,
     questionnaireDetails: (state) => state.questionnaireDetails,
     questionnaire: (state) => state.questionnaire,
-    questionList: (state) => state.questionList,
+    categoryArrayItems: (state) => state.categoryArray,
     getQuestionList(state) {
       return state.questionList;
     },
-    // getQuestionById: (state) => (id) => {
-    //   console.log(id);
-    //   return state.questionList.findIndex((question) => question.id === id);
-    // },
+    filterdCategoryList: (state) => (status) => {
+      console.log(status);
+      return state.categoryArray.filter(
+        (category) => category.questionnaire_status === status
+      );
+    },
     randomQuizIndex: (state) => state.randomQuestionIndex,
     // randomQuestionIndex(state) {
     //   return state.randomQuestionIndex;

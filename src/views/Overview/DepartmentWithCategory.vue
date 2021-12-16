@@ -7,21 +7,49 @@
         </h6>
       </div>
       <div class="d-inline-flex">
-        <button class="btn btn-pill-primary p_btrm m-r-8">
+        <button
+          @click="filterCategory('all')"
+          class="btn btn-pill-primary p_btrm m-r-8"
+          :class="{ 'btn-pill-primary-active': isFiltered == 'all' }"
+        >
+          {{ $t("overview_index.buttons.all") }}
+        </button>
+        <button
+          @click="filterCategory('not_started')"
+          class="btn btn-pill-primary p_btrm m-r-8"
+          :class="{ 'btn-pill-primary-active': isFiltered == 'not_started' }"
+        >
           {{ $t("overview_index.buttons.not_started") }}
         </button>
-        <button class="btn btn-pill-primary p_btrm m-r-8">
+        <button
+          @click="filterCategory('in_progress')"
+          class="btn btn-pill-primary p_btrm m-r-8"
+          :class="{ 'btn-pill-primary-active': isFiltered == 'in_progress' }"
+        >
           {{ $t("overview_index.buttons.in_progress") }}
         </button>
-        <button class="btn btn-pill-primary p_btrm">
+        <button
+          @click="filterCategory('completed')"
+          class="btn btn-pill-primary p_btrm"
+          :class="{ 'btn-pill-primary-active': isFiltered == 'completed' }"
+        >
           {{ $t("overview_index.buttons.completed") }}
         </button>
       </div>
     </div>
     <div class="dept_wrapper">
       <div class="custom_grid">
+        <!-- {{ categoryList }} -->
         <template v-for="(category, index) in categoryList" :key="index">
-          <div v-if="category.questionnaire" class="custom_grid_col">
+          <div
+            v-if="
+              category.questionnaire != '' &&
+              [category.questionnaire.questionnaire_status, 'all'].includes(
+                isFiltered
+              )
+            "
+            class="custom_grid_col"
+          >
             <div class="">
               <Card
                 :id="category.id"
@@ -41,6 +69,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Card from "../../components/Shared/Card.vue";
 import CommonService from "../../Services/CommonService";
 
@@ -50,17 +79,24 @@ export default {
   },
   data() {
     return {
-      url_dataID: "",
-      categoryList: [],
+      isFiltered: "all",
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      authToken: "",
       component_name: "category-overview",
       component_params: {},
       departmentId: 0,
     };
   },
+
+  computed: {
+    ...mapGetters({
+      categoryList: "categoryArrayItems",
+    }),
+  },
   created() {
     this.component_params = { did: this.$route.params.id };
     this.departmentId = this.$route.params.id;
-    // console.log(this.$route.params.id, this.departmentId);
+    console.log("department id", this.departmentId);
     if (
       localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
       localStorage.getItem("bWFpbCI6Inpvb") == null ||
@@ -68,53 +104,58 @@ export default {
     ) {
       this.$router.push({ name: "signup-signin" });
     }
-    this.getDefaultDeptCategories(this.departmentId);
+    this.authToken = this.staffData.auth_token;
+    let data = {
+      department_id: this.departmentId,
+      auth_token: this.authToken,
+    };
+    this.getDefaultDeptCategories(data);
   },
-  mounted() {
-    this.url_dataID = this.$route.params.id;
-    console.log("id from url ", this.url_dataID);
-    // if (this.url_dataID) {
-    //   this.getDepartmentDetails(this.url_dataID);
-    // }
-  },
+
   methods: {
     // get categories lists
-    getDefaultDeptCategories(Dept_id) {
-      CommonService.getAllCategories(Dept_id)
-        .then((resp) => {
-          if (resp.data.status) {
-            this.categoryList = resp.data.data;
-            console.log("latest category", this.categoryList);
+    getDefaultDeptCategories(data) {
+      CommonService.getAllCategories(data)
+        .then((res) => {
+          if (res.data.status) {
+            this.$store.dispatch("getCategoryArray", res.data.data);
           } else {
-            console.log("no department list found");
             let $th = this;
-            Object.keys(resp.data.error).map(function (key) {
-              $th.$toast.error(resp.data.error[key], {
+            if ("error" in res.data) {
+              Object.keys(res.data.error).map(function (key) {
+                $th.$toast.error(res.data.error[key], {
+                  position: "bottom-left",
+                  duration: 3712,
+                });
+              });
+            } else {
+              $th.$toast.error(res.data.message, {
                 position: "bottom-left",
                 duration: 3712,
               });
-            });
+            }
           }
         })
         .catch((error) => {
           console.log(error);
         })
         .finally(() => {
-          console.log("");
+          console.log("finaly");
         });
     },
-    // get DepartmentDetail
-    // getDepartmentDetails(id) {
-    //   CommonService.getOneDepartment(id).then((res) => {
-    //     if (res.data.status) {
-    //       console.log("departmentWithCategory list ", res.data.data);
-    //     } else {
-    //       console.log("no department details found");
-    //     }
-    //   });
-    // },
+    filterCategory(val) {
+      this.isFiltered = val;
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btn-pill-primary-active {
+  background-color: #7900d8;
+  box-shadow: none !important;
+  outline: none;
+  color: #ffffff !important;
+  border-color: #7900d8;
+}
+</style>

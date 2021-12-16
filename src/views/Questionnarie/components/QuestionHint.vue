@@ -15,8 +15,8 @@
     </div>
 
     <div v-if="hintType == 'pdf'" class="">
-      <div class="">
-        <iframe :src="hint" height="500" width=""></iframe>
+      <div class="text-center">
+        <iframe :src="hint" style="width: 58rem" height="500" width=""></iframe>
       </div>
     </div>
   </div>

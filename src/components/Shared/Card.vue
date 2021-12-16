@@ -25,7 +25,7 @@
             bg_warn: status == $t('status.in_progress'),
             bg_success: status == $t('status.completed'),
           }"
-          class="dept_status bg-gray"
+          class="dept_status bg_gray"
           >{{ status }}</span
         >
       </div>

@@ -141,7 +141,8 @@
       "view": "view",
       "not_started": "not started",
       "completed": "completed",
-      "in_progress": "in progress"
+      "in_progress": "in progress",
+      "all": "all"
     }
   },
   "category_details": {

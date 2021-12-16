@@ -38,23 +38,33 @@ export default {
     };
   },
   created() {
-    this.answer = this.currentAns[0];
+    let stfAns = this.currentAns[0];
+    if (stfAns != "") {
+      this.isFieldValid = true;
+      this.answer = stfAns;
+      this.emitData([this.answer]);
+    }
   },
 
   methods: {
     updateAnswer() {
       let ansArr = [this.answer];
-      console.log(ansArr);
+      console.log(ansArr.length > 0);
       if (ansArr.length > 0) {
-        // this.$emit("getUserSelected", ansArr);
-        this.$emit("getUserSelected", {
-          ansData: ansArr,
-          isFieldValid: this.isFieldValid,
-        });
+        this.isValid = false;
+        this.isFieldValid = true;
       } else {
         this.isValid = true;
-        this.isFieldValid = !this.isValid;
+        this.isFieldValid = false;
       }
+      console.log("updated value", this.isFieldValid);
+      this.emitData(ansArr);
+    },
+    emitData(val) {
+      this.$emit("getUserSelected", {
+        ansData: val,
+        isFieldValid: this.isFieldValid,
+      });
     },
   },
 };

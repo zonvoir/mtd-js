@@ -5,15 +5,16 @@
       "select_your_company": "Select Your Compan",
       "select_year": "Select Yeark"
     },
-    "status": {
-      "not_started": "not_started",
-      "in_progress": "in_progress",
-      "completed": "completed"
-    },
+
     "profile_drop_down": {
       "profile": "Profile",
       "logout": "Logout"
     }
+  },
+  "status": {
+    "not_started": "not_started",
+    "in_progress": "in_progress",
+    "completed": "completed"
   },
   "login": {
     "loading": "Loading...",
@@ -142,7 +143,8 @@
       "view": "view",
       "not_started": "not started",
       "completed": "completed",
-      "in_progress": "in progress"
+      "in_progress": "in progress",
+      "all": "all"
     }
   },
   "category_details": {

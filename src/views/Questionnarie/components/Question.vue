@@ -12,6 +12,8 @@
       <div class="option_wrapper">
         <div v-if="questions[currentIdx].type == 'multiple_choice'">
           <AnsCheckbox
+            ref="ans_checkbox"
+            :key="currentIdx"
             @getUserSelected="userGivenAnswer"
             :data="questions[currentIdx].choices"
             :currentAns="questions[currentIdx].staff_anwser"
@@ -19,13 +21,21 @@
         </div>
         <div v-if="questions[currentIdx].type == 'radio_button'">
           <AnsRadio
+            ref="ans_radio"
+            :key="currentIdx"
             @getUserSelected="userGivenAnswer"
             :data="questions[currentIdx].choices"
             :currentAns="questions[currentIdx].staff_anwser"
           />
         </div>
         <div v-if="questions[currentIdx].type == 'yes_no'">
-          <AnsSwitch :data="questions[currentIdx].choices" />
+          <AnsSwitch
+            ref="ans_switch"
+            :key="currentIdx"
+            v-model="answerValue"
+            @getUserSelected="userGivenAnswer"
+            :currentAns="questions[currentIdx].staff_anwser"
+          />
         </div>
         <div v-if="questions[currentIdx].type == 'richText'">
           <AnsTextArea :data="questions[currentIdx].choices" />
@@ -33,6 +43,7 @@
         <div v-if="questions[currentIdx].type == 'text'">
           <!-- @getUserSelected="userGivenAnswer" -->
           <AnsInput
+            ref="ans_freeText"
             :key="currentIdx"
             v-model="answerValue"
             @getUserSelected="userGivenAnswer"
@@ -41,6 +52,7 @@
         </div>
         <div v-if="questions[currentIdx].type == 'website'">
           <AnsWebsite
+            ref="ans_url"
             :key="currentIdx"
             v-model="answerValue"
             @getUserSelected="userGivenAnswer"
@@ -49,6 +61,7 @@
         </div>
         <div v-if="questions[currentIdx].type == 'dropdown'">
           <AnsSelect
+            ref="ans_dropdown"
             :key="currentIdx"
             v-model="answerValue"
             @getUserSelected="userGivenAnswer"
@@ -58,6 +71,7 @@
         </div>
         <div v-if="questions[currentIdx].type == 'manySelect'">
           <AnsMultiSelect
+            :key="currentIdx"
             v-model="answerValue"
             @getUserSelected="userGivenAnswer"
             :currentAns="questions[currentIdx].staff_anwser"
@@ -65,6 +79,7 @@
         </div>
         <div v-if="questions[currentIdx].type == 'email'">
           <AnsEmail
+            ref="ans_email"
             :key="currentIdx"
             v-model="answerValue"
             @getUserSelected="userGivenAnswer"
@@ -73,6 +88,8 @@
         </div>
         <div v-if="questions[currentIdx].type == 'phone_number'">
           <AnsPhone
+            ref="ans_phone_no"
+            :key="currentIdx"
             v-model="answerValue"
             @getUserSelected="userGivenAnswer"
             :currentAns="questions[currentIdx].staff_anwser"
@@ -80,6 +97,8 @@
         </div>
         <div v-if="questions[currentIdx].type == 'number'">
           <AnsSingleNumber
+            ref="ans_single_number"
+            :key="currentIdx"
             v-model="answerValue"
             @getUserSelected="userGivenAnswer"
             :currentAns="questions[currentIdx].staff_anwser"
@@ -87,6 +106,7 @@
         </div>
         <div v-if="questions[currentIdx].type == 'moreNumber'">
           <AnsMultipleNumber
+            :key="currentIdx"
             v-model="answerValue"
             @getUserSelected="userGivenAnswer"
             :currentAns="questions[currentIdx].staff_anwser"
@@ -97,7 +117,13 @@
         </div>
 
         <div v-if="questions[currentIdx].type == 'date'">
-          <AnsDate :data="questions[currentIdx].choices" />
+          <AnsDate
+            ref="ans_date"
+            :key="currentIdx"
+            v-model="answerValue"
+            @getUserSelected="userGivenAnswer"
+            :currentAns="questions[currentIdx].staff_anwser"
+          />
         </div>
       </div>
       <!-- Answer Section Ends -->
@@ -122,6 +148,7 @@
       <!-- bottom section start -->
       <div class="btns_wrap">
         <button
+          :key="currentIdx"
           type="button"
           :disabled="currentIdx == 0"
           @click="prevoiusQuestion"
@@ -130,6 +157,7 @@
           previous
         </button>
         <button
+          :key="currentIdx"
           type="button"
           :disabled="!isValidated"
           :class="currentIdx >= questions.length - 1 ? 'd-none' : ''"
@@ -197,7 +225,7 @@ export default {
       currentIdx: 0,
       quiz: [],
       isHint: false,
-      isValidated: undefined,
+      isValidated: false,
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       authToken: "",
       answerValue: "" | [],
@@ -209,6 +237,7 @@ export default {
       questions: (state) => state.questionList,
     }),
     questionIdex() {
+      // this.isValidated = false;
       console.log(this.$store.getters.randomQuizIndex);
       return this.$store.getters.randomQuizIndex;
     },
@@ -247,7 +276,22 @@ export default {
     },
     nextQuestion(id) {
       this.isHint = false;
-      console.log(id);
+      console.log(
+        this.answerValue == "" ||
+          this.questions[this.currentIdx].staff_anwser == ""
+      );
+      if (
+        this.answerValue == undefined ||
+        this.answerValue == null ||
+        this.answerValue == ""
+      ) {
+        this.isValidated = false;
+        this.$toast.error("Please answer the question", {
+          position: "bottom-left",
+          duration: 3712,
+        });
+        return;
+      }
       let data = {
         auth_token: this.authToken,
         question_id: id,
@@ -255,6 +299,7 @@ export default {
           this.answerValue || this.questions[this.currentIdx].staff_anwser,
       };
       this.submitAnswer(data);
+      this.isValidated = false;
       return this.currentIdx;
     },
     finishQuestion(id) {
@@ -271,16 +316,14 @@ export default {
       this.isHint = false;
       this.currentIdx = this.currentIdx - 1;
       this.quiz = this.questions[this.currentIdx];
-      // this.$store.dispatch("getIncrementProgressValue", 10);
       return this.currentIdx;
     },
     submitAnswer(data) {
-      console.log("userdata", data);
       QuestionnaireService.submitAnswer(data).then((res) => {
         this.questions[this.currentIdx].is_answered = true;
         if (res.data.status) {
           if (this.currentIdx >= this.questions.length - 1) {
-            this.$toast.success("Questionniare completed.", {
+            this.$toast.success("Thanks for participating", {
               position: "bottom-left",
               duration: 3712,
             });
@@ -293,7 +336,7 @@ export default {
             this.questions[this.currentIdx].is_answered = true;
             this.questions[this.currentIdx].staff_anwser = data.answer;
             console.log("vis csum", this.questions);
-
+            this.isValidated = false;
             this.currentIdx = this.currentIdx + 1;
             this.quiz = this.questions[this.currentIdx];
           }

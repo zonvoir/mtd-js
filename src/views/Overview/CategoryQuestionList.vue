@@ -159,7 +159,10 @@ export default {
       } else if (value.type === "date") {
         return value.staff_anwser;
       } else if (value.type === "dropdown") {
-        return value.staff_anwser;
+        let tempChoice = value.choices.find((item) => {
+          return item.option_id === value.staff_anwser[0];
+        });
+        return tempChoice.choices;
       } else if (value.type === "email") {
         return value.staff_anwser;
       } else if (value.type === "yes_no") {

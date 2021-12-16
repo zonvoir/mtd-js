@@ -1,9 +1,11 @@
 <template>
   <div class="k_date_picker k_inp_half">
     <Datepicker
-      class=""
-      v-model="date"
-      @update="onInput"
+      ref="selected_date"
+      class="invalid_error"
+      :enableTimePicker="false"
+      v-model="ansValue"
+      @closed="updateDate"
       @blur="v$.ansValue.$touch"
       :class="{
         'is-invalid': v$.ansValue.$error,
@@ -32,15 +34,24 @@ export default {
   data() {
     return {
       ansValue: "",
-      date: new Date(),
-      isFieldValid: undefined,
+      calcDate: "",
+      isFieldValid: false,
     };
   },
   components: {
     Datepicker,
   },
   created() {
-    this.ansValue = this.currentAns;
+    console.log(this.currentAns);
+    if (this.currentAns != "") {
+      console.log("updated Date from staff", this.currentAns);
+      this.isFieldValid = true;
+      let parts = this.currentAns.split("/");
+      let date = new Date(parts[2], parts[1] - 1, parts[0]);
+      this.ansValue = date;
+      this.emitData(this.currentAns);
+      // this.formatMyDate(this.currentAns);
+    }
   },
   validations() {
     return {
@@ -52,21 +63,49 @@ export default {
       v$: useVuelidate(),
     };
   },
+
   methods: {
-    onInput(event) {
+    updateDate() {
+      this.checkValidation();
+      this.formatMyDate(this.ansValue);
+    },
+    formatMyDate(value) {
+      let tempDate = new Date(value);
+      let date = tempDate.getDate();
+      let year = tempDate.getFullYear();
+      let month = tempDate.getMonth() + 1;
+      if (isNaN(date) && isNaN(month) && isNaN(year)) {
+        this.calcDate = "";
+      } else {
+        this.calcDate = date + "/" + month + "/" + year;
+      }
+      this.emitData(this.calcDate);
+      // this.ansValue = this.calcDate;
+      console.log("date", this.ansValue);
+    },
+    checkValidation() {
       this.v$.$touch();
       this.isFieldValid = false;
       console.log(this.v$.$invalid);
-      if (this.v$.$invalid) {
-        console.log(event.target.value);
-      } else {
+      if (!this.v$.$invalid) {
         this.isFieldValid = true;
       }
+      console.log("validation successful", this.isFieldValid);
+    },
+    emitData(val) {
       this.$emit("getUserSelected", {
-        ansData: event.target.value,
+        ansData: val,
         isFieldValid: this.isFieldValid,
       });
     },
   },
 };
 </script>
+<style lang="scss" scoped>
+.invalid_error {
+  &:focus {
+    outline: 2px solid #db2c66 !important;
+    outline-offset: 0px;
+  }
+}
+</style>

@@ -231,7 +231,6 @@ export default {
   border: 1px solid #e4e9f2;
   box-sizing: border-box;
   border-radius: 4px;
-  text-transform: capitalize;
   padding: 6px 8px 6px 14px;
 }
 .border-bottom-1 {

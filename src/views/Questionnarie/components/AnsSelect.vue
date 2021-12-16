@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       ansValue: null,
-      isFieldValid: undefined,
+      isFieldValid: false,
       dropdownArray: [],
       tempAns: [],
     };
@@ -57,7 +57,7 @@ export default {
     };
   },
   created() {
-    this.ansValue = this.currentAns;
+    // this.ansValue = this.currentAns;
     this.data.forEach((item) => {
       const element = {
         value: item.option_id,
@@ -66,8 +66,14 @@ export default {
       this.dropdownArray.push(element);
     });
     if (this.currentAns != "") {
+      this.isFieldValid = true;
       this.ansValue = this.currentAns;
+      this.emitData(this.ansValue);
     }
+    // if (this.currentAns != "") {
+
+    //   this.ansValue = this.currentAns;
+    // }
   },
   methods: {
     updateAnswer() {
@@ -77,8 +83,15 @@ export default {
         this.isFieldValid = true;
         this.tempAns.push(this.ansValue);
       }
+      this.emitData(this.tempAns);
+      // this.$emit("getUserSelected", {
+      //   ansData: this.tempAns,
+      //   isFieldValid: this.isFieldValid,
+      // });
+    },
+    emitData(val) {
       this.$emit("getUserSelected", {
-        ansData: this.tempAns,
+        ansData: val,
         isFieldValid: this.isFieldValid,
       });
     },
