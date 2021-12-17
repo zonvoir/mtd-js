@@ -46,6 +46,8 @@ export default {
       department: [],
       id: "",
       image: "",
+      // staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      // authToken: "",
     };
   },
   created() {
@@ -60,17 +62,60 @@ export default {
     ChangeT(title) {
       this.title = title;
     },
+    oneDepartmentDetails(id) {
+      // let data = {
+      //   auth_token: this.staffData.auth_token,
+      // };
+      // CommonService.getTokenValidation(data).then((res) => {
+      //   if (res.data.status) {
+      //     console.log("welcome Data Value", res.data);
+      //   } else {
+      //     let $th = this;
+      //     if ("error" in res.data) {
+      //       Object.keys(res.data.error).map(function (key) {
+      //         $th.$toast.error(res.data.error[key], {
+      //           position: "bottom-left",
+      //           duration: 3712,
+      //         });
+      //       });
+      //     } else {
+      //       $th.$toast.error(res.data.message, {
+      //         position: "bottom-left",
+      //         duration: 3712,
+      //       });
+      //     }
+      //   }
+      // });
+      let deptInfo = this.department.find((item) => {
+        return item.departmentid === id;
+      });
+      console.log("dept info", deptInfo);
+      this.title = deptInfo.name;
+      this.id = deptInfo.id;
+      this.image = deptInfo.image;
+    },
     // get DepartmentDetail
     getDepartmentDetails(id) {
-      CommonService.getOneDepartment(id).then((resp) => {
-        if (resp.data.status) {
-          console.log("dept layout", resp.data.data);
-          this.department = resp.data.data;
-          this.title = resp.data.data[0].name;
-          this.id = resp.data.data[0].id;
-          this.image = resp.data.data[0].image;
+      CommonService.getOneDepartment(id).then((res) => {
+        if (res.data.status) {
+          // console.log("dept layout", res.data.data);
+          this.department = res.data.data;
+          this.oneDepartmentDetails(this.url_dataID);
         } else {
-          console.log("no department details found");
+          let $th = this;
+          if ("error" in res.data) {
+            Object.keys(res.data.error).map(function (key) {
+              $th.$toast.error(res.data.error[key], {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            });
+          } else {
+            $th.$toast.error(res.data.message, {
+              position: "bottom-left",
+              duration: 3712,
+            });
+          }
         }
       });
     },

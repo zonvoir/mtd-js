@@ -48,6 +48,7 @@ import PaymentList from "../views/Payment/PaymentList.vue";
 import QuestionHint from "../views/Questionnarie/components/QuestionHint.vue";
 import nProgress from "nprogress";
 import { loadLocaleMessages, setI18nLanguage, setupI18n } from "../i18n";
+import CommonService from "../Services/CommonService";
 
 const locale = localStorage.getItem("language") || "en";
 const i18n = setupI18n({
@@ -58,7 +59,9 @@ loadLocaleMessages(i18n, locale);
 // check if user not login then Dashboard related page not showsrc\views\Results\ResultLocked.vue
 function guardMyroute(to, from, next) {
   var isAuthenticated = false;
+
   let user = localStorage.getItem("bWFpbCI6Inpvb");
+
   user = JSON.parse(user);
   if (
     user === null ||
@@ -69,6 +72,14 @@ function guardMyroute(to, from, next) {
   ) {
     isAuthenticated = true;
   } else {
+    CommonService.getTokenValidation({ auth_token: user.auth_token }).then(
+      ({ data }) => {
+        if (!data.status) {
+          localStorage.removeItem("bWFpbCI6Inpvb");
+          next("/signup/signin");
+        }
+      }
+    );
     isAuthenticated = false;
   }
   if (isAuthenticated) {
@@ -320,6 +331,7 @@ const routes = [
   {
     path: "/:departmentid/questionnarie/:categoryId",
     component: QuestionnarieLayout,
+    beforeEnter: guardMyroute,
     name: "questionnarie",
     redirect: "/questionnarie/questionnarie-test",
     children: [

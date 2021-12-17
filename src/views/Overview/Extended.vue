@@ -108,6 +108,7 @@ export default {
     border-bottom: 1px solid #edf1f7;
     padding-bottom: 7px;
     width: 100%;
+    height: 52px !important;
     .dept_name_wrap {
       height: 42px;
       line-height: 42px;

@@ -2,7 +2,7 @@
   <div class="hint_box">
     <div class="textpart" v-if="hintType == 'text'" v-html="hint"></div>
     <div class="imgpart" v-if="hintType == 'image'">
-      <img :src="hint" />
+      <img class="img_width" :src="hint" />
     </div>
 
     <div class="" v-if="hintType == 'video'">
@@ -29,6 +29,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.img_width {
+  width: 100%;
+}
 .hint_box {
   background: #ffffff;
   padding: 20px 25px;

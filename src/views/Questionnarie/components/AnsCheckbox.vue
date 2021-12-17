@@ -44,6 +44,11 @@ export default {
         this.answer[index] = true;
       }
     });
+    if (this.currentAns.length > 0) {
+      this.isFieldValid = true;
+      this.emitData(this.currentAns);
+      console.log("is staff ans", this.currentAns);
+    }
   },
   methods: {
     updateAnswer() {
@@ -58,8 +63,15 @@ export default {
       if (this.isValid) {
         this.isFieldValid = !this.isValid;
       }
+      this.emitData(ansArr);
+      // this.$emit("getUserSelected", {
+      //   ansData: ansArr,
+      //   isFieldValid: this.isFieldValid,
+      // });
+    },
+    emitData(val) {
       this.$emit("getUserSelected", {
-        ansData: ansArr,
+        ansData: val,
         isFieldValid: this.isFieldValid,
       });
     },

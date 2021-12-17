@@ -26,10 +26,19 @@
             {{ $t("category_details.overiewTab.Fill_all_the_KPI_questions") }}
             <!-- Fill all the KPI questions -->
           </p>
-          <!-- {{ questionnaireDetails.expiration_date }} fill -->
           <div class="m-l-auto">
+            <!-- :disabled="!questionnaireDetails.is_accessible" -->
+            <!-- :disabled="isInvalidUser" -->
+            <!-- {{ !questionnaireDetails.is_accessible }}
+            {{ !(questionnaireDetails.number_of_questions > 0) }}
+            {{ questionnaireDetails.is_expired }}
+            {{ questionnaireDetails.number_of_questions }} -->
             <button
-              :disabled="questionnaireDetails.is_accessible"
+              :disabled="
+                !questionnaireDetails.is_accessible ||
+                !(questionnaireDetails.number_of_questions > 0) ||
+                questionnaireDetails.is_expired
+              "
               @click="startQuestionnarie"
               class="btn-primary btn btn-set text-uppercase"
             >
@@ -94,7 +103,9 @@
               "
             >
               {{ $t("category_details.overiewTab.Invited_People") }}
-              <span class="text-warn">22</span>
+              <span class="text-warn">{{
+                questionnaireDetails.invited_people
+              }}</span>
             </li>
             <li
               class="
@@ -106,7 +117,12 @@
               "
             >
               {{ $t("category_details.overiewTab.Completed_Surveys") }}
-              <span class="text-green">22/22</span>
+              <!-- <span class="text-green">22/22</span>completed_servey -->
+              <span class="text-green"
+                >{{ questionnaireDetails.completed_servey }}/{{
+                  questionnaireDetails.invited_people
+                }}</span
+              >
             </li>
           </ul>
         </div>
@@ -120,6 +136,7 @@
 </template>
 
 <script>
+// import moment from ''
 import { mapState } from "vuex";
 import DonutChart from "../../components/Shared/DonutChart.vue";
 import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
@@ -130,10 +147,11 @@ export default {
   data() {
     return {
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      permissionStatus: Boolean,
       authToken: "",
       categoryID: "",
       departmentId: "",
+      isInvalidUser: true,
+      isQuestionnireExpired: undefined,
     };
   },
 
@@ -143,8 +161,8 @@ export default {
       questionnaireDetails: (state) => state.questionnaireDetails,
     }),
   },
-  mounted() {
-    console.log("kuldip  Details", this.category, this.questionnaireDetails);
+  created() {
+    console.log("kuldip  Details", this.questionnaireDetails);
     this.departmentId = this.$route.params.did;
     this.categoryID = this.$route.params.id;
     this.authToken = this.staffData.auth_token;
@@ -153,20 +171,18 @@ export default {
       department_id: this.departmentId,
       category_id: this.categoryID,
     };
-
     this.getDeptAndCategoryDetails(data);
+    this.checkExpiration(this.questionnaireDetails.expiration_date);
   },
   methods: {
     getDeptAndCategoryDetails(data) {
       QuestionnaireService.getOneCategory(data).then((res) => {
         if (res.data.status) {
-          this.permissionStatus =
-            res.data.data.questionnaire.detail.is_accessible;
-          console.log("questionlist", this.permissionStatus);
           this.$store.dispatch(
             "getQuestionnaire",
             res.data.data.category_details
           );
+          this.checkValiditonToStart();
         } else {
           let $th = this;
           if ("error" in res.data) {
@@ -181,38 +197,10 @@ export default {
               position: "bottom-left",
               duration: 3712,
             });
-            if (res.data.message === "Authentication token mismatch") {
-              this.$router.push({ name: "signup-signin" });
-            }
           }
         }
       });
     },
-    // get categories lists
-    // getDefaultDeptCategories(Dept_id) {
-    //   CommonService.getAllCategories(Dept_id)
-    //     .then((resp) => {
-    //       if (resp.data.status) {
-    //         this.categoryList = resp.data.data;
-    //         console.log("latest category", this.categoryList);
-    //       } else {
-    //         console.log("no department list found");
-    //         let $th = this;
-    //         Object.keys(resp.data.error).map(function (key) {
-    //           $th.$toast.error(resp.data.error[key], {
-    //             position: "bottom-left",
-    //             duration: 3712,
-    //           });
-    //         });
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     })
-    //     .finally(() => {
-    //       console.log("");
-    //     });
-    // },
     startQuestionnarie() {
       this.$router.push({
         name: "questionnarie-test",
@@ -221,6 +209,43 @@ export default {
           categoryId: this.categoryID,
         },
       });
+    },
+    checkValiditonToStart() {
+      console.log(
+        this.questionnaireDetails.is_accessible,
+        (this.questionnaireDetails.number_of_questions = !0),
+        this.isQuestionnireExpired
+      );
+      if (
+        this.questionnaireDetails.is_accessible &&
+        this.questionnaireDetails.number_of_questions != 0 &&
+        this.isQuestionnireExpired
+      ) {
+        console.log("user is allowed");
+        this.isInvalidUser = false;
+      }
+      // if (
+      //   !(
+      //     this.questionnaireDetails.is_accessible &&
+      //     this.questionnaireDetails.number_of_questions != 0 &&
+      //     this.isQuestionnireExpired
+      //   )
+      // ) {
+      //   console.log("user is valid");
+      //   this.isInvalidUser = false;
+      // }
+    },
+    checkExpiration(date) {
+      console.log(date);
+      let today = new Date();
+      // (today > date) ?  this.isQuestionnireExpired=false: this.isQuestionnireExpired=true
+      if (today >= date) {
+        this.isQuestionnireExpired = false;
+        console.log("time is expired", this.isQuestionnireExpired);
+      } else {
+        this.isQuestionnireExpired = true;
+        console.log("time is not expired", this.isQuestionnireExpired);
+      }
     },
   },
 };

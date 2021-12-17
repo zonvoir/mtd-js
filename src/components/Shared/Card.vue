@@ -124,7 +124,7 @@ export default {
   background: #ffffff;
   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
   border-radius: 4px;
-  padding: 14px 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
   // width: auto;
   .card_header {
     display: inline-flex;
@@ -132,6 +132,7 @@ export default {
     border-bottom: 1px solid #edf1f7;
     padding-bottom: 7px;
     width: 100%;
+    height: 52px !important;
     .dept_name_wrap {
       height: 42px;
       line-height: 42px;
