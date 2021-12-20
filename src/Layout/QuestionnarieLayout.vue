@@ -40,7 +40,6 @@ export default {
   data() {
     return {
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      // valuenow: 0,
       valuemin: 0,
       valuemax: 100,
       questionArr: [],
@@ -74,10 +73,13 @@ export default {
             res.data.data.category_details
           );
           this.$store.dispatch(
+            "getQuestionnaireDetails",
+            res.data.data.questionnaire.detail
+          );
+          this.$store.dispatch(
             "getQuestionList",
             res.data.data.questionnaire.questions
           );
-          // console.log("questionlist", this.questionList);
         } else {
           let $th = this;
           if ("error" in res.data) {
@@ -92,17 +94,10 @@ export default {
               position: "bottom-left",
               duration: 3712,
             });
-            if (res.data.message === "Authentication token mismatch") {
-              this.$router.push({ name: "signup-signin" });
-            }
           }
         }
       });
     },
-
-    // editQuetion(id) {
-    //   console.log("edit Question by Id", id);
-    // },
   },
 };
 </script>

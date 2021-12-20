@@ -9,23 +9,34 @@ export default createStore({
     questionList: [],
     getAnsweredQuestion: 0,
     categoryArray: [],
+    personalInfo: [],
   },
   mutations: {
+    // getQuestionnaire/categoryDetails
     setQuestionnaire(state, questionnaire) {
       state.questionnaire = questionnaire;
     },
+    // question layout and category Overview
     setQuestionnaireDetails(state, details) {
       state.questionnaireDetails = details;
     },
+    // getQuestionnaire/categoryDetails
     setQuestionList(state, questionList) {
       state.questionList = questionList;
     },
+    // personal Account
+    setPersonalInfo(state, per_data) {
+      state.personalInfo = per_data;
+    },
+    // questionnirelist/questionnire-card
     setCategoryArray(state, categories) {
       state.categoryArray = categories;
     },
+    // progressbar
     setIncrementProgressValue(state, val) {
       state.quizProgressValue = val;
     },
+    // sidebar random question select
     setRandomQuestionIndex(state, id) {
       state.randomQuestionIndex = state.questionList.findIndex(
         (question) => question.id === id
@@ -35,6 +46,10 @@ export default createStore({
   actions: {
     async getQuestionnaire(context, val) {
       context.commit("setQuestionnaire", val);
+    },
+    async getPersonalInfo(context, val) {
+      console.log("value", val);
+      context.commit("setPersonalInfo", val);
     },
     async getQuestionnaireDetails(context, val) {
       context.commit("setQuestionnaireDetails", val);
@@ -58,6 +73,7 @@ export default createStore({
     quizProgressValue: (state) => state.quizProgressValue,
     questionnaireDetails: (state) => state.questionnaireDetails,
     questionnaire: (state) => state.questionnaire,
+    personalInfo: (state) => state.personalInfo,
     categoryArrayItems: (state) => state.categoryArray,
     getQuestionList(state) {
       return state.questionList;

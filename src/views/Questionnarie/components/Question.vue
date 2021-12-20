@@ -7,6 +7,12 @@
           {{ questions[currentIdx].name }}
         </h4>
       </div>
+      <div v-if="questions[currentIdx].description" class="ques_descption_wrap">
+        <p
+          class="ques_descption"
+          v-html="questions[currentIdx].description"
+        ></p>
+      </div>
       <!-- question Section Start -->
       <!-- Answer Section Start -->
       <div class="option_wrapper">
@@ -104,7 +110,8 @@
             :currentAns="questions[currentIdx].staff_anwser"
           />
         </div>
-        <div v-if="questions[currentIdx].type == 'moreNumber'">
+        <!-- v-if="questions[currentIdx].type == 'multi_number'" -->
+        <div>
           <AnsMultipleNumber
             :key="currentIdx"
             v-model="answerValue"
@@ -380,6 +387,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.ques_descption {
+  margin-bottom: 14px;
+  font-size: 14px;
+  line-height: 16px;
+  color: #222b45;
+}
 .btns_wrap {
   position: fixed;
   bottom: 16px;

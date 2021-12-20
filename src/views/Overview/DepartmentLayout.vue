@@ -2,7 +2,7 @@
   <div>
     <div class="member_container">
       <div class="d-flex align-items-center">
-        <div class="view_title_wrap pb-15">
+        <div class="_change_wrap pb-15">
           <div class="page_title_wrap">
             <div class="m-r-6">
               <button @click="backToMain" class="btn btn-transaprent">
@@ -17,7 +17,9 @@
               />
             </div>
             <div class="">
-              <h4 class="view_title">{{ title }}</h4>
+              <h4 class="view_title">
+                {{ title }}
+              </h4>
             </div>
           </div>
         </div>
@@ -46,8 +48,6 @@ export default {
       department: [],
       id: "",
       image: "",
-      // staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      // authToken: "",
     };
   },
   created() {
@@ -63,29 +63,6 @@ export default {
       this.title = title;
     },
     oneDepartmentDetails(id) {
-      // let data = {
-      //   auth_token: this.staffData.auth_token,
-      // };
-      // CommonService.getTokenValidation(data).then((res) => {
-      //   if (res.data.status) {
-      //     console.log("welcome Data Value", res.data);
-      //   } else {
-      //     let $th = this;
-      //     if ("error" in res.data) {
-      //       Object.keys(res.data.error).map(function (key) {
-      //         $th.$toast.error(res.data.error[key], {
-      //           position: "bottom-left",
-      //           duration: 3712,
-      //         });
-      //       });
-      //     } else {
-      //       $th.$toast.error(res.data.message, {
-      //         position: "bottom-left",
-      //         duration: 3712,
-      //       });
-      //     }
-      //   }
-      // });
       let deptInfo = this.department.find((item) => {
         return item.departmentid === id;
       });
@@ -98,7 +75,6 @@ export default {
     getDepartmentDetails(id) {
       CommonService.getOneDepartment(id).then((res) => {
         if (res.data.status) {
-          // console.log("dept layout", res.data.data);
           this.department = res.data.data;
           this.oneDepartmentDetails(this.url_dataID);
         } else {

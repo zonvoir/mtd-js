@@ -1,34 +1,35 @@
 <template>
-  <div>
-    <div class="k_form_group k_inp_half k_inp_number">
+  <div
+    v-for="(subQuestion, index) in subQuestions"
+    :key="subQuestion.id"
+    class="d-flex"
+  >
+    <div class="sub_question_wrap">
+      <h5 class="sub_ques_name">
+        {{ subQuestion.sub_question }}
+      </h5>
+    </div>
+    <div class="k_form_group k_inp_number">
       <input
         type="text"
         name="single"
-        v-model="ansValue"
+        v-model="ansValue[index]"
         @keypress="isNumber"
-        @input="onInput"
-        placeholder="Ex.1"
+        @input="onInput(subQuestion.id, index, $event)"
         class="form-control k_inp_field"
-        @blur="v$.ansValue.$touch"
+      />
+      <!-- @blur="v$.ansValue.$touch"
         :class="{
           'is-invalid': v$.ansValue.$error,
-        }"
-      />
-      <div v-if="v$.ansValue.$error" class="invalid-feedback text-left">
-        <span v-if="v$.ansValue.required.$invalid" class="text-left fs-14">
-          Answer is required
-        </span>
-        <span v-if="v$.ansValue.numeric.$invalid" class="text-left fs-14">
-          Answer is required
-        </span>
-      </div>
+        }" -->
     </div>
   </div>
+  <div v-if="isValid" class="custom_error">Answer is required</div>
 </template>
 
 <script>
-import { required, numeric } from "@vuelidate/validators";
-import useVuelidate from "@vuelidate/core";
+// import { required, numeric } from "@vuelidate/validators";
+// import useVuelidate from "@vuelidate/core";
 
 export default {
   props: {
@@ -40,38 +41,86 @@ export default {
   data() {
     return {
       numberPattern: /[0-9]/,
-      ansValue: "",
+      staffAns: new Array(3).fill({
+        question_id: "",
+        question_ans: "",
+      }),
+      ansValue: [],
+      isValid: false,
+
       isFieldValid: undefined,
+      subQuestions: [
+        {
+          id: 1,
+          sub_question:
+            "Please enter the numner of emplyee in your Company     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum amet vel ex eaque atque maiores quas dolor ab assumenda doloribus.",
+          staff_answer: [
+            {
+              qid: 1,
+              q_ans: "8",
+            },
+          ],
+        },
+        {
+          id: 2,
+          sub_question:
+            "Please enter the numner of inhouse emplyee in your Company",
+          staff_answer: [
+            {
+              qid: 2,
+              q_ans: "10",
+            },
+          ],
+        },
+        {
+          id: 3,
+          sub_question:
+            "Please enter the numner of contracted emplyee in your Company     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum amet vel ex eaque atque maiores quas dolor ab assumenda doloribus.",
+          staff_answer: [
+            {
+              qid: 3,
+              q_ans: "40",
+            },
+          ],
+        },
+      ],
     };
   },
-  created() {
-    this.ansValue = this.currentAns;
-  },
-  validations() {
-    return {
-      ansValue: { required, numeric },
-    };
-  },
-  setup() {
-    return {
-      v$: useVuelidate(),
-    };
-  },
+
+  // validations() {
+  //   return {
+  //     ansValue: { required, numeric },
+  //   };
+  // },
+  // setup() {
+  //   return {
+  //     v$: useVuelidate(),
+  //   };
+  // },
   methods: {
-    onInput(event) {
-      this.v$.$touch();
-      this.isFieldValid = false;
-      console.log(this.v$.$invalid);
-      if (this.v$.$invalid) {
-        console.log(event.target.value);
-      } else {
-        this.isFieldValid = true;
-      }
-      this.$emit("getUserSelected", {
-        ansData: event.target.value,
-        isFieldValid: this.isFieldValid,
-      });
+    onInput(id, index, event) {
+      let tempAns = event.target.value;
+      let tempid = id;
+
+      console.log(id, tempAns);
+
+      this.checkValidate(tempAns, tempid, index);
     },
+    checkValidate(tempAns, tempid, index) {
+      this.staffAns[index] = {
+        question_id: tempid,
+        question_ans: tempAns,
+      };
+      this.isValid = true;
+      console.log(this.staffAns);
+      console.log(this.staffAns.length);
+      if (this.staffAns.length === this.subQuestions.length) {
+        this.isValid = false;
+        console.log("all answered");
+      }
+    },
+
+    emitData() {},
     isNumber(event) {
       let char = String.fromCharCode(event.keyCode);
       if (this.numberPattern.test(char)) return true;
@@ -81,4 +130,24 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.custom_error {
+  color: #db2c66;
+  font-size: 14px;
+  font-weight: 400;
+}
+.sub_question_wrap {
+  width: 80%;
+}
+.k_inp_number {
+  width: 10%;
+  margin-left: 2rem;
+  text-align: center;
+}
+.sub_ques_name {
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 600;
+  color: #222b45;
+}
+</style>

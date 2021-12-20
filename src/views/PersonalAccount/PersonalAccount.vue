@@ -840,6 +840,7 @@ export default {
           .then((res) => {
             if (res.data.status) {
               // console.log("post personal data", res.data.data);
+              this.$store.dispatch("getPersonalInfo", res.data.data);
               this.personalAccount = res.data.data;
               localStorage.setItem("memberPic", res.data.data.profile_image);
             } else {
@@ -856,9 +857,6 @@ export default {
                   position: "bottom-left",
                   duration: 3712,
                 });
-                if (res.data.message === "Authentication token mismatch") {
-                  this.$router.push({ name: "signup-signin" });
-                }
               }
             }
           })
@@ -880,6 +878,7 @@ export default {
           if (res.data.status) {
             this.profileData = res.data.data;
             this.personalAccount = res.data.data;
+            this.$store.dispatch("getPersonalInfo", res.data.data);
             localStorage.setItem("memberPic", res.data.data.profile_image);
             // Industry list
             for (var i = 0; i < res.data.industry_list.length; i++) {
@@ -907,20 +906,23 @@ export default {
             }
           } else {
             let $th = this;
-            Object.keys(res.data.error).map(function (key) {
-              console.log("failed");
-              $th.$toast.error(res.data.error[key], {
+            if ("error" in res.data) {
+              Object.keys(res.data.error).map(function (key) {
+                $th.$toast.error(res.data.error[key], {
+                  position: "bottom-left",
+                  duration: 3712,
+                });
+              });
+            } else {
+              $th.$toast.error(res.data.message, {
                 position: "bottom-left",
                 duration: 3712,
               });
-            });
+            }
           }
         })
         .catch((err) => {
           console.log(err);
-        })
-        .finally(() => {
-          console.log("");
         });
     },
     changePassword() {

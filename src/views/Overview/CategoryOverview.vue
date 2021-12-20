@@ -172,7 +172,7 @@ export default {
       category_id: this.categoryID,
     };
     this.getDeptAndCategoryDetails(data);
-    this.checkExpiration(this.questionnaireDetails.expiration_date);
+    // this.checkExpiration(this.questionnaireDetails.expiration_date);
   },
   methods: {
     getDeptAndCategoryDetails(data) {
@@ -182,7 +182,12 @@ export default {
             "getQuestionnaire",
             res.data.data.category_details
           );
-          this.checkValiditonToStart();
+          console.log("details", res.data.data.questionnaire.detail);
+          this.$store.dispatch(
+            "questionnaireDetails",
+            res.data.data.questionnaire.detail
+          );
+          // this.checkValiditonToStart();
         } else {
           let $th = this;
           if ("error" in res.data) {
@@ -210,43 +215,33 @@ export default {
         },
       });
     },
-    checkValiditonToStart() {
-      console.log(
-        this.questionnaireDetails.is_accessible,
-        (this.questionnaireDetails.number_of_questions = !0),
-        this.isQuestionnireExpired
-      );
-      if (
-        this.questionnaireDetails.is_accessible &&
-        this.questionnaireDetails.number_of_questions != 0 &&
-        this.isQuestionnireExpired
-      ) {
-        console.log("user is allowed");
-        this.isInvalidUser = false;
-      }
-      // if (
-      //   !(
-      //     this.questionnaireDetails.is_accessible &&
-      //     this.questionnaireDetails.number_of_questions != 0 &&
-      //     this.isQuestionnireExpired
-      //   )
-      // ) {
-      //   console.log("user is valid");
-      //   this.isInvalidUser = false;
-      // }
-    },
-    checkExpiration(date) {
-      console.log(date);
-      let today = new Date();
-      // (today > date) ?  this.isQuestionnireExpired=false: this.isQuestionnireExpired=true
-      if (today >= date) {
-        this.isQuestionnireExpired = false;
-        console.log("time is expired", this.isQuestionnireExpired);
-      } else {
-        this.isQuestionnireExpired = true;
-        console.log("time is not expired", this.isQuestionnireExpired);
-      }
-    },
+    // checkValiditonToStart() {
+    //   console.log(
+    //     this.questionnaireDetails.is_accessible,
+    //     (this.questionnaireDetails.number_of_questions = !0),
+    //     this.isQuestionnireExpired
+    //   );
+    //   if (
+    //     this.questionnaireDetails.is_accessible &&
+    //     this.questionnaireDetails.number_of_questions != 0 &&
+    //     this.isQuestionnireExpired
+    //   ) {
+    //     console.log("user is allowed");
+    //     this.isInvalidUser = false;
+    //   }
+
+    // },
+    // checkExpiration(date) {
+    //   console.log(date);
+    //   let today = new Date();
+    //   if (today >= date) {
+    //     this.isQuestionnireExpired = false;
+    //     console.log("time is expired", this.isQuestionnireExpired);
+    //   } else {
+    //     this.isQuestionnireExpired = true;
+    //     console.log("time is not expired", this.isQuestionnireExpired);
+    //   }
+    // },
   },
 };
 </script>

@@ -16,7 +16,10 @@
             />
           </div>
           <div class="">
-            <h4 class="view_title">{{ questionnaire.name }}</h4>
+            <h4 class="view_title_with_catgry">
+              {{ questionnaireDetails.department_name }} /
+              <span class="catgry_name">{{ questionnaire.name }}</span>
+            </h4>
           </div>
         </div>
       </div>
@@ -39,6 +42,7 @@ export default {
   },
   computed: mapState({
     questionnaire: (state) => state.questionnaire,
+    questionnaireDetails: (state) => state.questionnaireDetails,
   }),
   data() {
     return {};
@@ -49,6 +53,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.view_title_with_catgry {
+  font-size: 32px;
+  line-height: 32px;
+  font-weight: 700;
+  color: #7900d8;
+  .catgry_name {
+    color: #222b45;
+  }
+}
 .sec_scrollbar {
   height: 65vh;
   overflow: auto;

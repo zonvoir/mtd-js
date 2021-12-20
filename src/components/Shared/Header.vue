@@ -105,7 +105,7 @@ export default {
   },
   computed: {
     getUpdatedProfile() {
-      return this.$store.getters.updateMemberProfile;
+      return this.$store.getters.personalInfo;
     },
   },
   created() {

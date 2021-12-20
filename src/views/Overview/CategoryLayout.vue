@@ -21,7 +21,12 @@
               />
             </div>
             <div class="">
-              <h4 class="view_title">{{ category.name }}</h4>
+              <h4 class="view_title_with_catgry">
+                {{ questionnaireDetails.department_name }} /<span
+                  class="catgry_name m-l-4"
+                  >{{ category.name }}</span
+                >
+              </h4>
             </div>
           </div>
         </div>
@@ -64,6 +69,7 @@ export default {
   computed: {
     ...mapState({
       category: (state) => state.questionnaire,
+      questionnaireDetails: (state) => state.questionnaireDetails,
     }),
   },
   created() {
@@ -175,6 +181,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.view_title_with_catgry {
+  font-size: 32px;
+  line-height: 32px;
+  font-weight: 700;
+  color: #7900d8;
+  .catgry_name {
+    color: #222b45;
+  }
+}
 .category_logo {
   width: 60px;
   height: 60px;
