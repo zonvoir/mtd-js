@@ -27,8 +27,6 @@
             <!-- Fill all the KPI questions -->
           </p>
           <div class="m-l-auto">
-            <!-- :disabled="!questionnaireDetails.is_accessible" -->
-            <!-- :disabled="isInvalidUser" -->
             <!-- {{ !questionnaireDetails.is_accessible }}
             {{ !(questionnaireDetails.number_of_questions > 0) }}
             {{ questionnaireDetails.is_expired }}

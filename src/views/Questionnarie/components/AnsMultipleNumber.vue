@@ -1,126 +1,99 @@
 <template>
   <div
-    v-for="(subQuestion, index) in subQuestions"
-    :key="subQuestion.id"
+    v-for="(subQuestion, index) in data"
+    :key="subQuestion.subquestion_id"
     class="d-flex"
   >
     <div class="sub_question_wrap">
       <h5 class="sub_ques_name">
-        {{ subQuestion.sub_question }}
+        {{ subQuestion.subquestion }}
       </h5>
     </div>
     <div class="k_form_group k_inp_number">
       <input
+        :key="'mni' + index"
         type="text"
         name="single"
-        v-model="ansValue[index]"
+        :value="staffAns[index].sub_ans"
         @keypress="isNumber"
-        @input="onInput(subQuestion.id, index, $event)"
+        @input="onInput(subQuestion.subquestion_id, index, $event)"
         class="form-control k_inp_field"
       />
-      <!-- @blur="v$.ansValue.$touch"
-        :class="{
-          'is-invalid': v$.ansValue.$error,
-        }" -->
     </div>
   </div>
-  <div v-if="isValid" class="custom_error">Answer is required</div>
+  <div v-if="isValid" class="custom_error">All answer is required</div>
 </template>
 
 <script>
-// import { required, numeric } from "@vuelidate/validators";
-// import useVuelidate from "@vuelidate/core";
-
 export default {
   props: {
+    data: {
+      required: true,
+      type: Array,
+    },
     currentAns: {
       required: true,
-      type: String,
+      type: Array,
     },
   },
   data() {
     return {
       numberPattern: /[0-9]/,
-      staffAns: new Array(3).fill({
-        question_id: "",
-        question_ans: "",
+      staffAns: new Array(this.data.length).fill({
+        subquestion_id: "",
+        sub_ans: "",
       }),
-      ansValue: [],
+      // staffAns: [],
       isValid: false,
-
-      isFieldValid: undefined,
-      subQuestions: [
-        {
-          id: 1,
-          sub_question:
-            "Please enter the numner of emplyee in your Company     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum amet vel ex eaque atque maiores quas dolor ab assumenda doloribus.",
-          staff_answer: [
-            {
-              qid: 1,
-              q_ans: "8",
-            },
-          ],
-        },
-        {
-          id: 2,
-          sub_question:
-            "Please enter the numner of inhouse emplyee in your Company",
-          staff_answer: [
-            {
-              qid: 2,
-              q_ans: "10",
-            },
-          ],
-        },
-        {
-          id: 3,
-          sub_question:
-            "Please enter the numner of contracted emplyee in your Company     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum amet vel ex eaque atque maiores quas dolor ab assumenda doloribus.",
-          staff_answer: [
-            {
-              qid: 3,
-              q_ans: "40",
-            },
-          ],
-        },
-      ],
+      allAnsFilled: undefined,
     };
   },
-
-  // validations() {
-  //   return {
-  //     ansValue: { required, numeric },
-  //   };
-  // },
-  // setup() {
-  //   return {
-  //     v$: useVuelidate(),
-  //   };
-  // },
+  created() {
+    console.log(this.staffAns);
+    if (this.currentAns != "") {
+      this.staffAns = this.currentAns;
+      this.allAnsFilled = true;
+      this.emitData(this.currentAns);
+      console.log("current ans", this.staffAns);
+    }
+  },
   methods: {
     onInput(id, index, event) {
       let tempAns = event.target.value;
       let tempid = id;
-
-      console.log(id, tempAns);
-
       this.checkValidate(tempAns, tempid, index);
     },
     checkValidate(tempAns, tempid, index) {
       this.staffAns[index] = {
-        question_id: tempid,
-        question_ans: tempAns,
+        subquestion_id: tempid,
+        sub_ans: tempAns,
       };
-      this.isValid = true;
-      console.log(this.staffAns);
-      console.log(this.staffAns.length);
-      if (this.staffAns.length === this.subQuestions.length) {
-        this.isValid = false;
-        console.log("all answered");
+      this.isValid = this.staffAns.some((e) => e.sub_ans === "");
+      this.allAnsFilled = true;
+      if (this.isValid) {
+        this.allAnsFilled = !this.isValid;
       }
+      console.log(this.isValid);
+
+      // this.staffAns.forEach((item) => {
+      //   if (item.sub_ans != "") {
+      //     length = length + 1;
+      //     this.isValid = false;
+      //   }
+      // });
+      // if ((this.staffAns.length, length)) {
+      //   this.isValid = false;
+      // }
+      console.log(this.staffAns.length);
+      this.emitData(this.staffAns);
     },
 
-    emitData() {},
+    emitData(val) {
+      this.$emit("getUserSelected", {
+        ansData: val,
+        isFieldValid: this.allAnsFilled,
+      });
+    },
     isNumber(event) {
       let char = String.fromCharCode(event.keyCode);
       if (this.numberPattern.test(char)) return true;

@@ -144,10 +144,7 @@ export default {
       } else if (value.type === "multi_number") {
         let ansArr = [];
         value.staff_anwser.forEach((element) => {
-          let ans = value.choices.find((item) => {
-            return item.option_id === element;
-          });
-          ansArr.push(ans.choices);
+          ansArr.push(element["sub_ans"]);
         });
         return ansArr.toString();
       } else if (value.type === "number") {

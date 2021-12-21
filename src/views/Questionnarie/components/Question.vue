@@ -110,11 +110,12 @@
             :currentAns="questions[currentIdx].staff_anwser"
           />
         </div>
-        <!-- v-if="questions[currentIdx].type == 'multi_number'" -->
-        <div>
+        <!--  -->
+        <div v-if="questions[currentIdx].type == 'multi_number'">
           <AnsMultipleNumber
             :key="currentIdx"
             v-model="answerValue"
+            :data="questions[currentIdx].subquestions"
             @getUserSelected="userGivenAnswer"
             :currentAns="questions[currentIdx].staff_anwser"
           />
