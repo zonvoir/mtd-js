@@ -393,16 +393,18 @@
               </div>
             </div>
             <div class="col-lg-6">
-              <div class="k_form_group k_select_single">
-                <Multiselect
+              <div class="k_form_group">
+                <input
+                  type="text"
+                  maxlength="4"
+                  minlength="4"
+                  @keypress="isNumber"
+                  class="form-control k_inp_field"
                   :placeholder="
                     $t(
                       'company_profile.company_tab.company_setup_update.form.placeholder.year_of_incorporation'
                     )
                   "
-                  class="form-control k_inp_field"
-                  rules="required"
-                  :options="InCorpYearLists"
                   @blur="v$.companyForm.incorporation_year.$touch"
                   v-model="companyForm.incorporation_year"
                   :class="{
@@ -420,6 +422,30 @@
                     {{
                       $t(
                         "company_profile.company_tab.company_setup_update.form.invalid_msgs.year_of_incorporation_is_required"
+                      )
+                    }}
+                  </span>
+                  <span
+                    v-if="
+                      v$.companyForm.incorporation_year.maxLengthValue.$invalid
+                    "
+                    class="text-left fs-14"
+                  >
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.invalid_msgs.year_must_be_4_digit"
+                      )
+                    }}
+                  </span>
+                  <span
+                    v-if="
+                      v$.companyForm.incorporation_year.minLengthValue.$invalid
+                    "
+                    class="text-left fs-14"
+                  >
+                    {{
+                      $t(
+                        "company_profile.company_tab.company_setup_update.form.invalid_msgs.year_atlest_4_digit"
                       )
                     }}
                   </span>
@@ -456,6 +482,7 @@
                 <div class="k_form_group k_inp_number phone_field">
                   <input
                     type="number"
+                    @keypress="isNumber"
                     class="form-control shift_number k_inp_field"
                     :placeholder="
                       $t(
@@ -463,6 +490,30 @@
                       )
                     "
                   />
+                  <!-- <div
+                    v-if="v$.ansValue.$error"
+                    class="invalid-feedback text-left"
+                  >
+                    <span
+                      v-if="v$.ansValue.required.$invalid"
+                      class="text-left fs-14"
+                    >
+                      Answer is required
+                    </span>
+
+                    <span
+                      v-if="v$.ansValue.maxLengthValue.$invalid"
+                      class="text-left fs-14"
+                    >
+                      Phone Number must be 10 digit
+                    </span>
+                    <span
+                      v-if="v$.ansValue.minLengthValue.$invalid"
+                      class="text-left fs-14"
+                    >
+                      Phone Number atlest 10 digit
+                    </span>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -504,7 +555,7 @@
 </template>
 
 <script>
-import { required } from "@vuelidate/validators";
+import { required, numeric, minLength, maxLength } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import signupService from "../../Services/SignupService";
 import Multiselect from "@vueform/multiselect";
@@ -526,7 +577,8 @@ export default {
       ownRoleLists: [],
       subIndustryLists: [],
       detailedIndustryLists: [],
-      InCorpYearLists: ["2021"],
+      numberPattern: /[0-9]/,
+      // InCorpYearLists: ["2021"],
       countryLists: [],
       value: null,
       options: ["Batman", "Robin", "Joker"],
@@ -547,13 +599,6 @@ export default {
   },
   created() {
     console.log(this.defaultImg == "icons/cloud-upload.svg");
-    // if (
-    //   localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-    //   localStorage.getItem("bWFpbCI6Inpvb") == null
-    // ) {
-    //   this.$router.push({ name: "signup-signin" });
-    // }
-    // this.checkCompany();
     this.getIndustryList();
     this.getLegalCoporation();
     this.getRoleInCompany();
@@ -573,7 +618,12 @@ export default {
         sub_industry: { required },
         detailed_industry: { required },
         company_role: { required },
-        incorporation_year: { required },
+        incorporation_year: {
+          required,
+          numeric,
+          maxLengthValue: maxLength(4),
+          minLengthValue: minLength(4),
+        },
         region: { required },
         corporation_legal_form: { required },
       },
@@ -590,25 +640,26 @@ export default {
         this.isSubmitted = true;
         signupService
           .setUpCompany(this.companyForm)
-          .then((response) => {
-            if (response.data.status) {
-              this.$toast.success(response.data.message, {
+          .then((res) => {
+            if (res.data.status) {
+              console.log("company_data res", res.data.data);
+              this.$toast.success(res.data.message, {
                 position: "bottom-left",
                 duration: 3712,
               });
               this.formReset();
-              console.log(response);
+              console.log(res);
             } else {
               let $th = this;
-              if ("error" in response.data) {
-                Object.keys(response.data.error).map(function (key) {
-                  $th.$toast.error(response.data.error[key], {
+              if ("error" in res.data) {
+                Object.keys(res.data.error).map(function (key) {
+                  $th.$toast.error(res.data.error[key], {
                     position: "bottom-left",
                     duration: 3712,
                   });
                 });
               } else {
-                $th.$toast.error(response.data.message, {
+                $th.$toast.error(res.data.message, {
                   position: "bottom-left",
                   duration: 3712,
                 });
@@ -625,7 +676,7 @@ export default {
     },
     formReset() {
       this.v$.$reset();
-      (this.companyForm = {
+      this.companyForm = {
         auth_token: "",
         company: "",
         country: null,
@@ -637,39 +688,37 @@ export default {
         incorporation_year: null,
         client_logo: "",
         detailed_industry: null,
-      }),
-        this.$router.push({ name: "signup-signin" });
+      };
+      this.$router.push({ name: "company-profile-edit" });
     },
-    // file select
+    isNumber(event) {
+      let char = String.fromCharCode(event.keyCode);
+      if (this.numberPattern.test(char)) return true;
+      else event.preventDefault();
+    },
     onPickFile() {
       this.$refs.fileInput.click();
     },
     onFilePicked(event) {
       this.valiImage = true;
       const files = event.target.files;
-      // let file = files[0];
       let $th = this;
       console.log("seelcted Files", files);
       if (files != "undefined" && files.length > 0) {
         var reader = new FileReader();
         reader.readAsDataURL(files[0]);
         reader.onload = function (e) {
-          var image = new Image(); //Set the Base64 string return from FileReader as source.
+          var image = new Image();
           image.src = e.target.result;
-          // console.log(image.height, image.width);
           image.onload = function () {
-            //Determine the Height and Width.
             var height = this.height;
             var width = this.width;
             if (height === 100 && width === 100) {
-              // $th.valiImage = true;
-              // $th.$refs.uploader.validate();
               $th.uploadCompanyLogo(files[0]);
               return true;
             } else {
               $th.defaultImg = "icons/cloud-upload.svg";
               $th.valiImage = false;
-              // $th.$refs.uploader.validate();
               return false;
             }
           };

@@ -3,7 +3,8 @@
     <div class="k_form_group k_select_single">
       <Multiselect
         v-model="value"
-        placeholder="Select your Country"
+        mode="tags"
+        placeholder="Select your Department"
         label="name"
         class="form-control country_select k_inp_field"
         :options="checboxSelect"
@@ -29,21 +30,29 @@
 </template>
 
 <script>
+import Multiselect from "@vueform/multiselect";
 export default {
-  setup() {
+  components: {
+    Multiselect,
+  },
+  data() {
     return {
       checboxSelect: [
         {
           value: false,
-          name: "India",
+          name: "Marketing",
         },
         {
           value: false,
-          name: "Usa",
+          name: "IT",
         },
         {
           value: false,
-          name: "Australia",
+          name: "Finanace",
+        },
+        {
+          value: false,
+          name: "Legal",
         },
       ],
     };
@@ -92,7 +101,7 @@ h2 {
 
 .selected::after {
   content: "";
-  background: url("img/arrow-down.svg");
+  background: url("../../../public/K_Icons/arrow_d.svg");
   background-size: contain;
   background-repeat: no-repeat;
 

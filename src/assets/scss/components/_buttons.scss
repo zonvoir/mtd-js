@@ -70,6 +70,40 @@ button[disabled] {
     border-color: $primary;
   }
 }
+.btn_primary_transparent {
+  background-color: transparent;
+  color: $primary;
+  border-color: transparent;
+  padding: 0;
+  &:hover {
+    color: $primary;
+    background-color: transparent;
+    box-shadow: none;
+    color: $primary;
+    border-color: transparent;
+    outline: none;
+  }
+  &:focus {
+    background-color: transparent;
+    box-shadow: none;
+    border-color: transparent;
+    outline: none;
+  }
+  &:active {
+    background-color: transparent;
+    box-shadow: none !important;
+    outline: none;
+    color: $primary;
+    border-color: transparent;
+    &:focus {
+      background-color: transparent;
+      box-shadow: none;
+      color: $primary;
+      border-color: transparent;
+      outline: none;
+    }
+  }
+}
 .btn-transaprent {
   background-color: transparent;
   color: $primary;

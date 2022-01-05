@@ -3,7 +3,9 @@
     <div class="">
       <div class="">
         <div class="main-heading-wrap text-center">
-          <h2 class="main-heading">{{ $t("login.email_step.Sign_In") }}</h2>
+          <h2 class="main-heading">
+            {{ $t("login.email_step.Sign_In") }}
+          </h2>
         </div>
       </div>
       <div class="form-wrapper">
@@ -11,6 +13,7 @@
           <div class="k_form_group">
             <input
               type="email"
+              :readonly="emailVerify.invitation_id != ''"
               @blur="v$.emailVerify.email.$touch"
               v-model.trim="emailVerify.email"
               class="form-control k_inp_field"
@@ -100,7 +103,7 @@
           <div class="verify-subtitle q-pb-none">
             <h6 class="">
               We've not setup your company and career information
-              <strong>{{ registerForm.email }}</strong>
+              <strong>{{ emailVerify.email }}</strong>
               <br />
               Please setup your Company first.
               <br />
@@ -129,6 +132,8 @@ import { required, email } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 // import { Modal } from "bootstrap";
 import loginService from "../../Services/LoginService";
+import { mapGetters } from "vuex";
+import CommonService from "../../Services/CommonService";
 export default {
   data() {
     return {
@@ -138,8 +143,50 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters({
+      staffInfo: "staffData",
+    }),
+  },
   mounted() {
-    // this.modal = new Modal(this.$refs.emailVerifyModal);
+    this.invitedUserData = JSON.parse(
+      localStorage.getItem("bWFInpvitedbpbUser")
+    );
+    if (this.invitedUserData != null) {
+      this.emailVerify.email = this.invitedUserData.email;
+      this.emailVerify.invitation_id = this.invitedUserData.invitation_id;
+    }
+    // console.log("user is email ", invitedStaff.email);
+  },
+  created() {
+    let invitedStaffData = this.$route.query;
+    if (
+      invitedStaffData != null ||
+      invitedStaffData != undefined ||
+      invitedStaffData != ""
+    ) {
+      console.log("invited user is awailble");
+      localStorage.setItem(
+        "bWFInpvitedbpbUser",
+        JSON.stringify(invitedStaffData)
+      );
+    }
+    if (
+      this.staffInfo === null ||
+      this.staffInfo === undefined ||
+      this.staffInfo === ""
+    ) {
+      this.$router.push({ name: "signup-signin" });
+      console.log("staff information is null");
+    } else {
+      CommonService.getTokenValidation({
+        auth_token: this.staffInfo.auth_token,
+      }).then((res) => {
+        console.log("response", res);
+      });
+      this.$router.push({ name: "Dashboard" });
+      console.log("staff information is", this.staffInfo.auth_token);
+    }
   },
   setup() {
     return {

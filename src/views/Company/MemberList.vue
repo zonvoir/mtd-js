@@ -1,6 +1,5 @@
 <template>
   <div class="member_container">
-    <!-- member table -->
     <div class="table_container">
       <div class="table_labels">
         <table class="table member_tabel">
@@ -42,9 +41,12 @@
                               'company_profile.members_tab.members_table.placeholder.role'
                             )
                           "
+                          v-model="myRole"
+                          @deselect="memberListDeafault()"
+                          @select="memberFilterbyRole(myRole)"
                           class="form-control k_inp_field"
                           rules="required"
-                          :options="roles"
+                          :options="ownRoleLists"
                         />
                       </div>
                     </td>
@@ -62,6 +64,22 @@
                         />
                       </div>
                     </td>
+                    <td class="member_name_td">
+                      <div class="k_select_single member_filter">
+                        <!-- :closeOnSelect="false" -->
+                        <!-- mode="tags"
+                          :searchable="true"
+                          :createTag="true" -->
+                        <Multiselect
+                          :close-on-select="false"
+                          placeholder="Department List"
+                          class="form-control k_inp_field"
+                          rules="required"
+                          v-model="dept_list"
+                          :options="departmentLists"
+                        />
+                      </div>
+                    </td>
                   </tr>
                 </table>
               </td>
@@ -73,6 +91,8 @@
                       <div class="psw_visibilty">
                         <input
                           type="text"
+                          v-model="SearchKeyword"
+                          @input="SearchByKeyword"
                           class="form-control _search_filter k_inp_field"
                           :placeholder="
                             $t(
@@ -94,81 +114,7 @@
             </tr>
           </thead>
           <tbody class="member_tbody">
-            <tr>
-              <td class="member_td">
-                <div class="member_detail">
-                  <div class="member_pic">
-                    <img :src="UserPic" class="member_profile" />
-                  </div>
-                  <div class="member_info">
-                    <h4 class="member_Id">Mike Johnson</h4>
-                    <p class="member_email">mike.johnson@morethandigital.com</p>
-                  </div>
-                </div>
-              </td>
-              <td class="member_td">Member</td>
-              <td class="member_td">
-                <div class="category_wrapper">
-                  <ul class="icons_wrap list-inline">
-                    <li>
-                      <a>
-                        <div class="icon_container">
-                          <div class="icon_bg bg_light_teal">
-                            <img
-                              src="K_Icons/weighing_scale.svg"
-                              class="icon_name"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Logistic"
-                      >
-                        <div class="icon_container">
-                          <div class="icon_bg bg_light_yellow">
-                            <img
-                              src="K_Icons/speaker.svg"
-                              class="icon_name"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Logistic"
-                      >
-                        <div class="icon_container">
-                          <div class="icon_bg bg_light_info">
-                            <img
-                              src="K_Icons/settings.svg"
-                              class="icon_name"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                  </ul>
-                  <div class="permission_btns">
-                    <button
-                      class="btn-light text-uppercase fs-14 btn-set fw-700 btn"
-                    >
-                      {{ $t("company_profile.members_tab.buttons.permission") }}
-                    </button>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
+            <!-- <tr>
               <td class="member_td">
                 <div class="member_detail">
                   <div class="member_pic">
@@ -186,7 +132,7 @@
                   <ul class="icons_wrap list-inline">
                     <li>
                       <a
-                        data-bs-toggle="tooltip"
+                        data-bs-toggle="tooltip_dept"
                         data-bs-placement="bottom"
                         title="Logistic"
                       >
@@ -216,7 +162,7 @@
                     </li>
                     <li>
                       <a
-                        data-bs-toggle="tooltip"
+                        data-bs-toggle="tooltip_dept"
                         data-bs-placement="bottom"
                         title="Logistic"
                       >
@@ -239,29 +185,58 @@
                   </div>
                 </div>
               </td>
-            </tr>
-            <tr>
+            </tr> -->
+            <tr v-for="(people, index) in allMembersList" :key="index">
               <td class="member_td">
                 <div class="member_detail">
                   <div class="member_pic">
-                    <img :src="UserPic" class="member_profile" />
+                    <img
+                      :src="
+                        people.profile_image ? people.profile_image : UserPic
+                      "
+                      class="member_profile"
+                    />
                   </div>
                   <div class="member_info">
-                    <h4 class="member_Id">Mike Johnson</h4>
-                    <p class="member_email">mike.johnson@morethandigital.com</p>
+                    <h4 class="member_Id">
+                      {{ people.firstname }} {{ people.lastname }}
+                    </h4>
+                    <p
+                      v-if="people.invited_email === null"
+                      class="member_email"
+                    >
+                      {{ people.primary_email }}
+                    </p>
+                    <p v-else class="member_email">
+                      {{ people.invited_email }}
+                    </p>
                   </div>
                 </div>
               </td>
-              <td class="member_td">Member</td>
+              <td class="member_td">{{ people.role_name }}</td>
               <td class="member_td">
                 <div class="category_wrapper">
                   <ul class="icons_wrap list-inline">
-                    <li>
-                      <a>
+                    <li
+                      v-for="(department, idx) in people.departments.slice(
+                        0,
+                        3
+                      )"
+                      :key="department.departmentid + idx"
+                    >
+                      <a
+                        data-bs-toggle="tooltip_dept"
+                        data-bs-placement="bottom"
+                        :title="department.name"
+                      >
                         <div class="icon_container">
-                          <div class="icon_bg bg_light_teal">
+                          <div class="icon_bg">
                             <img
-                              src="K_Icons/weighing_scale.svg"
+                              :src="
+                                department.department_logo
+                                  ? department.department_logo
+                                  : 'K_Icons/weighing_scale.svg'
+                              "
                               class="icon_name"
                               alt=""
                             />
@@ -269,8 +244,33 @@
                         </div>
                       </a>
                     </li>
-                    <li>
-                      <a>
+
+                    <li v-if="people.departments.length > 3">
+                      <a
+                        data-bs-toggle="tooltip_dept"
+                        data-bs-placement="bottom"
+                        title="Logistic"
+                      >
+                        <div class="icon_container">
+                          <div class="icon_bg bg_light_yellow">
+                            <img
+                              src="K_Icons/speaker.svg"
+                              class="icon_name"
+                              alt=""
+                            />
+                          </div>
+                          <span class="total_icons">
+                            +{{ people.departments.length - 3 }}
+                          </span>
+                        </div>
+                      </a>
+                    </li>
+                    <!-- <li>
+                      <a
+                        data-bs-toggle="tooltip_dept"
+                        data-bs-placement="bottom"
+                        title="Logistic"
+                      >
                         <div class="icon_container">
                           <div class="icon_bg bg_light_yellow">
                             <img
@@ -281,26 +281,14 @@
                           </div>
                         </div>
                       </a>
-                    </li>
-                    <li>
+                    </li> -->
+
+                    <!-- <li>
                       <a
-                        data-bs-toggle="tooltip"
+                        data-bs-toggle="tooltip_dept"
                         data-bs-placement="bottom"
                         title="Logistic"
                       >
-                        <div class="icon_container">
-                          <div class="icon_bg bg_light_info">
-                            <img
-                              src="K_Icons/settings.svg"
-                              class="icon_name"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
                         <div class="icon_container">
                           <div class="icon_bg bg_light_info">
                             <img
@@ -312,13 +300,26 @@
                           <span class="total_icons"> +37 </span>
                         </div>
                       </a>
-                    </li>
+                    </li> -->
                   </ul>
-                  <div class="permission_btns">
-                    <button class="btn-light fs-14 btn-set fw-700 btn">
+                  <!-- v-if="people.role_name === 'Owner'" -->
+                  <div v-if="ownRole == 5" class="permission_btns">
+                    <!-- :disabled="people.role_name != 'Owner'" -->
+                    <button
+                      type="button"
+                      @click="setPermission(people.staffid)"
+                      class="btn-light fs-14 btn-set fw-700 btn"
+                    >
                       PERMISSIONS
                     </button>
                   </div>
+                </div>
+              </td>
+            </tr>
+            <tr v-if="allMembersList.length === 0">
+              <td class="member_td" colspan="4">
+                <div class="">
+                  <h4 class="no_data_message">No Record found</h4>
                 </div>
               </td>
             </tr>
@@ -336,6 +337,9 @@ import Multiselect from "@vueform/multiselect";
 import searchIcon from "../../../public/icons/search.svg";
 import UserPic from "../../assets/users/Avatar.png";
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
+import { mapGetters } from "vuex";
+import CommonService from "../../Services/CommonService";
+import CompanyService from "../../Services/Company/CompanyService";
 const tablist = [
   {
     tabId: 0,
@@ -353,20 +357,126 @@ export default {
     // TabsHr,
     Multiselect,
   },
-  mounted() {
-    //inti tooltip
-    Array.from(
-      document.querySelectorAll('a[data-bs-toggle="tooltip"]')
-    ).forEach((tooltipNode) => new Tooltip(tooltipNode));
-  },
   data() {
     return {
       searchIcon,
+      myRole: "",
+      userKeyword: undefined,
+      ownRoleLists: [],
+      departmentLists: [],
       UserPic,
       tablist,
-      roles: ["Consultant", "Employee", "Owner"],
+      dept_list: [],
+      allMembersList: [],
       categories: ["category 1", "category 2", "category 3"],
     };
+  },
+  computed: {
+    ...mapGetters({
+      membersList: "companyMembers",
+      ownRole: "roleInCompany",
+    }),
+  },
+  watch: {
+    membersList: function () {
+      this.allMembersList = this.membersList;
+    },
+  },
+
+  mounted() {
+    //inti tooltip
+    Array.from(
+      document.querySelectorAll('a[data-bs-toggle="tooltip_dept"]')
+    ).forEach((tooltipNode) => new Tooltip(tooltipNode));
+  },
+  created() {
+    this.allMembersList = this.membersList;
+    this.getRoleInCompany();
+    this.getdDepartmentList();
+  },
+  methods: {
+    setPermission(id) {
+      console.log("staff id is ", id);
+    },
+    SearchByKeyword(event) {
+      this.userKeyword = event.target.value;
+      let filTempArr = this.allMembersList.filter((item) => {
+        console.log("filter", item);
+      });
+      console.log("filter temp arrar", filTempArr);
+    },
+
+    memberListDeafault() {
+      console.log("oprion is de selected");
+      this.allMembersList = this.membersList;
+    },
+    memberFilterbyRole(id) {
+      console.log("deta in", id);
+      CompanyService.memberByRoleId({ role_id: id }).then((res) => {
+        if (res.data.status) {
+          let filterdMemberList = res.data.data;
+          this.allMembersList = filterdMemberList;
+          console.log("data by response", filterdMemberList);
+          // this.$store.dispatch("getCompanyMembers", filterdMemberList);
+        } else {
+          let $th = this;
+          if ("error" in res.data) {
+            Object.keys(res.data.error).map(function (key) {
+              $th.$toast.error(res.data.error[key], {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            });
+          } else {
+            this.allMembersList = [];
+            // this.$store.dispatch("getCompanyMembers", []);
+            // $th.$toast.error(res.data.message, {
+            //   position: "bottom-left",
+            //   duration: 3712,
+            // });
+          }
+        }
+      });
+    },
+    // get role in company lists
+    getRoleInCompany() {
+      CommonService.getAllOwnRoleInCompany().then((resp) => {
+        if (resp.data.status) {
+          let roleInCompany = [];
+          for (var i = 0; i < resp.data.data.length; i++) {
+            let roles = {
+              value: resp.data.data[i].id,
+              label: resp.data.data[i].name,
+            };
+            roleInCompany.push(roles);
+            this.ownRoleLists.push(roles);
+          }
+          console.log("roles", this.ownRoleLists);
+        } else {
+          this.ownRoleLists = [
+            { value: 0, label: "No record found", disabled: true },
+          ];
+        }
+      });
+    },
+    getdDepartmentList() {
+      CommonService.getAllDepartments().then((resp) => {
+        if (resp.data.status) {
+          for (var i = 0; i < resp.data.data.length; i++) {
+            let dept = {
+              value: resp.data.data[i].departmentid,
+              label: resp.data.data[i].name,
+            };
+            this.departmentLists.push(dept);
+          }
+          console.log("department lsit", this.departmentLists);
+        } else {
+          this.departmentLists = [
+            { value: 0, label: "No record found", disabled: true },
+          ];
+        }
+      });
+    },
   },
 };
 </script>
@@ -384,6 +494,15 @@ export default {
 .list-inline {
   margin-bottom: 0;
   padding-left: 0;
+}
+.no_data_message {
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  color: #8f9bb3;
+}
+.member_container {
+  margin-bottom: 20px;
 }
 .list-inline li {
   display: inline-block;
@@ -433,7 +552,6 @@ export default {
     color: white;
     font-weight: 600;
     font-size: 13px;
-
     z-index: 10;
   }
 }

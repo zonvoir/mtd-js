@@ -59,6 +59,7 @@
             </div>
 
             <div class="k_form_group k_select_single">
+              <!-- :disabled="isInvitedDepartments" -->
               <Multiselect
                 placeholder="Department"
                 mode="tags"
@@ -155,7 +156,7 @@
               <router-link
                 target="_blank"
                 class="custom-link"
-                :to="{ name: 'signup-register' }"
+                :to="{ name: 'signup-signin' }"
                 >Sign In</router-link
               >
             </div>
@@ -182,6 +183,9 @@ export default {
     return {
       value: null,
       options: ["Batman", "Robin", "Joker"],
+      invitedUserData:
+        JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")) ||
+        JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       staffData:
         JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
         JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
@@ -189,6 +193,7 @@ export default {
       errorType: Boolean,
       toastMessage: "",
       isNotification: false,
+      // isInvitedDepartments: false,
       industryLists: [],
       departmentLists: [],
       seniorityLevels: [],
@@ -204,7 +209,6 @@ export default {
   },
 
   created() {
-    console.log("vishal from created at career.....");
     if (
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == null ||
@@ -227,10 +231,9 @@ export default {
       //   this.$router.push({ name: "signup-signin" });
       // }
     }
-
+    this.getdDepartmentList();
     this.checkCareerSetup();
     this.getIndustryList();
-    this.getdDepartmentList();
     this.getSeniorityLevel();
   },
   validations: {
@@ -265,14 +268,12 @@ export default {
             if (response.data.status) {
               this.errorType = true;
               this.isNotification = true;
-              // setTimeout(() => {
-              //   this.isNotification = false;
-              // }, 4000);
+              console.log("dispatch kk career info", response.data.data);
+              this.$store.dispatch("getPersonalInfo", response.data.data);
               this.$toast.success(response.data.message, {
                 position: "bottom-left",
                 duration: 3712,
               });
-              console.log(response);
               this.formReset();
             } else {
               let $th = this;
@@ -346,6 +347,15 @@ export default {
             };
             this.departmentLists.push(dept);
           }
+
+          if (this.invitedUserData === null) {
+            console.log("user in regular user");
+          } else {
+            let givenDepartment = this.invitedUserData.departments;
+            // this.isInvitedDepartments = true;
+            console.log("invited department list", givenDepartment);
+            this.carreerForm.department = givenDepartment;
+          }
         } else {
           this.departmentLists = [
             { value: 0, label: "No record found", disabled: true },
@@ -373,15 +383,15 @@ export default {
     },
 
     checkCareerSetup() {
-      console.log(
-        this.staffData,
-        this.staffData != null,
-        this.staffData,
-        this.staffData != null &&
-          (this.staffData.auth_token != undefined ||
-            this.staffData.auth_token != "",
-          this.staffData.auth_token != null)
-      );
+      // console.log(
+      //   this.staffData,
+      //   this.staffData != null,
+      //   this.staffData,
+      //   this.staffData != null &&
+      //     (this.staffData.auth_token != undefined ||
+      //       this.staffData.auth_token != "",
+      //     this.staffData.auth_token != null)
+      // );
       if (
         this.staffData != null &&
         (this.staffData.auth_token != undefined ||

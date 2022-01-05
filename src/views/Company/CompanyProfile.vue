@@ -1,23 +1,35 @@
 <template>
+  <!-- {{ companyAllInformation }} -->
   <div>
     <div class="company_profile">
       <div class="comapny_profile_header d-flex m-b-32">
         <div class="company_prof_info">
           <div class="img_wrapper">
             <img
-              src="K_icons/company_logo_64.svg"
+              :src="
+                companyAllInformation.company_logo
+                  ? companyAllInformation.company_logo
+                  : 'K_icons/company_logo_64.svg'
+              "
               class="c_logo_wrapper"
               alt=""
             />
           </div>
           <div class="c_details_wrapper">
             <h4 class="text_heading fs-22 fw-700 m-b-9">
-              MoreThanDigital,2009
+              {{ companyAllInformation.company }},<span class="m-l-4">
+                {{ companyAllInformation.incorporation_year }}
+              </span>
             </h4>
             <div class="d-inline-flex">
-              <p class="m-b-0 text_light fs-16 fw-500">New York</p>
+              <p class="m-b-0 text_light fs-16 fw-500">
+                {{ companyAllInformation.country }}
+              </p>
               <span class="ph_no"
-                ><span class="text_light">(+11)</span> 415 554 1679</span
+                ><span class="text_light_code m-r-2">
+                  <span>(+</span>{{ companyAllInformation.calling_code }}
+                  <span>)</span> </span
+                >{{ companyAllInformation.phonenumber }}</span
               >
             </div>
           </div>
@@ -40,7 +52,8 @@
           </div>
           <div class="">
             <button
-              @click="$router.push({ name: 'company-profile-edit' })"
+              type="button"
+              @click="editCompany(companyAllInformation.company_id)"
               class="btn btn-primary btn_size"
             >
               <img
@@ -78,7 +91,9 @@
                 <img src="icons/info.svg" alt="" class="kw-15" />
               </span>
             </h4>
-            <h6 class="c_base_value">Services</h6>
+            <h6 class="c_base_value">
+              {{ companyAllInformation.main_industry_name }}
+            </h6>
           </div>
           <div class="col-lg-3 m-b-26">
             <h6 class="c_base_head">
@@ -91,7 +106,9 @@
                 <img src="icons/info.svg" alt="" class="kw-15" />
               </span>
             </h6>
-            <h6 class="c_base_value">Department</h6>
+            <h6 class="c_base_value">
+              {{ companyAllInformation.sub_industry_name }}
+            </h6>
           </div>
           <div class="col-lg-3 m-b-26">
             <h6 class="c_base_head">
@@ -104,7 +121,9 @@
                 <img src="icons/info.svg" alt="" class="kw-15" />
               </span>
             </h6>
-            <h6 class="c_base_value">Develoopment Web Services</h6>
+            <h6 class="c_base_value">
+              {{ companyAllInformation.detailed_industry_name }}
+            </h6>
           </div>
           <div class="col-lg-3 m-b-26">
             <h6 class="c_base_head">
@@ -114,7 +133,9 @@
                 )
               }}
             </h6>
-            <h6 class="c_base_value">Public Limited Company</h6>
+            <h6 class="c_base_value">
+              {{ companyAllInformation.corporation_legal_form }}
+            </h6>
           </div>
           <div class="col-lg-3 m-b-26">
             <h6 class="c_base_head">
@@ -124,7 +145,9 @@
                 )
               }}
             </h6>
-            <h6 class="c_base_value">Regional</h6>
+            <h6 class="c_base_value">
+              {{ companyAllInformation.region }}
+            </h6>
           </div>
           <div class="col-lg-3 m-b-26">
             <h6 class="c_base_head">
@@ -134,7 +157,16 @@
                 )
               }}
             </h6>
-            <h6 class="c_base_value"><span>$ </span> 25 000</h6>
+            <h6 class="c_base_value">
+              <span>
+                {{
+                  companyAllInformation.currency_symbol
+                    ? companyAllInformation.currency_symbol
+                    : "$"
+                }}
+              </span>
+              {{ companyAllInformation.total_revenue }}
+            </h6>
           </div>
           <div class="col-lg-3 m-b-26">
             <h4 class="c_base_head">
@@ -147,7 +179,13 @@
                 <img src="icons/info.svg" alt="" class="kw-15" />
               </span>
             </h4>
-            <h6 class="c_base_value">EUR</h6>
+            <h6 class="c_base_value">
+              {{
+                companyAllInformation.currency_name
+                  ? companyAllInformation.currency_name
+                  : "USD"
+              }}
+            </h6>
           </div>
           <div class="col-lg-3 m-b-26">
             <h6 class="c_base_head" @click="openCustomModal">
@@ -185,7 +223,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">220</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.employees.total_employee }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -197,7 +237,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">320</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.employees.internal_employee }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col">
@@ -209,7 +251,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">120</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.employees.contracted_employee }}
+              </h1>
             </div>
           </div>
         </div>
@@ -237,7 +281,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">10.4</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.fte.total_fte }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -249,7 +295,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">4.5</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.fte.total_fte }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col">
@@ -261,7 +309,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">6.5</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.fte.contracted_fte }}
+              </h1>
             </div>
           </div>
         </div>
@@ -288,7 +338,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">20K</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending.total_spending }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -300,7 +352,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">2.5K</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending.opex }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -312,7 +366,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">5.5K</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending.capex }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col">
@@ -324,7 +380,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">300</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending.inhousing }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -336,7 +394,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">2K</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending.contracted }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -348,7 +408,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">580</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending.outsourced }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -360,7 +422,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">479</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending.survive }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col">
@@ -372,7 +436,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">300</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending.expand }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -384,7 +450,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">206</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending.transform }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -396,7 +464,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">360</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending.digitalization_spending }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -408,7 +478,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">850</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending.non_digitalization_spending }}
+              </h1>
             </div>
           </div>
         </div>
@@ -435,7 +507,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">20K</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending_on.management }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -447,7 +521,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">2.5K</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending_on.marketing }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -459,7 +535,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">5.5K</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending_on.sales }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col">
@@ -471,7 +549,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">300</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending_on.production }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -483,7 +563,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">20K</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending_on.sourcing }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -495,7 +577,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">2.5K</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending_on.research }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -507,7 +591,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">5.5K</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending_on.legal }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col">
@@ -519,7 +605,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">300</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending_on.finance_controlling }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -531,7 +619,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">20K</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending_on.hr }}
+              </h1>
             </div>
           </div>
           <div class="custom_grid_col m-r-15">
@@ -543,7 +633,9 @@
                   )
                 }}
               </h6>
-              <h1 class="info_value">2.5K</h1>
+              <h1 class="info_value">
+                {{ companyAllInformation.spending_on.it }}
+              </h1>
             </div>
           </div>
         </div>
@@ -676,18 +768,24 @@ const tablist = [
 import Multiselect from "@vueform/multiselect";
 
 import { Modal } from "bootstrap";
+import companyService from "../../Services/Company/CompanyService";
 
 export default {
   components: {
     // TabsHr,
+
     Multiselect,
   },
   mounted() {
     this.modal = new Modal(this.$refs.exampleModal);
   },
+  created() {
+    this.getCompanyInformation();
+  },
   data() {
     return {
       tablist,
+      companyAllInformation: undefined,
       currencyLists: [
         { value: 1, label: "BGN" },
         { value: 2, label: "EUR" },
@@ -699,6 +797,33 @@ export default {
     openCustomModal() {
       this.modal.show();
     },
+    editCompany(id) {
+      console.log("cliked company", id);
+      this.$router.push({ name: "company-profile-edit" });
+    },
+    getCompanyInformation() {
+      companyService.companyDetails().then((res) => {
+        if (res.data.status) {
+          this.companyAllInformation = res.data.data;
+          console.log("all company details", this.companyAllInformation);
+        } else {
+          let $th = this;
+          if ("error" in res.data) {
+            Object.keys(res.data.error).map(function (key) {
+              $th.$toast.error(res.data.error[key], {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            });
+          } else {
+            $th.$toast.error(res.data.message, {
+              position: "bottom-left",
+              duration: 3712,
+            });
+          }
+        }
+      });
+    },
   },
 };
 </script>
@@ -709,6 +834,11 @@ export default {
   font-size: 18px;
   line-height: 22px;
   color: #000000;
+  .text_light_code {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 18px;
+    line-height: 22px;
+  }
 }
 .icon_wrapper {
   margin-right: 11px;
@@ -825,5 +955,6 @@ export default {
 .c_logo_wrapper {
   width: 64px;
   height: 64px;
+  border-radius: 4px;
 }
 </style>

@@ -14,7 +14,6 @@
       </label>
     </div>
     <div v-if="isValid" class="custom_error">Answer is required</div>
-    <!-- <div class="invalid-feedback text-left">Answer is required</div> -->
   </div>
 </template>
 
@@ -64,10 +63,6 @@ export default {
         this.isFieldValid = !this.isValid;
       }
       this.emitData(ansArr);
-      // this.$emit("getUserSelected", {
-      //   ansData: ansArr,
-      //   isFieldValid: this.isFieldValid,
-      // });
     },
     emitData(val) {
       this.$emit("getUserSelected", {

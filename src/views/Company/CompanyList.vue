@@ -35,36 +35,57 @@
                   {{ $t("company_profile.company_tab.company_table.Members") }}
                 </div>
               </td>
+              <td class="company_td"></td>
             </tr>
-            <tr @click="companyDetails" class="company_tr">
+            <tr
+              v-for="(_company, index) in companyLists"
+              :key="index"
+              @click="companyDetails(_company.company_id)"
+              class="company_tr"
+            >
               <td class="company_td">
                 <div class="company_detail company_add">
                   <div class="company_pic">
-                    <img src="K_Icons/company_logo.svg" class="company-logo" />
+                    <img
+                      :src="
+                        _company.company_logo
+                          ? _company.company_logo
+                          : 'K_Icons/company_logo.svg'
+                      "
+                      class="company-logo"
+                    />
                   </div>
                   <div class="company_info">
-                    <h4 class="company_name">MoreThanDigital</h4>
+                    <h4 class="company_name">{{ _company.company }}</h4>
                   </div>
                 </div>
               </td>
               <td class="company_td">
                 <div class="td_wrap td_wrap_location">
-                  <strong>Germany,</strong> Berlin
+                  <strong>{{ _company.region }},</strong> {{ _company.country }}
                 </div>
               </td>
               <td class="company_td">
                 <div class="members_wrapper">
                   <ul class="member_wrap list-inline">
-                    <li>
+                    <li
+                      v-for="(_member, index) in _company.member"
+                      :key="index"
+                    >
                       <a
+                        class="cp_none"
                         data-bs-toggle="tooltip"
                         data-bs-placement="bottom"
-                        title="Kingston"
+                        :title="_member.firstname"
                       >
                         <div class="member_container">
                           <div class="">
                             <img
-                              src="K_Icons/no_photo.svg"
+                              :src="
+                                _member.profile_image
+                                  ? _member.profile_image
+                                  : 'K_Icons/no_photo.svg'
+                              "
                               class="members_profile_pic"
                               alt=""
                             />
@@ -72,7 +93,7 @@
                         </div>
                       </a>
                     </li>
-                    <li>
+                    <!-- <li>
                       <a>
                         <div class="member_container">
                           <div class="">
@@ -131,12 +152,17 @@
                           </div>
                         </div>
                       </a>
-                    </li>
+                    </li> -->
                   </ul>
                 </div>
               </td>
+              <td class="company_td">
+                <div class="right_arrow text-center">
+                  <img src="K_Icons/arrow-right-fill.svg" alt="" />
+                </div>
+              </td>
             </tr>
-            <tr class="company_tr">
+            <!-- <tr class="company_tr">
               <td class="company_td">
                 <div class="company_detail company_add">
                   <div class="company_pic">
@@ -341,7 +367,7 @@
                   </ul>
                 </div>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
       </div>
@@ -353,6 +379,7 @@
 <script>
 import UserPic from "../../assets/users/Avatar.png";
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
+import { mapGetters } from "vuex";
 
 const tablist = [
   {
@@ -377,11 +404,17 @@ export default {
       categories: ["category 1", "category 2", "category 3"],
     };
   },
+  computed: {
+    ...mapGetters({
+      companyLists: "staffsCompanies",
+    }),
+  },
   methods: {
     addCompany() {
       this.$router.push({ name: "company-update" });
     },
-    companyDetails() {
+    companyDetails(id) {
+      console.log("cliked company", id);
       this.$router.push({ name: "company-profile" });
     },
   },
@@ -479,6 +512,9 @@ export default {
 //   height: 40px;
 //   width: 340px;
 // }
+.cp_none {
+  // cursor: default;
+}
 .tabs_wrap {
   display: flex;
   justify-content: space-between;

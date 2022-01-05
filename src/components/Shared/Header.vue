@@ -5,22 +5,31 @@
       <!-- company-name -->
       <!-- <div class="dropdown-wrapper"> -->
       <div class="comp_select">
-        <Multiselect
-          v-model="value"
-          :placeholder="$t('header.placeholder.select_your_company')"
+        <!-- :placeholder="$t('header.placeholder.select_your_company')"
           label="name"
+          :value="selectedCompany"
+          :options="companies" -->
+        <Multiselect
+          v-model="example8.value"
+          v-bind="example8"
+          @select="changeCompany"
           class="header_select"
-          :options="heros"
         >
           <template v-slot:singlelabel="{ value }">
             <div class="multiselect-single-label">
-              <img class="character-label-icon" :src="value.icon" />
+              <img
+                class="character-label-icon"
+                :src="value.icon ? value.icon : 'K_Icons/company_no_logo.svg'"
+              />
               {{ value.name }}
             </div>
           </template>
 
           <template v-slot:option="{ option }">
-            <img class="character-option-icon" :src="option.icon" />
+            <img
+              class="character-option-icon"
+              :src="option.icon ? option.icon : 'K_Icons/company_no_logo.svg'"
+            />
             {{ option.name }}
           </template>
         </Multiselect>
@@ -28,9 +37,10 @@
       <!-- select year- -->
       <div class="comp_year_select">
         <Multiselect
-          v-model="value"
+          v-model="currentYear"
           :placeholder="$t('header.placeholder.select_year')"
           class="header_select"
+          @select="changeYear"
           :options="yearOptions"
         />
       </div>
@@ -40,8 +50,15 @@
       <!-- profile section -->
       <div class="profile-pic-conatiner">
         <a @click.prevent="toggleDropdown" class="user_acc">
-          <!-- <img src="userpic ? userpic : ''" class="profile-pic" /> -->
-          <img src="../../assets/users/100_3.jpg" class="profile-pic" />
+          <img
+            :src="
+              getProfileData.profile_image
+                ? getProfileData.profile_image
+                : '../../assets/users/100_3.jpg'
+            "
+            class="profile-pic"
+          />
+          <!-- <img src="../../assets/users/100_3.jpg" class="profile-pic" /> -->
         </a>
       </div>
     </div>
@@ -69,23 +86,8 @@
 import Multiselect from "@vueform/multiselect";
 import signupService from "../../Services/SignupService";
 import userLogo from "../../assets/users/100_3.jpg";
-const companiesList = [
-  {
-    value: "captainamerica",
-    name: "Captain America",
-    icon: "https://cdn2.iconfinder.com/data/icons/avengers-filled/48/03_-_Captain_America_-_infinity_war_-_end_game_-_marvel_-_avengers_-_super_hero-512.png",
-  },
-  {
-    value: "spiderman",
-    name: "Spiderman",
-    icon: "https://cdn2.iconfinder.com/data/icons/avengers-filled/48/12_-_Spiderman_-_infinity_war_-_end_game_-_marvel_-_avengers_-_super_hero-512.png",
-  },
-  {
-    value: "ironman",
-    name: "Iron Man",
-    icon: "https://cdn2.iconfinder.com/data/icons/avengers-filled/48/02_-_IRONMAN_-_infinity_war_-_end_game_-_marvel_-_avengers_-_super_hero-512.png",
-  },
-];
+import companyService from "../../Services/Company/CompanyService";
+import { mapGetters } from "vuex";
 export default {
   name: "Header",
   components: {
@@ -93,57 +95,159 @@ export default {
   },
   data() {
     return {
-      // staffData: localStorage.getItem("memberPic"),
       state: false,
       userLogo,
       userpic: "",
+      currentYear: "" + new Date().getFullYear(),
       value: "2021",
       isprofile: false,
-      heros: companiesList,
-      yearOptions: ["2022", "2021", "2020", "2019"],
+      companies: [],
+      selectedCompany: "66",
+      example8: {
+        value: "66",
+        placeholder: "heelo world",
+        label: "name",
+        options: [],
+      },
     };
   },
   computed: {
-    getUpdatedProfile() {
-      return this.$store.getters.personalInfo;
-    },
+    ...mapGetters({
+      staffInfo: "staffData",
+      getProfileData: "personalInfo",
+      getMembers: "companyMembers",
+      companyLists: "staffsCompanies",
+      ownRole: "roleInCompany",
+    }),
   },
   created() {
-    this.userpic = localStorage.getItem("memberPic");
-    console.log("header", this.userpic);
+    // if (this.staffInfo != null) {
+    //   }
+    this.getAllCompanies();
+    this.getStaffDetails();
+    this.changeYear();
+    // console.log("current Year", this.currentYear);
   },
   methods: {
-    personalProfile() {
-      this.isprofile = true;
-      this.$router.push({ name: "personal-account" });
-      this.currentPage = this.$route.path;
-      console.log("profile Page", this.currentPage);
-    },
     getStaffDetails() {
-      this.auth_token = this.staffData.auth_token;
-      this.token.auth_token = this.staffData.auth_token;
       signupService
-        .getPersonalDetails(this.token)
+        .getPersonalDetails({ auth_token: this.staffInfo.auth_token })
         .then((res) => {
           if (res.data.status) {
-            this.personalAccount = res.data.data;
+            console.log("pesonal data", res.data.data);
+            this.$store.dispatch("getPersonalInfo", res.data.data);
           } else {
             let $th = this;
+            if ("error" in res.data) {
+              Object.keys(res.data.error).map(function (key) {
+                $th.$toast.error(res.data.error[key], {
+                  position: "bottom-left",
+                  duration: 3712,
+                });
+              });
+            } else {
+              $th.$toast.error(res.data.message, {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAllCompanies() {
+      companyService
+        .companiesList({ auth_token: this.staffInfo.auth_token })
+        .then((res) => {
+          if (res.data.status) {
+            console.log("companies List ", res.data.data);
+            this.$store.dispatch("getStaffsCompanies", res.data.data);
+            let defCompany = 0;
+            for (const company of res.data.data) {
+              let d1 = {
+                value: company.company_id,
+                name: company.company,
+                icon: company.company_logo,
+              };
+              if (company.is_main == "1") {
+                defCompany = company.company_id;
+              }
+              this.example8.options.push(d1);
+              this.companies.push(d1);
+            }
+            this.example8.value = +defCompany;
+            this.changeCompany();
+          } else {
+            let $th = this;
+            if ("error" in res.data) {
+              Object.keys(res.data.error).map(function (key) {
+                $th.$toast.error(res.data.error[key], {
+                  position: "bottom-left",
+                  duration: 3712,
+                });
+              });
+            } else {
+              $th.$toast.error(res.data.message, {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            }
+          }
+        });
+    },
+    changeCompany() {
+      localStorage.setItem("selected_company", this.example8.value);
+      console.log("");
+      this.getAllMemberList(this.example8.value);
+    },
+    getAllMemberList(companyId) {
+      let memberArr;
+      let roleId;
+      this.tempCompnies = this.companyLists;
+      this.tempCompnies.forEach((item) => {
+        if (item.company_id == companyId) {
+          memberArr = item.member;
+          roleId = item.company_role_id;
+        }
+      });
+      // set the  members List
+      this.$store.dispatch("getCompanyMembers", memberArr);
+      // set the role id in company
+      this.$store.dispatch("getRoleInCompany", roleId);
+      console.log("all members lists", this.ownRole, memberArr);
+      // set Departments for assign in a company
+    },
+    changeYear() {
+      companyService.getYears().then((res) => {
+        if (res.data.status) {
+          this.yearOptions = res.data.data;
+        } else {
+          let $th = this;
+          if ("error" in res.data) {
             Object.keys(res.data.error).map(function (key) {
-              console.log("failed");
               $th.$toast.error(res.data.error[key], {
                 position: "bottom-left",
                 duration: 3712,
               });
             });
+          } else {
+            $th.$toast.error(res.data.message, {
+              position: "bottom-left",
+              duration: 3712,
+            });
           }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          console.log("");
-        });
+        }
+      });
+      console.log("Your Year is Changed", this.value);
+      localStorage.setItem("selected_year", this.value);
+    },
+    personalProfile() {
+      this.isprofile = true;
+      this.$router.push({ name: "personal-account" });
+      this.currentPage = this.$route.path;
+      console.log("profile Page", this.currentPage);
     },
     onLogout() {
       console.log("Logout successfully");

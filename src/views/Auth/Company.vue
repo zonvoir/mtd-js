@@ -25,8 +25,7 @@
                     accept="image/*"
                     @change="onFilePicked"
                   />
-                  <!-- @click="$refs.file.$el.click()" -->
-                  <!-- @click="uploadCompanyLogo" -->
+
                   <button
                     type="button"
                     @click="onPickFile"
@@ -339,7 +338,33 @@
                 </div>
               </div>
               <div class="col-lg-6">
-                <div class="k_form_group k_select_single">
+                <div class="k_form_group">
+                  <input
+                    type="text"
+                    class="form-control k_inp_field"
+                    placeholder="Incorporation year"
+                    maxlength="4"
+                    minlength="4"
+                    @keypress="isNumber"
+                    @blur="v$.companyForm.incorporation_year.$touch"
+                    v-model="companyForm.incorporation_year"
+                    :class="{
+                      'is-invalid': v$.companyForm.incorporation_year.$error,
+                    }"
+                  />
+                  <div
+                    v-if="v$.companyForm.incorporation_year.$error"
+                    class="invalid-feedback text-left"
+                  >
+                    <span
+                      v-if="v$.companyForm.incorporation_year.required.$invalid"
+                      class="text-left fs-14"
+                    >
+                      Incorporation year is required
+                    </span>
+                  </div>
+                </div>
+                <!-- <div class="k_form_group k_select_single">
                   <Multiselect
                     placeholder="Year of incorporation"
                     class="form-control k_inp_field"
@@ -362,7 +387,7 @@
                       Year of incorporation is required
                     </span>
                   </div>
-                </div>
+                </div> -->
               </div>
               <div class="col-lg-6">
                 <div class="wrap_phone_inp">
@@ -393,10 +418,29 @@
                   </div>
                   <div class="k_form_group k_inp_number phone_field">
                     <input
-                      type="number"
+                      type="text"
+                      @keypress="isNumber"
                       class="form-control shift_number k_inp_field"
                       placeholder="Phone No."
                     />
+                    <!-- maxlength="4"
+                    minlength="4"
+                    @blur="v$.companyForm.incorporation_year.$touch"
+                    v-model="companyForm.incorporation_year"
+                    :class="{
+                      'is-invalid': v$.companyForm.incorporation_year.$error,
+                    }"
+                  <div
+                    v-if="v$.companyForm.incorporation_year.$error"
+                    class="invalid-feedback text-left"
+                  >
+                    <span
+                      v-if="v$.companyForm.incorporation_year.required.$invalid"
+                      class="text-left fs-14"
+                    >
+                      Incorporation year is required
+                    </span>
+                  </div> -->
                   </div>
                 </div>
               </div>
@@ -423,7 +467,7 @@
               <router-link
                 target="_blank"
                 class="custom-link"
-                :to="{ name: 'signup-register' }"
+                :to="{ name: 'signup-signin' }"
                 >Sign In</router-link
               >
             </div>
@@ -566,20 +610,7 @@
                     v-model="termsCondtionForm.terms_service"
                     checked="checked"
                   />
-                  <!-- :class="{
-                    'is-invalid': v$.termsCondtionForm.terms_service.$error,
-                  }"
-                <span
-                  v-if="v$.termsCondtionForm.terms_service.$error"
-                  class="invalid-feedback text-left"
-                >
-                  <span
-                    v-if="v$.termsCondtionForm.terms_service.required.$invalid"
-                    class="text-left"
-                  >
-                    Please accept terms and conditions required
-                  </span>
-                </span> -->
+
                   <span class="checkmark"></span>
                 </label>
               </div>
@@ -601,20 +632,6 @@
                     checked="checked"
                   />
                   <span class="checkmark"></span>
-                  <!-- :class="{
-                    'is-invalid': v$.termsCondtionForm.privacy_policy.$error,
-                  }"
-                <span
-                  v-if="v$.termsCondtionForm.privacy_policy.$error"
-                  class="invalid-feedback text-left"
-                >
-                  <span
-                    v-if="v$.termsCondtionForm.privacy_policy.required.$invalid"
-                    class="text-left"
-                  >
-                    Please accept privacy and policy required
-                  </span>
-                </span> -->
                 </label>
               </div>
             </div>
@@ -659,6 +676,7 @@ export default {
     return {
       valiImage: true,
       isSubmitted: false,
+      numberPattern: /[0-9]/,
       defaultImg: "icons/cloud-upload.svg",
       staffData:
         JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
@@ -708,16 +726,9 @@ export default {
     ) {
       this.modal.show();
     }
-    // this.showModal();
   },
-  beforeCreate() {
-    // this.modal = new Modal(this.$refs.staticBackdrop);
-  },
+  beforeCreate() {},
   created() {
-    // this.showModal();
-    // this.modal = new Modal(this.$refs.staticBackdrop);
-    // this.modal.show();
-    console.log("vishal from created at career.....");
     if (
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == null ||
@@ -792,12 +803,13 @@ export default {
           .setUpCompany(this.companyForm)
           .then((response) => {
             if (response.data.status) {
+              // console.log("company Infomation", response.data.data);
+              this.$store.dispatch("getCompanyInfoDetails", response.data.data);
               this.$toast.success(response.data.message, {
                 position: "bottom-left",
                 duration: 3712,
               });
               this.formReset();
-              console.log(response);
             } else {
               let $th = this;
               if ("error" in response.data) {
@@ -847,13 +859,15 @@ export default {
       }
     },
     showModal() {
-      // this.$refs["staticBackdrop"].show();
       this.modal.show();
-      // new Modal(this.$refs.staticBackdrop).show();
-      // this.$refs.staticBackdrop;
     },
     acceptTermsCondtions() {
       this.modal.hide();
+    },
+    isNumber(event) {
+      let char = String.fromCharCode(event.keyCode);
+      if (this.numberPattern.test(char)) return true;
+      else event.preventDefault();
     },
     // file select
     onPickFile() {
@@ -1012,7 +1026,7 @@ export default {
         if (resp.data.status) {
           for (var i = 0; i < resp.data.data.length; i++) {
             let roles = {
-              value: resp.data.data[i].roleid,
+              value: resp.data.data[i].id,
               label: resp.data.data[i].name,
             };
             this.ownRoleLists.push(roles);

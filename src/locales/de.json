@@ -455,6 +455,8 @@
             "image_hint": "Images should be 100 x 100 px as a png or jpeg filek",
             "own_role_company_is_required": "Own role in company is requiredk.",
             "year_of_incorporation_is_required": "Year of incorporation is requiredk.",
+            "year_atlest_4_digit": "Year atlest 4 digit.",
+            "year_must_be_4_digit": "Year must be 4 digit.",
             "region_is_required": "Region is requiredk.",
             "company_name_is_required": "Company name is requiredk",
             "sub_industry_is_required": "Sub industry is requiredk",

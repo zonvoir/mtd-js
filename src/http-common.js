@@ -9,6 +9,8 @@ const instance = axios.create({
   headers: {
     authtoken: apiToken,
     "Content-type": "application/json",
+    // company: localStorage.getItem("selected_company"),
+    // year: localStorage.getItem("selected_year"),
     "Accept-Language": localStorage.getItem("language")
       ? languages[localStorage.getItem("language")]
       : "english",
@@ -16,6 +18,7 @@ const instance = axios.create({
 });
 
 // before a request is made start the nprogress
+
 instance.interceptors.request.use((config) => {
   nProgress.start();
   return config;

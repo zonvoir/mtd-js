@@ -65,6 +65,7 @@
           </div>
           <div class="k_form_group">
             <input
+              :readonly="registerForm.invitation_id != ''"
               type="email"
               @blur="v$.registerForm.email.$touch"
               v-model.trim="registerForm.email"
@@ -403,7 +404,8 @@ export default {
       passwordFieldType: "password",
       visibility: false,
       isSubmitted: false,
-
+      invitedUserData: undefined,
+      // isInvitedUser: "",
       registerForm: {
         privacy_policy: false,
         terms_service: false,
@@ -411,6 +413,7 @@ export default {
         lastname: "",
         username: "",
         email: "",
+        invitation_id: "",
         password: "",
         confirm_password: "",
       },
@@ -452,6 +455,38 @@ export default {
   },
   mounted() {
     this.modal = new Modal(this.$refs.exampleModal);
+    this.invitedUserData = JSON.parse(
+      localStorage.getItem("bWFInpvitedbpbUser")
+    );
+    if (this.invitedUserData != null) {
+      this.registerForm.email = this.invitedUserData.email;
+      this.registerForm.invitation_id = this.invitedUserData.invitation_id;
+    }
+    // console.log("user is email ", invitedStaff.email);
+  },
+  created() {
+    let invitedStaffData = this.$route.query;
+    if (
+      invitedStaffData != null ||
+      invitedStaffData != undefined ||
+      invitedStaffData != ""
+    ) {
+      console.log("invited user is awailble");
+      invitedStaffData.departments = invitedStaffData.departments.split(",");
+      console.log("user is Invited data", invitedStaffData);
+      localStorage.setItem(
+        "bWFInpvitedbpbUser",
+        JSON.stringify(invitedStaffData)
+      );
+    }
+    // let deparments = this.$route.query.departments;
+    // console.log("data in route", deparments, this.$route.query.departments);
+    // let Arr = deparments.split(",");
+    // getTokenFromUrl() {
+    // if ( != null) {
+    //   this.verifyEmail(this.$route.query.token);
+    // }
+    // this.getTokenFromUrl();
   },
   setup() {
     return {
@@ -471,14 +506,23 @@ export default {
           .create(this.registerForm)
           .then((response) => {
             if (response.data.status) {
-              console.log("success");
+              console.log("regitration respponse", response.data.data);
               this.$toast.success(response.data.message, {
                 position: "bottom-left",
                 duration: 3712,
               });
               console.log(response);
               this.formReset();
-              this.modal.show();
+              if (this.invitedUserData === null) {
+                this.modal.show();
+              } else {
+                sessionStorage.setItem(
+                  "OiJKV1QiLCJhbGciOiJIUzI1",
+                  JSON.stringify(response.data.data)
+                );
+                this.$router.push({ name: "signup-career" });
+                console.log("userSata");
+              }
             } else {
               let $th = this;
               if ("error" in response.data) {
@@ -515,6 +559,7 @@ export default {
         email: "",
         password: "",
         confirm_password: "",
+        invitation_id: "",
       };
     },
     closeModal() {

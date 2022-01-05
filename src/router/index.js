@@ -59,9 +59,7 @@ loadLocaleMessages(i18n, locale);
 // check if user not login then Dashboard related page not showsrc\views\Results\ResultLocked.vue
 function guardMyroute(to, from, next) {
   var isAuthenticated = false;
-
   let user = localStorage.getItem("bWFpbCI6Inpvb");
-
   user = JSON.parse(user);
   if (
     user === null ||

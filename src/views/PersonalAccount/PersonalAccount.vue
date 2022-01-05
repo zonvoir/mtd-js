@@ -818,18 +818,7 @@ export default {
   methods: {
     savePersonalInfo() {
       // console.log("img", this.personalAccount.profile_image);
-      // if (this.base64regex.test(this.personalAccount.profile_image)) {
-      //   console.log("true");
-      // } else {
-      //   console.log("false");
-      //   // this.personalAccount.profile_image = "";
-      // }
 
-      // if (
-      //   this.profileData.profile_image === this.personalAccount.profile_image
-      // ) {
-      //   this.personalAccount.profile_image = "";
-      // }
       this.personalAccount.auth_token = this.staffData.auth_token;
       this.v$.$touch();
       if (this.v$.$invalid) {
@@ -840,9 +829,9 @@ export default {
           .then((res) => {
             if (res.data.status) {
               // console.log("post personal data", res.data.data);
-              this.$store.dispatch("getPersonalInfo", res.data.data);
               this.personalAccount = res.data.data;
-              localStorage.setItem("memberPic", res.data.data.profile_image);
+              this.$store.dispatch("getPersonalInfo", res.data.data);
+              // localStorage.setItem("memberPic", res.data.data.profile_image);
             } else {
               let $th = this;
               if ("error" in res.data) {
@@ -878,8 +867,9 @@ export default {
           if (res.data.status) {
             this.profileData = res.data.data;
             this.personalAccount = res.data.data;
+            console.log("pesonal data", res.data.data);
             this.$store.dispatch("getPersonalInfo", res.data.data);
-            localStorage.setItem("memberPic", res.data.data.profile_image);
+
             // Industry list
             for (var i = 0; i < res.data.industry_list.length; i++) {
               let industry = {
