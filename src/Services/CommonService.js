@@ -10,7 +10,6 @@ class CommonService {
   }
   //get Token Is Expired
   getTokenValidation(data) {
-    console.log("service data", data);
     return http.post("staffs/is_staff_token_expired", data);
   }
   //get All deparartments

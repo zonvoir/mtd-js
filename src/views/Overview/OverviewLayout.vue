@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 const tablist = [
   {
     tabId: 0,
@@ -45,20 +46,61 @@ const tablist = [
   },
 ];
 import TabsHr from "../../components/Shared/TabsHr.vue";
+import CompanyService from "../../Services/Company/CompanyService";
 export default {
   data() {
     return {
       tablist,
       dept: true,
+      invitedId: undefined,
       title: "Company",
     };
   },
-
+  computed: {
+    ...mapGetters({
+      staffInfo: "staffData",
+    }),
+  },
   components: {
     TabsHr,
   },
-
+  created() {
+    let invitedStaffData = this.$route.query;
+    console.log("invited user query data", invitedStaffData);
+    if (invitedStaffData && Object.keys(invitedStaffData).length != 0) {
+      this.invitedId = invitedStaffData.invitation_id;
+      console.log("invited id ", this.invitedId);
+      if (this.invitedId != undefined) {
+        this.invitaionAccepted();
+      }
+    }
+  },
   methods: {
+    invitaionAccepted() {
+      CompanyService.acceptInvitation({
+        auth_token: this.staffInfo.auth_token,
+        invitation_id: this.invitedId,
+      }).then((res) => {
+        if (res.data.status) {
+          console.log("invitainon accepted successfully");
+        } else {
+          let $th = this;
+          if ("error" in res.data) {
+            Object.keys(res.data.error).map(function (key) {
+              $th.$toast.error(res.data.error[key], {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            });
+          } else {
+            $th.$toast.error(res.data.message, {
+              position: "bottom-left",
+              duration: 3712,
+            });
+          }
+        }
+      });
+    },
     ChangeT(title) {
       this.title = title;
     },

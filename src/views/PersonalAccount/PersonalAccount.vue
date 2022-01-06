@@ -828,10 +828,8 @@ export default {
           .updatePersonalDetails(this.personalAccount)
           .then((res) => {
             if (res.data.status) {
-              // console.log("post personal data", res.data.data);
               this.personalAccount = res.data.data;
               this.$store.dispatch("getPersonalInfo", res.data.data);
-              // localStorage.setItem("memberPic", res.data.data.profile_image);
             } else {
               let $th = this;
               if ("error" in res.data) {

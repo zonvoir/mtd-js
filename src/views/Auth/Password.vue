@@ -173,7 +173,6 @@ export default {
                 position: "bottom-left",
                 duration: 3712,
               });
-              console.log(response);
               this.formReset();
             } else {
               let $th = this;

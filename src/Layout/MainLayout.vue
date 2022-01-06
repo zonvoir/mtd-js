@@ -19,7 +19,6 @@
 </template>
 
 <script>
-// import logo from "../assets/images/mtd-logos-rgb_Main-Logo-Size-1-pos.png";
 import Header from "../components/Shared/Header.vue";
 import Sidebar from "../components/Shared/Sidebar.vue";
 export default {
@@ -27,12 +26,13 @@ export default {
     Header,
     Sidebar,
   },
-
   data() {
     return {
-      // logo,
+      invitedUserData: JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")),
+      invitedId: undefined,
     };
   },
+
   methods: {
     onLogout() {
       console.log("Logout successfully");

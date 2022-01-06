@@ -121,10 +121,14 @@ export default {
     }),
   },
   created() {
-    // if (this.staffInfo != null) {
-    //   }
-    this.getAllCompanies();
-    this.getStaffDetails();
+    if (
+      this.staffInfo != null &&
+      this.staffInfo != undefined &&
+      this.staffInfo != ""
+    ) {
+      this.getAllCompanies();
+      this.getStaffDetails();
+    }
     this.changeYear();
     // console.log("current Year", this.currentYear);
   },
@@ -203,21 +207,44 @@ export default {
       this.getAllMemberList(this.example8.value);
     },
     getAllMemberList(companyId) {
-      let memberArr;
+      let memberArr = [];
+      let deprtmentArr = [];
       let roleId;
       this.tempCompnies = this.companyLists;
       this.tempCompnies.forEach((item) => {
         if (item.company_id == companyId) {
           memberArr = item.member;
           roleId = item.company_role_id;
+          // departments that realted to staff in a perticular company
+          item.member.forEach((memItem) => {
+            if (roleId == memItem.role_id) {
+              deprtmentArr = memItem.departments;
+            }
+          });
         }
       });
       // set the  members List
       this.$store.dispatch("getCompanyMembers", memberArr);
       // set the role id in company
       this.$store.dispatch("getRoleInCompany", roleId);
-      console.log("all members lists", this.ownRole, memberArr);
-      // set Departments for assign in a company
+      // modify Accroding to multi select
+      let departmentAssignedToStaff = [];
+      deprtmentArr.forEach((item) => {
+        let dept = {
+          value: item.departmentid,
+          label: item.name,
+        };
+        departmentAssignedToStaff.push(dept);
+      });
+      console.log("All Departments", departmentAssignedToStaff);
+      this.$store.dispatch("getStaffsDepartment", departmentAssignedToStaff);
+      // let staffsDeprtments = memberArr.forEach((element) => {
+      //   console.log("all deplll", element.role_id, this.ownRole);
+      //   if (element.role_id == this.ownRole) {
+      //     console.log("kk", element["departments"]);
+      //   }
+      // });
+      // console.log("all deparrtments", staffsDeprtments);
     },
     changeYear() {
       companyService.getYears().then((res) => {

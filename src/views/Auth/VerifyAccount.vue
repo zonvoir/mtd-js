@@ -113,6 +113,8 @@
 import { Modal } from "bootstrap";
 import loginService from "../../Services/LoginService";
 import CustomOtp from "../../components/Shared/CustomOtp.vue";
+// import CompanyService from "../../Services/Company/CompanyService";
+import { mapGetters } from "vuex";
 export default {
   components: {
     CustomOtp,
@@ -125,6 +127,7 @@ export default {
       isCareer: undefined,
       modal: null,
       logData: JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")),
+      // invitedUserData: JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")),
       otpForm: {
         email: "",
         otp: "",
@@ -132,8 +135,16 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters({
+      staffInfo: "staffData",
+    }),
+  },
   mounted() {
     this.modal = new Modal(this.$refs.exampleModal);
+    // if (this.invitedUserData != null) {
+    //   this.invitedId = this.invitedUserData.invitation_id;
+    // }
   },
   created() {
     if (
@@ -180,6 +191,13 @@ export default {
               res.data.data.is_company_setup
             ) {
               this.$router.push({ name: "Dashboard" });
+              if (
+                this.staffInfo != null &&
+                this.staffInfo != undefined &&
+                this.staffInfo != ""
+              ) {
+                this.invitaionAccepted();
+              }
             } else {
               this.modal.show();
             }
@@ -209,6 +227,20 @@ export default {
           this.isSubmitted = false;
         });
     },
+    // invitaionAccepted() {
+    //   CompanyService.acceptInvitation({
+    //     auth_token: this.staffInfo.auth_token,
+    //     invitation_id: this.invitedId,
+    //   }).then((res) => {
+    //     if (res.data.status) {
+    //       this.$router.push({ name: "Dashboard" });
+    //       console.log("invitainon accepted successfully");
+    //     } else {
+    //       console.log("there is some error in in invitaion acceptance");
+    //       this.$router.push({ name: "signup-signin" });
+    //     }
+    //   });
+    // },
     onCompleted(ev) {
       this.isSubmitted = !ev.valiated;
       this.otpForm.otp = ev.asString;
@@ -226,14 +258,6 @@ export default {
       console.log(this.isCompany, this.isCareer);
       this.modal.hide();
       this.$router.push({ name: "signup-career" });
-      // if (this.isCareer) {
-
-      // } else if (this.isCompany) {
-      //   this.$router.push({ name: "signup-company" });
-      //   this.modal.hide();
-      // } else {
-      //   console.log("please Setup Career");
-      // }
     },
     formReset() {
       this.v$.$reset();

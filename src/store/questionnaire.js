@@ -24,7 +24,7 @@ export default createStore({
     // company profile
     setStaffsDepartment(state, values) {
       console.log("users Departments", values);
-      state.departments = values;
+      state.staffsDepartment = values;
     },
     setStaffsCompanies(state, values) {
       state.staffsCompanies = values;

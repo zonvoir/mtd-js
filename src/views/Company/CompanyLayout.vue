@@ -1,6 +1,7 @@
 <template>
   <div>
-    {{}}
+    <!-- {{ $store.state.staffsDepartment }} -->
+    <!-- {{ allDepartments }} -->
     <div class="member_container">
       <div class="d-flex align-items-center">
         <div class="view_title_wrap pb-15">
@@ -16,14 +17,17 @@
         <div class="">
           <TabsHr :tabs="tablist" @changeTitle="ChangeT($event)" />
         </div>
-        <div class="invite_btn_wrap">
+        <div class="">
+          <InvitePeopleModal />
+        </div>
+        <!-- <div class="invite_btn_wrap">
           <button
             @click="invitePeople"
             class="btn-primary btn text-uppercase k_btnfs14_w700"
           >
             {{ $t("company_profile.buttons.invite_members") }}
           </button>
-        </div>
+        </div> -->
       </div>
       <!-- tabs end -->
       <div class="overview_container">
@@ -32,7 +36,7 @@
     </div>
   </div>
   <!-- Invite People Modal -->
-  <div class="modal fade" ref="invitationModal">
+  <!-- <div class="modal fade" ref="invitationModal">
     <div class="modal-dialog modal-xl invitation_dialog">
       <div class="modal-content invitaion_content">
         <div class="modal-header invite_header">
@@ -59,7 +63,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -79,8 +83,9 @@ const tablist = [
 ];
 import TabsHr from "../../components/Shared/TabsHr.vue";
 import searchIcon from "../../../public/icons/search.svg";
-import InvitationRole from "../../components/Shared/InvitationARole.vue";
-import { Modal } from "bootstrap";
+// import InvitationRole from "../../components/Shared/InvitationARole.vue";
+import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
+// import { Modal } from "bootstrap";
 import { mapGetters } from "vuex";
 import companyService from "../../Services/Company/CompanyService";
 
@@ -91,23 +96,32 @@ export default {
       searchIcon,
       departmentLists: [],
       dept: true,
-      modal: null,
+      // modal: null,
       title: "company_profile.Company",
     };
   },
   components: {
     TabsHr,
-    InvitationRole,
+    // InvitationRole,
+    InvitePeopleModal,
   },
   computed: {
     ...mapGetters({
       staffInfo: "staffData",
+      allDepartments: "staffsDepartment",
     }),
   },
-  mounted() {
-    this.modal = new Modal(this.$refs.invitationModal);
+  watch: {
+    allDepartments: function () {
+      this.departmentLists = this.allDepartments;
+    },
   },
+
+  // mounted() {
+  //   this.modal = new Modal(this.$refs.invitationModal);
+  // },
   created() {
+    this.departmentLists = this.allDepartments;
     if (this.staffInfo != null) {
       this.departmentByStaffId();
     }
@@ -148,41 +162,23 @@ export default {
           }
         });
     },
-    invitePeople() {
-      this.modal.show();
-      console.log("Please Open Modal");
-    },
+    // invitePeople() {
+    //   this.modal.show();
+    //   if (this.staffInfo != null) {
+    //     this.departmentByStaffId();
+    //   }
 
-    closeModal() {
-      this.modal.hide();
-    },
+    //   console.log("Please Open Modal");
+    // },
+
+    // closeModal() {
+    //   this.modal.hide();
+    // },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-// modal start
-.invitation_dialog {
-  width: 80%;
-}
-.invitaion_content {
-  background: #ffffff;
-  box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
-  border-radius: 4px;
-  text-align: justify;
-}
-.invite_modal_footer {
-  border-top: 0;
-  padding: 8px 26px;
-}
-.invite_header {
-  border-bottom: 0;
-  padding: 8px 26px;
-}
-.invitaion_body {
-  padding: 0px 26px;
-}
-// modal end
 .tabs_wrap {
   display: flex;
   justify-content: space-between;

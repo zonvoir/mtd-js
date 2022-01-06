@@ -11,9 +11,9 @@
       <div class="form-wrapper">
         <form @submit.prevent="onSubmit" action="">
           <div class="k_form_group">
+            <!-- :readonly="emailVerify.invitation_id != ''" -->
             <input
               type="email"
-              :readonly="emailVerify.invitation_id != ''"
               @blur="v$.emailVerify.email.$touch"
               v-model.trim="emailVerify.email"
               class="form-control k_inp_field"
@@ -130,10 +130,9 @@
 <script>
 import { required, email } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-// import { Modal } from "bootstrap";
 import loginService from "../../Services/LoginService";
 import { mapGetters } from "vuex";
-import CommonService from "../../Services/CommonService";
+// import CommonService from "../../Services/CommonService";
 export default {
   data() {
     return {
@@ -155,6 +154,7 @@ export default {
     if (this.invitedUserData != null) {
       this.emailVerify.email = this.invitedUserData.email;
       this.emailVerify.invitation_id = this.invitedUserData.invitation_id;
+      this.invitedId = this.invitedUserData.invitation_id;
     }
     // console.log("user is email ", invitedStaff.email);
   },
@@ -165,28 +165,32 @@ export default {
       invitedStaffData != undefined ||
       invitedStaffData != ""
     ) {
-      console.log("invited user is awailble");
+      // console.log("invited user is awailble", invitedStaffData);
       localStorage.setItem(
         "bWFInpvitedbpbUser",
         JSON.stringify(invitedStaffData)
       );
     }
-    if (
-      this.staffInfo === null ||
-      this.staffInfo === undefined ||
-      this.staffInfo === ""
-    ) {
-      this.$router.push({ name: "signup-signin" });
-      console.log("staff information is null");
-    } else {
-      CommonService.getTokenValidation({
-        auth_token: this.staffInfo.auth_token,
-      }).then((res) => {
-        console.log("response", res);
-      });
-      this.$router.push({ name: "Dashboard" });
-      console.log("staff information is", this.staffInfo.auth_token);
-    }
+    // if (
+    //   this.staffInfo === null ||
+    //   this.staffInfo === undefined ||
+    //   this.staffInfo === ""
+    // ) {
+    //   this.$router.push({ name: "signup-signin" });
+    //   console.log("staff information is null");
+    // } else {
+    //   CommonService.getTokenValidation({
+    //     auth_token: this.staffInfo.auth_token,
+    //   }).then((res) => {
+    //     if (res.data.status) {
+    //       console.log("response", res);
+    //       // this.$router.push({ name: "Dashboard" });
+    //     } else {
+    //       // this.$router.push({ name: "signup-signin" });
+    //       console.log("staff information is", this.staffInfo.auth_token);
+    //     }
+    //   });
+    // }
   },
   setup() {
     return {
@@ -254,6 +258,20 @@ export default {
           });
       }
     },
+    // invitaionAccepted() {
+    //   CompanyService.acceptInvitation({
+    //     auth_token: this.staffInfo.auth_token,
+    //     invitation_id: this.invitedId,
+    //   }).then((res) => {
+    //     if (res.data.status) {
+    //       this.$router.push({ name: "Dashboard" });
+    //       console.log("invitainon accepted successfully");
+    //     } else {
+    //       console.log("there is some error in in invitaion acceptance");
+    //       this.$router.push({ name: "signup-signin" });
+    //     }
+    //   });
+    // },
     closeModal() {
       // this.modal.hide();
     },

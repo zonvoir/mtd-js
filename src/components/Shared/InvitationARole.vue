@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ departments }}
     <div class="team_wrapper m-b-20">
       <div class="m-b-24">
         <h4 class="m-b-0 title-dark">Invite People</h4>
@@ -34,7 +33,6 @@
                 :searchable="true"
                 :createTag="true"
                 v-model="myDepartmensList"
-                limit="4"
                 class="form-control k_inp_field"
                 rules="required"
                 :options="departments"
@@ -70,12 +68,16 @@
         </div>
         <!-- <template>
         </template> -->
-        <div class="body_wrap" v-for="(item, index) in items" :key="index">
+        <div
+          class="body_wrap"
+          v-for="(staffrole, index) in staffRoles"
+          :key="index"
+        >
           <div class="sub_acc_body">
             <div class="team_wrapper">
               <div class="">
                 <div @click="toggleAccordion(index)" class="section_wrap">
-                  <h4 class="m-b-0 title-dark">{{ item.title }}</h4>
+                  <h4 class="m-b-0 title-dark">{{ staffrole.name }}</h4>
 
                   <div class="m-l-auto">
                     <img
@@ -94,11 +96,19 @@
                   class="description_body_wrap"
                 >
                   <div class="m-b-12 m-t-20">
-                    <p v-if="item.description" class="staff_desc">
-                      {{ item.description }}
+                    <p class="staff_desc">
+                      <!-- {{ item.description }} -->
+                      Simply dummy text of the printing and typesetting
+                      industry. Lorem Ipsum has been the industry's standard
+                      dummy text ever since the 150.Lorem Ipsum is simply dummy
+                      text of the printing and typesetting industry. Lorem Ipsum
+                      has been the industry's standard dummy text ever since the
+                      Lorem Dummy text Industry was created.It has been the
+                      industry's standard dummy text.
                     </p>
                   </div>
-                  <div v-if="item.role_id !== 0" class="form_wrapper">
+                  <!-- v-if="staffrole.roleid !== 0" -->
+                  <div class="form_wrapper">
                     <form action="">
                       <div class="d-flex m-b-24">
                         <div class="select_wrap_invite">
@@ -161,9 +171,10 @@
                         }}
                       </h6>
                       <div class="list_wrap m-b-20">
+                        {{ invitedMembers }}
                         <ul class="list-group">
                           <li
-                            v-for="member in invitedMembers"
+                            v-for="member in staffrole.invitation_list"
                             :key="member.id"
                             class="list_group_item d-inline-flex m-b-8"
                           >
@@ -236,6 +247,10 @@ export default {
       type: Array,
       required: true,
     },
+    staffRoles: {
+      type: Array,
+      required: true,
+    },
   },
   components: {
     Select2,
@@ -248,6 +263,7 @@ export default {
       myValue: "",
       ansValue: "",
       validity_date: "",
+      // staffRoles: undefined,
       myDepartmensList: null,
       settings: {},
       emailPattern:
@@ -260,42 +276,7 @@ export default {
       disbaleInvited: true,
       emailTag: "",
       isOpenAcc: true,
-      isAccordionArr: new Array(3).fill(false),
-      items: [
-        {
-          role_id: 0,
-          title: "Owner",
-          description: `Simply dummy text of the printing and typesetting
-                      industry. Lorem Ipsum has been the industry's standard
-                      dummy text ever since the 150.Lorem Ipsum is simply dummy
-                      text of the printing and typesetting industry. Lorem Ipsum
-                      has been the industry's standard dummy text ever since the
-                      Lorem Dummy text Industry was created.It has been the
-                      industry's standard dummy text.`,
-        },
-        {
-          role_id: 1,
-          title: "Consultant",
-          description: `Simply dummy text of the printing and typesetting
-                      industry. Lorem Ipsum has been the industry's standard
-                      dummy text ever since the 150.Lorem Ipsum is simply dummy
-                      text of the printing and typesetting industry. Lorem Ipsum
-                      has been the industry's standard dummy text ever since the
-                      Lorem Dummy text Industry was created.It has been the
-                      industry's standard dummy text.`,
-        },
-        {
-          role_id: 2,
-          title: "Managers",
-          description: `Simply dummy text of the printing and typesetting
-                      industry. Lorem Ipsum has been the industry's standard
-                      dummy text ever since the 150.Lorem Ipsum is simply dummy
-                      text of the printing and typesetting industry. Lorem Ipsum
-                      has been the industry's standard dummy text ever since the
-                      Lorem Dummy text Industry was created.It has been the
-                      industry's standard dummy text.`,
-        },
-      ],
+      isAccordionArr: undefined,
     };
   },
 
@@ -321,7 +302,15 @@ export default {
     };
   },
   created() {
-    console.log("company data", this.companyData);
+    console.log("localstorage data", this.staffInfo);
+    // if (
+    //   this.staffInfo != null ||
+    //   this.staffInfo != undefined ||
+    //   this.staffInfo != ""
+    // ) {
+    //   this.getInvitaionPeopleListByRole();
+    // }
+    this.isAccordionArr = new Array(4).fill(false);
     this.getCompanyDetails(this.companyData);
     this.settings = {
       tags: true,
@@ -340,6 +329,36 @@ export default {
     };
   },
   methods: {
+    // get List of invited people
+    // getInvitaionPeopleListByRole() {
+    //   companyService
+    //     .getInvitationByRole({ auth_token: this.staffInfo.auth_token })
+    //     .then((res) => {
+    //       if (res.data.status) {
+    //         console.log("all invitaion list of people", res.data.data);
+    //         this.staffRoles = res.data.data;
+    //         this.$store.dispatch(
+    //           "getInvitationList",
+    //           res.data.data.invitation_list
+    //         );
+    //       } else {
+    //         let $th = this;
+    //         if ("error" in res.data) {
+    //           Object.keys(res.data.error).map(function (key) {
+    //             $th.$toast.error(res.data.error[key], {
+    //               position: "bottom-left",
+    //               duration: 3712,
+    //             });
+    //           });
+    //         } else {
+    //           $th.$toast.error(res.data.message, {
+    //             position: "bottom-left",
+    //             duration: 3712,
+    //           });
+    //         }
+    //       }
+    //     });
+    // },
     updateDate() {
       // this.checkValidation();
       this.validity_date = this.ansValue.toISOString().slice(0, 10);
@@ -409,7 +428,7 @@ export default {
       let data = {
         auth_token: this.staffInfo.auth_token,
         role_id: this.ownRole,
-        departments: [1, 5],
+        departments: this.myDepartmensList,
         excel_file: file,
       };
       console.log("fileData ", data);

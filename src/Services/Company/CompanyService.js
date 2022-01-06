@@ -1,6 +1,4 @@
 import http from "@/http-common";
-
-// let headers = {"Access-Control-Allow-Origin,"}
 class CompanyService {
   invitationByFile(data) {
     return http.post("invitation/send_invitation_file", data, {
@@ -12,6 +10,14 @@ class CompanyService {
   }
   invitationByEmails(data) {
     return http.post("invitation/send_invitation", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+  getInvitationByRole(data) {
+    return http.post("roles/get_roles", data, {
       headers: {
         "X-Company": localStorage.getItem("selected_company"),
         "X-Year": localStorage.getItem("selected_year"),
@@ -68,6 +74,9 @@ class CompanyService {
   }
   getYears() {
     return http.get("lists/years");
+  }
+  acceptInvitation(data) {
+    return http.post("invitation/accept_invitation", data);
   }
 }
 export default new CompanyService();
