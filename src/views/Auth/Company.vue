@@ -422,25 +422,26 @@
                       @keypress="isNumber"
                       class="form-control shift_number k_inp_field"
                       placeholder="Phone No."
+                      maxlength="13"
+                      minlength="10"
+                      @blur="v$.companyForm.phonenumber.$touch"
+                      v-model="companyForm.phonenumber"
+                      :class="{
+                        'is-invalid': v$.companyForm.phonenumber.$error,
+                      }"
                     />
-                    <!-- maxlength="4"
-                    minlength="4"
-                    @blur="v$.companyForm.incorporation_year.$touch"
-                    v-model="companyForm.incorporation_year"
-                    :class="{
-                      'is-invalid': v$.companyForm.incorporation_year.$error,
-                    }"
-                  <div
-                    v-if="v$.companyForm.incorporation_year.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.companyForm.incorporation_year.required.$invalid"
-                      class="text-left fs-14"
+
+                    <div
+                      v-if="v$.companyForm.phonenumber.$error"
+                      class="invalid-feedback text-left"
                     >
-                      Incorporation year is required
-                    </span>
-                  </div> -->
+                      <span
+                        v-if="v$.companyForm.phonenumber.required.$invalid"
+                        class="text-left fs-14"
+                      >
+                        Phone number is required
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -660,7 +661,6 @@
 <script>
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-import signupService from "../../Services/SignupService";
 import Multiselect from "@vueform/multiselect";
 import CommonService from "../../Services/CommonService";
 import Toast from "../../components/Shared/Toast.vue";
@@ -711,6 +711,7 @@ export default {
         corporation_legal_form: null,
         company_role: null,
         region: null,
+        phonenumber: null,
         incorporation_year: null,
         client_logo: "",
         detailed_industry: null,
@@ -769,6 +770,7 @@ export default {
       companyForm: {
         company: { required },
         country: { required },
+        phonenumber: { required },
         main_industry: { required },
         sub_industry: { required },
         detailed_industry: { required },
@@ -799,8 +801,7 @@ export default {
         this.companyForm.auth_token = this.staffData.auth_token;
         console.log("company data", this.companyForm);
         this.isSubmitted = true;
-        signupService
-          .setUpCompany(this.companyForm)
+        SignupService.setUpCompany(this.companyForm)
           .then((response) => {
             if (response.data.status) {
               // console.log("company Infomation", response.data.data);

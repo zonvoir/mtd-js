@@ -49,6 +49,7 @@ class CompanyService {
     });
   }
   memberByRoleId(data) {
+    console.log("all words", data);
     return http.post("customers/filter_member", data, {
       headers: {
         "X-Company": localStorage.getItem("selected_company"),
@@ -65,6 +66,14 @@ class CompanyService {
     });
   }
   memberByCategories(data) {
+    return http.post("customers/filter_member", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+  memberByWord(data) {
     return http.post("customers/filter_member", data, {
       headers: {
         "X-Company": localStorage.getItem("selected_company"),

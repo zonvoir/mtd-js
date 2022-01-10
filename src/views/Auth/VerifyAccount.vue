@@ -177,6 +177,7 @@ export default {
               "bWFpbCI6Inpvb",
               JSON.stringify(res.data.data)
             );
+            localStorage.getItem("bWFpbCI6Inpvb");
             this.isCareer = res.data.data.is_career_information_setup;
             this.isCompany = res.data.data.is_company_setup;
 

@@ -98,8 +98,9 @@ export default {
       state: false,
       userLogo,
       userpic: "",
-      currentYear: "" + new Date().getFullYear(),
-      value: "2021",
+      // currentYear: "" + new Date().getFullYear(),
+      currentYear: "2022",
+
       isprofile: false,
       companies: [],
       selectedCompany: "66",
@@ -267,8 +268,8 @@ export default {
           }
         }
       });
-      console.log("Your Year is Changed", this.value);
-      localStorage.setItem("selected_year", this.value);
+      localStorage.setItem("selected_year", this.currentYear);
+      console.log("Your Year is Changed", this.currentYear);
     },
     personalProfile() {
       this.isprofile = true;

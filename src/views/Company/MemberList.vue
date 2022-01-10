@@ -35,6 +35,7 @@
                   <tr>
                     <td class="member_name_td">
                       <div class="k_select_single member_filter m-r-8">
+                        <!-- :closeOnSelect="false" -->
                         <Multiselect
                           :placeholder="
                             $t(
@@ -60,21 +61,23 @@
                           "
                           class="form-control k_inp_field"
                           rules="required"
-                          :options="categories"
+                          :options="categoriesList"
                         />
+                        <!-- @deselect="memberListDeafault()"
+                          @select="memberFilterbyRole(myRole)" -->
                       </div>
                     </td>
                     <td class="member_name_td">
                       <div class="k_select_single member_filter">
-                        <!-- :closeOnSelect="false" -->
-                        <!-- mode="tags"
-                          :searchable="true"
-                          :createTag="true" -->
+                        <!-- mode="multiple" -->
                         <Multiselect
+                          :searchable="true"
+                          mode="tags"
                           :close-on-select="false"
                           placeholder="Department List"
                           class="form-control k_inp_field"
                           rules="required"
+                          @select="memberFilterbyDepartment()"
                           v-model="dept_list"
                           :options="departmentLists"
                         />
@@ -114,78 +117,6 @@
             </tr>
           </thead>
           <tbody class="member_tbody">
-            <!-- <tr>
-              <td class="member_td">
-                <div class="member_detail">
-                  <div class="member_pic">
-                    <img :src="UserPic" class="member_profile" />
-                  </div>
-                  <div class="member_info">
-                    <h4 class="member_Id">Mike Johnson</h4>
-                    <p class="member_email">mike.johnson@morethandigital.com</p>
-                  </div>
-                </div>
-              </td>
-              <td class="member_td">Member</td>
-              <td class="member_td">
-                <div class="category_wrapper">
-                  <ul class="icons_wrap list-inline">
-                    <li>
-                      <a
-                        data-bs-toggle="tooltip_dept"
-                        data-bs-placement="bottom"
-                        title="Logistic"
-                      >
-                        <div class="icon_container">
-                          <div class="icon_bg bg_light_teal">
-                            <img
-                              src="K_Icons/weighing_scale.svg"
-                              class="icon_name"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div class="icon_container">
-                          <div class="icon_bg bg_light_yellow">
-                            <img
-                              src="K_Icons/speaker.svg"
-                              class="icon_name"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        data-bs-toggle="tooltip_dept"
-                        data-bs-placement="bottom"
-                        title="Logistic"
-                      >
-                        <div class="icon_container">
-                          <div class="icon_bg bg_light_info">
-                            <img
-                              src="K_Icons/settings.svg"
-                              class="icon_name"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                  </ul>
-                  <div class="permission_btns">
-                    <button class="btn-light fs-14 btn-set fw-700 btn">
-                      PERMISSIONS
-                    </button>
-                  </div>
-                </div>
-              </td>
-            </tr> -->
             <tr v-for="(people, index) in allMembersList" :key="index">
               <td class="member_td">
                 <div class="member_detail">
@@ -265,46 +196,8 @@
                         </div>
                       </a>
                     </li>
-                    <!-- <li>
-                      <a
-                        data-bs-toggle="tooltip_dept"
-                        data-bs-placement="bottom"
-                        title="Logistic"
-                      >
-                        <div class="icon_container">
-                          <div class="icon_bg bg_light_yellow">
-                            <img
-                              src="K_Icons/speaker.svg"
-                              class="icon_name"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li> -->
-
-                    <!-- <li>
-                      <a
-                        data-bs-toggle="tooltip_dept"
-                        data-bs-placement="bottom"
-                        title="Logistic"
-                      >
-                        <div class="icon_container">
-                          <div class="icon_bg bg_light_info">
-                            <img
-                              src="K_Icons/settings.svg"
-                              class="icon_name"
-                              alt=""
-                            />
-                          </div>
-                          <span class="total_icons"> +37 </span>
-                        </div>
-                      </a>
-                    </li> -->
                   </ul>
-                  <!-- v-if="people.role_name === 'Owner'" -->
                   <div v-if="ownRole == 5" class="permission_btns">
-                    <!-- :disabled="people.role_name != 'Owner'" -->
                     <button
                       type="button"
                       @click="setPermission(people.staffid)"
@@ -362,17 +255,20 @@ export default {
       searchIcon,
       myRole: "",
       userKeyword: undefined,
+      filterRole: "",
       ownRoleLists: [],
       departmentLists: [],
       UserPic,
       tablist,
       dept_list: [],
+      categy_list: [],
       allMembersList: [],
-      categories: ["category 1", "category 2", "category 3"],
+      categoriesList: [],
     };
   },
   computed: {
     ...mapGetters({
+      staffInfo: "staffData",
       membersList: "companyMembers",
       ownRole: "roleInCompany",
     }),
@@ -393,48 +289,85 @@ export default {
     this.allMembersList = this.membersList;
     this.getRoleInCompany();
     this.getdDepartmentList();
+    this.getCategoryList();
   },
   methods: {
     setPermission(id) {
       console.log("staff id is ", id);
     },
+    // this.dept_list.map(Number),
     SearchByKeyword(event) {
       this.userKeyword = event.target.value;
-      let filTempArr = this.allMembersList.filter((item) => {
-        console.log("filter", item);
-      });
-      console.log("filter temp arrar", filTempArr);
+      if (
+        this.userKeyword != "" &&
+        this.userKeyword != null &&
+        this.userKeyword != undefined
+      ) {
+        let data = {
+          role_id: this.filterRole,
+          department_id: this.dept_list,
+          search: this.userKeyword,
+          auth_token: this.staffInfo.auth_token,
+        };
+        this.filterMemberList(data);
+        console.log("search is not empty");
+      } else {
+        console.log("search is empty");
+        this.memberListDeafault();
+      }
     },
 
     memberListDeafault() {
-      console.log("oprion is de selected");
       this.allMembersList = this.membersList;
     },
+    // filter by Department
+
+    memberFilterbyDepartment() {
+      console.log("all department by v-modal", this.dept_list);
+      let data = {
+        role_id: this.filterRole,
+        department_id: this.dept_list.map(Number),
+        search: this.userKeyword,
+        auth_token: this.staffInfo.auth_token,
+      };
+      this.filterMemberList(data);
+    },
+    // filter by role
     memberFilterbyRole(id) {
-      console.log("deta in", id);
-      CompanyService.memberByRoleId({ role_id: id }).then((res) => {
+      // console.log("deta in", id);
+      this.filterRole = id;
+      let data = {
+        role_id: this.filterRole,
+        department_id: this.dept_list,
+        search: this.userKeyword,
+        auth_token: this.staffInfo.auth_token,
+      };
+      this.filterMemberList(data);
+    },
+    filterMemberList(filterParams) {
+      CompanyService.memberByRoleId(filterParams).then((res) => {
         if (res.data.status) {
           let filterdMemberList = res.data.data;
           this.allMembersList = filterdMemberList;
-          console.log("data by response", filterdMemberList);
+          console.log("data by response", this.allMembersList);
           // this.$store.dispatch("getCompanyMembers", filterdMemberList);
         } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            this.allMembersList = [];
-            // this.$store.dispatch("getCompanyMembers", []);
-            // $th.$toast.error(res.data.message, {
-            //   position: "bottom-left",
-            //   duration: 3712,
-            // });
-          }
+          this.allMembersList = [];
+          // let $th = this;
+          // if ("error" in res.data) {
+          //   Object.keys(res.data.error).map(function (key) {
+          //     $th.$toast.error(res.data.error[key], {
+          //       position: "bottom-left",
+          //       duration: 3712,
+          //     });
+          //   });
+          // } else {
+          //   // this.$store.dispatch("getCompanyMembers", []);
+          //   // $th.$toast.error(res.data.message, {
+          //   //   position: "bottom-left",
+          //   //   duration: 3712,
+          //   // });
+          // }
         }
       });
     },
@@ -452,6 +385,25 @@ export default {
             this.ownRoleLists.push(roles);
           }
           console.log("roles", this.ownRoleLists);
+        } else {
+          this.ownRoleLists = [
+            { value: 0, label: "No record found", disabled: true },
+          ];
+        }
+      });
+    },
+    // get All Category lists
+    getCategoryList() {
+      CommonService.allCategories().then((resp) => {
+        if (resp.data.status) {
+          for (var i = 0; i < resp.data.data.length; i++) {
+            let categy = {
+              value: resp.data.data[i].id,
+              label: resp.data.data[i].name,
+            };
+            this.categoriesList.push(categy);
+          }
+          console.log("roles", this.categoriesList);
         } else {
           this.ownRoleLists = [
             { value: 0, label: "No record found", disabled: true },
@@ -695,7 +647,8 @@ export default {
   }
 }
 .member_filter {
-  width: 170px;
+  // width: 170px;
+  width: 190px;
 }
 .table_label {
   font-size: 14px;

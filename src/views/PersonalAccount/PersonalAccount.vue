@@ -575,7 +575,6 @@
                     :closeOnSelect="false"
                     :searchable="true"
                     :createTag="true"
-                    limit="4"
                     class="form-control k_inp_field"
                     rules="required"
                     :options="departmentLists"

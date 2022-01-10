@@ -1,9 +1,10 @@
 <template>
   <div class="col-lg-6">
     <div class="k_form_group k_select_single">
+      <!-- :close-on-select="false" -->
       <Multiselect
+        mode="multiple"
         v-model="value"
-        mode="tags"
         placeholder="Select your Department"
         label="name"
         class="form-control country_select k_inp_field"
@@ -11,14 +12,14 @@
       >
         <template v-slot:singlelabel="{ value }">
           <div class="multiselect-single-label">
-            {{ value.name }}
+            {{ value.label }}
           </div>
         </template>
 
         <template v-slot:option="{ option }">
           <div class="check_box_wrapper">
             <label class="k_checkbox check_lable">
-              {{ option.name }}
+              {{ option.label }}
               <input type="checkbox" v-model="option.value" checked="checked" />
               <span class="checkmark"></span>
             </label>
@@ -39,20 +40,20 @@ export default {
     return {
       checboxSelect: [
         {
-          value: false,
-          name: "Marketing",
+          value: "marketing",
+          label: "Marketing",
         },
         {
-          value: false,
-          name: "IT",
+          value: "it",
+          label: "IT",
         },
         {
-          value: false,
-          name: "Finanace",
+          value: "finanace",
+          label: "Finanace",
         },
         {
-          value: false,
-          name: "Legal",
+          value: "legal",
+          label: "Legal",
         },
       ],
     };

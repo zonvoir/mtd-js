@@ -17,12 +17,11 @@
     </div>
     <div class="accordion custom_acc">
       <div class="">
-        <!-- v-for="(item, index) in items" :key="index" -->
         <div class="">
           <div class="section_wrap k_acc_sub_btn m-b-10">
             <h4 class="m-b-0 title-dark">Choose departament(s)</h4>
           </div>
-          <div class="d-flex align-items-center">
+          <div class="d-flex">
             <div class="dept_selct_wrap k_form_group k_lang k_select_single">
               <Multiselect
                 :placeholder="
@@ -36,31 +35,44 @@
                 class="form-control k_inp_field"
                 rules="required"
                 :options="departments"
+                @blur="v$.myDepartmensList.$touch"
+                :class="{
+                  'is-invalid': v$.myDepartmensList.$error,
+                }"
               />
-              <!-- @blur="v$.personalAccount.department.$touch"
-                    v-model="personalAccount.department"
-                    :class="{
-                      'is-invalid': v$.personalAccount.department.$error,
-                    }" -->
+              <div
+                v-if="v$.myDepartmensList.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.myDepartmensList.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  Department is Required
+                </span>
+              </div>
             </div>
             <div class="k_date_picker k_inp_half m-l-10">
               <Datepicker
                 ref="selected_date"
                 class="invalid_error"
                 :enableTimePicker="false"
-                v-model="ansValue"
+                v-model="expiryDate"
                 @closed="updateDate"
-                @blur="v$.ansValue.$touch"
+                @blur="v$.expiryDate.$touch"
                 :class="{
-                  'is-invalid': v$.ansValue.$error,
+                  'is-invalid': v$.expiryDate.$error,
                 }"
               />
-              <div v-if="v$.ansValue.$error" class="invalid-feedback text-left">
+              <div
+                v-if="v$.expiryDate.$error"
+                class="invalid-feedback text-left"
+              >
                 <span
-                  v-if="v$.ansValue.required.$invalid"
+                  v-if="v$.expiryDate.required.$invalid"
                   class="text-left fs-14"
                 >
-                  Answer is required
+                  Expiry date is Required
                 </span>
               </div>
             </div>
@@ -73,7 +85,7 @@
           v-for="(staffrole, index) in staffRoles"
           :key="index"
         >
-          <div class="sub_acc_body">
+          <div v-if="checkRoles(staffrole.roleid)" class="sub_acc_body">
             <div class="team_wrapper">
               <div class="">
                 <div @click="toggleAccordion(index)" class="section_wrap">
@@ -108,7 +120,7 @@
                     </p>
                   </div>
                   <!-- v-if="staffrole.roleid !== 0" -->
-                  <div class="form_wrapper">
+                  <div v-if="staffrole.roleid != ownRole" class="form_wrapper">
                     <form action="">
                       <div class="d-flex m-b-24">
                         <div class="select_wrap_invite">
@@ -123,7 +135,7 @@
                         <div class="btn_wrap">
                           <button
                             :disabled="disbaleInvited"
-                            @click="SendEmailsList"
+                            @click="SendEmailsList(staffrole.roleid)"
                             type="button"
                             class="btn-primary btn btn-set text-uppercase"
                           >
@@ -141,24 +153,25 @@
                         or you can
                         <button
                           :disabled="is_FileUploaded"
-                          @click="importFile"
+                          @click="importFile(index)"
+                          :key="staffrole.roleid"
                           class="btn btn_primary_transparent"
                         >
                           Import
                         </button>
                         a file with employee emails
                       </p>
-                      <p v-if="is_uploaded" class="upload_message text-success">
+                      <!-- <p v-if="is_uploaded" class="upload_message text-success">
                         Your file has been successfully Uploaded !!! we will
                         show you updated list after some time
-                      </p>
+                      </p> -->
 
                       <input
                         type="file"
                         style="display: none"
-                        ref="fileInput"
+                        :ref="`fileInput-${index}`"
                         accept=".csv"
-                        @change="onFilePicked"
+                        @change="onFilePicked($event, staffrole.roleid)"
                       />
                     </div>
                     <div class="staff_list_wrapper">
@@ -171,7 +184,6 @@
                         }}
                       </h6>
                       <div class="list_wrap m-b-20">
-                        {{ invitedMembers }}
                         <ul class="list-group">
                           <li
                             v-for="member in staffrole.invitation_list"
@@ -239,7 +251,7 @@ import Select2 from "vue3-select2-component";
 import Multiselect from "@vueform/multiselect";
 import useVuelidate from "@vuelidate/core";
 import companyService from "../../Services/Company/CompanyService";
-import { required, email } from "@vuelidate/validators";
+import { required } from "@vuelidate/validators";
 import { mapGetters } from "vuex";
 export default {
   props: {
@@ -261,14 +273,36 @@ export default {
     return {
       companyData: JSON.parse(localStorage.getItem("selected_company")),
       myValue: "",
-      ansValue: "",
+      expiryDate: "",
       validity_date: "",
-      // staffRoles: undefined,
+      rolePermissions: [
+        // owner
+        {
+          isEmployeeAllow: true,
+          isConsultantAllow: true,
+          isManagerAllow: true,
+          isOwnweAllow: true,
+        },
+        // consultant
+        {
+          isEmployeeAllow: true,
+          isConsultantAllow: false,
+          isManagerAllow: true,
+          isOwnweAllow: false,
+        },
+        // Managers
+        {
+          isEmployeeAllow: true,
+          isConsultantAllow: false,
+          isManagerAllow: true,
+          isOwnweAllow: false,
+        },
+      ],
       myDepartmensList: null,
       settings: {},
       emailPattern:
         /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/,
-      is_uploaded: undefined,
+      // is_uploaded: undefined,
       is_FileUploaded: false,
       myOptions: [],
       tempEmails: [],
@@ -296,21 +330,17 @@ export default {
   },
   validations() {
     return {
-      ansValue: { required },
+      expiryDate: { required },
       myDepartmensList: { required },
-      myValue: { email },
     };
+    // myValue: { email },
+  },
+  mounted() {
+    this.isAccordionArr = new Array(4).fill(false);
   },
   created() {
-    console.log("localstorage data", this.staffInfo);
-    // if (
-    //   this.staffInfo != null ||
-    //   this.staffInfo != undefined ||
-    //   this.staffInfo != ""
-    // ) {
-    //   this.getInvitaionPeopleListByRole();
-    // }
-    this.isAccordionArr = new Array(4).fill(false);
+    console.log("localstorage data", this.staffRoles.length);
+
     this.getCompanyDetails(this.companyData);
     this.settings = {
       tags: true,
@@ -329,39 +359,24 @@ export default {
     };
   },
   methods: {
-    // get List of invited people
-    // getInvitaionPeopleListByRole() {
-    //   companyService
-    //     .getInvitationByRole({ auth_token: this.staffInfo.auth_token })
-    //     .then((res) => {
-    //       if (res.data.status) {
-    //         console.log("all invitaion list of people", res.data.data);
-    //         this.staffRoles = res.data.data;
-    //         this.$store.dispatch(
-    //           "getInvitationList",
-    //           res.data.data.invitation_list
-    //         );
-    //       } else {
-    //         let $th = this;
-    //         if ("error" in res.data) {
-    //           Object.keys(res.data.error).map(function (key) {
-    //             $th.$toast.error(res.data.error[key], {
-    //               position: "bottom-left",
-    //               duration: 3712,
-    //             });
-    //           });
-    //         } else {
-    //           $th.$toast.error(res.data.message, {
-    //             position: "bottom-left",
-    //             duration: 3712,
-    //           });
-    //         }
-    //       }
-    //     });
-    // },
+    checkRoles(roleid) {
+      console.log("users role id is ", this.ownRole);
+      if (this.ownRole == 4 && (roleid == 1 || roleid == 4 || roleid == 9)) {
+        return true;
+      } else if (
+        this.ownRole == 5 &&
+        (roleid == 1 || roleid == 4 || roleid == 5 || roleid == 9)
+      ) {
+        return true;
+      } else if (this.ownRole == 9 && (roleid == 1 || roleid == 9)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     updateDate() {
       // this.checkValidation();
-      this.validity_date = this.ansValue.toISOString().slice(0, 10);
+      this.validity_date = this.expiryDate.toISOString().slice(0, 10);
       console.log("date", this.validity_date);
     },
     selectedDepartments() {
@@ -385,11 +400,17 @@ export default {
         return true;
       }
     },
-    importFile() {
-      this.$refs.fileInput.click();
+    importFile(fileNameIndex = 0) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
+        return;
+      } else {
+        this.$refs["fileInput-" + fileNameIndex].click();
+      }
     },
 
-    onFilePicked(event) {
+    onFilePicked(event, roleId) {
+      console.log("role is k", roleId, event);
       this.valiImage = true;
       const allowedExtensions = ["csv"];
       const files = event.target.files;
@@ -400,7 +421,7 @@ export default {
         console.log("file extention type", fileType);
         const fileExtension = filename.split(".").pop();
         if (!allowedExtensions.includes(fileExtension)) {
-          this.is_uploaded = false;
+          // this.is_uploaded = false;
           this.$toast.error(" File type must be (.csv) only.", {
             position: "bottom-left",
             duration: 3712,
@@ -415,7 +436,9 @@ export default {
               "data:" + fileType + ";base64,",
               ""
             );
-            $th.sendInvitationByFile(fileData);
+            console.log("role is kk", roleId);
+            $th.sendInvitationByFile(fileData, roleId);
+            console.log("role is kkk", roleId);
           };
         }
       } else {
@@ -423,63 +446,29 @@ export default {
       }
     },
     // upload excel File
-    sendInvitationByFile(file) {
+    sendInvitationByFile(file, staffrole) {
+      // this.is_uploaded = false;
       this.is_FileUploaded = true;
       let data = {
         auth_token: this.staffInfo.auth_token,
-        role_id: this.ownRole,
-        departments: this.myDepartmensList,
+        role_id: +staffrole,
+        departments: this.myDepartmensList.map(Number),
         excel_file: file,
+        invitation_validity: this.validity_date,
       };
       console.log("fileData ", data);
       companyService.invitationByFile(data).then((res) => {
         if (res.data.status) {
-          this.is_uploaded = true;
+          // this.is_uploaded = true;
           this.is_FileUploaded = false;
-          this.$store.dispatch(
-            "getInvitationList",
-            res.data.data.invitation_list
-          );
-        } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          }
-        }
-      });
-    },
-    // send Invitation by Emails
-    SendEmailsList() {
-      console.log("emailsArray", this.tempEmails, this.myDepartmensList);
-      let data = {
-        auth_token: this.staffInfo.auth_token,
-        role_id: this.ownRole,
-        recipient_emails: this.myValue,
-        departments: this.myDepartmensList,
-        invitation_validity: this.validity_date,
-      };
-      console.log("emails Array to be send ", data);
-      companyService.invitationByEmails(data).then((res) => {
-        if (res.data.status) {
-          this.myValue.length = 0;
-          this.$store.dispatch(
-            "getInvitationList",
-            res.data.data.invitation_list
-          );
-          this.$toast.success("Invitations have been sent ", {
+          this.$toast.success(" file Uploaded !! update list after some time", {
             position: "bottom-left",
             duration: 3712,
           });
+          this.$store.dispatch(
+            "getInvitationList",
+            res.data.data.invitation_list
+          );
         } else {
           let $th = this;
           if ("error" in res.data) {
@@ -497,13 +486,60 @@ export default {
           }
         }
       });
+      // this.is_uploaded = false;
+    },
+    // send Invitation by Emails
+    SendEmailsList(roleId) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
+        return;
+      } else {
+        console.log("emailsArray", this.tempEmails, this.myDepartmensList);
+        let data = {
+          auth_token: this.staffInfo.auth_token,
+          role_id: +roleId,
+          recipient_emails: this.myValue,
+          departments: this.myDepartmensList.map(Number),
+          invitation_validity: this.validity_date,
+        };
+        console.log("emails Array to be send ", data);
+        companyService.invitationByEmails(data).then((res) => {
+          if (res.data.status) {
+            this.myValue.length = 0;
+            this.$store.dispatch(
+              "getInvitationList",
+              res.data.data.invitation_list
+            );
+            this.disbaleInvited = true;
+            this.$toast.success("Invitations have been sent ", {
+              position: "bottom-left",
+              duration: 3712,
+            });
+          } else {
+            let $th = this;
+            if ("error" in res.data) {
+              Object.keys(res.data.error).map(function (key) {
+                $th.$toast.error(res.data.error[key], {
+                  position: "bottom-left",
+                  duration: 3712,
+                });
+              });
+            } else {
+              $th.$toast.error(res.data.message, {
+                position: "bottom-left",
+                duration: 3712,
+              });
+            }
+          }
+        });
+      }
     },
     // myChangeEvent(val) {
     //   // this.validEmail = true;
     //   // this.emailTag = val.target.value;
     // },
     mySelectEvent({ id, text }) {
-      console.log("vishal", { id, text });
+      console.log("id", { id, text });
 
       this.myValue.length > 0
         ? (this.disbaleInvited = false)
@@ -511,7 +547,7 @@ export default {
       if (this.emailPattern.test(text)) {
         return true;
       } else {
-        this.$toast.error("please enter valid enter.", {
+        this.$toast.error("please enter valid email.", {
           position: "bottom-left",
           duration: 3712,
         });
@@ -540,6 +576,16 @@ export default {
   right: 76px;
 }
 // dropdown
+.invalid_error {
+  &:focus {
+    outline: 2px solid #db2c66 !important;
+    outline-offset: 0px;
+  }
+  .dp__input {
+    outline: 2px solid #db2c66 !important;
+    outline-offset: 0px;
+  }
+}
 .btn_primary_transparent {
   font-weight: 600;
   font-size: 14px;

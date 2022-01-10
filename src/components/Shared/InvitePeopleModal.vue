@@ -4,7 +4,7 @@
       @click="invitePeople"
       class="btn-primary btn text-uppercase k_btnfs14_w700"
     >
-      {{ $t("company_profile.buttons.invite_members") }}
+      <slot name="invite-button"></slot>
     </button>
   </div>
   <!-- Invite People Modal -->
@@ -22,7 +22,6 @@
           </div>
         </div>
         <div class="modal-body invitaion_body">
-          <!-- :departments="departmentLists" -->
           <InvitationRole
             :departments="departmentLists"
             :staffRoles="rolesOfStaff"
@@ -72,30 +71,29 @@ export default {
       this.departmentLists = this.allDepartments;
     },
   },
-  // invitedMembers: "invitationList",
-  // selectedDepartments: "staffsDepartment",
-  // companyLists: "staffsCompanies",
-  // ownRole: "roleInCompany",
+
   created() {
-    console.log("localstorage data", this.staffInfo);
     if (
       this.staffInfo != null ||
       this.staffInfo != undefined ||
       this.staffInfo != ""
     ) {
       this.departmentByStaffId();
-
       this.getInvitaionPeopleListByRole();
     }
   },
   methods: {
     invitePeople() {
+      console.log("modal clicked");
       this.modal.show();
-      if (this.staffInfo != null) {
+      if (
+        this.staffInfo != null ||
+        this.staffInfo != undefined ||
+        this.staffInfo != ""
+      ) {
         this.departmentByStaffId();
+        this.getInvitaionPeopleListByRole();
       }
-
-      console.log("Please Open Modal");
     },
 
     closeModal() {

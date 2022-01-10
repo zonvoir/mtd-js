@@ -35,17 +35,6 @@ class SignupService {
   getPersonalDetails(data) {
     return http.post("staffs/staff_by_token", { auth_token: data.auth_token });
   }
-  //   delete(id) {
-  //     return http.delete(`/posts/${id}`);
-  //   }
-
-  //   deleteAll() {
-  //     return http.delete(`/tutorials`);
-  //   }
-
-  //   findByTitle(title) {
-  //     return http.get(`/tutorials?title=${title}`);
-  //   }
 }
 
 export default new SignupService();

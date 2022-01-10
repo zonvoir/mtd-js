@@ -19,9 +19,14 @@
         </div>
         <!-- This button is available on project list is available -->
         <div class="invite_btn_wrap m-l-auto">
-          <button class="btn-primary btn k_btn_people">
-            {{ $t("projects.buttons.invite_people") }}
-          </button>
+          <InvitePeopleModal>
+            <template v-slot:invite-button>
+              {{ $t("projects.buttons.invite_people") }}
+            </template>
+          </InvitePeopleModal>
+          <!-- <button class="btn-primary btn k_btn_people">
+            
+          </button> -->
         </div>
       </div>
       <!-- tabs start -->
@@ -37,6 +42,8 @@
 </template>
 
 <script>
+import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
+
 export default {
   data() {
     return {
@@ -44,6 +51,9 @@ export default {
       dept: true,
       title: "Projects",
     };
+  },
+  components: {
+    InvitePeopleModal,
   },
   methods: {
     ChangeT(title) {

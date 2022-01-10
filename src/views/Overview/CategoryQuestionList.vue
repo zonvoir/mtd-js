@@ -113,9 +113,6 @@ export default {
               position: "bottom-left",
               duration: 3712,
             });
-            if (res.data.message === "Authentication token mismatch") {
-              this.$router.push({ name: "signup-signin" });
-            }
           }
         }
       });

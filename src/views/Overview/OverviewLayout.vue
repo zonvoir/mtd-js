@@ -10,9 +10,11 @@
           </div>
         </div>
         <div class="invite_btn_wrap m-l-auto">
-          <button class="btn-primary btn k_btn_people">
-            {{ $t("overview_index.buttons.invite_people") }}
-          </button>
+          <InvitePeopleModal>
+            <template v-slot:invite-button>
+              {{ $t("overview_index.buttons.invite_people") }}
+            </template>
+          </InvitePeopleModal>
         </div>
       </div>
       <!-- tabs  -->
@@ -45,6 +47,7 @@ const tablist = [
     component_url: "/overview/extended",
   },
 ];
+import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
 import TabsHr from "../../components/Shared/TabsHr.vue";
 import CompanyService from "../../Services/Company/CompanyService";
 export default {
@@ -63,6 +66,7 @@ export default {
   },
   components: {
     TabsHr,
+    InvitePeopleModal,
   },
   created() {
     let invitedStaffData = this.$route.query;

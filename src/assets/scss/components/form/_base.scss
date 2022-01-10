@@ -176,21 +176,7 @@
       color: #222b45;
     }
   }
-  .is-invalid {
-    .dp__input {
-      outline: 2px solid #db2c66;
-      &:hover {
-        outline: 1px solid #db2c66 !important;
-        outline-offset: 0px;
-      }
-      .dp__input:focus {
-        outline: 2px solid #db2c66 !important;
-        outline-offset: 0px;
-        border-radius: 0;
-        box-shadow: none;
-      }
-    }
-  }
+
   .dp__input_icon {
     position: absolute;
     top: 50%;
@@ -232,7 +218,7 @@
 }
 .dp__input {
   font-weight: 600;
-  line-height: 20px;
+  line-height: 23px;
   font-size: 15px;
   text-decoration: inherit;
   text-transform: inherit;
@@ -251,5 +237,20 @@
     outline-offset: 0px;
     border-radius: 0;
     box-shadow: none;
+  }
+}
+.is-invalid {
+  .dp__input {
+    outline: 2px solid #db2c66 !important;
+    &:hover {
+      outline: 1px solid #db2c66 !important;
+      outline-offset: 0px;
+    }
+    .dp__input:focus {
+      outline: 2px solid #db2c66 !important;
+      outline-offset: 0px;
+      border-radius: 0;
+      box-shadow: none;
+    }
   }
 }

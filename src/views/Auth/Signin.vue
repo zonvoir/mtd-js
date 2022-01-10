@@ -160,11 +160,12 @@ export default {
   },
   created() {
     let invitedStaffData = this.$route.query;
-    if (
-      invitedStaffData != null ||
-      invitedStaffData != undefined ||
-      invitedStaffData != ""
-    ) {
+    // if (
+    //   invitedStaffData != null ||
+    //   invitedStaffData != undefined ||
+    //   invitedStaffData != ""
+    // )
+    if (invitedStaffData && Object.keys(invitedStaffData).length != 0) {
       // console.log("invited user is awailble", invitedStaffData);
       localStorage.setItem(
         "bWFInpvitedbpbUser",

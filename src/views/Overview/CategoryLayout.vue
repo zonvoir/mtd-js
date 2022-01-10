@@ -31,7 +31,11 @@
           </div>
         </div>
         <div class="invite_btn_wrap m-l-auto">
-          <button class="btn-primary btn k_btn_people">INVITE PEOPLE</button>
+          <!-- <button class="btn-primary btn k_btn_people">INVITE PEOPLE</button> -->
+          <InvitePeopleModal>
+            <template v-slot:invite-button> INVITE PEOPLE </template>
+          </InvitePeopleModal>
+          <!-- {{ $t("company_profile.buttons.invite_members") }} -->
         </div>
       </div>
       <!-- tabs start -->
@@ -49,10 +53,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import TabsHr from "../../components/Shared/TabsHr.vue";
 import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
-
+import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
 export default {
   data() {
     return {
@@ -66,10 +70,17 @@ export default {
       departmentId: "",
     };
   },
+  components: {
+    TabsHr,
+    InvitePeopleModal,
+  },
   computed: {
     ...mapState({
       category: (state) => state.questionnaire,
       questionnaireDetails: (state) => state.questionnaireDetails,
+    }),
+    ...mapGetters({
+      ownRole: "roleInCompany",
     }),
   },
   created() {
@@ -124,9 +135,6 @@ export default {
       };
       this.getDeptAndCategoryDetails(data);
     }
-  },
-  components: {
-    TabsHr,
   },
 
   methods: {

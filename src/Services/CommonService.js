@@ -14,22 +14,38 @@ class CommonService {
   }
   //get All deparartments
   getAllDepartments() {
-    return http.get("lists/department");
+    return http.get("lists/department", {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
   }
   //get deparartment by ID
   getOneDepartment(id) {
-    return http.get(`lists/department/${id}`);
+    return http.get(`lists/department/${id}`, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
   }
-  // get all Categories
-  // getAllCategories(dept_id) {
-  //   return http.get(`lists/categories/${dept_id}`);
-  // }
+
   getAllCategories(data) {
-    return http.post("questionnaire_api/questionnaire_list", data);
+    return http.post("questionnaire_api/questionnaire_list", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
   }
   // get Seniority Leveles
   getAllSeniorityLevels() {
     return http.get("lists/seniority_level");
+  }
+  // get  categories llist
+  allCategories() {
+    return http.get("lists/categories");
   }
   //get all sub industries based on subIndustries
   getAllSubIndustries(id) {

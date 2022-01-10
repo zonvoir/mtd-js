@@ -17,8 +17,14 @@
         <div class="">
           <TabsHr :tabs="tablist" @changeTitle="ChangeT($event)" />
         </div>
-        <div class="">
-          <InvitePeopleModal />
+        <div v-if="ownRole != 1" class="">
+          <InvitePeopleModal>
+            <template v-slot:invite-button>
+              <span
+                ><img src="K_Icons/plus_white.svg" class="m-r-4" alt="" /></span
+              >{{ $t("company_profile.buttons.invite_members") }}
+            </template>
+          </InvitePeopleModal>
         </div>
         <!-- <div class="invite_btn_wrap">
           <button
@@ -109,6 +115,7 @@ export default {
     ...mapGetters({
       staffInfo: "staffData",
       allDepartments: "staffsDepartment",
+      ownRole: "roleInCompany",
     }),
   },
   watch: {
