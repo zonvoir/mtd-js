@@ -1,9 +1,8 @@
 <template>
   <div>
-    {{ departments }}
     <div class="team_wrapper m-b-20">
       <div class="m-b-24">
-        <h4 class="m-b-0 title-dark">Invite People</h4>
+        <h4 class="m-b-0 title-dark">Description Permisiion</h4>
       </div>
       <div class="m-b-12">
         <p class="staff_desc">
@@ -15,32 +14,23 @@
           industry's standard dummy text.
         </p>
       </div>
-    </div>
-    <div class="accordion custom_acc">
-      <div class="">
-        <div class="">
-          <div class="section_wrap k_acc_sub_btn m-b-10">
-            <h4 class="m-b-0 title-dark">Choose departament(s)</h4>
-          </div>
-          <div class="d-flex">
-            <div class="dept_selct_wrap k_form_group k_lang k_select_single">
-              <Multiselect
-                :placeholder="
-                  $t('personal_account.form.placeholder.department')
-                "
-                mode="tags"
-                :closeOnSelect="false"
-                :searchable="true"
-                :createTag="true"
-                v-model="myDepartmensList"
-                class="form-control k_inp_field"
-                rules="required"
-                :options="departments"
-                @blur="v$.myDepartmensList.$touch"
+      <div class="d-flex">
+        <div class="dept_selct_wrap k_form_group k_lang k_select_single m-r-20">
+          <Multiselect
+            :placeholder="$t('personal_account.form.placeholder.department')"
+            mode="tags"
+            :closeOnSelect="false"
+            :searchable="true"
+            :createTag="true"
+            v-model="dept_list"
+            class="form-control k_inp_field"
+            rules="required"
+            :options="allDepartments"
+          />
+          <!-- @blur="v$.myDepartmensList.$touch"
                 :class="{
                   'is-invalid': v$.myDepartmensList.$error,
                 }"
-              />
               <div
                 v-if="v$.myDepartmensList.$error"
                 class="invalid-feedback text-left"
@@ -51,33 +41,48 @@
                 >
                   Department is Required
                 </span>
-              </div>
-            </div>
-            <div class="k_date_picker k_inp_half m-l-10">
-              <Datepicker
-                ref="selected_date"
-                class="invalid_error"
-                :enableTimePicker="false"
-                v-model="expiryDate"
-                @closed="updateDate"
-                @blur="v$.expiryDate.$touch"
+              </div> -->
+        </div>
+        <div class="k_form_group dept_selct_wrap k_lang k_select_single">
+          <Multiselect
+            :placeholder="
+              $t(
+                'company_profile.members_tab.members_table.placeholder.category'
+              )
+            "
+            mode="tags"
+            :closeOnSelect="false"
+            :searchable="true"
+            :createTag="true"
+            v-model="catgry_list"
+            class="form-control k_inp_field"
+            rules="required"
+            :options="categoriesList"
+          />
+          <!-- @blur="v$.categoriesList.$touch"
                 :class="{
-                  'is-invalid': v$.expiryDate.$error,
+                  'is-invalid': v$.categoriesList.$error,
                 }"
-              />
               <div
-                v-if="v$.expiryDate.$error"
+                v-if="v$.categoriesList.$error"
                 class="invalid-feedback text-left"
               >
                 <span
-                  v-if="v$.expiryDate.required.$invalid"
+                  v-if="v$.categoriesList.required.$invalid"
                   class="text-left fs-14"
                 >
-                  Expiry date is Required
+                  Department is Required
                 </span>
-              </div>
-            </div>
-          </div>
+              </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="accordion custom_acc">
+      <div class="">
+        <div class="">
+          <!-- <div class="section_wrap k_acc_sub_btn m-b-10">
+            <h4 class="m-b-0 title-dark">Choose departament(s)</h4>
+          </div> -->
         </div>
         <!-- <template>
         </template> -->
@@ -246,82 +251,39 @@
 </template>
 
 <script>
-import Datepicker from "vue3-date-time-picker";
 import "vue3-date-time-picker/dist/main.css";
-import Select2 from "vue3-select2-component";
 import Multiselect from "@vueform/multiselect";
 import useVuelidate from "@vuelidate/core";
 import companyService from "../../Services/Company/CompanyService";
 import { required } from "@vuelidate/validators";
 import { mapGetters } from "vuex";
+import CommonService from "../../Services/CommonService";
 export default {
   props: {
-    departments: {
-      type: Array,
-      required: true,
-    },
+    // departments: {
+    //   type: Array,
+    //   required: true,
+    // },
     staffRoles: {
       type: Array,
       required: true,
     },
   },
   components: {
-    Select2,
     Multiselect,
-    Datepicker,
   },
   data() {
     return {
-      companyData: JSON.parse(localStorage.getItem("selected_company")),
-      myValue: "",
-      expiryDate: "",
-      validity_date: "",
-      rolePermissions: [
-        // owner
-        {
-          isEmployeeAllow: true,
-          isConsultantAllow: true,
-          isManagerAllow: true,
-          isOwnweAllow: true,
-        },
-        // consultant
-        {
-          isEmployeeAllow: true,
-          isConsultantAllow: false,
-          isManagerAllow: true,
-          isOwnweAllow: false,
-        },
-        // Managers
-        {
-          isEmployeeAllow: true,
-          isConsultantAllow: false,
-          isManagerAllow: true,
-          isOwnweAllow: false,
-        },
-      ],
-      myDepartmensList: null,
-      settings: {},
-      emailPattern:
-        /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/,
-      // is_uploaded: undefined,
-      is_FileUploaded: false,
-      myOptions: [],
-      tempEmails: [],
-      mySettings: {},
-      disbaleInvited: true,
-      emailTag: "",
-      isOpenAcc: true,
-      isAccordionArr: undefined,
+      dept_list: [],
+      catgry_list: [],
+      categoriesList: [],
     };
   },
 
   computed: {
     ...mapGetters({
       staffInfo: "staffData",
-      invitedMembers: "invitationList",
-      // selectedDepartments: "staffsDepartment",
-      companyLists: "staffsCompanies",
-      ownRole: "roleInCompany",
+      allDepartments: "staffsDepartment",
     }),
   },
   setup() {
@@ -331,8 +293,8 @@ export default {
   },
   validations() {
     return {
-      expiryDate: { required },
-      myDepartmensList: { required },
+      catgry_list: { required },
+      dept_list: { required },
     };
     // myValue: { email },
   },
@@ -340,26 +302,28 @@ export default {
     this.isAccordionArr = new Array(4).fill(false);
   },
   created() {
-    console.log("localstorage data", this.staffRoles.length);
-
-    this.getCompanyDetails(this.companyData);
-    this.settings = {
-      tags: true,
-      allowClear: true,
-      multiple: true,
-      insertTag: function (data, tag) {
-        // Insert the tag at the end of the results
-        this.emailTag = tag;
-        console.log("data", data, "tag", tag);
-        data.push(tag);
-      },
-    };
-
-    this.mySettings = {
-      multiple: true,
-    };
+    this.getCategoryList();
   },
   methods: {
+    // get All Category lists
+    getCategoryList() {
+      CommonService.allCategories().then((resp) => {
+        if (resp.data.status) {
+          for (var i = 0; i < resp.data.data.length; i++) {
+            let categy = {
+              value: resp.data.data[i].id,
+              label: resp.data.data[i].name,
+            };
+            this.categoriesList.push(categy);
+          }
+          console.log("roles", this.categoriesList);
+        } else {
+          this.ownRoleLists = [
+            { value: 0, label: "No record found", disabled: true },
+          ];
+        }
+      });
+    },
     checkRoles(roleid) {
       console.log("users role id is ", this.ownRole);
       if (this.ownRole == 4 && (roleid == 1 || roleid == 4 || roleid == 9)) {
@@ -380,9 +344,9 @@ export default {
       this.validity_date = this.expiryDate.toISOString().slice(0, 10);
       console.log("date", this.validity_date);
     },
-    // selectedDepartments() {
-    //   console.lg("selected departments");
-    // },
+    selectedDepartments() {
+      console.lg("selected departments");
+    },
     getCompanyDetails(companyId) {
       let companyArr;
       this.tempCompnies = this.companyLists;

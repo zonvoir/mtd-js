@@ -9,6 +9,7 @@ export default createStore({
     role_id: undefined,
     roleInCompany: undefined,
     invitationList: [],
+    activeCompany: undefined,
     questionnaire: {},
     // questionnaire: {},
     questionnaireDetails: {},
@@ -23,8 +24,11 @@ export default createStore({
   mutations: {
     // company profile
     setStaffsDepartment(state, values) {
-      console.log("users Departments", values);
+      console.log("users Departments By role Id", values);
       state.staffsDepartment = values;
+    },
+    setActiveCompany(state, company) {
+      state.activeCompany = company;
     },
     setStaffsCompanies(state, values) {
       state.staffsCompanies = values;
@@ -81,6 +85,9 @@ export default createStore({
     async getInvitationList(context, val) {
       context.commit("setInvitationList", val);
     },
+    async getActiveCompany(context, val) {
+      context.commit("setActiveCompany", val);
+    },
     async getCompanyInfoDetails(context, val) {
       context.commit("setCompanyInfoDetails", val);
     },
@@ -127,6 +134,7 @@ export default createStore({
   getters: {
     staffData: (state) => state.staffData,
     invitationList: (state) => state.invitationList,
+    activeCompany: (state) => state.activeCompany,
     companyMembers: (state) => state.companyMembers,
     staffsDepartment: (state) => state.staffsDepartment,
     staffsCompanies: (state) => state.staffsCompanies,
@@ -145,23 +153,6 @@ export default createStore({
         (category) => category.questionnaire_status === status
       );
     },
-    // company members by company_id
-    // companyMembers: (state) => (id) => {
-    //   console.log(id, state);
-    //   // return state.staffsCompanies.filter(
-    //   //   (company) => staffsCompanies.company_id === id
-    //   // );
-    // },
     randomQuizIndex: (state) => state.randomQuestionIndex,
-    // randomQuestionIndex(state) {
-    //   return state.randomQuestionIndex;
-    // },
-    // return state.questionList.indexOf((question) => question.id === id);
-    // return state.pages.find((pages) => pages.id === 5);
-    // methods: {
-    //   getSettings() {
-    //     return this.$store.getters.getPageSettings(this.pageId);
-    //   },
-    // },
   },
 });

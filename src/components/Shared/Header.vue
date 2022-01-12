@@ -1,14 +1,7 @@
 <template>
   <div class="header-wrappper">
-    <!-- header for question overview start -->
     <div class="left-header">
-      <!-- company-name -->
-      <!-- <div class="dropdown-wrapper"> -->
       <div class="comp_select">
-        <!-- :placeholder="$t('header.placeholder.select_your_company')"
-          label="name"
-          :value="selectedCompany"
-          :options="companies" -->
         <Multiselect
           v-model="example8.value"
           v-bind="example8"
@@ -54,7 +47,7 @@
             :src="
               getProfileData.profile_image
                 ? getProfileData.profile_image
-                : '../../assets/users/100_3.jpg'
+                : getProfileData.profile
             "
             class="profile-pic"
           />
@@ -98,15 +91,13 @@ export default {
       state: false,
       userLogo,
       userpic: "",
-      // currentYear: "" + new Date().getFullYear(),
-      currentYear: "2022",
-
+      currentYear: "" + new Date().getFullYear(),
       isprofile: false,
       companies: [],
-      selectedCompany: "66",
+      // selectedCompany: "66",
       example8: {
-        value: "66",
-        placeholder: "heelo world",
+        value: "0",
+        placeholder: "select your Company",
         label: "name",
         options: [],
       },
@@ -119,7 +110,18 @@ export default {
       getMembers: "companyMembers",
       companyLists: "staffsCompanies",
       ownRole: "roleInCompany",
+      currentCompany: "activeCompany",
     }),
+  },
+  watch: {
+    currentCompany: {
+      handler(val) {
+        console.log(val);
+        this.example8.value = val;
+        this.getAllMemberList(this.example8.value);
+      },
+      deep: true,
+    },
   },
   created() {
     if (
@@ -203,8 +205,8 @@ export default {
         });
     },
     changeCompany() {
+      console.log("Active Company", this.example8.value);
       localStorage.setItem("selected_company", this.example8.value);
-      console.log("");
       this.getAllMemberList(this.example8.value);
     },
     getAllMemberList(companyId) {

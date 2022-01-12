@@ -149,8 +149,8 @@ export default {
               };
               this.departmentLists.push(dept);
             }
+            console.log("all departments of role id", this.departmentLists);
             this.$store.dispatch("getStaffsDepartment", this.departmentLists);
-            console.log("latest department kk list", this.departmentLists);
           } else {
             let $th = this;
             if ("error" in res.data) {

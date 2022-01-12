@@ -40,8 +40,8 @@
                 <div class="c_logo_container">
                   <img
                     :src="
-                      personalAccount.profile_image
-                        ? personalAccount.profile_image
+                      personalAccount.profile
+                        ? personalAccount.profile
                         : 'icons/cloud-upload.svg'
                     "
                     class="upload_logo"
@@ -819,6 +819,7 @@ export default {
       // console.log("img", this.personalAccount.profile_image);
 
       this.personalAccount.auth_token = this.staffData.auth_token;
+      // console.log(this.personalAccount);
       this.v$.$touch();
       if (this.v$.$invalid) {
         return;
@@ -828,6 +829,10 @@ export default {
           .then((res) => {
             if (res.data.status) {
               this.personalAccount = res.data.data;
+              this.personalAccount["profile"] =
+                this.personalAccount.profile_image;
+              this.personalAccount["profile_image"] = null;
+
               this.$store.dispatch("getPersonalInfo", res.data.data);
             } else {
               let $th = this;
@@ -864,6 +869,10 @@ export default {
           if (res.data.status) {
             this.profileData = res.data.data;
             this.personalAccount = res.data.data;
+            this.personalAccount["profile"] =
+              this.personalAccount.profile_image;
+
+            this.personalAccount["profile_image"] = null;
             console.log("pesonal data", res.data.data);
             this.$store.dispatch("getPersonalInfo", res.data.data);
 
@@ -1021,6 +1030,7 @@ export default {
       reader.onload = function () {
         $th.defaultImg = reader.result.toString();
         $th.personalAccount.profile_image = $th.defaultImg;
+        $th.personalAccount.profile = $th.defaultImg;
 
         console.log($th.defaultImg);
       };

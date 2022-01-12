@@ -415,6 +415,8 @@ export default {
     },
     companyDetails(id) {
       console.log("cliked company", id);
+      localStorage.setItem("selected_company", id);
+      this.$store.dispatch("getActiveCompany", id);
       this.$router.push({ name: "company-profile" });
     },
   },

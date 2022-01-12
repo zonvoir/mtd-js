@@ -364,30 +364,6 @@
                     </span>
                   </div>
                 </div>
-                <!-- <div class="k_form_group k_select_single">
-                  <Multiselect
-                    placeholder="Year of incorporation"
-                    class="form-control k_inp_field"
-                    rules="required"
-                    :options="InCorpYearLists"
-                    @blur="v$.companyForm.incorporation_year.$touch"
-                    v-model="companyForm.incorporation_year"
-                    :class="{
-                      'is-invalid': v$.companyForm.incorporation_year.$error,
-                    }"
-                  />
-                  <div
-                    v-if="v$.companyForm.incorporation_year.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.companyForm.incorporation_year.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Year of incorporation is required
-                    </span>
-                  </div>
-                </div> -->
               </div>
               <div class="col-lg-6">
                 <div class="wrap_phone_inp">
@@ -476,7 +452,7 @@
         </div>
       </div>
     </div>
-    <Toast />
+    <!-- <Toast /> -->
   </div>
   <!-- Modal -->
   <div
@@ -663,14 +639,14 @@ import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import Multiselect from "@vueform/multiselect";
 import CommonService from "../../Services/CommonService";
-import Toast from "../../components/Shared/Toast.vue";
+// import Toast from "../../components/Shared/Toast.vue";
 import SignupService from "../../Services/SignupService";
 import { Modal } from "bootstrap";
 
 export default {
   components: {
     Multiselect,
-    Toast,
+    // Toast,
   },
   data() {
     return {
@@ -687,11 +663,11 @@ export default {
       ownRoleLists: [],
       subIndustryLists: [],
       detailedIndustryLists: [],
-      InCorpYearLists: ["2021"],
+      // InCorpYearLists: ["2021"],
       countryLists: [],
       value: null,
       modal: null,
-      options: ["Batman", "Robin", "Joker"],
+      // options: ["Batman", "Robin", "Joker"],
       countryCodes: [
         // {
         //   name: "german",
@@ -711,6 +687,7 @@ export default {
         corporation_legal_form: null,
         company_role: null,
         region: null,
+        is_main: "1",
         phonenumber: null,
         incorporation_year: null,
         client_logo: "",

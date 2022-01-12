@@ -45,10 +45,11 @@
 import InvitationRole from "../Shared/InvitationARole.vue";
 import { Modal } from "bootstrap";
 import CompanyService from "../../Services/Company/CompanyService";
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       modal: null,
       rolesOfStaff: [],
       departmentLists: [],
@@ -60,37 +61,38 @@ export default {
   mounted() {
     this.modal = new Modal(this.$refs.invitationModal);
   },
-  computed: {
-    ...mapGetters({
-      staffInfo: "staffData",
-      allDepartments: "staffsDepartment",
-    }),
-  },
-  watch: {
-    allDepartments: function () {
-      this.departmentLists = this.allDepartments;
-    },
-  },
+  // computed: {
+  //   ...mapGetters({
+  //     // allDepartments: "staffsDepartment",
+  //   }),
+  // },
+  // watch: {
+  //   allDepartments: function () {
+  //     this.departmentLists = [...new Set(this.allDepartments)];
+  //   },
+  // },
 
-  created() {
-    if (
-      this.staffInfo != null ||
-      this.staffInfo != undefined ||
-      this.staffInfo != ""
-    ) {
-      this.departmentByStaffId();
-      this.getInvitaionPeopleListByRole();
-    }
-  },
+  // created() {
+  //   if (
+  //     this.staffInfo != null ||
+  //     this.staffInfo != undefined ||
+  //     this.staffInfo != ""
+  //   ) {
+  //     this.departmentByStaffId();
+  //     this.getInvitaionPeopleListByRole();
+  //   }
+  // },
   methods: {
     invitePeople() {
-      console.log("modal clicked");
+      console.log(
+        "modal clicked",
+        this.staffInfo && Object.keys(this.staffInfo).length != 0
+      );
       this.modal.show();
-      if (
-        this.staffInfo != null ||
-        this.staffInfo != undefined ||
-        this.staffInfo != ""
-      ) {
+      // this.staffInfo != null ||
+      // this.staffInfo != undefined ||
+      // this.staffInfo != ""
+      if (this.staffInfo && Object.keys(this.staffInfo).length != 0) {
         this.departmentByStaffId();
         this.getInvitaionPeopleListByRole();
       }
@@ -135,6 +137,7 @@ export default {
         auth_token: this.staffInfo.auth_token,
       }).then((res) => {
         if (res.data.status) {
+          this.departmentLists = [];
           for (let k = 0; k < res.data.data.length; k++) {
             let dept = {
               value: res.data.data[k].departmentid,
@@ -142,7 +145,7 @@ export default {
             };
             this.departmentLists.push(dept);
           }
-          this.$store.dispatch("getStaffsDepartment", this.departmentLists);
+          // this.$store.dispatch("getStaffsDepartment", this.departmentLists);
           console.log("latest department kk list", this.departmentLists);
         } else {
           let $th = this;

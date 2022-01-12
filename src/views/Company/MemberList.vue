@@ -176,12 +176,8 @@
                       </a>
                     </li>
 
-                    <li v-if="people.departments.length > 3">
-                      <a
-                        data-bs-toggle="tooltip_dept"
-                        data-bs-placement="bottom"
-                        title="Logistic"
-                      >
+                    <li v-if="people.departments.length > 4">
+                      <a data-bs-placement="bottom">
                         <div class="icon_container">
                           <div class="icon_bg bg_light_yellow">
                             <img
@@ -191,20 +187,21 @@
                             />
                           </div>
                           <span class="total_icons">
-                            +{{ people.departments.length - 3 }}
+                            +{{ people.departments.length - 4 }}
                           </span>
                         </div>
                       </a>
                     </li>
                   </ul>
                   <div v-if="ownRole == 5" class="permission_btns">
-                    <button
+                    <PermissionModal>
+                      <template v-slot:permission-button> permission </template>
+                    </PermissionModal>
+                    <!-- <button
                       type="button"
                       @click="setPermission(people.staffid)"
                       class="btn-light fs-14 btn-set fw-700 btn"
-                    >
-                      PERMISSIONS
-                    </button>
+                    ></button> -->
                   </div>
                 </div>
               </td>
@@ -232,6 +229,7 @@ import UserPic from "../../assets/users/Avatar.png";
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
 import { mapGetters } from "vuex";
 import CommonService from "../../Services/CommonService";
+import PermissionModal from "../../components/Shared/PermissionModal.vue";
 import CompanyService from "../../Services/Company/CompanyService";
 const tablist = [
   {
@@ -248,6 +246,7 @@ const tablist = [
 export default {
   components: {
     // TabsHr,
+    PermissionModal,
     Multiselect,
   },
   data() {

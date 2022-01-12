@@ -27,15 +27,15 @@
             <!-- Fill all the KPI questions -->
           </p>
           <div class="m-l-auto">
-            <!-- {{ !questionnaireDetails.is_accessible }}
-            {{ !(questionnaireDetails.number_of_questions > 0) }}
-            {{ questionnaireDetails.is_expired }}
-            {{ questionnaireDetails.number_of_questions }} -->
-            <button
-              :disabled="
+            <!--  :disabled="
                 !questionnaireDetails.is_accessible ||
                 !(questionnaireDetails.number_of_questions > 0) ||
                 questionnaireDetails.is_expired
+              " -->
+            <button
+              :disabled="
+                !questionnaireDetails.is_accessible ||
+                !(questionnaireDetails.number_of_questions > 0)
               "
               @click="startQuestionnarie"
               class="btn-primary btn btn-set text-uppercase"

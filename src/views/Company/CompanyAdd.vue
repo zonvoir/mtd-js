@@ -482,6 +482,8 @@
                 <div class="k_form_group k_inp_number phone_field">
                   <input
                     type="number"
+                    maxlength="10"
+                    minlength="10"
                     @keypress="isNumber"
                     class="form-control shift_number k_inp_field"
                     :placeholder="
@@ -489,31 +491,36 @@
                         'company_profile.company_tab.company_setup_update.form.placeholder.phone_no'
                       )
                     "
+                    @blur="v$.companyForm.phonenumber.$touch"
+                    v-model="companyForm.phonenumber"
+                    :class="{
+                      'is-invalid': v$.companyForm.phonenumber.$error,
+                    }"
                   />
-                  <!-- <div
-                    v-if="v$.ansValue.$error"
+
+                  <div
+                    v-if="v$.companyForm.phonenumber.$error"
                     class="invalid-feedback text-left"
                   >
                     <span
-                      v-if="v$.ansValue.required.$invalid"
+                      v-if="v$.companyForm.phonenumber.required.$invalid"
                       class="text-left fs-14"
                     >
-                      Answer is required
+                      Phone number is required
                     </span>
-
                     <span
-                      v-if="v$.ansValue.maxLengthValue.$invalid"
+                      v-if="v$.companyForm.phonenumber.maxLengthValue.$invalid"
                       class="text-left fs-14"
                     >
                       Phone Number must be 10 digit
                     </span>
                     <span
-                      v-if="v$.ansValue.minLengthValue.$invalid"
+                      v-if="v$.companyForm.phonenumber.minLengthValue.$invalid"
                       class="text-left fs-14"
                     >
                       Phone Number atlest 10 digit
                     </span>
-                  </div> -->
+                  </div>
                 </div>
               </div>
             </div>
@@ -581,13 +588,14 @@ export default {
       // InCorpYearLists: ["2021"],
       countryLists: [],
       value: null,
-      options: ["Batman", "Robin", "Joker"],
+      // options: ["Batman", "Robin", "Joker"],
       companyForm: {
         auth_token: "",
         company: "",
         country: null,
         main_industry: null,
         sub_industry: null,
+        phonenumber: null,
         corporation_legal_form: null,
         company_role: null,
         region: null,
@@ -614,6 +622,12 @@ export default {
       companyForm: {
         company: { required },
         country: { required },
+        phonenumber: {
+          required,
+          numeric,
+          maxLengthValue: maxLength(10),
+          minLengthValue: minLength(10),
+        },
         main_industry: { required },
         sub_industry: { required },
         detailed_industry: { required },
@@ -689,7 +703,7 @@ export default {
         client_logo: "",
         detailed_industry: null,
       };
-      this.$router.push({ name: "company-profile-edit" });
+      // this.$router.push({ name: "company-profile-edit" });
     },
     isNumber(event) {
       let char = String.fromCharCode(event.keyCode);
@@ -848,7 +862,7 @@ export default {
         if (resp.data.status) {
           for (var i = 0; i < resp.data.data.length; i++) {
             let roles = {
-              value: resp.data.data[i].roleid,
+              value: resp.data.data[i].id,
               label: resp.data.data[i].name,
             };
             this.ownRoleLists.push(roles);

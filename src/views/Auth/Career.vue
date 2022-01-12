@@ -182,7 +182,7 @@ export default {
   data() {
     return {
       value: null,
-      options: ["Batman", "Robin", "Joker"],
+      // options: ["Batman", "Robin", "Joker"],
       invitedUserData:
         JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")) ||
         JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
@@ -347,7 +347,7 @@ export default {
             };
             this.departmentLists.push(dept);
           }
-
+          // invitedStaffData && Object.keys(invitedStaffData).length != 0
           if (this.invitedUserData === null) {
             console.log("user in regular user");
           } else {
