@@ -142,6 +142,7 @@ export default {
         .departmentsByToken({ auth_token: this.staffInfo.auth_token })
         .then((res) => {
           if (res.data.status) {
+            this.departmentLists = [];
             for (let k = 0; k < res.data.data.length; k++) {
               let dept = {
                 value: res.data.data[k].departmentid,

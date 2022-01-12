@@ -11,7 +11,6 @@ export default createStore({
     invitationList: [],
     activeCompany: undefined,
     questionnaire: {},
-    // questionnaire: {},
     questionnaireDetails: {},
     quizProgressValue: 0.0,
     randomQuestionIndex: undefined,

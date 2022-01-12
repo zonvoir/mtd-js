@@ -29,11 +29,21 @@
           </div>
         </div>
         <div class="modal-body invitaion_body">
-          <DepartmentPermission
-            :departments="departmentLists"
-            :staffRoles="rolesOfStaff"
-          />
-          <PermissionTable />
+          <div class="">
+            <DepartmentPermission
+              :departments="departmentLists"
+              :staffRoles="rolesOfStaff"
+            />
+          </div>
+          <div class="">
+            <BaseAccordion :allDepartments="membersDepartment">
+              <template v-slot:accordion_content_body>
+                <div class="m-t-20">
+                  <PermissionTable />
+                </div>
+              </template>
+            </BaseAccordion>
+          </div>
         </div>
         <div class="modal-footer invite_modal_footer">
           <button
@@ -44,9 +54,10 @@
             Cancel
           </button>
           <button
+            :disabled="isvalid"
+            @click="setMemberPermission"
             type="button"
             class="btn btn-primary btn-set m-l-10"
-            data-bs-dismiss="modal"
           >
             Save Changes
           </button>
@@ -57,9 +68,11 @@
 </template>
 
 <script>
-import DepartmentPermission from "../Shared/DepartmentPermission.vue";
 import PermissionTable from "../../views/Company/PermissionTable.vue";
+import DepartmentPermission from "../Shared/DepartmentPermission.vue";
 import { Modal } from "bootstrap";
+import BaseAccordion from "../Shared/BaseAccordion.vue";
+import { mapGetters } from "vuex";
 // import CompanyService from "../../Services/Company/CompanyService";
 // import { mapGetters } from "vuex";
 export default {
@@ -68,117 +81,35 @@ export default {
       modal: null,
       rolesOfStaff: [],
       departmentLists: [],
+      isvalid: true,
     };
   },
   components: {
     DepartmentPermission,
     PermissionTable,
+    BaseAccordion,
   },
   mounted() {
     this.modal = new Modal(this.$refs.invitationModal);
   },
-  //   computed: {
-  //     ...mapGetters({
-  //       staffInfo: "staffData",
-  //       allDepartments: "staffsDepartment",
-  //     }),
-  //   },
-  //   watch: {
-  //     allDepartments: function () {
-  //       this.departmentLists = this.allDepartments;
-  //     },
-  //   },
-
-  //   created() {
-  //     if (
-  //       this.staffInfo != null ||
-  //       this.staffInfo != undefined ||
-  //       this.staffInfo != ""
-  //     ) {
-  //       this.departmentByStaffId();
-  //       this.getInvitaionPeopleListByRole();
-  //     }
-  //   },
+  computed: {
+    ...mapGetters({
+      staffInfo: "staffData",
+      membersDepartment: "staffsDepartment",
+    }),
+  },
   methods: {
     setPermission(id) {
       console.log("modal clicked", id);
       this.modal.show();
-      //   if (
-      //     this.staffInfo != null ||
-      //     this.staffInfo != undefined ||
-      //     this.staffInfo != ""
-      //   ) {
-      //     this.departmentByStaffId();
-      //     this.getInvitaionPeopleListByRole();
-      //   }
     },
-
     closeModal() {
       this.modal.hide();
     },
-    // get List of invited people
-    // getInvitaionPeopleListByRole() {
-    //   CompanyService.getInvitationByRole({
-    //     auth_token: this.staffInfo.auth_token,
-    //   }).then((res) => {
-    //     if (res.data.status) {
-    //       console.log("all invitaion list of people", res.data.data);
-    //       this.rolesOfStaff = res.data.data;
-    //       this.$store.dispatch(
-    //         "getInvitationList",
-    //         res.data.data.invitation_list
-    //       );
-    //     } else {
-    //       let $th = this;
-    //       if ("error" in res.data) {
-    //         Object.keys(res.data.error).map(function (key) {
-    //           $th.$toast.error(res.data.error[key], {
-    //             position: "bottom-left",
-    //             duration: 3712,
-    //           });
-    //         });
-    //       } else {
-    //         $th.$toast.error(res.data.message, {
-    //           position: "bottom-left",
-    //           duration: 3712,
-    //         });
-    //       }
-    //     }
-    //   });
-    // },
-    // get list of departments
-    // departmentByStaffId() {
-    //   CompanyService.departmentsByToken({
-    //     auth_token: this.staffInfo.auth_token,
-    //   }).then((res) => {
-    //     if (res.data.status) {
-    //       for (let k = 0; k < res.data.data.length; k++) {
-    //         let dept = {
-    //           value: res.data.data[k].departmentid,
-    //           label: res.data.data[k].name,
-    //         };
-    //         this.departmentLists.push(dept);
-    //       }
-    //       this.$store.dispatch("getStaffsDepartment", this.departmentLists);
-    //       console.log("latest department kk list", this.departmentLists);
-    //     } else {
-    //       let $th = this;
-    //       if ("error" in res.data) {
-    //         Object.keys(res.data.error).map(function (key) {
-    //           $th.$toast.error(res.data.error[key], {
-    //             position: "bottom-left",
-    //             duration: 3712,
-    //           });
-    //         });
-    //       } else {
-    //         $th.$toast.error(res.data.message, {
-    //           position: "bottom-left",
-    //           duration: 3712,
-    //         });
-    //       }
-    //     }
-    //   });
-    // },
+    setMemberPermission() {
+      console.log("modal closed");
+      this.closeModal();
+    },
   },
 };
 </script>

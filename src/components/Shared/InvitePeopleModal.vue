@@ -145,7 +145,7 @@ export default {
             };
             this.departmentLists.push(dept);
           }
-          // this.$store.dispatch("getStaffsDepartment", this.departmentLists);
+          this.$store.dispatch("getStaffsDepartment", this.departmentLists);
           console.log("latest department kk list", this.departmentLists);
         } else {
           let $th = this;

@@ -28,20 +28,20 @@
             :options="allDepartments"
           />
           <!-- @blur="v$.myDepartmensList.$touch"
-                :class="{
-                  'is-invalid': v$.myDepartmensList.$error,
-                }"
-              <div
-                v-if="v$.myDepartmensList.$error"
-                class="invalid-feedback text-left"
-              >
-                <span
-                  v-if="v$.myDepartmensList.required.$invalid"
-                  class="text-left fs-14"
-                >
-                  Department is Required
-                </span>
-              </div> -->
+            :class="{
+              'is-invalid': v$.myDepartmensList.$error,
+            }"
+          <div
+            v-if="v$.myDepartmensList.$error"
+            class="invalid-feedback text-left"
+          >
+            <span
+              v-if="v$.myDepartmensList.required.$invalid"
+              class="text-left fs-14"
+            >
+              Department is Required
+            </span>
+          </div> -->
         </div>
         <div class="k_form_group dept_selct_wrap k_lang k_select_single">
           <Multiselect
@@ -60,190 +60,20 @@
             :options="categoriesList"
           />
           <!-- @blur="v$.categoriesList.$touch"
-                :class="{
-                  'is-invalid': v$.categoriesList.$error,
-                }"
-              <div
-                v-if="v$.categoriesList.$error"
-                class="invalid-feedback text-left"
-              >
-                <span
-                  v-if="v$.categoriesList.required.$invalid"
-                  class="text-left fs-14"
-                >
-                  Department is Required
-                </span>
-              </div> -->
-        </div>
-      </div>
-    </div>
-    <div class="accordion custom_acc">
-      <div class="">
-        <div class="">
-          <!-- <div class="section_wrap k_acc_sub_btn m-b-10">
-            <h4 class="m-b-0 title-dark">Choose departament(s)</h4>
+            :class="{
+              'is-invalid': v$.categoriesList.$error,
+            }"
+          <div
+            v-if="v$.categoriesList.$error"
+            class="invalid-feedback text-left"
+          >
+            <span
+              v-if="v$.categoriesList.required.$invalid"
+              class="text-left fs-14"
+            >
+              Department is Required
+            </span>
           </div> -->
-        </div>
-        <!-- <template>
-        </template> -->
-        <div
-          class="body_wrap"
-          v-for="(staffrole, index) in staffRoles"
-          :key="index"
-        >
-          <div v-if="checkRoles(staffrole.roleid)" class="sub_acc_body">
-            <div class="team_wrapper">
-              <div class="">
-                <div @click="toggleAccordion(index)" class="section_wrap">
-                  <h4 class="m-b-0 title-dark">{{ staffrole.name }}</h4>
-
-                  <div class="m-l-auto">
-                    <img
-                      :src="
-                        isAccordionArr[index]
-                          ? 'K_Icons/chevron-up.svg'
-                          : 'K_Icons/chevron-down.svg'
-                      "
-                      alt=""
-                      class=""
-                    />
-                  </div>
-                </div>
-                <div
-                  :class="{ collapse: isAccordionArr[index] }"
-                  class="description_body_wrap"
-                >
-                  <div class="m-b-12 m-t-20">
-                    <p class="staff_desc">
-                      <!-- {{ item.description }} -->
-                      Simply dummy text of the printing and typesetting
-                      industry. Lorem Ipsum has been the industry's standard
-                      dummy text ever since the 150.Lorem Ipsum is simply dummy
-                      text of the printing and typesetting industry. Lorem Ipsum
-                      has been the industry's standard dummy text ever since the
-                      Lorem Dummy text Industry was created.It has been the
-                      industry's standard dummy text.
-                    </p>
-                  </div>
-                  <!-- v-if="staffrole.roleid !== 0" -->
-                  <div v-if="staffrole.roleid != ownRole" class="form_wrapper">
-                    <form action="">
-                      <div class="d-flex m-b-24">
-                        <div class="select_wrap_invite">
-                          <Select2
-                            v-model="myValue"
-                            :options="myOptions"
-                            class="select_to"
-                            :settings="settings"
-                            @select="mySelectEvent($event)"
-                          />
-                        </div>
-                        <div class="btn_wrap">
-                          <button
-                            :disabled="disbaleInvited"
-                            @click="SendEmailsList(staffrole.roleid)"
-                            type="button"
-                            class="btn-primary btn btn-set text-uppercase"
-                          >
-                            {{
-                              $t(
-                                "category_details.team_mangementTab.buttons.invite"
-                              )
-                            }}
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                    <div class="text-center">
-                      <p class="import_file_text">
-                        or you can
-                        <button
-                          :disabled="is_FileUploaded"
-                          @click="importFile(index)"
-                          :key="staffrole.roleid"
-                          class="btn btn_primary_transparent"
-                        >
-                          Import
-                        </button>
-                        a file with employee emails
-                      </p>
-                      <!-- <p v-if="is_uploaded" class="upload_message text-success">
-                        Your file has been successfully Uploaded !!! we will
-                        show you updated list after some time
-                      </p> -->
-
-                      <input
-                        type="file"
-                        style="display: none"
-                        :ref="`fileInput-${index}`"
-                        accept=".csv"
-                        @change="onFilePicked($event, staffrole.roleid)"
-                      />
-                    </div>
-                    <div class="staff_list_wrapper">
-                      <h6 class="mb-0 text-primary text-14-500 p-b-16">
-                        <!-- Invited Employees -->
-                        {{
-                          $t(
-                            "category_details.team_mangementTab.Invited_Employees"
-                          )
-                        }}
-                      </h6>
-                      <div class="list_wrap m-b-20">
-                        <ul class="list-group">
-                          <li
-                            v-for="member in staffrole.invitation_list"
-                            :key="member.id"
-                            class="list_group_item d-inline-flex m-b-8"
-                          >
-                            <div class="list_wrapper">
-                              <div class="name_wrap">
-                                <p
-                                  class="
-                                    text-14-600
-                                    m-b-0
-                                    text-capitalize text-heading
-                                  "
-                                >
-                                  First Name
-                                </p>
-                              </div>
-                              <div class="email_wrap">
-                                <p class="text-14-600 m-b-0 text-heading">
-                                  {{ member.recipient_email }}
-                                </p>
-                              </div>
-                              <div class="icon_wrap">
-                                <div class="d-inline-flex">
-                                  <div
-                                    :class="{
-                                      pending: member.status == 'pending',
-                                      accepted: member.status == 'accepted',
-                                      rejected: member.status == 'rejected',
-                                    }"
-                                    class="email_status_wrap"
-                                  >
-                                    <p class="email_status">
-                                      {{ member.status }}
-                                    </p>
-                                  </div>
-                                  <img
-                                    src="K_Icons/more-vertical.svg"
-                                    alt=""
-                                    class=""
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -254,7 +84,6 @@
 import "vue3-date-time-picker/dist/main.css";
 import Multiselect from "@vueform/multiselect";
 import useVuelidate from "@vuelidate/core";
-import companyService from "../../Services/Company/CompanyService";
 import { required } from "@vuelidate/validators";
 import { mapGetters } from "vuex";
 import CommonService from "../../Services/CommonService";
@@ -296,7 +125,6 @@ export default {
       catgry_list: { required },
       dept_list: { required },
     };
-    // myValue: { email },
   },
   mounted() {
     this.isAccordionArr = new Array(4).fill(false);
@@ -324,210 +152,12 @@ export default {
         }
       });
     },
-    checkRoles(roleid) {
-      console.log("users role id is ", this.ownRole);
-      if (this.ownRole == 4 && (roleid == 1 || roleid == 4 || roleid == 9)) {
-        return true;
-      } else if (
-        this.ownRole == 5 &&
-        (roleid == 1 || roleid == 4 || roleid == 5 || roleid == 9)
-      ) {
-        return true;
-      } else if (this.ownRole == 9 && (roleid == 1 || roleid == 9)) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    updateDate() {
-      // this.checkValidation();
-      this.validity_date = this.expiryDate.toISOString().slice(0, 10);
-      console.log("date", this.validity_date);
-    },
-    selectedDepartments() {
-      console.lg("selected departments");
-    },
-    getCompanyDetails(companyId) {
-      let companyArr;
-      this.tempCompnies = this.companyLists;
-      console.log(this.tempCompnies);
-      this.tempCompnies.forEach((item) => {
-        if (item.company_id == companyId) {
-          companyArr = item;
-        }
-      });
-
-      console.log("all conpany dettails", companyArr);
-      // this.$store.dispatch("getCompanyMembers", memberArr);
-    },
-    checkRole(id) {
-      if (id) {
-        return true;
-      }
-    },
-    importFile(fileNameIndex = 0) {
-      this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
-      } else {
-        this.$refs["fileInput-" + fileNameIndex].click();
-      }
-    },
-
-    onFilePicked(event, roleId) {
-      console.log("role is k", roleId, event);
-      this.valiImage = true;
-      const allowedExtensions = ["csv"];
-      const files = event.target.files;
-      let $th = this;
-      if (files != "undefined" && files.length > 0) {
-        var filename = files[0].name;
-        var fileType = files[0].type;
-        console.log("file extention type", fileType);
-        const fileExtension = filename.split(".").pop();
-        if (!allowedExtensions.includes(fileExtension)) {
-          // this.is_uploaded = false;
-          this.$toast.error(" File type must be (.csv) only.", {
-            position: "bottom-left",
-            duration: 3712,
-          });
-          this.value = null; // Null the Value  here
-        } else {
-          var reader = new FileReader();
-          reader.readAsDataURL(files[0]);
-          reader.onload = function (e) {
-            let filebase64 = e.target.result;
-            let fileData = filebase64.replace(
-              "data:" + fileType + ";base64,",
-              ""
-            );
-            console.log("role is kk", roleId);
-            $th.sendInvitationByFile(fileData, roleId);
-            console.log("role is kkk", roleId);
-          };
-        }
-      } else {
-        return true;
-      }
-    },
-    // upload excel File
-    sendInvitationByFile(file, staffrole) {
-      // this.is_uploaded = false;
-      this.is_FileUploaded = true;
-      let data = {
-        auth_token: this.staffInfo.auth_token,
-        role_id: +staffrole,
-        departments: this.myDepartmensList.map(Number),
-        excel_file: file,
-        invitation_validity: this.validity_date,
-      };
-      console.log("fileData ", data);
-      companyService.invitationByFile(data).then((res) => {
-        if (res.data.status) {
-          // this.is_uploaded = true;
-          this.is_FileUploaded = false;
-          this.$toast.success(" file Uploaded !! update list after some time", {
-            position: "bottom-left",
-            duration: 3712,
-          });
-          this.$store.dispatch(
-            "getInvitationList",
-            res.data.data.invitation_list
-          );
-        } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          }
-        }
-      });
-      // this.is_uploaded = false;
-    },
-    // send Invitation by Emails
-    SendEmailsList(roleId) {
-      this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
-      } else {
-        console.log("emailsArray", this.tempEmails, this.myDepartmensList);
-        let data = {
-          auth_token: this.staffInfo.auth_token,
-          role_id: +roleId,
-          recipient_emails: this.myValue,
-          departments: this.myDepartmensList.map(Number),
-          invitation_validity: this.validity_date,
-        };
-        console.log("emails Array to be send ", data);
-        companyService.invitationByEmails(data).then((res) => {
-          if (res.data.status) {
-            this.myValue.length = 0;
-            this.$store.dispatch(
-              "getInvitationList",
-              res.data.data.invitation_list
-            );
-            this.disbaleInvited = true;
-            this.$toast.success("Invitations have been sent ", {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          } else {
-            let $th = this;
-            if ("error" in res.data) {
-              Object.keys(res.data.error).map(function (key) {
-                $th.$toast.error(res.data.error[key], {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              });
-            } else {
-              $th.$toast.error(res.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            }
-          }
-        });
-      }
-    },
-    // myChangeEvent(val) {
-    //   // this.validEmail = true;
-    //   // this.emailTag = val.target.value;
-    // },
-    mySelectEvent({ id, text }) {
-      console.log("id", { id, text });
-
-      this.myValue.length > 0
-        ? (this.disbaleInvited = false)
-        : (this.disbaleInvited = true);
-      if (this.emailPattern.test(text)) {
-        return true;
-      } else {
-        this.$toast.error("please enter valid email.", {
-          position: "bottom-left",
-          duration: 3712,
-        });
-        this.myValue.pop();
-        return false;
-      }
-    },
-
     toggleAccordion(index) {
       this.isAccordionArr.forEach((ac, i) => {
         if (index === i) {
           this.isAccordionArr[i] = !this.isAccordionArr[i];
         }
       });
-      // this.isAccordionArr[index] = !this.isAccordionArr[index];
     },
   },
 };

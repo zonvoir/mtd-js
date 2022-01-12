@@ -192,7 +192,7 @@ export default {
             font-weight: 500;
             // font-size: 11px;
             font-size: 14px;
-            line-height: 16px;
+            line-height: 19px;
             text-align: center;
             color: #8f9bb3;
           }
