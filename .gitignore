@@ -32,6 +32,7 @@ pnpm-debug.log*
 #     https://www.atlassian.com/git/tutorials/saving-changes/gitignore
 
 # Node artifact files
+#testing
 node_modules/
 dist/
 
