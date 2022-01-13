@@ -353,9 +353,11 @@
   "company_profile": {
     "Members": "Members",
     "Company": "Company",
+    "Peers": "Peers",
     "tab": {
       "company": "Company",
-      "member": "Members"
+      "member": "Members",
+      "peers": "Peers"
     },
     "company_tab": {
       "company_table": {

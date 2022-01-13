@@ -86,6 +86,12 @@ const tablist = [
     tabTitle: "company_profile.tab.member",
     component_url: "/company/members",
   },
+  {
+    tabId: 2,
+    title: "company_profile.Peers",
+    tabTitle: "company_profile.tab.peers",
+    component_url: "/company/peers",
+  },
 ];
 import TabsHr from "../../components/Shared/TabsHr.vue";
 import searchIcon from "../../../public/icons/search.svg";

@@ -62,6 +62,7 @@ export default {
       color: #8f9bb3;
       font-size: 14px;
       font-weight: 700;
+      text-transform: uppercase;
       cursor: pointer;
       width: 236px;
       height: 48px;

@@ -358,9 +358,12 @@
   "company_profile": {
     "Members": "Memberskk",
     "Company": "Companykk",
+    "Peers": "Peerskk",
+
     "tab": {
       "company": "Companykk",
-      "member": "Memberskk"
+      "member": "Memberskk",
+      "peers": "Peerskk"
     },
     "company_tab": {
       "company_table": {

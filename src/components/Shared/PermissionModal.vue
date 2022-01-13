@@ -73,8 +73,6 @@ import DepartmentPermission from "../Shared/DepartmentPermission.vue";
 import { Modal } from "bootstrap";
 import BaseAccordion from "../Shared/BaseAccordion.vue";
 import { mapGetters } from "vuex";
-// import CompanyService from "../../Services/Company/CompanyService";
-// import { mapGetters } from "vuex";
 export default {
   data() {
     return {
