@@ -8,7 +8,7 @@ const instance = axios.create({
   baseURL: "https://stagingcrm.morethandigital.info/api/",
   headers: {
     authtoken: apiToken,
-    'Access-Control-Allow-Origin': '*',
+    "Access-Control-Allow-Origin": "*",
     "Content-type": "application/json",
     // company: localStorage.getItem("selected_company"),
     // year: localStorage.getItem("selected_year"),
