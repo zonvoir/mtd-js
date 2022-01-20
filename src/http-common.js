@@ -3,7 +3,7 @@ import nProgress from "nprogress";
 
 const languages = { en: "english", de: "german" };
 const apiToken =
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoicmFnaHZlbmRyYSIsIm5hbWUiOiJjaGF5dWRoYXJ5IiwiQVBJX1RJTUUiOjE2MzIyMTY1MDN9.xQCikbSWKG8_xfIOMsZ7puyXcmhj3Y9Vg7nNT4C26gI";
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJuYW1lIjoiYXV0aHRva2VuIiwiQVBJX1RJTUUiOjE2Mzg4NzUwODV9.9BzLMUun6GW9EwmDhkP1Kxnz7mg-JebGshSeErpMcxg";
 const instance = axios.create({
   baseURL: "https://stagingcrm.morethandigital.info/api/",
   headers: {
