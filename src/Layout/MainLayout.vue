@@ -3,15 +3,13 @@
     <div class="main_layout_container">
       <div class="main_layout_sidebar">
         <Sidebar />
-      </div>
-      <div class="main_layout_body">
         <div class="k-header-wrapprer">
           <Header />
         </div>
+      </div>
+      <div class="main_layout_body">
         <div class="pages_view_container">
           <router-view />
-          <!-- <p class="m-b-0">Please Complete Company setup first</p>
-          <button class="btn btn-primary btn-set">setup Company First</button> -->
         </div>
       </div>
     </div>
@@ -62,6 +60,11 @@ export default {
 <style lang="scss" scoped>
 .k-header-wrapprer {
   background-color: #ffffff;
-  z-index: 999;
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  padding-left: 280px;
+  width: 100%;
+  left: 0;
 }
 </style>

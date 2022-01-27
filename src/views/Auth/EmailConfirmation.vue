@@ -42,6 +42,7 @@
 
 <script>
 import signupService from "../../Services/SignupService";
+import errorhandler from "../../utils/Error";
 // import { useRouter } from 'vue-router';
 export default {
   data() {
@@ -71,10 +72,11 @@ export default {
             console.log(response);
           } else {
             this.verificationMessage = response.data.message;
-            this.$toast.error(response.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
+            // this.$toast.error(response.data.message, {
+            //   position: "bottom-left",
+            //   duration: 3712,
+            // });
+            errorhandler(response, this);
           }
         })
         .catch((error) => {

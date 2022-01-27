@@ -19,15 +19,47 @@
       </div>
       <!-- warn section close -->
       <div class="">
-        <form @submit.prevent="savePeerInfo" action="">
+        <form action="">
           <div class="row">
             <div class="col-lg-6">
               <div class="k_form_group k_select_single">
                 <Multiselect
+                  placeholder="Select region"
+                  class="form-control k_inp_field"
+                  rules="required"
+                  @select="onChangeRegion"
+                  @deselect="deselectRegion"
+                  :options="regionLists"
+                  @blur="v$.peerForm.region.$touch"
+                  v-model="peerForm.region"
+                  :class="{
+                    'is-invalid': v$.peerForm.region.$error,
+                  }"
+                />
+                <div
+                  v-if="v$.peerForm.region.$error"
+                  class="invalid-feedback text-left"
+                >
+                  <span
+                    v-if="v$.peerForm.region.required.$invalid"
+                    class="text-left fs-14"
+                  >
+                    Region is required
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="k_form_group k_select_single">
+                <!-- :delay="-1"
+                  :loading="true"
+                  :min-chars="1"
+                  :resolve-on-load="false" -->
+                <Multiselect
                   placeholder="Select country"
                   class="form-control k_inp_field"
                   rules="required"
-                  :options="countryList"
+                  :options="countryLists"
                   @blur="v$.peerForm.country.$touch"
                   v-model="peerForm.country"
                   :class="{
@@ -73,49 +105,54 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
-              <div class="k_form_group k_select_single">
-                <Multiselect
-                  placeholder="Industry"
-                  class="form-control k_inp_field"
-                  :options="industryLists"
-                  rules="required"
-                  @select="onChangeMainIndustry"
-                  @blur="v$.peerForm.industry.$touch"
-                  v-model="peerForm.industry"
+            <div
+              class="industries_info_wraper"
+              v-for="(industry, idx) in industriesInformation"
+              :key="idx"
+            >
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="k_form_group k_select_single">
+                    <Multiselect
+                      placeholder="Industry"
+                      class="form-control k_inp_field"
+                      :options="industryLists"
+                      rules="required"
+                      @select="onChangeMainIndustry"
+                      v-model="industry.main_industry"
+                    />
+                    <!-- @blur="v$.peerForm.main_industry.$touch"
                   :class="{
-                    'is-invalid': v$.peerForm.industry.$error,
+                    'is-invalid': v$.peerForm.main_industry.$error,
                   }"
-                />
                 <div
-                  v-if="v$.peerForm.industry.$error"
+                  v-if="v$.peerForm.main_industry.$error"
                   class="invalid-feedback text-left"
                 >
                   <span
-                    v-if="v$.peerForm.industry.required.$invalid"
+                    v-if="v$.peerForm.main_industry.required.$invalid"
                     class="text-left fs-14"
                   >
                     Industry is required
                   </span>
+                </div> -->
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-lg-6"></div>
-            <div class="col-lg-6">
-              <div class="k_form_group k_select_single">
-                <!-- loading="true"
+                <div class="col-lg-6">
+                  <div class="k_form_group k_select_single">
+                    <!-- loading="true"
                   delay="5" -->
-                <Multiselect
-                  placeholder="Sub Industry"
-                  class="form-control k_inp_field"
-                  :options="subIndustryLists"
-                  rules="required"
-                  @blur="v$.peerForm.sub_industry.$touch"
-                  v-model="peerForm.sub_industry"
+                    <Multiselect
+                      placeholder="Sub Industry"
+                      class="form-control k_inp_field"
+                      :options="subIndustryLists"
+                      rules="required"
+                      v-model="industry.sub_industry"
+                    />
+                    <!-- @blur="v$.peerForm.sub_industry.$touch"
                   :class="{
                     'is-invalid': v$.peerForm.sub_industry.$error,
                   }"
-                />
                 <div
                   v-if="v$.peerForm.sub_industry.$error"
                   class="invalid-feedback text-left"
@@ -126,37 +163,40 @@
                   >
                     Sub Industry is required
                   </span>
+                </div> -->
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="k_form_group k_select_single">
-                <!-- loading="true"
+                <div class="col-lg-6">
+                  <div class="k_form_group k_select_single">
+                    <!-- loading="true"
                   delay="5" -->
-                <Multiselect
-                  placeholder="Sub Industry"
-                  class="form-control k_inp_field"
-                  :options="subIndustryLists"
-                  rules="required"
-                  @blur="v$.peerForm.sub_industry.$touch"
-                  v-model="peerForm.sub_industry"
+                    <Multiselect
+                      placeholder="Detailed Industry"
+                      class="form-control k_inp_field"
+                      :options="detailedIndustryLists"
+                      rules="required"
+                      v-model="industry.detailed_industry"
+                    />
+                    <!-- @blur="v$.peerForm.detailed_industry.$touch"
                   :class="{
-                    'is-invalid': v$.peerForm.sub_industry.$error,
+                    'is-invalid': v$.peerForm.detailed_industry.$error,
                   }"
-                />
                 <div
-                  v-if="v$.peerForm.sub_industry.$error"
+                  v-if="v$.peerForm.detailed_industry.$error"
                   class="invalid-feedback text-left"
                 >
                   <span
-                    v-if="v$.peerForm.sub_industry.required.$invalid"
+                    v-if="v$.peerForm.detailed_industry.required.$invalid"
                     class="text-left fs-14"
                   >
-                    Sub Industry is required
+                    Detailed Industry is required
                   </span>
+                </div> -->
+                  </div>
                 </div>
               </div>
             </div>
+
             <div class="">
               <button
                 type="button"
@@ -171,7 +211,8 @@
           <div class="btns_wrap">
             <button
               :disabled="isSubmitted"
-              type="submit"
+              @click="savePeerInfo"
+              type="button"
               class="btn btn-primary btn-set text-uppercase"
             >
               <div
@@ -200,27 +241,41 @@ export default {
   components: {
     Multiselect,
   },
+
   data() {
     return {
       isSubmitted: false,
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      industriesInformation: [
+        {
+          main_industry: "",
+          sub_industry: "",
+          detailed_industry: "",
+        },
+      ],
       industryLists: [],
       regionLists: [],
       subIndustryLists: [],
+      detailedIndustryLists: [],
       companySize: ["100", "500", "1000"],
-      countryList: ["India", "France", "Italy"],
+      // "India", "France", "Italy"
+      countryLists: [],
       peerForm: {
         auth_token: "",
-        country: null,
-        industry: null,
         company_size: null,
+        country: null,
+        main_industry: null,
         sub_industry: null,
+        region: null,
+        detailed_industry: null,
       },
+      // industry: null,
+      // sub_industry: null,
     };
   },
   created() {
     this.getIndustryList();
-    // this.getRegions();
+    this.getRegions();
   },
   setup() {
     return {
@@ -231,8 +286,10 @@ export default {
     return {
       peerForm: {
         country: { required },
-        industry: { required },
-        sub_industry: { required },
+        // main_industry: { required },
+        // sub_industry: { required },
+        // detailed_industry: { required },
+        region: { required },
         company_size: { required },
       },
     };
@@ -240,6 +297,11 @@ export default {
   methods: {
     addMoreIndustries() {
       console.log("add new Industries");
+      this.industriesInformation.push({
+        main_industry: "",
+        sub_industry: "",
+        detailed_industry: "",
+      });
     },
     savePeerInfo() {
       this.v$.$touch();
@@ -253,13 +315,34 @@ export default {
     formReset() {
       this.v$.$reset();
       this.peerForm = {
-        auth_token: "",
-        country: null,
-        industry: null,
-        sub_industry: null,
-        company_size: null,
+        company_size: "",
+        country: "",
+        main_industry: "",
+        sub_industry: "",
+        region: "",
+        detailed_industry: "",
       };
       // this.$router.push({ name: "company-profile-edit" });
+    },
+    // get Country list
+    getCountries(id) {
+      console.log("data country");
+      CommonService.getAllCountry(id).then((resp) => {
+        if (resp.data.status) {
+          for (var i = 0; i < resp.data.data.length; i++) {
+            let countries = {
+              value: resp.data.data[i].country_id,
+              label: resp.data.data[i].short_name,
+            };
+            this.countryLists.push(countries);
+          }
+          console.log("country industry", this.countryLists);
+        } else {
+          this.countryLists = [
+            { value: 0, label: "No record found", disabled: true },
+          ];
+        }
+      });
     },
     // get Industry lists
     getIndustryList() {
@@ -279,19 +362,48 @@ export default {
         }
       });
     },
+    // get detailed Industry lists
+    getDetailedIndustryList() {
+      CommonService.getAllDetailedIndustries(this.peerForm.sub_industry).then(
+        (resp) => {
+          if (resp.data.status) {
+            for (var i = 0; i < resp.data.data.length; i++) {
+              let detailIndus = {
+                value: resp.data.data[i].id,
+                label: resp.data.data[i].name,
+              };
+              this.detailedIndustryLists.push(detailIndus);
+            }
+            // this.detailedIndustryLists = resp.data.data;
+            console.log("detailed industry", this.detailedIndustryLists);
+          } else {
+            this.detailedIndustryLists = [
+              { value: 0, label: "No record found", disabled: true },
+            ];
+          }
+        }
+      );
+    },
     onChangeMainIndustry() {
-      console.log("sub Industry", this.peerForm.industry);
-      this.getSubIndustryList(this.peerForm.industry);
+      console.log("sub Industry", this.peerForm.main_industry);
+      this.getSubIndustryList(this.peerForm.main_industry);
     },
     onChangeSubIndustry() {
       console.log("Detail Industry", this.peerForm.sub_industry);
       this.getDetailedIndustryList(this.peerForm.sub_industry);
     },
+    onChangeRegion() {
+      console.log("Detail Country", this.peerForm.region);
+      this.getCountries(this.peerForm.region);
+    },
+    deselectRegion() {
+      this.countryLists = [];
+    },
     // get Sub Industry lists
     getSubIndustryList(id) {
-      // console.log("sub Industry", this.peerForm.industry);
       CommonService.getAllSubIndustries(id).then((resp) => {
         if (resp.data.status) {
+          console.log("get all data", resp.data);
           this.subIndustryLists = [];
           for (var i = 0; i < resp.data.data.length; i++) {
             let subIndustery = {
@@ -310,38 +422,19 @@ export default {
       });
     },
     // get regions lists
-    // getRegions() {
-    //   CommonService.getAllRegion().then((resp) => {
-    //     if (resp.data.status) {
-    //       for (var i = 0; i < resp.data.data.length; i++) {
-    //         let regions = {
-    //           value: resp.data.data[i].id,
-    //           label: resp.data.data[i].region_name,
-    //         };
-    //         this.regionLists.push(regions);
-    //       }
-    //     } else {
-    //       this.regionLists = [
-    //         { value: 0, label: "No record found", disabled: true },
-    //       ];
-    //     }
-    //   });
-    // },
-    // get country lists
-    getCountries(id) {
-      CommonService.getAllCountry(id).then((resp) => {
+    getRegions() {
+      CommonService.getAllRegion().then((resp) => {
         if (resp.data.status) {
+          console.log("all regions", resp.data.data);
           for (var i = 0; i < resp.data.data.length; i++) {
-            let countries = {
-              value: resp.data.data[i].country_id,
-              label: resp.data.data[i].short_name,
+            let regions = {
+              value: resp.data.data[i].id,
+              label: resp.data.data[i].region_name,
             };
-            this.countryLists.push(countries);
+            this.regionLists.push(regions);
           }
-          // this.countryLists = resp.data.data;
-          console.log("country industry", this.countryLists);
         } else {
-          this.countryLists = [
+          this.regionLists = [
             { value: 0, label: "No record found", disabled: true },
           ];
         }

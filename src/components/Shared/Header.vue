@@ -81,6 +81,7 @@ import signupService from "../../Services/SignupService";
 import userLogo from "../../assets/users/100_3.jpg";
 import companyService from "../../Services/Company/CompanyService";
 import { mapGetters } from "vuex";
+import errorhandler from "../../utils/Error";
 export default {
   name: "Header",
   components: {
@@ -97,7 +98,7 @@ export default {
       // selectedCompany: "66",
       example8: {
         value: "0",
-        placeholder: "select your Company",
+        placeholder: "header.placeholder.select_your_company",
         label: "name",
         options: [],
       },
@@ -124,6 +125,7 @@ export default {
     },
   },
   created() {
+    // this.currentYear = "" + new Date().getFullYear();
     if (
       this.staffInfo != null &&
       this.staffInfo != undefined &&
@@ -144,20 +146,7 @@ export default {
             console.log("pesonal data", res.data.data);
             this.$store.dispatch("getPersonalInfo", res.data.data);
           } else {
-            let $th = this;
-            if ("error" in res.data) {
-              Object.keys(res.data.error).map(function (key) {
-                $th.$toast.error(res.data.error[key], {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              });
-            } else {
-              $th.$toast.error(res.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            }
+            errorhandler(res, this);
           }
         })
         .catch((err) => {
@@ -187,26 +176,15 @@ export default {
             this.example8.value = +defCompany;
             this.changeCompany();
           } else {
-            let $th = this;
-            if ("error" in res.data) {
-              Object.keys(res.data.error).map(function (key) {
-                $th.$toast.error(res.data.error[key], {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              });
-            } else {
-              $th.$toast.error(res.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            }
+            errorhandler(res, this);
           }
         });
     },
     changeCompany() {
       console.log("Active Company", this.example8.value);
       localStorage.setItem("selected_company", this.example8.value);
+      this.$store.dispatch("getActiveCompany", this.example8.value);
+      this.$router.push({ name: "Dashboard" });
       this.getAllMemberList(this.example8.value);
     },
     getAllMemberList(companyId) {
@@ -241,38 +219,20 @@ export default {
       });
       console.log("All Departments", departmentAssignedToStaff);
       this.$store.dispatch("getStaffsDepartment", departmentAssignedToStaff);
-      // let staffsDeprtments = memberArr.forEach((element) => {
-      //   console.log("all deplll", element.role_id, this.ownRole);
-      //   if (element.role_id == this.ownRole) {
-      //     console.log("kk", element["departments"]);
-      //   }
-      // });
-      // console.log("all deparrtments", staffsDeprtments);
     },
     changeYear() {
       companyService.getYears().then((res) => {
         if (res.data.status) {
           this.yearOptions = res.data.data;
         } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          }
+          errorhandler(res, this);
         }
       });
       localStorage.setItem("selected_year", this.currentYear);
-      console.log("Your Year is Changed", this.currentYear);
+      this.$store.dispatch("getYear", this.currentYear);
+      this.$router.push({ name: "Dashboard" });
     },
+
     personalProfile() {
       this.isprofile = true;
       this.$router.push({ name: "personal-account" });

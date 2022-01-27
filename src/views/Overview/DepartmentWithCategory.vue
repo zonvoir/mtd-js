@@ -37,7 +37,7 @@
         </button>
       </div>
     </div>
-    <div class="dept_wrapper">
+    <div v-if="categoryList.length > 0" class="dept_wrapper">
       <div class="custom_grid">
         <!-- {{ categoryList }} -->
         <template v-for="(category, index) in categoryList" :key="index">
@@ -65,6 +65,9 @@
         </template>
       </div>
     </div>
+    <div v-else class="no_questionnaire_list">
+      <h6 class="empty_list_warning">Questionnaire list is empty</h6>
+    </div>
   </div>
 </template>
 
@@ -72,6 +75,7 @@
 import { mapGetters } from "vuex";
 import Card from "../../components/Shared/Card.vue";
 import CommonService from "../../Services/CommonService";
+import errorhandler from "../../utils/Error";
 
 export default {
   components: {
@@ -97,13 +101,13 @@ export default {
     this.component_params = { did: this.$route.params.id };
     this.departmentId = this.$route.params.id;
     console.log("department id", this.departmentId);
-    if (
-      localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-      localStorage.getItem("bWFpbCI6Inpvb") == null ||
-      localStorage.getItem("bWFpbCI6Inpvb") == ""
-    ) {
-      this.$router.push({ name: "signup-signin" });
-    }
+    // if (
+    //   localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
+    //   localStorage.getItem("bWFpbCI6Inpvb") == null ||
+    //   localStorage.getItem("bWFpbCI6Inpvb") == ""
+    // ) {
+    //   this.$router.push({ name: "signup-signin" });
+    // }
     this.authToken = this.staffData.auth_token;
     let data = {
       department_id: this.departmentId,
@@ -115,33 +119,16 @@ export default {
   methods: {
     // get categories lists
     getDefaultDeptCategories(data) {
-      CommonService.getAllCategories(data)
-        .then((res) => {
-          if (res.data.status) {
-            this.$store.dispatch("getCategoryArray", res.data.data);
-          } else {
-            let $th = this;
-            if ("error" in res.data) {
-              Object.keys(res.data.error).map(function (key) {
-                $th.$toast.error(res.data.error[key], {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              });
-            } else {
-              $th.$toast.error(res.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          console.log("finaly");
-        });
+      CommonService.getAllCategories(data).then((res) => {
+        if (res.data.status) {
+          // this.$store.dispatch("getCategoryArray", res.data.data);
+          this.$store.dispatch("GET_CATEGORY_ARRAY", res.data.data);
+        } else {
+          errorhandler(res, this);
+          // this.$store.dispatch("getCategoryArray", []);
+          this.$store.dispatch("GET_CATEGORY_ARRAY", []);
+        }
+      });
     },
     filterCategory(val) {
       this.isFiltered = val;
@@ -151,6 +138,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.empty_list_warning {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  color: #8f9bb3;
+  margin-bottom: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.no_questionnaire_list {
+  background: #ffffff;
+  box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
+  border-radius: 4px;
+  width: 100%;
+  height: 23rem;
+  margin-bottom: 20px;
+  position: relative;
+}
 .btn-pill-primary-active {
   background-color: #7900d8;
   box-shadow: none !important;

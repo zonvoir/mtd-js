@@ -111,6 +111,7 @@ const specialCharCalc = (val) => {
 import loginService from "../../Services/LoginService";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+import errorhandler from "../../utils/Error";
 export default {
   data() {
     return {
@@ -175,20 +176,7 @@ export default {
               });
               this.formReset();
             } else {
-              let $th = this;
-              if ("error" in response.data) {
-                Object.keys(response.data.error).map(function (key) {
-                  $th.$toast.error(response.data.error[key], {
-                    position: "bottom-left",
-                    duration: 3712,
-                  });
-                });
-              } else {
-                $th.$toast.error(response.data.message, {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              }
+              errorhandler(response, this);
             }
           })
           .catch((error) => {

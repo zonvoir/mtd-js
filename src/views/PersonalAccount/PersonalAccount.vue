@@ -84,6 +84,7 @@
                 </div>
               </div>
             </div>
+            <!-- basic user info -->
             <div class="row">
               <div class="col-lg-6">
                 <div class="k_form_group">
@@ -164,6 +165,15 @@
                       )
                     }}
                   </span>
+                </div>
+              </div>
+              <div class="com-lg-12">
+                <div class="k_form_group">
+                  <textarea
+                    placeholder="Description"
+                    class="form-control k_inp_field"
+                    rows="3"
+                  ></textarea>
                 </div>
               </div>
             </div>
@@ -400,6 +410,7 @@
                 </button>
               </div>
               <!-- 3rd screen -->
+              <!-- password screen start here -->
               <div v-if="updatePsw" class="row">
                 <div class="col-lg-6">
                   <div class="k_form_group">
@@ -496,12 +507,109 @@
                 </div>
                 <div class="col-lg-6"></div>
               </div>
+              <!-- password close here -->
             </div>
             <div class="border-top-1"></div>
             <h4 class="form_title">
               {{ $t("personal_account.form.labels.work") }}
             </h4>
-            <div class="row">
+            <!-- list of careers start -->
+            <div v-if="careersArr.length > 0" class="careers_wrap">
+              <div
+                class="career_info_container"
+                v-for="(career, index) in careersArr"
+                :key="index"
+              >
+                <div class="career_wrap">
+                  <div class="img_wrap">
+                    <img src="logo.png" class="" alt="" />
+                  </div>
+                  <div class="career_content_wrap">
+                    <div class="in_position_wrap d-flex">
+                      <h5 class="in_postion">{{ career.position }}</h5>
+                      <span class="att_val">{{ career.seniority_level }}</span>
+                    </div>
+                    <div class="in_company_wrap d-flex">
+                      <h5 class="in_company">{{ career.company }}</h5>
+                      <span class="in_durartion att_val">
+                        <span> {{ formatMyDate(career.from) }}</span> -
+                        <span>{{ formatMyDate(career.to) }}</span>
+                      </span>
+                    </div>
+                    <div class="in_department_wrap">
+                      <span class="att_val">{{
+                        formatDepartments(career.department)
+                      }}</span>
+                      <!-- <template
+                        v-for="(departments, i) in career.department"
+                        :key="departments.departmentid"
+                      >
+                        <span class="att_val"
+                          >{{ departments.name }}
+                          <span v-if="i != career.department.length - 1"
+                            >,</span
+                          ></span
+                        >
+                      </template> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="m-l-auto">
+                  <button
+                    @click="upadateCareer(career.id)"
+                    type="button"
+                    class="
+                      btn
+                      m-l-auto
+                      btn-light
+                      set_btn_width
+                      btn-set
+                      text-upercase
+                    "
+                  >
+                    {{ $t("personal_account.form.buttons.change") }}
+                  </button>
+                </div>
+              </div>
+
+              <template v-if="careerInfo">
+                <div class="row">
+                  <CareerForm
+                    :className="'col-lg-6'"
+                    :myCareer="updateCareersArr"
+                    :departments="departmentLists"
+                    :industries="industryLists"
+                    :seniority="seniorityLevels"
+                  />
+                </div>
+              </template>
+            </div>
+            <!-- list of careers ends -->
+            <!-- work update details start -->
+            <div v-if="careersList.length > 1 || this.addCareer" class="">
+              <div class="row" v-for="(career, idx) in careersList" :key="idx">
+                <CareerForm
+                  ref="childCareer"
+                  @addNewCareer="isCareerFilled"
+                  :className="'col-lg-6'"
+                  :myCareer="career"
+                  :departments="departmentLists"
+                  :industries="industryLists"
+                  :seniority="seniorityLevels"
+                >
+                  <!-- <template v-slot:add-form="{ validateForm }">
+                    <button
+                      type="button"
+                      @click="validateForm"
+                      class="btn_adds btn-transaprent"
+                    >
+                      Add Carreer Information
+                    </button>
+                  </template> -->
+                </CareerForm>
+              </div>
+            </div>
+            <!-- <div class="row" >
               <div class="col-lg-6">
                 <div class="k_form_group">
                   <input
@@ -662,26 +770,59 @@
                           "personal_account.form.invalid_msgs.Seniority_level_is_required"
                         )
                       }}
-                      <!-- Seniority level is required -->
                     </span>
                   </div>
                 </div>
               </div>
-              <div class="btn-wrap">
-                <button
-                  type="submit"
-                  class="
-                    btn
-                    m-l-auto
-                    btn-primary
-                    update_btn
-                    btn-set
-                    text-upercase
-                  "
-                >
-                  {{ $t("personal_account.form.buttons.update_change") }}
-                </button>
+              <div class="col-lg-6">
+                <div class="k_form_group row">
+                  <div class="col-lg-6">
+                    <div class="k_form_group position-relative">
+                      <label for="" class="date_label">{{
+                        $t("projects.project_form.placeholder.from")
+                      }}</label>
+                      <Datepicker
+                        class="project_date_picker custom_label"
+                        v-model="date"
+                        placeholder="dd/mm/yyyy"
+                      ></Datepicker>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="k_form_group position-relative">
+                      <label for="" class="date_label">{{
+                        $t("projects.project_form.placeholder.to")
+                      }}</label>
+                      <Datepicker
+                        class="project_date_picker custom_label"
+                        placeholder="dd/mm/yyyy"
+                      ></Datepicker>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div> -->
+            <button
+              type="button"
+              @click="addMoreCareer"
+              class="btn_adds btn-transaprent"
+            >
+              Add Carreer Information
+            </button>
+            <div class="btn-wrap">
+              <button
+                type="submit"
+                class="
+                  btn
+                  m-l-auto
+                  btn-primary
+                  update_btn
+                  btn-set
+                  text-upercase
+                "
+              >
+                {{ $t("personal_account.form.buttons.update_change") }}
+              </button>
             </div>
           </form>
         </div>
@@ -697,6 +838,11 @@ import Multiselect from "@vueform/multiselect";
 import signupService from "../../Services/SignupService";
 import commonService from "../../Services/CommonService";
 import { loadLocaleMessages } from "../../i18n";
+import errorhandler from "../../utils/Error";
+import CareerForm from "../Auth/CareerForm.vue";
+// import moment from "moment";
+import { formatDate } from "../../utils/FormatDate";
+import { getDepartemntsLables } from "../../utils/DepartmentModify";
 // MINIMUM 8 CHARCTER
 const minimum8CharCalc = (val) => val.length >= 8;
 // for upper case calculation
@@ -712,18 +858,35 @@ const specialCharCalc = (val) => {
 export default {
   components: {
     Multiselect,
+    // Datepicker,
+    CareerForm,
   },
   data() {
     return {
+      careersArr: [],
+      newAddedCareer: [],
+      updateCareersArr: undefined,
       selectedLanguage: "en",
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       title: "Personal Account",
       valiImage: true,
+      addCareer: undefined,
+      careerInfo: false,
+      clickCount: 0,
+
       token: {
         auth_token: "",
       },
-      // base64regex:
-      //   /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/,
+      careersList: [
+        {
+          company: "",
+          industry: "",
+          seniority_level: "",
+          department: "",
+          to: "",
+          from: "",
+        },
+      ],
       updatePsw: false,
       add_email: false,
       primary_email: true,
@@ -749,10 +912,10 @@ export default {
         old_password: "",
         password: "",
         confirm_password: "",
-        company: "",
-        industry: null,
-        seniority_level: null,
-        department: [],
+        // company: "",
+        // industry: null,
+        // seniority_level: null,
+        // department: [],
       },
     };
   },
@@ -778,13 +941,17 @@ export default {
         : {};
     },
   },
+  // mounted() {
+  //   console.log(this.$refs.childCareer.isValid);
+  // },
   created() {
     this.selectedLanguage = localStorage.getItem("language") || "en";
     this.authToken = this.staffData.auth_token;
     this.getStaffDetails();
+    // this.careersArr.length>0?this.addCareer=true:this.this.addCareer
     // staffData.auth_token;
   },
-  mounted() {},
+
   validations() {
     return {
       newmail: this.sec_mails,
@@ -795,11 +962,12 @@ export default {
         lastname: { required },
         username: { required },
         email: { required, email },
-        company: { required },
-        position: { required },
-        industry: { required },
-        department: { required },
-        seniority_level: { required },
+        career_info: [],
+        // company: { required },
+        // position: { required },
+        // industry: { required },
+        // department: { required },
+        // seniority_level: { required },
         old_password: this.ch_password,
         password: this.ch_password,
         confirm_password: {
@@ -816,39 +984,26 @@ export default {
 
   methods: {
     savePersonalInfo() {
-      // console.log("img", this.personalAccount.profile_image);
-
       this.personalAccount.auth_token = this.staffData.auth_token;
-      // console.log(this.personalAccount);
+      console.log("latest career inforamtion", this.personalAccount);
       this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
-      } else {
+      if (!this.v$.$invalid) {
+        this.$refs.childCareer.validateForm();
+        // this.addCareer = false;
+        // this.careerInfo = false;
         signupService
           .updatePersonalDetails(this.personalAccount)
           .then((res) => {
             if (res.data.status) {
               this.personalAccount = res.data.data;
+              console.log("upadated data", res.data.data);
+              // this.careersArr = this.personalAccount.career_info;
               this.personalAccount["profile"] =
                 this.personalAccount.profile_image;
               this.personalAccount["profile_image"] = null;
-
               this.$store.dispatch("getPersonalInfo", res.data.data);
             } else {
-              let $th = this;
-              if ("error" in res.data) {
-                Object.keys(res.data.error).map(function (key) {
-                  $th.$toast.error(res.data.error[key], {
-                    position: "bottom-left",
-                    duration: 3712,
-                  });
-                });
-              } else {
-                $th.$toast.error(res.data.message, {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              }
+              errorhandler(res, this);
             }
           })
           .catch((err) => {
@@ -858,6 +1013,44 @@ export default {
             console.log("");
           });
       }
+    },
+    upadateCareer(id) {
+      let careerOne = this.careersArr.filter((item) => {
+        return item.id == id;
+      });
+      this.updateCareersArr = careerOne[0];
+      console.log("updated by id Obj", this.updateCareersArr);
+      this.careerInfo = true;
+    },
+    isCareerFilled(value) {
+      let y;
+      if (value && Object.keys(value).length != 0) {
+        console.log("console kkuldip", y, value);
+        this.newAddedCareer.push(value.newCareer);
+        console.log("career array ", this.newAddedCareer);
+      }
+    },
+    addMoreCareer() {
+      this.addCareer = true;
+      console.log("kuldip", this.v$.$invalid);
+      this.v$.$touch();
+      if (!this.v$.$invalid) {
+        this.$refs.childCareer.validateForm();
+        this.careersList.push({
+          company: "",
+          industry: "",
+          seniority_level: "",
+          department: "",
+          from: "",
+          to: "",
+        });
+      }
+    },
+    formatMyDate(value) {
+      return formatDate(value, "ll");
+    },
+    formatDepartments(deptArr) {
+      return getDepartemntsLables(deptArr).toString();
     },
     // get staff details to be updated
     getStaffDetails() {
@@ -871,9 +1064,10 @@ export default {
             this.personalAccount = res.data.data;
             this.personalAccount["profile"] =
               this.personalAccount.profile_image;
-
             this.personalAccount["profile_image"] = null;
             console.log("pesonal data", res.data.data);
+            this.careersArr = this.personalAccount.career_info;
+            console.log("career info", this.personalAccount.career_info);
             this.$store.dispatch("getPersonalInfo", res.data.data);
 
             // Industry list
@@ -901,20 +1095,7 @@ export default {
               this.departmentLists.push(dept);
             }
           } else {
-            let $th = this;
-            if ("error" in res.data) {
-              Object.keys(res.data.error).map(function (key) {
-                $th.$toast.error(res.data.error[key], {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              });
-            } else {
-              $th.$toast.error(res.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            }
+            errorhandler(res, this);
           }
         })
         .catch((err) => {
@@ -1044,6 +1225,62 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.btn_adds {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  color: #7900d8;
+  text-align: left;
+}
+.careers_wrap {
+  .career_info_container {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #edf1f7;
+    padding-top: 20px;
+    &:first-child {
+      padding-top: 0px;
+    }
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+}
+.career_wrap {
+  display: inline-flex;
+}
+.img_wrap {
+  margin-right: 10px;
+  img {
+    width: 60px;
+  }
+}
+.in_postion {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 20px;
+  margin-bottom: 0;
+  color: #000000;
+  margin-right: 15px;
+  text-transform: capitalize;
+}
+.in_company {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: #000000;
+  margin-right: 15px;
+  margin-bottom: 0;
+  text-transform: capitalize;
+}
+.att_val {
+  font-size: 13px;
+  line-height: 20px;
+  color: #8f9bb3;
+  text-transform: capitalize;
+}
 .text-upercase {
   text-transform: uppercase;
 }

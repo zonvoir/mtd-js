@@ -37,7 +37,7 @@
         </button>
       </div>
     </div>
-    <div class="dept_wrapper">
+    <div v-if="categoryList.length > 0" class="dept_wrapper">
       <div class="custom_grid">
         <template v-for="(category, index) in categoryList" :key="index">
           <div
@@ -64,6 +64,9 @@
         </template>
       </div>
     </div>
+    <div v-else class="no_questionnaire_list">
+      <h6 class="empty_list_warning">Questionnaire list is empty</h6>
+    </div>
   </div>
 </template>
 
@@ -71,11 +74,11 @@
 import { mapGetters } from "vuex";
 import Card from "../../components/Shared/Card.vue";
 import CommonService from "../../Services/CommonService";
+import errorhandler from "../../utils/Error";
 export default {
   data() {
     return {
       component_name: "category-overview",
-      // categoryList: [],
       departmentLists: [],
       isFiltered: "all",
       defaultDeptId: {},
@@ -88,12 +91,22 @@ export default {
     Card,
   },
   computed: {
-    // categoryList() {
-    //   return this.$store.getters.categoryArrayItems;
-    // },
     ...mapGetters({
       categoryList: "categoryArrayItems",
+      currentYear: "activeYear",
+      currentCompany: "activeCompany",
     }),
+    // ...mapActions("company", ["SET_DEPARTMENTS"]),
+  },
+  watch: {
+    currentYear: function (next, pre) {
+      console.log("pre", +pre, "next", next);
+      this.getdDepartmentList();
+    },
+    currentCompany: function (next, pre) {
+      console.log("pre", +pre, "next", next);
+      this.getdDepartmentList();
+    },
   },
   created() {
     if (
@@ -108,9 +121,11 @@ export default {
   },
 
   methods: {
-    // get departmens lists
     getdDepartmentList() {
-      CommonService.getAllDepartments().then((res) => {
+      let data = { auth_token: this.authToken };
+      // console.log("get departments", data);
+      // this.$store.dispatch("SET_DEPARTMENTS", data);
+      CommonService.getAllDepartments(data).then((res) => {
         if (res.data.status) {
           this.departmentLists = res.data.data.filter(function (depts) {
             return depts.is_default === "1";
@@ -123,20 +138,7 @@ export default {
           this.getDefaultDeptCategories(data);
           this.defaultDeptId = { did: this.departmentLists[0].departmentid };
         } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          }
+          errorhandler(res, this);
         }
       });
     },
@@ -145,23 +147,12 @@ export default {
       CommonService.getAllCategories(data)
         .then((res) => {
           if (res.data.status) {
-            this.$store.dispatch("getCategoryArray", res.data.data);
+            // this.$store.dispatch("getCategoryArray", res.data.data);
+            this.$store.dispatch("GET_CATEGORY_ARRAY", res.data.data);
             console.log(res.data.data);
           } else {
-            let $th = this;
-            if ("error" in res.data) {
-              Object.keys(res.data.error).map(function (key) {
-                $th.$toast.error(res.data.error[key], {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              });
-            } else {
-              $th.$toast.error(res.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            }
+            errorhandler(res, this);
+            this.$store.dispatch("GET_CATEGORY_ARRAY", []);
           }
         })
         .catch((error) => {
@@ -182,5 +173,26 @@ export default {
   outline: none;
   color: #ffffff !important;
   border-color: #7900d8;
+}
+.empty_list_warning {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  color: #8f9bb3;
+  margin-bottom: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.no_questionnaire_list {
+  background: #ffffff;
+  box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
+  border-radius: 4px;
+  width: 100%;
+  height: 23rem;
+  margin-bottom: 20px;
+  position: relative;
 }
 </style>

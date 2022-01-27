@@ -353,6 +353,7 @@
                 <select
                   class="form-control k_inp_field"
                   @blur="v$.companyForm.country.$touch"
+                  @change="onChangeCountry"
                   v-model="companyForm.country"
                   :class="{
                     'is-invalid': v$.companyForm.country.$error,
@@ -454,32 +455,18 @@
             </div>
             <div class="col-lg-6">
               <div class="wrap_phone_inp">
-                <div class="k_form_group codes_select k_select_single">
-                  <Multiselect
-                    v-model="value"
-                    label="name"
-                    class="form-control country_codes"
-                    :options="countryCodes"
-                  >
-                    <template v-slot:singlelabel="{ value }">
-                      <div class="multiselect-single-label">
-                        <img
-                          class="character-label-icon country_flag p-r-10"
-                          :src="value.icon"
-                        />
-                        {{ value.name }}
-                      </div>
-                    </template>
-
-                    <template v-slot:option="{ option }">
-                      <img
-                        class="character-option-icon country_flag p-r-10"
-                        :src="option.icon"
-                      />
-                    </template>
-                  </Multiselect>
-                </div>
                 <div class="k_form_group k_inp_number phone_field">
+                  <div class="country_flag_wrap">
+                    <img
+                      v-if="country_flag"
+                      :src="country_flag"
+                      class="country_flag"
+                      alt=""
+                    />
+                  </div>
+                  <div v-if="country_code" class="country_code_wrap">
+                    <span class="country_code">(+ {{ country_code }})</span>
+                  </div>
                   <input
                     type="number"
                     maxlength="10"
@@ -518,7 +505,7 @@
                       v-if="v$.companyForm.phonenumber.minLengthValue.$invalid"
                       class="text-left fs-14"
                     >
-                      Phone Number atlest 10 digit
+                      Phone Number at lest 10 digit
                     </span>
                   </div>
                 </div>
@@ -567,6 +554,7 @@ import useVuelidate from "@vuelidate/core";
 import signupService from "../../Services/SignupService";
 import Multiselect from "@vueform/multiselect";
 import CommonService from "../../Services/CommonService";
+import errorhandler from "../../utils/Error";
 
 export default {
   components: {
@@ -577,6 +565,8 @@ export default {
       valiImage: true,
       isSubmitted: false,
       defaultImg: "icons/cloud-upload.svg",
+      country_flag: "",
+      country_code: "",
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       industryLists: [],
       legalCorpLists: [],
@@ -657,27 +647,14 @@ export default {
           .then((res) => {
             if (res.data.status) {
               console.log("company_data res", res.data.data);
+              // this.$store.dispatch("getStaffsCompanies", res.data.data);
               this.$toast.success(res.data.message, {
                 position: "bottom-left",
                 duration: 3712,
               });
               this.formReset();
-              console.log(res);
             } else {
-              let $th = this;
-              if ("error" in res.data) {
-                Object.keys(res.data.error).map(function (key) {
-                  $th.$toast.error(res.data.error[key], {
-                    position: "bottom-left",
-                    duration: 3712,
-                  });
-                });
-              } else {
-                $th.$toast.error(res.data.message, {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              }
+              errorhandler(res, this);
             }
           })
           .catch((error) => {
@@ -815,6 +792,10 @@ export default {
       console.log("Detail Industry", this.companyForm.region);
       this.getCountries(this.companyForm.region);
     },
+    onChangeCountry() {
+      console.log("Detail Industry", this.companyForm.country);
+      this.selectedCountryCode(+this.companyForm.country);
+    },
     // get Sub Industry lists
     getSubIndustryList(id) {
       // console.log("sub Industry", this.companyForm.main_industry);
@@ -912,6 +893,25 @@ export default {
         }
       });
     },
+    // get country code
+    selectedCountryCode(id) {
+      console.log("get country id", id);
+      CommonService.getCountryCode({ country_id: id }).then((resp) => {
+        if (resp.data.status) {
+          this.country_flag = resp.data.data.image;
+          this.country_code = resp.data.data.code;
+          console.log(
+            "country codes and flags",
+            this.country_flag,
+            this.country_code
+          );
+        } else {
+          // this.countryLists = [
+          //   { value: 0, label: "No record found", disabled: true },
+          // ];
+        }
+      });
+    },
   },
 };
 </script>
@@ -922,7 +922,7 @@ export default {
   .phone_field {
     width: 100%;
     .shift_number {
-      padding-left: 90px !important;
+      padding-left: 155px !important;
     }
   }
   .codes_select {
@@ -941,6 +941,38 @@ export default {
   padding: 20px 28px;
   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
   border-radius: 4px;
+}
+.country_flag {
+  width: 30px;
+  position: relative;
+  top: 16%;
+  left: 30%;
+}
+.country_code_wrap {
+  position: absolute;
+  top: 0px;
+  left: 14%;
+  background: transparent !important;
+  width: auto;
+  height: 42px;
+}
+.country_code {
+  font-style: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.5);
+  position: relative;
+  top: 21%;
+  left: 20%;
+}
+.country_flag_wrap {
+  position: absolute;
+  top: -2px;
+  left: -4px;
+  background: #edf1f7 !important;
+  border-radius: 4px;
+  width: 75px;
+  height: 46px;
 }
 .upload_image_wrapper {
   display: flex;

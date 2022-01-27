@@ -208,6 +208,7 @@ import AnsDate from "./AnsDate.vue";
 import QuestionnaireService from "../../../Services/QuestionnaireServices/Questionnaire";
 import { mapState } from "vuex";
 import QuestionHint from "./QuestionHint.vue";
+import errorhandler from "../../../utils/Error";
 
 export default {
   props: {},
@@ -350,20 +351,7 @@ export default {
           }
           this.calculateAnserdQuestion();
         } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map((key) => {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          }
+          errorhandler(res, this);
         }
       });
     },
@@ -381,7 +369,8 @@ export default {
         perValue = 0;
       }
       perValue = parseInt(perValue);
-      this.$store.dispatch("getIncrementProgressValue", perValue);
+      // this.$store.dispatch("getIncrementProgressValue", perValue);
+      this.$store.dispatch("GET_INCREMENT_PROGRESS_VALUE", perValue);
     },
   },
 };

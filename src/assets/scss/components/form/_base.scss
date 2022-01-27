@@ -19,6 +19,9 @@
   right: 12px;
 }
 //
+.im-user {
+  text-align: center;
+}
 .k_form_group {
   margin-bottom: 20px;
 }
@@ -151,6 +154,14 @@
   }
 }
 // date Picker {
+.date_label {
+  position: absolute;
+  padding: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 24px;
+  color: #8f9bb3;
+}
 .project_date_picker {
   .dp__input_wrap {
     .dp__clear_icon {
@@ -183,8 +194,11 @@
     left: inherit;
     right: 0 !important;
     transform: translateY(-50%);
-    color: #dadada;
+    color: #8f9bb3;
   }
+}
+.dp__select {
+  color: #7900d8;
 }
 .dp__overlay_cell_active {
   background-color: $primary;

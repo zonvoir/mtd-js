@@ -1,14 +1,16 @@
 <template>
   <div class="custom_dropdown" :tabindex="tabindex" @blur="open = false">
     <div class="option_list" :class="{ selectHide: !isOpen }">
-      <div
+      <slot name="options"></slot>
+
+      <!-- <div
         class="list_option"
         v-for="(option, i) of options"
         :key="i"
         @click="selectOption(option)"
       >
         {{ option }}
-      </div>
+      </div> -->
     </div>
   </div>
   <!-- <div class="custom-select" :tabindex="tabindex" @blur="open = false">

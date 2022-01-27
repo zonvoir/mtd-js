@@ -4,7 +4,7 @@
       <label class="k_checkbox check_lable">
         <input
           type="checkbox"
-          :value="checkval"
+          :value="isChecked"
           v-model="val"
           @change="updateAnswer"
           checked="checked"
@@ -17,20 +17,26 @@
 
 <script>
 export default {
+  props: {
+    checkval: {
+      type: Boolean,
+      required: true,
+    },
+  },
   data() {
     return {
-      checkval: true,
-      val: undefined,
+      isChecked: true,
+      val: this.checkval,
     };
   },
 
   methods: {
     updateAnswer() {
-      console.log("hello checked");
-      //   this.$emit("getUserSelected", {
-      //     ansData: val,
-      //     isFieldValid: this.isFieldValid,
-      //   });
+      this.isChecked = !this.isChecked;
+      console.log("hello checked", this.val);
+      this.$emit("getCheckboxValue", {
+        checkedData: this.isChecked,
+      });
     },
   },
 };

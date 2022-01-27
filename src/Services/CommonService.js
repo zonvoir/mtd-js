@@ -13,8 +13,8 @@ class CommonService {
     return http.post("staffs/is_staff_token_expired", data);
   }
   //get All deparartments
-  getAllDepartments() {
-    return http.get("lists/department", {
+  getAllDepartments(data) {
+    return http.post("lists/department", data, {
       headers: {
         "X-Company": localStorage.getItem("selected_company"),
         "X-Year": localStorage.getItem("selected_year"),
@@ -22,14 +22,14 @@ class CommonService {
     });
   }
   //get deparartment by ID
-  getOneDepartment(id) {
-    return http.get(`lists/department/${id}`, {
-      headers: {
-        "X-Company": localStorage.getItem("selected_company"),
-        "X-Year": localStorage.getItem("selected_year"),
-      },
-    });
-  }
+  // getOneDepartment(id) {
+  //   return http.get(`lists/department/${id}`, {
+  //     headers: {
+  //       "X-Company": localStorage.getItem("selected_company"),
+  //       "X-Year": localStorage.getItem("selected_year"),
+  //     },
+  //   });
+  // }
 
   getAllCategories(data) {
     return http.post("questionnaire_api/questionnaire_list", data, {
@@ -72,6 +72,10 @@ class CommonService {
   // get all country by region
   getAllCountry(id) {
     return http.get(`lists/region_countries/${id}`);
+  }
+  // get all country code by country id
+  getCountryCode(countryId) {
+    return http.post("userlogin/country_codes", countryId);
   }
 }
 

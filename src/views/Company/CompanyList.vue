@@ -581,7 +581,7 @@ export default {
   margin-right: 20px;
   background: #ffffff;
   margin: 8px 0;
-  width: 340px;
+  width: 324px;
   height: 68px;
   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
   border-radius: 4px;

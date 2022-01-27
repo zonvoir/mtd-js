@@ -11,8 +11,8 @@
       <div class="form-wrapper">
         <form @submit.prevent="onSubmit" action="">
           <div class="k_form_group">
-            <!-- :readonly="emailVerify.invitation_id != ''" -->
             <input
+              :readonly="invitedId"
               type="email"
               @blur="v$.emailVerify.email.$touch"
               v-model.trim="emailVerify.email"
@@ -68,7 +68,7 @@
               <span v-else> {{ $t("login.email_step.buttons.done") }} </span>
             </button>
           </div>
-          <div class="im-user flex justify-center">
+          <div class="im-user text-center flex justify-center">
             <span class="para14"> {{ $t("login.email_step.no_account") }}</span>
             <router-link
               target="_blank"
@@ -81,50 +81,6 @@
       </div>
     </div>
   </div>
-  <!-- Modal To check Email for varification -->
-  <!-- <div
-    class="modal fade"
-    id="emailVerifyModal"
-    ref="emailVerifyModal"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="emailVerifyModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="verify_email">
-            <h2 class="verify_title">
-              <strong>Verify your email</strong>
-            </h2>
-          </div>
-          <div class="verify-subtitle q-pb-none">
-            <h6 class="">
-              We've not setup your company and career information
-              <strong>{{ emailVerify.email }}</strong>
-              <br />
-              Please setup your Company first.
-              <br />
-              If you dont't see it please check it in your
-              <strong>spam</strong> folder
-            </h6>
-          </div>
-        </div>
-        <div class="modal_action_btn">
-          <button
-            type="button"
-            data-bs-dismiss="modal"
-            @click="closeModal"
-            class="btn k_btnfs14_w700 btn-primary"
-          >
-            Ok
-          </button>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -136,6 +92,7 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      invitedId: false,
       isSubmitted: false,
       emailVerify: {
         email: "",
@@ -151,15 +108,23 @@ export default {
     this.invitedUserData = JSON.parse(
       localStorage.getItem("bWFInpvitedbpbUser")
     );
-    if (this.invitedUserData != null) {
+    if (this.invitedUserData && Object.keys(this.invitedUserData).length != 0) {
       this.emailVerify.email = this.invitedUserData.email;
-      this.emailVerify.invitation_id = this.invitedUserData.invitation_id;
-      this.invitedId = this.invitedUserData.invitation_id;
+      // this.emailVerify.invitation_id = this.invitedUserData.invitation_id;
+      console.log(
+        "let there is invitaation id",
+        this.invitedUserData.invitation_id
+      );
+      if (this.invitedUserData.invitation_id) {
+        this.invitedId = true;
+        console.log("let there is invitaation id", this.invitedId);
+      }
     }
     // console.log("user is email ", invitedStaff.email);
   },
   created() {
     let invitedStaffData = this.$route.query;
+    console.log(invitedStaffData);
     // if (
     //   invitedStaffData != null ||
     //   invitedStaffData != undefined ||

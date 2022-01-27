@@ -115,6 +115,7 @@ import loginService from "../../Services/LoginService";
 import CustomOtp from "../../components/Shared/CustomOtp.vue";
 // import CompanyService from "../../Services/Company/CompanyService";
 import { mapGetters } from "vuex";
+import errorhandler from "../../utils/Error";
 export default {
   components: {
     CustomOtp,
@@ -127,10 +128,11 @@ export default {
       isCareer: undefined,
       modal: null,
       logData: JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")),
-      // invitedUserData: JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")),
+      invitedUserData: JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")),
       otpForm: {
         email: "",
         otp: "",
+        invitation_id: undefined,
         code: [],
       },
     };
@@ -142,9 +144,12 @@ export default {
   },
   mounted() {
     this.modal = new Modal(this.$refs.exampleModal);
-    // if (this.invitedUserData != null) {
-    //   this.invitedId = this.invitedUserData.invitation_id;
+    // if (this.invitedUserData && Object.keys(this.invitedUserData).length != 0) {
+    //   this.isInvitedUser();
     // }
+    if (this.invitedUserData && Object.keys(this.invitedUserData).length != 0) {
+      this.otpForm.invitation_id = this.invitedUserData.invitation_id;
+    }
   },
   created() {
     if (
@@ -154,7 +159,7 @@ export default {
       this.$router.push({ path: "/signup/signin" });
     }
     this.otpForm.email = this.logData;
-    this.OTPInput();
+    // this.OTPInput();
   },
   setup() {
     return {};
@@ -162,6 +167,10 @@ export default {
   methods: {
     onChange() {
       console.log("change event");
+    },
+    isInvitedUser() {
+      console.log("this is invited user");
+      this.$router.push({ name: "link-company-account" });
     },
     OTPInput() {
       if (this.isSubmitted) {
@@ -172,52 +181,48 @@ export default {
         .verifyOTP(this.otpForm)
         .then((res) => {
           if (res.data.status) {
+            console.log("otp response", res.data.data);
             sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
             localStorage.setItem(
               "bWFpbCI6Inpvb",
               JSON.stringify(res.data.data)
             );
-            localStorage.getItem("bWFpbCI6Inpvb");
-            this.isCareer = res.data.data.is_career_information_setup;
-            this.isCompany = res.data.data.is_company_setup;
-
-            console.log(
-              "is career",
-              this.isCareer,
-              "is Company",
-              this.isCompany
-            );
+            let user = JSON.parse(localStorage.getItem("bWFpbCI6Inpvb"));
             if (
-              res.data.data.is_career_information_setup &&
-              res.data.data.is_company_setup
+              this.invitedUserData &&
+              Object.keys(this.invitedUserData).length != 0 &&
+              Object.keys(user).length != 0
             ) {
-              this.$router.push({ name: "Dashboard" });
-              if (
-                this.staffInfo != null &&
-                this.staffInfo != undefined &&
-                this.staffInfo != ""
-              ) {
-                this.invitaionAccepted();
-              }
+              this.$router.push({ name: "link-company-account" });
             } else {
-              this.modal.show();
+              this.isCareer = res.data.data.is_career_information_setup;
+              this.isCompany = res.data.data.is_company_setup;
+              console.log(
+                "is career",
+                this.isCareer,
+                "is Company",
+                this.isCompany
+              );
+              // this.$router.push({ name: "Dashboard" }); //for now temporrary basis
+              if (
+                res.data.data.is_career_information_setup &&
+                res.data.data.is_company_setup
+              ) {
+                this.$router.push({ name: "Dashboard" });
+                // if (
+                //   this.staffInfo != null &&
+                //   this.staffInfo != undefined &&
+                //   this.staffInfo != ""
+                // ) {
+                if (this.staffInfo && Object.keys(this.staffInfo).length != 0) {
+                  this.invitaionAccepted();
+                }
+              } else {
+                this.modal.show();
+              }
             }
           } else {
-            console.log("success");
-            let $th = this;
-            if ("error" in res.data) {
-              Object.keys(res.data.error).map(function (key) {
-                $th.$toast.error(res.data.error[key], {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              });
-            } else {
-              $th.$toast.error(res.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            }
+            errorhandler(res, this);
           }
         })
         .catch((error) => {
@@ -228,20 +233,6 @@ export default {
           this.isSubmitted = false;
         });
     },
-    // invitaionAccepted() {
-    //   CompanyService.acceptInvitation({
-    //     auth_token: this.staffInfo.auth_token,
-    //     invitation_id: this.invitedId,
-    //   }).then((res) => {
-    //     if (res.data.status) {
-    //       this.$router.push({ name: "Dashboard" });
-    //       console.log("invitainon accepted successfully");
-    //     } else {
-    //       console.log("there is some error in in invitaion acceptance");
-    //       this.$router.push({ name: "signup-signin" });
-    //     }
-    //   });
-    // },
     onCompleted(ev) {
       this.isSubmitted = !ev.valiated;
       this.otpForm.otp = ev.asString;

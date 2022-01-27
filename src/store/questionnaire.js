@@ -1,6 +1,12 @@
 import { createStore } from "vuex";
-
+// import company from "./Modules/CompanyModule";
+// import QuestionnaireModule from "./Modules/QuestionnaireModule";
 export default createStore({
+  // modules: {
+  //   // company: CompanyModule,
+  //   company,
+  //   QuestionnaireModule,
+  // },
   state: {
     staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
     staffsDepartment: [],
@@ -19,9 +25,13 @@ export default createStore({
     categoryArray: [],
     personalInfo: [],
     companyInfoDetails: [],
+    activeYear: "" + new Date().getFullYear(),
   },
   mutations: {
     // company profile
+    setYear(state, values) {
+      state.activeYear = values;
+    },
     setStaffsDepartment(state, values) {
       console.log("users Departments By role Id", values);
       state.staffsDepartment = values;
@@ -48,32 +58,32 @@ export default createStore({
       state.roleInCompany = id;
     },
     // company profile
-    // getQuestionnaire/categoryDetails
-    setQuestionnaire(state, questionnaire) {
-      state.questionnaire = questionnaire;
-    },
-    // question layout and category Overview
-    setQuestionnaireDetails(state, details) {
-      state.questionnaireDetails = details;
-    },
-    // getQuestionnaire/categoryDetails
-    setQuestionList(state, questionList) {
-      state.questionList = questionList;
-    },
     // personal Account
     setPersonalInfo(state, per_data) {
       state.personalInfo = per_data;
     },
+    // getQuestionnaire/categoryDetails
+    SET_QUESTIONNAIRE(state, questionnaire) {
+      state.questionnaire = questionnaire;
+    },
+    // question layout and category Overview
+    SET_QUESTIONNAIRE_DETAILS(state, details) {
+      state.questionnaireDetails = details;
+    },
+    // getQuestionnaire/categoryDetails
+    SET_QUESTION_LIST(state, questionList) {
+      state.questionList = questionList;
+    },
     // questionnirelist/questionnire-card
-    setCategoryArray(state, categories) {
+    SET_CATEGORY_ARRAY(state, categories) {
       state.categoryArray = categories;
     },
     // progressbar
-    setIncrementProgressValue(state, val) {
+    SET_INCREMENT_PROGRESS_VALUE(state, val) {
       state.quizProgressValue = val;
     },
     // sidebar random question select
-    setRandomQuestionIndex(state, id) {
+    SET_RANDOM_QUESTION_INDEX(state, id) {
       state.randomQuestionIndex = state.questionList.findIndex(
         (question) => question.id === id
       );
@@ -81,6 +91,9 @@ export default createStore({
   },
   actions: {
     // company Profile/
+    getYear(context, val) {
+      context.commit("setYear", val);
+    },
     async getInvitationList(context, val) {
       context.commit("setInvitationList", val);
     },
@@ -105,44 +118,47 @@ export default createStore({
     async getRoleInCompany(context, val) {
       context.commit("setRoleInCompany", val);
     },
-    // company profile
-    async getQuestionnaire(context, val) {
-      context.commit("setQuestionnaire", val);
-    },
     async getPersonalInfo(context, val) {
       context.commit("setPersonalInfo", val);
     },
-    async getQuestionnaireDetails(context, val) {
-      context.commit("setQuestionnaireDetails", val);
+    // company profile close
+    // questionnaire start
+    async GET_QUESTIONNAIRE(context, val) {
+      context.commit("SET_QUESTIONNAIRE", val);
     },
-    async getQuestionList(context, val) {
-      context.commit("setQuestionList", val);
+    async GET_QUESTIONNAIRE_DETAILS(context, val) {
+      context.commit("SET_QUESTIONNAIRE_DETAILS", val);
     },
-    async getCategoryArray(context, val) {
-      context.commit("setCategoryArray", val);
+    async GET_QUESTIONLIST(context, val) {
+      context.commit("SET_QUESTION_LIST", val);
     },
-    async getIncrementProgressValue(context, val) {
-      context.commit("setIncrementProgressValue", val);
+    async GET_CATEGORY_ARRAY(context, val) {
+      console.log("data is comming from kkkk", val);
+      context.commit("SET_CATEGORY_ARRAY", val);
+    },
+    async GET_INCREMENT_PROGRESS_VALUE(context, val) {
+      context.commit("SET_INCREMENT_PROGRESS_VALUE", val);
     },
 
-    getRandomQuestionIndex(context, id) {
-      context.commit("setRandomQuestionIndex", id);
+    GET_RANDOM_QUESTION_INDEX(context, id) {
+      context.commit("SET_RANDOM_QUESTION_INDEX", id);
     },
+    // questionnaire close
   },
-  modules: {},
   getters: {
     staffData: (state) => state.staffData,
+    activeYear: (state) => state.activeYear,
     invitationList: (state) => state.invitationList,
     activeCompany: (state) => state.activeCompany,
     companyMembers: (state) => state.companyMembers,
     staffsDepartment: (state) => state.staffsDepartment,
     staffsCompanies: (state) => state.staffsCompanies,
-    quizProgressValue: (state) => state.quizProgressValue,
-    questionnaireDetails: (state) => state.questionnaireDetails,
-    questionnaire: (state) => state.questionnaire,
     personalInfo: (state) => state.personalInfo,
     roleInCompany: (state) => state.roleInCompany,
     companyInfoDetails: (state) => state.companyInfoDetails,
+    quizProgressValue: (state) => state.quizProgressValue,
+    questionnaireDetails: (state) => state.questionnaireDetails,
+    questionnaire: (state) => state.questionnaire,
     categoryArrayItems: (state) => state.categoryArray,
     getQuestionList(state) {
       return state.questionList;

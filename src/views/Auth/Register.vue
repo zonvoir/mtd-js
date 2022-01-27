@@ -4,6 +4,15 @@
       <div class="">
         <div class="main-heading-wrap text-center">
           <h2 class="main-heading">Create an account</h2>
+          <div class="im-user flex justify-center">
+            <span class="para14"> Already have an account?</span>
+            <router-link
+              target="_blank"
+              class="custom-link"
+              :to="{ name: 'signup-signin' }"
+              >Sign In</router-link
+            >
+          </div>
         </div>
       </div>
       <div class="form-wrapper">
@@ -315,15 +324,6 @@
               <span v-else> Create Account </span>
             </button>
           </div>
-          <div class="im-user flex justify-center">
-            <span class="para14"> Already have an account?</span>
-            <router-link
-              target="_blank"
-              class="custom-link"
-              :to="{ name: 'signup-signin' }"
-              >Sign In</router-link
-            >
-          </div>
         </form>
       </div>
     </div>
@@ -378,6 +378,7 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import { Modal } from "bootstrap";
 import signupService from "../../Services/SignupService";
+import errorhandler from "../../utils/Error";
 
 // MINIMUM 8 CHARCTER
 const minimum8CharCalc = (val) => val.length >= 8;
@@ -400,12 +401,12 @@ export default {
 
   data() {
     return {
-      visibilityIcon: "img/eye-off.ac4fa589.svg",
+      // visibilityIcon: "img/eye-off.ac4fa589.svg",
+      visibilityIcon: "icons/eye-off.svg",
       passwordFieldType: "password",
       visibility: false,
       isSubmitted: false,
       invitedUserData: undefined,
-      // isInvitedUser: "",
       registerForm: {
         privacy_policy: false,
         terms_service: false,
@@ -455,10 +456,13 @@ export default {
   },
   mounted() {
     this.modal = new Modal(this.$refs.exampleModal);
+    // this.invitedUserData = JSON.parse(
+    //   localStorage.getItem("bWFInpvitedbpbUser")
+    // );
     this.invitedUserData = JSON.parse(
       localStorage.getItem("bWFInpvitedbpbUser")
     );
-    if (this.invitedUserData != null) {
+    if (this.invitedUserData && Object.keys(this.invitedUserData).length != 0) {
       this.registerForm.email = this.invitedUserData.email;
       this.registerForm.invitation_id = this.invitedUserData.invitation_id;
     }
@@ -466,11 +470,7 @@ export default {
   },
   created() {
     let invitedStaffData = this.$route.query;
-    // if (
-    //   invitedStaffData != null ||
-    //   invitedStaffData != undefined ||
-    //   invitedStaffData != ""
-    // )
+    console.log("invited data", invitedStaffData);
     if (invitedStaffData && Object.keys(invitedStaffData).length != 0) {
       console.log("invited user is awailble");
       invitedStaffData.departments = invitedStaffData.departments.split(",");
@@ -525,20 +525,7 @@ export default {
                 console.log("userSata");
               }
             } else {
-              let $th = this;
-              if ("error" in response.data) {
-                Object.keys(response.data.error).map(function (key) {
-                  $th.$toast.error(response.data.error[key], {
-                    position: "bottom-left",
-                    duration: 3712,
-                  });
-                });
-              } else {
-                $th.$toast.error(response.data.message, {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              }
+              errorhandler(response, this);
             }
           })
           .catch((error) => {
@@ -570,8 +557,11 @@ export default {
       this.visibility = !this.visibility;
       this.passwordFieldType = this.visibility ? "text" : "password";
       this.visibilityIcon = this.visibility
-        ? "img/eye.77c3e01f.svg"
-        : "img/eye-off.ac4fa589.svg";
+        ? "icons/eye.svg"
+        : "icons/eye-off.svg";
+      // this.visibilityIcon = this.visibility
+      //   ? "img/eye.77c3e01f.svg"
+      //   : "img/eye-off.ac4fa589.svg";
     },
   },
 };

@@ -1,6 +1,11 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 // createWebHashHistory
-// import Home from "../views/Home.vue";
+// error pages
+import PageNotFound from "../Layout/Error/404Error.vue";
+import ServerError from "../Layout/Error/500Error.vue";
+import InternetError from "../Layout/Error/NoInternet.vue";
+import DemoPage from "../components/Shared/Demo.vue";
+import LinkCompany from "../views/Auth/LinkCompany.vue";
 import Authentication from "../Layout/Authentication.vue";
 import Register from "../views/Auth/Register.vue";
 import Career from "../views/Auth/Career.vue";
@@ -82,6 +87,7 @@ function guardMyroute(to, from, next) {
         } else if (
           invitedUserData != null &&
           invitedUserData != undefined &&
+          Object.keys(invitedUserData).length != 0 &&
           invitedUserData != "" &&
           invitedUserData.invitation_id != null &&
           invitedUserData.invitation_id != undefined &&
@@ -429,6 +435,11 @@ const routes = [
         component: VerifyAccount,
       },
       {
+        path: "link-company",
+        name: "link-company-account",
+        component: LinkCompany,
+      },
+      {
         path: "email-verified",
 
         beforeEnter: loginGaurd,
@@ -436,11 +447,34 @@ const routes = [
       },
     ],
   },
-  // {
-  //   path: "/",
-  //   name: "Home",
-  //   component: Home,
-  // },
+  {
+    path: "/404",
+    name: "page-not-found",
+    component: PageNotFound,
+  },
+  {
+    path: "/500",
+    name: "server-error",
+    component: ServerError,
+  },
+  {
+    path: "/no-internet",
+    name: "internet-error",
+    component: InternetError,
+  },
+  {
+    path: "/demo",
+    name: "demo",
+    component: DemoPage,
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "page-not-found",
+    component: PageNotFound,
+    meta: {
+      requiresAuth: false,
+    },
+  },
   // {
   //   path: "/about",
   //   name: "About",

@@ -642,6 +642,7 @@ import CommonService from "../../Services/CommonService";
 // import Toast from "../../components/Shared/Toast.vue";
 import SignupService from "../../Services/SignupService";
 import { Modal } from "bootstrap";
+import errorhandler from "../../utils/Error";
 
 export default {
   components: {
@@ -781,7 +782,7 @@ export default {
         SignupService.setUpCompany(this.companyForm)
           .then((response) => {
             if (response.data.status) {
-              // console.log("company Infomation", response.data.data);
+              console.log("company Infomation", response.data.data);
               this.$store.dispatch("getCompanyInfoDetails", response.data.data);
               this.$toast.success(response.data.message, {
                 position: "bottom-left",
@@ -789,20 +790,7 @@ export default {
               });
               this.formReset();
             } else {
-              let $th = this;
-              if ("error" in response.data) {
-                Object.keys(response.data.error).map(function (key) {
-                  $th.$toast.error(response.data.error[key], {
-                    position: "bottom-left",
-                    duration: 3712,
-                  });
-                });
-              } else {
-                $th.$toast.error(response.data.message, {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              }
+              errorhandler(response, this);
             }
           })
           .catch((error) => {

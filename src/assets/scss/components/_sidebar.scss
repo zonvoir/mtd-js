@@ -4,10 +4,10 @@
   top: 0;
   bottom: 0;
   left: 0;
+  z-index: 999;
   background-color: #101426;
   &.sidebar_gray {
-    background-color: #f7f9fc !important
-;
+    background-color: #f7f9fc !important;
   }
 }
 .sidebar_link_wrap {
@@ -57,7 +57,7 @@
 }
 .logo_wraper {
   position: relative;
-  left: -33px;
+  left: 0px;
 }
 .link-list-wrapper {
   //   &:last-child(1) {

@@ -4,6 +4,9 @@
       <div class="">
         <div class="main-heading-wrap text-center">
           <h2 class="main-heading">Update your password</h2>
+          <h2 class="main-heading">
+            An email has been sent to your email! Click the link to reset it.
+          </h2>
         </div>
       </div>
       <div class="form-wrapper">

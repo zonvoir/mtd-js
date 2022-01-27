@@ -22,6 +22,9 @@
 <script>
 import CommonService from "../../Services/CommonService";
 import Card from "../../components/Shared/Card.vue";
+import { mapGetters } from "vuex";
+import errorhandler from "../../utils/Error";
+
 export default {
   components: {
     Card,
@@ -29,45 +32,33 @@ export default {
   data() {
     return {
       component_name: "department-category",
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      authToken: "",
       departmentLists: [],
     };
   },
+  computed: {
+    ...mapGetters({
+      mydepartments: "staffDepartments",
+    }),
+  },
   created() {
-    if (
-      localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-      localStorage.getItem("bWFpbCI6Inpvb") == null ||
-      localStorage.getItem("bWFpbCI6Inpvb") == ""
-    ) {
-      this.$router.push({ name: "signup-signin" });
-    }
+    this.authToken = this.staffData.auth_token;
     this.getdDepartmentList();
   },
   methods: {
     getdDepartmentList() {
-      CommonService.getAllDepartments().then((res) => {
+      let data = { auth_token: this.authToken };
+      console.log("get departments", data);
+      this.$store.dispatch("SET_DEPARTMENTS", data);
+      CommonService.getAllDepartments(data).then((res) => {
         if (res.data.status) {
           this.departmentLists = res.data.data.filter(function (depts) {
             return depts.is_default === "0";
           });
           console.log("dept_list", this.departmentLists);
         } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-            if (res.data.message === "Authentication token mismatch") {
-              this.$router.push({ name: "signup-signin" });
-            }
-          }
+          errorhandler(res, this);
         }
       });
     },

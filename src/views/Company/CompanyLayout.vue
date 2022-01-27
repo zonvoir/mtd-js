@@ -18,13 +18,19 @@
           <TabsHr :tabs="tablist" @changeTitle="ChangeT($event)" />
         </div>
         <div v-if="ownRole != 1" class="">
-          <InvitePeopleModal>
+          <CareerInformationModal>
             <template v-slot:invite-button>
-              <span
-                ><img src="K_Icons/plus_white.svg" class="m-r-4" alt="" /></span
-              >{{ $t("company_profile.buttons.invite_members") }}
+              <span>
+                Add Carreer Information<img
+                  src="K_Icons/info_gray_24dp.svg"
+                  class="m-l-4"
+                  alt=""
+              /></span>
             </template>
-          </InvitePeopleModal>
+          </CareerInformationModal>
+          <!-- <InvitePeopleModal>
+            
+          </InvitePeopleModal> -->
         </div>
         <!-- <div class="invite_btn_wrap">
           <button
@@ -41,35 +47,6 @@
       </div>
     </div>
   </div>
-  <!-- Invite People Modal -->
-  <!-- <div class="modal fade" ref="invitationModal">
-    <div class="modal-dialog modal-xl invitation_dialog">
-      <div class="modal-content invitaion_content">
-        <div class="modal-header invite_header">
-          <div class="m-l-auto">
-            <button
-              @click="closeModal"
-              class="btn btn-transaprent zp-0 m-l-auto"
-            >
-              <img src="K_Icons/cancel.svg" alt="" class="cancel_icon" />
-            </button>
-          </div>
-        </div>
-        <div class="modal-body invitaion_body">
-          <InvitationRole :departments="departmentLists" />
-        </div>
-        <div class="modal-footer invite_modal_footer">
-          <button
-            type="button"
-            class="btn btn-light btn-set"
-            data-bs-dismiss="modal"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -95,11 +72,11 @@ const tablist = [
 ];
 import TabsHr from "../../components/Shared/TabsHr.vue";
 import searchIcon from "../../../public/icons/search.svg";
-// import InvitationRole from "../../components/Shared/InvitationARole.vue";
-import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
-// import { Modal } from "bootstrap";
+// import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
+import CareerInformationModal from "../../components/Shared/CareerInformationModal.vue";
 import { mapGetters } from "vuex";
 import companyService from "../../Services/Company/CompanyService";
+import errorhandler from "../../utils/Error";
 
 export default {
   data() {
@@ -108,14 +85,13 @@ export default {
       searchIcon,
       departmentLists: [],
       dept: true,
-      // modal: null,
       title: "company_profile.Company",
     };
   },
   components: {
     TabsHr,
-    // InvitationRole,
-    InvitePeopleModal,
+    // InvitePeopleModal,
+    CareerInformationModal,
   },
   computed: {
     ...mapGetters({
@@ -129,10 +105,6 @@ export default {
       this.departmentLists = this.allDepartments;
     },
   },
-
-  // mounted() {
-  //   this.modal = new Modal(this.$refs.invitationModal);
-  // },
   created() {
     this.departmentLists = this.allDepartments;
     if (this.staffInfo != null) {
@@ -159,35 +131,24 @@ export default {
             console.log("all departments of role id", this.departmentLists);
             this.$store.dispatch("getStaffsDepartment", this.departmentLists);
           } else {
-            let $th = this;
-            if ("error" in res.data) {
-              Object.keys(res.data.error).map(function (key) {
-                $th.$toast.error(res.data.error[key], {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              });
-            } else {
-              $th.$toast.error(res.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            }
+            errorhandler(res, this);
+            // let $th = this;
+            // if ("error" in res.data) {
+            //   Object.keys(res.data.error).map(function (key) {
+            //     $th.$toast.error(res.data.error[key], {
+            //       position: "bottom-left",
+            //       duration: 3712,
+            //     });
+            //   });
+            // } else {
+            //   $th.$toast.error(res.data.message, {
+            //     position: "bottom-left",
+            //     duration: 3712,
+            //   });
+            // }
           }
         });
     },
-    // invitePeople() {
-    //   this.modal.show();
-    //   if (this.staffInfo != null) {
-    //     this.departmentByStaffId();
-    //   }
-
-    //   console.log("Please Open Modal");
-    // },
-
-    // closeModal() {
-    //   this.modal.hide();
-    // },
   },
 };
 </script>

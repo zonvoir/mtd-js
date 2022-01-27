@@ -45,6 +45,7 @@
 import InvitationRole from "../Shared/InvitationARole.vue";
 import { Modal } from "bootstrap";
 import CompanyService from "../../Services/Company/CompanyService";
+import errorhandler from "../../utils/Error";
 // import { mapGetters } from "vuex";
 export default {
   data() {
@@ -148,20 +149,7 @@ export default {
           this.$store.dispatch("getStaffsDepartment", this.departmentLists);
           console.log("latest department kk list", this.departmentLists);
         } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          }
+          errorhandler(res, this);
         }
       });
     },

@@ -29,11 +29,26 @@ class SignupService {
   }
   // Personal Details get
   updatePersonalDetails(data) {
-    return http.post("staffs/update_personal_account", data);
+    return http.post("staffs/update_personal_account", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
   }
   // Personal Details update
   getPersonalDetails(data) {
-    return http.post("staffs/staff_by_token", { auth_token: data.auth_token });
+    console.log("personal details", data);
+    return http.post(
+      "staffs/staff_by_token",
+      { auth_token: data.auth_token },
+      {
+        headers: {
+          "X-Company": localStorage.getItem("selected_company"),
+          "X-Year": localStorage.getItem("selected_year"),
+        },
+      }
+    );
   }
 }
 

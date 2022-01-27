@@ -41,6 +41,8 @@
 
 <script>
 import CommonService from "../../Services/CommonService";
+import errorhandler from "../../utils/Error";
+
 export default {
   data() {
     return {
@@ -48,6 +50,8 @@ export default {
       department: [],
       id: "",
       image: "",
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      authToken: "",
     };
   },
   created() {
@@ -56,6 +60,7 @@ export default {
       console.log("id on layout", this.url_dataID);
       this.getDepartmentDetails(this.url_dataID);
     }
+    this.authToken = this.staffData.auth_token;
   },
   components: {},
   methods: {
@@ -66,32 +71,24 @@ export default {
       let deptInfo = this.department.find((item) => {
         return item.departmentid === id;
       });
-      console.log("dept info", deptInfo);
+      console.log("dept infokkkkk", deptInfo);
       this.title = deptInfo.name;
       this.id = deptInfo.id;
       this.image = deptInfo.image;
     },
     // get DepartmentDetail
     getDepartmentDetails(id) {
-      CommonService.getOneDepartment(id).then((res) => {
+      let data = {
+        auth_token: this.staffData.auth_token,
+        id: +id,
+      };
+      CommonService.getAllDepartments(data).then((res) => {
         if (res.data.status) {
           this.department = res.data.data;
+          console.log("one department details", this.department);
           this.oneDepartmentDetails(this.url_dataID);
         } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          }
+          errorhandler(res, this);
         }
       });
     },

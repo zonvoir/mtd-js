@@ -16,6 +16,9 @@ class CompanyService {
       },
     });
   }
+  usersAllCompanies(data) {
+    return http.post("userlogin/invited_user_companies", data);
+  }
   getInvitationByRole(data) {
     return http.post("roles/get_roles", data, {
       headers: {

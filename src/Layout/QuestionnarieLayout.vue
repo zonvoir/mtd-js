@@ -31,6 +31,7 @@ import QuestionsSidebar from "../views/Questionnarie/components/QuestionsSidebar
 import { mapState } from "vuex";
 import QuestionnaireService from "../Services/QuestionnaireServices/Questionnaire";
 import QuestionTest from "../views/Questionnarie/QuestionnarieTest.vue";
+import errorhandler from "../utils/Error";
 export default {
   components: {
     Progressbar,
@@ -69,32 +70,23 @@ export default {
       QuestionnaireService.getOneCategory(data).then((res) => {
         if (res.data.status) {
           this.$store.dispatch(
-            "getQuestionnaire",
+            "GET_QUESTIONNAIRE",
             res.data.data.category_details
           );
+
           this.$store.dispatch(
-            "getQuestionnaireDetails",
+            "GET_QUESTIONNAIRE_DETAILS",
             res.data.data.questionnaire.detail
           );
           this.$store.dispatch(
-            "getQuestionList",
+            "GET_QUESTIONLIST",
             res.data.data.questionnaire.questions
           );
         } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          }
+          errorhandler(res, this);
+          this.$store.dispatch("GET_QUESTIONNAIRE", []);
+          this.$store.dispatch("GET_QUESTIONNAIRE_DETAILS", []);
+          this.$store.dispatch("GET_QUESTIONLIST", []);
         }
       });
     },
