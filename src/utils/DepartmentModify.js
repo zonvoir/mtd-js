@@ -1,25 +1,25 @@
 export const departmentModify = (deptsArr) => {
-  let departments = [];
+  let departments1 = [];
   for (var k = 0; k < deptsArr.length; k++) {
     let dept = {
       value: deptsArr[k].departmentid,
       label: deptsArr[k].name,
     };
-    departments.push(dept);
+    departments1.push(dept);
   }
-  return departments;
+  return departments1;
 };
 export const getDepartemntsValue = (deptsArr) => {
-  let departments = [];
+  let departments2 = [];
   for (var k = 0; k < deptsArr.length; k++) {
-    departments.push(deptsArr[k].departmentid);
+    departments2.push(deptsArr[k].departmentid);
   }
-  return departments;
+  return departments2;
 };
 export const getDepartemntsLables = (deptsArr) => {
-  let departments = [];
+  let departments3 = [];
   for (var k = 0; k < deptsArr.length; k++) {
-    departments.push(deptsArr[k].name);
+    departments3.push(deptsArr[k].name);
   }
-  return departments;
+  return departments3;
 };

@@ -515,84 +515,107 @@
             </h4>
             <!-- list of careers start -->
             <div v-if="careersArr.length > 0" class="careers_wrap">
-              <div
-                class="career_info_container"
-                v-for="(career, index) in careersArr"
-                :key="index"
-              >
-                <div class="career_wrap">
-                  <div class="img_wrap">
-                    <img src="logo.png" class="" alt="" />
-                  </div>
-                  <div class="career_content_wrap">
-                    <div class="in_position_wrap d-flex">
-                      <h5 class="in_postion">{{ career.position }}</h5>
-                      <span class="att_val">{{ career.seniority_level }}</span>
+              <div v-for="(career, index) in careersArr" :key="index">
+                <div class="career_info_container">
+                  <div class="career_wrap">
+                    <div class="img_wrap">
+                      <img src="logo.png" class="" alt="" />
                     </div>
-                    <div class="in_company_wrap d-flex">
-                      <h5 class="in_company">{{ career.company }}</h5>
-                      <span class="in_durartion att_val">
-                        <span> {{ formatMyDate(career.from) }}</span> -
-                        <span>{{ formatMyDate(career.to) }}</span>
-                      </span>
-                    </div>
-                    <div class="in_department_wrap">
-                      <span class="att_val">{{
-                        formatDepartments(career.department)
-                      }}</span>
-                      <!-- <template
-                        v-for="(departments, i) in career.department"
-                        :key="departments.departmentid"
-                      >
-                        <span class="att_val"
-                          >{{ departments.name }}
-                          <span v-if="i != career.department.length - 1"
-                            >,</span
-                          ></span
+                    <div class="career_content_wrap">
+                      <div class="in_position_wrap d-flex">
+                        <h5 class="in_postion">{{ career.position }}</h5>
+                        <span class="att_val">{{
+                          career.seniority_level_name
+                        }}</span>
+                      </div>
+                      <div class="in_company_wrap d-flex">
+                        <h5 class="in_company">{{ career.company }}</h5>
+                        <span class="in_durartion att_val">
+                          <span> {{ formatMyDate(career.from) }}</span> -
+                          <span>{{ formatMyDate(career.to) }}</span>
+                        </span>
+                      </div>
+                      <div class="in_department_wrap">
+                        <span class="att_val">{{
+                          formatDepartments(career.department_list)
+                        }}</span>
+                        <!-- <template
+                          v-for="(departments, i) in career.department"
+                          :key="departments.departmentid"
                         >
-                      </template> -->
+                          <span class="att_val"
+                            >{{ departments.name }}
+                            <span v-if="i != career.department.length - 1"
+                              >,</span
+                            ></span
+                          >
+                        </template> -->
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="m-l-auto">
-                  <button
-                    @click="upadateCareer(career.id)"
-                    type="button"
-                    class="
-                      btn
-                      m-l-auto
-                      btn-light
-                      set_btn_width
-                      btn-set
-                      text-upercase
-                    "
-                  >
-                    {{ $t("personal_account.form.buttons.change") }}
-                  </button>
-                </div>
-              </div>
+                  <div class="m-l-auto">
+                    <button
+                      @click="upadateCareer(career.id, career)"
+                      type="button"
+                      class="
+                        btn
+                        m-l-auto
+                        btn-light
+                        set_btn_width
+                        btn-set
+                        text-upercase
+                      "
+                      v-if="!careerInfo.includes(career.id)"
+                    >
+                      {{ $t("personal_account.form.buttons.change") }}
+                    </button>
 
-              <template v-if="careerInfo">
-                <div class="row">
-                  <CareerForm
-                    :className="'col-lg-6'"
-                    :myCareer="updateCareersArr"
-                    :departments="departmentLists"
-                    :industries="industryLists"
-                    :seniority="seniorityLevels"
-                  />
+                    <button
+                      @click="upadateCareerCancel(career.id)"
+                      type="button"
+                      class="
+                        btn
+                        m-l-auto
+                        btn-light
+                        set_btn_width
+                        btn-set
+                        text-upercase
+                      "
+                      v-if="careerInfo.includes(career.id)"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
-              </template>
+
+                <template v-if="careerInfo.includes(career.id)">
+                  <div class="row">
+                    <!-- ref="childCareer"
+                      @addNewCareer="isCareerFilled" -->
+                    <CareerForm
+                      ref="childCareer"
+                      @addNewCareer="isCareerUpdated"
+                      :className="'col-lg-6'"
+                      :myCareer="career"
+                      :departments="departmentLists"
+                      :industries="industryLists"
+                      :seniority="seniorityLevels"
+                    />
+                  </div>
+                </template>
+              </div>
             </div>
             <!-- list of careers ends -->
             <!-- work update details start -->
-            <div v-if="careersList.length > 1 || this.addCareer" class="">
-              <div class="row" v-for="(career, idx) in careersList" :key="idx">
+            <!-- <div v-if="careersList.length > 1 || this.addCareer" class=""> -->
+
+            <div v-if="this.addCareer" class="">
+              <div class="row" v-for="(careerV, idx) in careersList" :key="idx">
                 <CareerForm
                   ref="childCareer"
                   @addNewCareer="isCareerFilled"
                   :className="'col-lg-6'"
-                  :myCareer="career"
+                  :myCareer="careerV"
                   :departments="departmentLists"
                   :industries="industryLists"
                   :seniority="seniorityLevels"
@@ -609,206 +632,16 @@
                 </CareerForm>
               </div>
             </div>
-            <!-- <div class="row" >
-              <div class="col-lg-6">
-                <div class="k_form_group">
-                  <input
-                    type="text"
-                    class="form-control k_inp_field"
-                    :placeholder="
-                      $t('personal_account.form.placeholder.company_name')
-                    "
-                    @blur="v$.personalAccount.company.$touch"
-                    v-model.trim="personalAccount.company"
-                    :class="{
-                      'is-invalid': v$.personalAccount.company.$error,
-                    }"
-                  />
-                  <div
-                    v-if="v$.personalAccount.company.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.personalAccount.company.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      {{
-                        $t(
-                          "personal_account.form.invalid_msgs.Company_Name_is_required"
-                        )
-                      }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="k_form_group k_select_single">
-                  <Multiselect
-                    :placeholder="
-                      $t('personal_account.form.placeholder.industry')
-                    "
-                    class="form-control k_inp_field"
-                    rules="required"
-                    :options="industryLists"
-                    @blur="v$.personalAccount.industry.$touch"
-                    v-model="personalAccount.industry"
-                    :class="{
-                      'is-invalid': v$.personalAccount.industry.$error,
-                    }"
-                  />
-                  <div
-                    v-if="v$.personalAccount.industry.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.personalAccount.industry.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      {{
-                        $t(
-                          "personal_account.form.invalid_msgs.Industry_is_required"
-                        )
-                      }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="k_form_group k_select_single">
-                  <Multiselect
-                    :placeholder="
-                      $t('personal_account.form.placeholder.department')
-                    "
-                    mode="tags"
-                    :closeOnSelect="false"
-                    :searchable="true"
-                    :createTag="true"
-                    class="form-control k_inp_field"
-                    rules="required"
-                    :options="departmentLists"
-                    @blur="v$.personalAccount.department.$touch"
-                    v-model="personalAccount.department"
-                    :class="{
-                      'is-invalid': v$.personalAccount.department.$error,
-                    }"
-                  />
-                  <div
-                    v-if="v$.personalAccount.department.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.personalAccount.department.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      {{
-                        $t(
-                          "personal_account.form.invalid_msgs.Department_is_required"
-                        )
-                      }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="k_form_group">
-                  <input
-                    type="text"
-                    class="form-control k_inp_field"
-                    :placeholder="
-                      $t('personal_account.form.placeholder.position')
-                    "
-                    @blur="v$.personalAccount.position.$touch"
-                    v-model.trim="personalAccount.position"
-                    :class="{
-                      'is-invalid': v$.personalAccount.position.$error,
-                    }"
-                  />
-                  <div
-                    v-if="v$.personalAccount.position.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.personalAccount.position.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      {{
-                        $t(
-                          "personal_account.form.invalid_msgs.Position_is_required"
-                        )
-                      }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="k_form_group k_select_single">
-                  <Multiselect
-                    :placeholder="
-                      $t('personal_account.form.placeholder.seniority_level')
-                    "
-                    class="form-control k_inp_field"
-                    rules="required"
-                    :options="seniorityLevels"
-                    @blur="v$.personalAccount.seniority_level.$touch"
-                    v-model="personalAccount.seniority_level"
-                    :class="{
-                      'is-invalid': v$.personalAccount.seniority_level.$error,
-                    }"
-                  />
-                  <div
-                    v-if="v$.personalAccount.seniority_level.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="
-                        v$.personalAccount.seniority_level.required.$invalid
-                      "
-                      class="text-left fs-14"
-                    >
-                      {{
-                        $t(
-                          "personal_account.form.invalid_msgs.Seniority_level_is_required"
-                        )
-                      }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="k_form_group row">
-                  <div class="col-lg-6">
-                    <div class="k_form_group position-relative">
-                      <label for="" class="date_label">{{
-                        $t("projects.project_form.placeholder.from")
-                      }}</label>
-                      <Datepicker
-                        class="project_date_picker custom_label"
-                        v-model="date"
-                        placeholder="dd/mm/yyyy"
-                      ></Datepicker>
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="k_form_group position-relative">
-                      <label for="" class="date_label">{{
-                        $t("projects.project_form.placeholder.to")
-                      }}</label>
-                      <Datepicker
-                        class="project_date_picker custom_label"
-                        placeholder="dd/mm/yyyy"
-                      ></Datepicker>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> -->
+
             <button
+              v-if="toggleUpdate"
               type="button"
               @click="addMoreCareer"
               class="btn_adds btn-transaprent"
             >
               Add Carreer Information
             </button>
+
             <div class="btn-wrap">
               <button
                 type="submit"
@@ -840,9 +673,9 @@ import commonService from "../../Services/CommonService";
 import { loadLocaleMessages } from "../../i18n";
 import errorhandler from "../../utils/Error";
 import CareerForm from "../Auth/CareerForm.vue";
-// import moment from "moment";
 import { formatDate } from "../../utils/FormatDate";
 import { getDepartemntsLables } from "../../utils/DepartmentModify";
+
 // MINIMUM 8 CHARCTER
 const minimum8CharCalc = (val) => val.length >= 8;
 // for upper case calculation
@@ -864,6 +697,7 @@ export default {
   data() {
     return {
       careersArr: [],
+      toggleUpdate: true,
       newAddedCareer: [],
       updateCareersArr: undefined,
       selectedLanguage: "en",
@@ -871,7 +705,7 @@ export default {
       title: "Personal Account",
       valiImage: true,
       addCareer: undefined,
-      careerInfo: false,
+      careerInfo: [],
       clickCount: 0,
 
       token: {
@@ -882,7 +716,7 @@ export default {
           company: "",
           industry: "",
           seniority_level: "",
-          department: "",
+          department: [],
           to: "",
           from: "",
         },
@@ -920,6 +754,9 @@ export default {
     };
   },
   computed: {
+    careerLength() {
+      return this.careersArr.length;
+    },
     ch_password() {
       return this.updatePsw
         ? {
@@ -939,6 +776,15 @@ export default {
             email,
           }
         : {};
+    },
+  },
+  watch: {
+    careerLength: function () {
+      if (this.careersArr.length < 0) {
+        this.addCareer = true;
+      } else {
+        this.addCareer = false;
+      }
     },
   },
   // mounted() {
@@ -962,7 +808,6 @@ export default {
         lastname: { required },
         username: { required },
         email: { required, email },
-        career_info: [],
         // company: { required },
         // position: { required },
         // industry: { required },
@@ -985,19 +830,32 @@ export default {
   methods: {
     savePersonalInfo() {
       this.personalAccount.auth_token = this.staffData.auth_token;
-      console.log("latest career inforamtion", this.personalAccount);
+      console.log(
+        this.newAddedCareer,
+        this.personalAccount.career_info,
+        this.careersArr
+      );
+      this.$refs.childCareer.validateForm();
       this.v$.$touch();
       if (!this.v$.$invalid) {
-        this.$refs.childCareer.validateForm();
-        // this.addCareer = false;
-        // this.careerInfo = false;
+        // this.$refs.updateCareer.validateForm();
+        console.log(this.newAddedCareer);
+        this.personalAccount.career_info = [
+          ...this.careersArr,
+          ...this.newAddedCareer,
+        ];
+        console.log("latest career inforamtion", this.personalAccount);
         signupService
           .updatePersonalDetails(this.personalAccount)
           .then((res) => {
             if (res.data.status) {
+              this.addCareer = false;
+              this.toggleUpdate = true;
               this.personalAccount = res.data.data;
-              console.log("upadated data", res.data.data);
-              // this.careersArr = this.personalAccount.career_info;
+              this.careersArr = this.personalAccount.career_info;
+              console.log("upadated data", this.careersArr);
+              this.careerInfo = [];
+              // this.careersList = [];
               this.personalAccount["profile"] =
                 this.personalAccount.profile_image;
               this.personalAccount["profile_image"] = null;
@@ -1014,25 +872,32 @@ export default {
           });
       }
     },
-    upadateCareer(id) {
-      let careerOne = this.careersArr.filter((item) => {
-        return item.id == id;
-      });
-      this.updateCareersArr = careerOne[0];
-      console.log("updated by id Obj", this.updateCareersArr);
-      this.careerInfo = true;
+    upadateCareer(id, c) {
+      this.toggleUpdate = false;
+      console.log(c);
+      this.careerInfo.push(id);
+    },
+    upadateCareerCancel(id) {
+      this.toggleUpdate = true;
+      var myIndex = this.careerInfo.indexOf(id);
+      if (myIndex !== -1) {
+        this.careerInfo.splice(myIndex, 1);
+      }
     },
     isCareerFilled(value) {
-      let y;
       if (value && Object.keys(value).length != 0) {
-        console.log("console kkuldip", y, value);
+        this.newAddedCareer.push(value.newCareer);
+        console.log("career array ", this.newAddedCareer);
+      }
+    },
+    isCareerUpdated(value) {
+      if (value && Object.keys(value).length != 0) {
         this.newAddedCareer.push(value.newCareer);
         console.log("career array ", this.newAddedCareer);
       }
     },
     addMoreCareer() {
       this.addCareer = true;
-      console.log("kuldip", this.v$.$invalid);
       this.v$.$touch();
       if (!this.v$.$invalid) {
         this.$refs.childCareer.validateForm();
@@ -1040,7 +905,7 @@ export default {
           company: "",
           industry: "",
           seniority_level: "",
-          department: "",
+          department: [],
           from: "",
           to: "",
         });
@@ -1067,6 +932,7 @@ export default {
             this.personalAccount["profile_image"] = null;
             console.log("pesonal data", res.data.data);
             this.careersArr = this.personalAccount.career_info;
+
             console.log("career info", this.personalAccount.career_info);
             this.$store.dispatch("getPersonalInfo", res.data.data);
 

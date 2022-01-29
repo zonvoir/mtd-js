@@ -4,222 +4,113 @@
       <div class="">
         <div class="">
           <div class="main-heading-wrap text-center">
-            <h2 class="main-heading">Career Information</h2>
+            <h2 class="main-heading">Career Information {{ v$.$invalid }}</h2>
           </div>
         </div>
         <div class="form-wrapper">
-          <form @submit.prevent="saveCarreerInfo" action="">
-            <div class="k_form_group">
-              <input
-                type="text"
-                class="form-control k_inp_field"
-                placeholder="Company"
-                @blur="v$.carreerForm.company.$touch"
-                v-model.trim="carreerForm.company"
-                :class="{
-                  'is-invalid': v$.carreerForm.company.$error,
-                }"
+          <form action="">
+            <div class="row">
+              <CareerForm
+                ref="moreCareer"
+                @addNewCareer="isCareerFilled"
+                :className="'col-lg-12'"
+                :myCareer="staffCareerForm"
+                :departments="departmentLists"
+                :industries="industryLists"
+                :seniority="seniorityLevels"
               />
-              <div
-                v-if="v$.carreerForm.company.$error"
-                class="invalid-feedback text-left"
-              >
-                <span
-                  v-if="v$.carreerForm.company.required.$invalid"
-                  class="text-left fs-14"
-                >
-                  Company is required
-                </span>
-              </div>
-            </div>
-
-            <div class="k_form_group k_select_single">
-              <Multiselect
-                placeholder="Industry"
-                class="form-control k_inp_field"
-                :options="industryLists"
-                rules="required"
-                @blur="v$.carreerForm.industry.$touch"
-                v-model="carreerForm.industry"
-                :class="{
-                  'is-invalid': v$.carreerForm.industry.$error,
-                }"
-              />
-              <div
-                v-if="v$.carreerForm.industry.$error"
-                class="invalid-feedback text-left"
-              >
-                <span
-                  v-if="v$.carreerForm.industry.required.$invalid"
-                  class="text-left fs-14"
-                >
-                  Industry is required
-                </span>
-              </div>
-            </div>
-
-            <div class="k_form_group k_select_single">
-              <!-- :disabled="isInvitedDepartments" -->
-              <Multiselect
-                placeholder="Department"
-                mode="tags"
-                :closeOnSelect="false"
-                :searchable="true"
-                :createTag="true"
-                class="form-control k_inp_field"
-                rules="required"
-                :options="departmentLists"
-                @blur="v$.carreerForm.department.$touch"
-                v-model="carreerForm.department"
-                :class="{
-                  'is-invalid': v$.carreerForm.department.$error,
-                }"
-              />
-              <div
-                v-if="v$.carreerForm.department.$error"
-                class="invalid-feedback text-left"
-              >
-                <span
-                  v-if="v$.carreerForm.department.required.$invalid"
-                  class="text-left fs-14"
-                >
-                  Department is required
-                </span>
-              </div>
-            </div>
-            <div class="k_form_group">
-              <input
-                type="text"
-                class="form-control k_inp_field"
-                placeholder="Position"
-                @blur="v$.carreerForm.position.$touch"
-                v-model.trim="carreerForm.position"
-                :class="{
-                  'is-invalid': v$.carreerForm.position.$error,
-                }"
-              />
-              <div
-                v-if="v$.carreerForm.position.$error"
-                class="invalid-feedback text-left"
-              >
-                <span
-                  v-if="v$.carreerForm.position.required.$invalid"
-                  class="text-left fs-14"
-                >
-                  Position is required
-                </span>
-              </div>
-            </div>
-            <div class="k_form_group k_select_single">
-              <Multiselect
-                placeholder="Seniority Level"
-                class="form-control k_inp_field"
-                rules="required"
-                :options="seniorityLevels"
-                @blur="v$.carreerForm.seniority_level.$touch"
-                v-model="carreerForm.seniority_level"
-                :class="{
-                  'is-invalid': v$.carreerForm.seniority_level.$error,
-                }"
-              />
-              <div
-                v-if="v$.carreerForm.seniority_level.$error"
-                class="invalid-feedback text-left"
-              >
-                <span
-                  v-if="v$.carreerForm.seniority_level.required.$invalid"
-                  class="text-left fs-14"
-                >
-                  Seniority level is required
-                </span>
-              </div>
-            </div>
-            <div class="k_form_group row">
-              <div class="col-lg-6">
-                <div class="k_form_group position-relative">
-                  <label for="" class="date_label">{{
-                    $t("projects.project_form.placeholder.from")
-                  }}</label>
-                  <Datepicker
-                    class="project_date_picker custom_label"
-                    v-model="date"
-                    placeholder="dd/mm/yyyy"
-                  ></Datepicker>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="k_form_group position-relative">
-                  <label for="" class="date_label">{{
-                    $t("projects.project_form.placeholder.to")
-                  }}</label>
-                  <Datepicker
-                    class="project_date_picker custom_label"
-                    placeholder="dd/mm/yyyy"
-                  ></Datepicker>
-                </div>
-              </div>
-            </div>
-            <div v-if="isHidden" class="add_multiple_career">
-              <CareerInformationModal>
-                <template v-slot:add-button-action="{ addCareer }">
-                  <button
-                    class="btn_add_multiple btn-transaprent btn-transaprent"
-                    @click="addCareer"
-                  >
-                    <span>
-                      Add Carreer Information<img
-                        src="K_Icons/info_gray_24dp.svg"
-                        class="m-l-4"
-                        alt=""
-                    /></span>
-                  </button>
-                </template>
-                <template v-slot:more-careers>
-                  <!--  -->
-                  <div
-                    class="row"
-                    v-for="(career, idx) in careersList"
-                    :key="idx"
-                  >
-                    <CareerForm
-                      ref="childCareer"
-                      @addNewCareer="isCareerFilled"
-                      :className="'col-lg-6'"
-                      :myCareer="career"
-                      :departments="departmentLists"
-                      :industries="industryLists"
-                      :seniority="seniorityLevels"
-                    />
-                  </div>
-                </template>
-              </CareerInformationModal>
-            </div>
-            <div class="d-grid space_btn">
-              <button
-                :disabled="isSubmitted"
-                type="submit"
-                class="btn k_btn_block btn-primary"
-              >
-                <div
-                  v-if="isSubmitted"
-                  class="spinner-border text-light"
-                  role="status"
-                >
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <span v-else> Done </span>
-              </button>
-            </div>
-            <div class="im-user flex justify-center">
-              <span class="para14"> Already have an account?</span>
-              <router-link
-                target="_blank"
-                class="custom-link"
-                :to="{ name: 'signup-signin' }"
-                >Sign In</router-link
-              >
             </div>
           </form>
+          <div class="add_multiple_career">
+            <CareerInformationModal
+              :departments="departmentLists"
+              :seniority_level="seniorityLevels"
+              :industry="industryLists"
+              @multiCareer="saveModalData"
+            >
+              <template v-slot:add-button-action="{ addCareer }">
+                <button
+                  class="btn_add_multiple btn-transaprent btn-transaprent"
+                  @click="addCareer"
+                >
+                  <span>
+                    Add Carreer Information<img
+                      src="K_Icons/info_gray_24dp.svg"
+                      class="m-l-4"
+                      alt=""
+                  /></span>
+                </button>
+              </template>
+              <!-- <template v-slot:career-description>
+                <div class="team_wrapper m-b-20">
+                  <div class="m-b-12">
+                    <p class="staff_desc">
+                      Simply dummy text of the printing and typesetting
+                      industry. Lorem Ipsum has been the industry's standard
+                      dummy text ever since the 150.Lorem Ipsum is simply dummy
+                      text of the printing and typesetting industry. Lorem Ipsum
+                      has been the industry's standard dummy text ever since the
+                      Lorem Dummy text Industry was created.It has been the
+                      industry's standard dummy text.
+                    </p>
+                  </div>
+                </div>
+              </template>
+              <template v-slot:more-careers="{ careersList }">
+                <div
+                  class="row"
+                  v-for="(career, idx) in careersList"
+                  :key="idx"
+                >
+                  <div class="m-b-24">
+                    <h4 class="m-t-0 title-dark">Add Carreer Information</h4>
+                  </div>
+             
+                  <CareerForm
+                    :className="'col-lg-12'"
+                    :myCareer="career"
+                    :departments="departmentLists"
+                    :industries="industryLists"
+                    :seniority="seniorityLevels"
+                  />
+                </div>
+                <div class="">
+                  <button
+                    @click="addMoreCareer"
+                    class="btn_add_multiple btn-transaprent"
+                  >
+                    add More
+                  </button>
+                </div>
+              </template> -->
+            </CareerInformationModal>
+          </div>
+          <div class="d-grid space_btn">
+            <button
+              :disabled="isSubmitted"
+              type="button"
+              @click="saveCarreerInfo"
+              class="btn k_btn_block btn-primary"
+            >
+              <div
+                v-if="isSubmitted"
+                class="spinner-border text-light"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <span v-else> Done </span>
+            </button>
+          </div>
+          <div class="im-user flex justify-center">
+            <span class="para14"> Already have an account?</span>
+            <router-link
+              target="_blank"
+              class="custom-link"
+              :to="{ name: 'signup-signin' }"
+              >Sign In</router-link
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -227,35 +118,36 @@
 </template>
 
 <script>
-import Multiselect from "@vueform/multiselect";
+// import Multiselect from "@vueform/multiselect";
 import CommonService from "../../Services/CommonService";
-import { required } from "@vuelidate/validators";
+// import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import CareerInformationModal from "../../components/Shared/CareerInformationModal";
 import SignupService from "../../Services/SignupService";
 import errorhandler from "../../utils/Error";
-import Datepicker from "vue3-date-time-picker";
+// import Datepicker from "vue3-date-time-picker";
 import CareerForm from "./CareerForm.vue";
 
 export default {
   components: {
-    Multiselect,
+    // Multiselect,
+    // Datepicker,
     CareerInformationModal,
-    Datepicker,
     CareerForm,
   },
   data() {
     return {
       value: null,
-      from: "From",
-      to: "To",
-      isHidden: false,
+      fromDate: "From",
+      toDate: "To",
+      staffCareeArr1: [],
+      staffCareeArr2: [],
       careersList: [
         {
           company: "",
           industry: "",
           seniority_level: "",
-          department: "",
+          department: [],
           to: "",
           from: "",
         },
@@ -277,18 +169,45 @@ export default {
       departmentLists: [],
       seniorityLevels: [],
       invitationId: "",
-      carreerForm: {
-        auth_token: "",
-        company: "",
-        position: "",
-        invitation_id: undefined,
-        industry: null,
-        seniority_level: null,
-        department: [],
+      careerArr: [],
+      CareerList: [
+        {
+          company: "",
+          position: "",
+          industry: null,
+          to: "",
+          from: "",
+          seniority_level: null,
+          department: [],
+        },
+      ],
+      // careersForm: {
+      //   company: "",
+      //   position: "",
+      //   industry: null,
+      //   to: "",
+      //   from: "",
+      //   seniority_level: null,
+      //   department: [],
+      // },
+      staffCareerForm: {
+        // career_info: [],
+        // company: "",
+        // position: "",
+        // invitation_id: undefined,
+        // industry: null,
+        // to: "",
+        // from: "",
+        // seniority_level: null,
+        // department: [],
       },
     };
   },
+  // watch:{
+  //   v$.$invalid:function() {
 
+  //   }
+  // },
   created() {
     if (
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
@@ -314,7 +233,7 @@ export default {
       this.invitationId = this.invitedUserData.invitation_id;
       console.log(
         "checking for invited User Data",
-        this.carreerForm.invitation_id
+        this.staffCareerForm.invitation_id
       );
     } else {
       this.invitedUser = false;
@@ -343,13 +262,16 @@ export default {
     this.getIndustryList();
     this.getSeniorityLevel();
   },
+
   validations: {
-    carreerForm: {
-      company: { required },
-      position: { required },
-      industry: { required },
-      department: { required },
-      seniority_level: { required },
+    staffCareerForm: {
+      // company: { required },
+      // position: { required },
+      // industry: { required },
+      // department: { required },
+      // seniority_level: { required },
+      // to: { required },
+      // from: { required },
     },
   },
   setup() {
@@ -358,23 +280,46 @@ export default {
     };
   },
   methods: {
+    saveModalData(val) {
+      console.log("modal career data", val.newCareer);
+      if (val.newCareer.length > 0) {
+        this.staffCareeArr2 = val.newCareer;
+      }
+    },
     //save carreer details
     saveCarreerInfo() {
-      this.carreerForm.auth_token = this.staffData.auth_token;
-      this.carreerForm.invitation_id = this.invitationId
+      // this.staffCareerForm.auth_token = this.staffData.auth_token;
+      this.staffCareerForm.invitation_id = this.invitationId
         ? +this.invitationId
         : "";
       this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
+      this.$refs.moreCareer.validateForm();
+      let newMerge;
+      if (this.staffCareeArr2.length > 0) {
+        newMerge = [...this.staffCareeArr1, ...this.staffCareeArr2];
+        console.log("both array");
       } else {
-        console.log("career from Data after updatedkk", this.carreerForm);
+        newMerge = this.staffCareeArr1;
+        console.log("only First  array");
+      }
+      console.log("merged Arr", newMerge);
+      let data = {
+        auth_token: this.staffData.auth_token,
+        invitation_id: this.invitationId,
+        career_info: newMerge,
+      };
+      console.log("career array", data);
+
+      if (!this.v$.$invalid) {
+        // return;
+        // } else {
+        console.log("career from Data after updatedkk", this.staffCareerForm);
         this.isSubmitted = true;
-        this.isHidden = true;
-        SignupService.updateCareerInformation(this.carreerForm)
+        SignupService.updateCareerInformation(data)
           .then((response) => {
             if (response.data.status) {
               this.errorType = true;
+              console.log("fsdfadskkkkkkkk", response);
               console.log("dispatch kk career info", response.data.data);
               this.$store.dispatch("getPersonalInfo", response.data.data); //update personal information
               this.$toast.success(response.data.message, {
@@ -402,7 +347,7 @@ export default {
       }
 
       this.v$.$reset();
-      this.carreerForm = {
+      this.staffCareerForm = {
         company: "",
         position: "",
         industry: null,
@@ -412,10 +357,11 @@ export default {
       };
       if (this.invitedUserData.invitation_id) {
         console.log("this is invited user after form reset");
-        localStorage.removeItem("bWFInpvitedbpbUser"); //remove invited user Data
-        this.$router.push({ name: "Dashboard" });
+        localStorage.removeItem("bWFInpvitedbpbUser");
+        // this.$router.push({ name: "Dashboard" }); now
       } else {
-        this.$router.push({ name: "signup-company" });
+        // this.$router.push({ name: "signup-company" });  now
+        console.log("data to career");
       }
     },
     // get Industry lists
@@ -448,7 +394,6 @@ export default {
             };
             this.departmentLists.push(dept);
           }
-          // invitedStaffData && Object.keys(invitedStaffData).length != 0 this.invitedUserData === null
           if (
             this.invitedUserData &&
             Object.keys(this.invitedUserData).length == 0
@@ -458,7 +403,7 @@ export default {
             let givenDepartment = this.invitedUserData.departments;
             // this.isInvitedDepartments = true;
             console.log("invited department list", givenDepartment);
-            // this.carreerForm.department = givenDepartment;
+            // this.staffCareerForm.department = givenDepartment;
           }
         } else {
           this.departmentLists = [
@@ -469,20 +414,21 @@ export default {
     },
     isCareerFilled(value) {
       if (value && Object.keys(value).length != 0) {
-        console.log("console kkuldip", value);
+        this.staffCareeArr1.push(value.newCareer);
+        // this.careerArr.push(value.newCareer);
       }
     },
     addMoreCareer() {
-      this.addCareer = true;
+      // this.addCareer = true;
       console.log("kuldip", this.v$.$invalid);
       this.v$.$touch();
+      this.$refs.moreCareer.validateForm();
       if (!this.v$.$invalid) {
-        this.$refs.childCareer.validateForm();
         this.careersList.push({
           company: "",
           industry: "",
           seniority_level: "",
-          department: "",
+          department: [],
           from: "",
           to: "",
         });
@@ -522,7 +468,7 @@ export default {
             res.data.data
           );
           // No Company setup for Invited user
-          this.$router.push({ name: "signup-company" });
+          // this.$router.push({ name: "signup-company" }); now
         } else {
           let resData = res.data;
           if (resData["data"] !== undefined) {
@@ -531,7 +477,7 @@ export default {
             this.departmentsArr.forEach((item) => {
               this.usersDepartmrnts.push(item["departmentid"]);
             });
-            (this.carreerForm = {
+            (this.staffCareerForm = {
               company: company_name,
               department: this.usersDepartmrnts,
             }),

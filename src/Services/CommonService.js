@@ -13,14 +13,17 @@ class CommonService {
     return http.post("staffs/is_staff_token_expired", data);
   }
   //get All deparartments
-  getAllDepartments(data) {
-    return http.post("lists/department", data, {
-      headers: {
-        "X-Company": localStorage.getItem("selected_company"),
-        "X-Year": localStorage.getItem("selected_year"),
-      },
-    });
+  getAllDepartments() {
+    return http.get("lists/department");
   }
+  // getAllDepartments(data) {
+  //   return http.post("lists/department", data, {
+  //     headers: {
+  //       "X-Company": localStorage.getItem("selected_company"),
+  //       "X-Year": localStorage.getItem("selected_year"),
+  //     },
+  //   });
+  // }
   //get deparartment by ID
   // getOneDepartment(id) {
   //   return http.get(`lists/department/${id}`, {

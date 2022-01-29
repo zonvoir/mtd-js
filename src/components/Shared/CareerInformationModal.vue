@@ -32,162 +32,36 @@
           <div class="from_container">
             <form @submit.prevent="saveCarreerInfo" action="">
               <div v-for="(career, idx) in carreerForm" :key="idx" class="">
-                <div class="m-b-24">
+                <div
+                  class="
+                    m-b-24
+                    d-flex
+                    aligm-items-center
+                    justify-content-between
+                  "
+                >
                   <h4 class="m-t-0 title-dark">Add Carreer Information</h4>
-                </div>
-                <div class="k_form_group">
-                  <input
-                    type="text"
-                    class="form-control k_inp_field"
-                    placeholder="Company"
-                    @blur="v$.carreerForm.company.$touch"
-                    v-model.trim="carreerForm.company"
-                    :class="{
-                      'is-invalid': v$.carreerForm.company.$error,
-                    }"
-                  />
-                  <div
-                    v-if="v$.carreerForm.company.$error"
-                    class="invalid-feedback text-left"
+                  <button
+                    @click="removeForm(idx)"
+                    class="btn-danger btn-set btn"
                   >
-                    <span
-                      v-if="v$.carreerForm.company.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Company is required
-                    </span>
-                  </div>
+                    Remove
+                  </button>
                 </div>
-
-                <div class="k_form_group k_select_single">
-                  <Multiselect
-                    placeholder="Industry"
-                    class="form-control k_inp_field"
-                    :options="industryLists"
-                    rules="required"
-                    @blur="v$.carreerForm.industry.$touch"
-                    v-model="carreerForm.industry"
-                    :class="{
-                      'is-invalid': v$.carreerForm.industry.$error,
-                    }"
-                  />
-                  <div
-                    v-if="v$.carreerForm.industry.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.carreerForm.industry.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Industry is required
-                    </span>
-                  </div>
-                </div>
-
-                <div class="k_form_group k_select_single">
-                  <!-- :disabled="isInvitedDepartments" -->
-                  <Multiselect
-                    placeholder="Department"
-                    mode="tags"
-                    :closeOnSelect="false"
-                    :searchable="true"
-                    :createTag="true"
-                    class="form-control k_inp_field"
-                    rules="required"
-                    :options="departmentLists"
-                    @blur="v$.carreerForm.department.$touch"
-                    v-model="carreerForm.department"
-                    :class="{
-                      'is-invalid': v$.carreerForm.department.$error,
-                    }"
-                  />
-                  <div
-                    v-if="v$.carreerForm.department.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.carreerForm.department.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Department is required
-                    </span>
-                  </div>
-                </div>
-                <div class="k_form_group">
-                  <input
-                    type="text"
-                    class="form-control k_inp_field"
-                    placeholder="Position"
-                    @blur="v$.carreerForm.position.$touch"
-                    v-model.trim="carreerForm.position"
-                    :class="{
-                      'is-invalid': v$.carreerForm.position.$error,
-                    }"
-                  />
-                  <div
-                    v-if="v$.carreerForm.position.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.carreerForm.position.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Position is required
-                    </span>
-                  </div>
-                </div>
-                <div class="k_form_group k_select_single">
-                  <Multiselect
-                    placeholder="Seniority Level"
-                    class="form-control k_inp_field"
-                    rules="required"
-                    :options="seniorityLevels"
-                    @blur="v$.carreerForm.seniority_level.$touch"
-                    v-model="carreerForm.seniority_level"
-                    :class="{
-                      'is-invalid': v$.carreerForm.seniority_level.$error,
-                    }"
-                  />
-                  <div
-                    v-if="v$.carreerForm.seniority_level.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.carreerForm.seniority_level.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Seniority level is required
-                    </span>
-                  </div>
-                </div>
-                <div class="k_form_group row">
-                  <div class="col-lg-6">
-                    <div class="k_form_group position-relative">
-                      <label for="" class="date_label">{{
-                        $t("projects.project_form.placeholder.from")
-                      }}</label>
-                      <Datepicker
-                        class="project_date_picker custom_label"
-                        v-model="date"
-                        placeholder="dd/mm/yyyy"
-                      ></Datepicker>
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="k_form_group position-relative">
-                      <label for="" class="date_label">{{
-                        $t("projects.project_form.placeholder.to")
-                      }}</label>
-                      <Datepicker
-                        class="project_date_picker custom_label"
-                        placeholder="dd/mm/yyyy"
-                      ></Datepicker>
-                    </div>
-                  </div>
-                </div>
+                <career-form
+                  v-if="multifrom"
+                  :ref="'childCareer' + idx"
+                  @addNewCareer="isCareerFilled"
+                  :className="'col-lg-12'"
+                  :myCareer="career"
+                  :departments="departments"
+                  :industries="industry"
+                  :seniority="seniority_level"
+                />
               </div>
               <div class="">
                 <button
+                  type="button"
                   @click="addMoreCareerInformation"
                   class="btn_add_multiple btn-transaprent"
                 >
@@ -199,9 +73,16 @@
         </div>
         <div class="modal-footer invite_modal_footer">
           <button
+            @click="saveData"
+            type="button"
+            class="btn btn-primary btn-set"
+          >
+            Done
+          </button>
+          <button
+            @click="resetCareer"
             type="button"
             class="btn btn-light btn-set"
-            data-bs-dismiss="modal"
           >
             Cancel
           </button>
@@ -213,18 +94,34 @@
 
 <script>
 import { Modal } from "bootstrap";
-import Multiselect from "@vueform/multiselect";
-import Datepicker from "vue3-date-time-picker";
+// import Multiselect from "@vueform/multiselect";
+// import Datepicker from "vue3-date-time-picker";
 import "vue3-date-time-picker/dist/main.css";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+import CareerForm from "../../views/Auth/CareerForm.vue";
 export default {
+  props: {
+    departments: {
+      required: true,
+      type: Array,
+    },
+    industry: {
+      required: true,
+      type: Array,
+    },
+    seniority_level: {
+      required: true,
+      type: Array,
+    },
+  },
   data() {
     return {
       modal: null,
       from: "From",
       to: "To",
-      date: new Date(),
+      multifrom: false,
+      newAddedCareer: [],
       invitation_id: undefined,
       carreerForm: [
         {
@@ -232,14 +129,15 @@ export default {
           position: "",
           industry: "",
           seniority_level: "",
-          department: "",
+          department: [],
         },
       ],
     };
   },
   components: {
-    Multiselect,
-    Datepicker,
+    CareerForm,
+    // Multiselect,
+    // Datepicker,
   },
   validations: {
     carreerForm: {
@@ -262,15 +160,58 @@ export default {
     closeModal() {
       this.modal.hide();
     },
+    resetCareer() {
+      this.v$.$reset();
+      this.carreerForm = {
+        company: "",
+        position: "",
+        industry: null,
+        invitation_id: null,
+        seniority_level: null,
+        department: [],
+      };
+      this.modal.hide();
+    },
     addMultipleCareer() {
+      this.newAddedCareer = [];
       this.modal.show();
+      this.multifrom = true;
+    },
+    isCareerFilled(value) {
+      if (value && Object.keys(value).length != 0) {
+        this.newAddedCareer.push(value.newCareer);
+        console.log("career array ", this.newAddedCareer);
+      }
+    },
+    removeForm(id) {
+      console.log(id);
+      console.log(
+        this.carreerForm,
+        this.carreerForm.splice(id, 1),
+        this.carreerForm
+      );
+    },
+    saveData() {
+      this.v$.$touch();
+      let data = [];
+      this.carreerForm.forEach((val, indx) => {
+        this.$refs["childCareer" + indx].validateForm();
+        // console.log(this.$refs["childCareer" + indx], val, indx);
+        data.push(val);
+      });
+      this.$emit("multiCareer", {
+        newCareer: data,
+      });
+      this.modal.hide();
+      // if (!this.v$.$invalid) {
+      // }
     },
     addMoreCareerInformation() {
       this.carreerForm.push({
         company: "",
         position: "",
         industry: "",
-        department: "",
+        department: [],
         seniority_level: "",
       });
       console.log("add more", this.carreerForm);

@@ -2,12 +2,11 @@ import axios from "axios";
 import nProgress from "nprogress";
 
 const languages = { en: "english", de: "german" };
-const apiToken =
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoicmFnaHZlbmRyYSIsIm5hbWUiOiJjaGF5dWRoYXJ5IiwiQVBJX1RJTUUiOjE2MzIyMTY1MDN9.xQCikbSWKG8_xfIOMsZ7puyXcmhj3Y9Vg7nNT4C26gI";
+// const apiToken = process.env.VUE_API_KEY;
 const instance = axios.create({
-  baseURL: "https://zonvoirdemo.in/codecadda/api/",
+  baseURL: process.env.VUE_APP_API_URL,
   headers: {
-    authtoken: apiToken,
+    authtoken: process.env.VUE_APP_API_KEY,
     "Content-type": "application/json",
     // company: localStorage.getItem("selected_company"),
     // year: localStorage.getItem("selected_year"),
