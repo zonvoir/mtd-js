@@ -55,7 +55,7 @@ import QuestionHint from "../views/Questionnarie/components/QuestionHint.vue";
 import nProgress from "nprogress";
 import { loadLocaleMessages, setI18nLanguage, setupI18n } from "../i18n";
 import CommonService from "../Services/CommonService";
-import CompanyService from "../Services/Company/CompanyService";
+// import CompanyService from "../Services/Company/CompanyService";
 
 const locale = localStorage.getItem("language") || "en";
 const i18n = setupI18n({
@@ -93,19 +93,25 @@ function guardMyroute(to, from, next) {
           invitedUserData.invitation_id != undefined &&
           invitedUserData.invitation_id != ""
         ) {
-          CompanyService.acceptInvitation({
-            auth_token: user.auth_token,
-            invitation_id: invitedUserData.invitation_id,
-          }).then((res) => {
-            if (res.data.status) {
-              console.log("invitainon ", res.data);
-              localStorage.removeItem("bWFInpvitedbpbUser");
-              next({ name: "Dashboard" });
-            } else {
-              console.log("there is some error in in invitaion acceptance");
-              next({ name: "signup-signin" });
-            }
-          });
+          console.log(
+            "career acceptqance kkk",
+            user.auth_token,
+            +invitedUserData.invitation_id
+          );
+
+          // CompanyService.acceptInvitation({
+          //   auth_token: user.auth_token,
+          //   invitation_id: invitedUserData.invitation_id,
+          // }).then((res) => {
+          //   if (res.data.status) {
+          //     console.log("invitainon ", res.data);
+          //     localStorage.removeItem("bWFInpvitedbpbUser");
+          //     next({ name: "Dashboard" });
+          //   } else {
+          //     console.log("there is some error in in invitaion acceptance");
+          //     next({ name: "signup-signin" });
+          //   }
+          // });
         }
       }
     );
@@ -117,12 +123,12 @@ function guardMyroute(to, from, next) {
     if (user.is_career_information_setup && user.is_company_setup) {
       next(); // go to '/login';
     } else {
+      console.log("careeer is not setup now");
       next({ name: "signup-career" });
     }
     // next();
   }
 }
-
 // check if user login then sign-up related page not show
 function loginGaurd(to, from, next) {
   var isAuthenticated = true;
@@ -140,12 +146,13 @@ function loginGaurd(to, from, next) {
     isAuthenticated = true;
   }
   if (isAuthenticated) {
-    if (user.is_career_information_setup && user.is_company_setup) {
-      next({ name: "Dashboard", query: to.query }); // go to '/login';
-    } else {
-      next();
-    }
-  } else {
+    // no need to go for accept invitation on dashboard
+    //   if (user.is_career_information_setup && user.is_company_setup) {
+    //     next({ name: "Dashboard", query: to.query }); // go to '/login';
+    //   } else {
+    //     next();
+    //   }
+    // } else {
     next();
   }
 }

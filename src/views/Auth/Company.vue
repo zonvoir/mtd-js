@@ -306,6 +306,7 @@
                   <select
                     class="form-control k_inp_field"
                     @blur="v$.companyForm.country.$touch"
+                    @change="onChangeCountry"
                     v-model="companyForm.country"
                     :class="{
                       'is-invalid': v$.companyForm.country.$error,
@@ -367,46 +368,39 @@
               </div>
               <div class="col-lg-6">
                 <div class="wrap_phone_inp">
-                  <div class="k_form_group codes_select k_select_single">
-                    <Multiselect
-                      v-model="value"
-                      label="name"
-                      class="form-control country_codes"
-                      :options="countryCodes"
-                    >
-                      <template v-slot:singlelabel="{ value }">
-                        <div class="multiselect-single-label">
-                          <img
-                            class="character-label-icon country_flag p-r-10"
-                            :src="value.icon"
-                          />
-                          {{ value.icon }}
-                        </div>
-                      </template>
-
-                      <template v-slot:option="{ option }">
-                        <img
-                          class="character-option-icon country_flag p-r-10"
-                          :src="option.icon"
-                        />
-                      </template>
-                    </Multiselect>
-                  </div>
                   <div class="k_form_group k_inp_number phone_field">
+                    <div class="country_flag_wrap">
+                      <img
+                        v-if="country_flag"
+                        :src="country_flag"
+                        class="country_flag"
+                        alt=""
+                      />
+                    </div>
+                    <div class="country_code_wrap">
+                      <!-- <input type="text" :value="country_code" readonly /> -->
+                      <span v-if="country_code" class="country_code_val"
+                        >(+{{ country_code }})</span
+                      >
+                      <span v-else class="country_code_val">(+ 91 )</span>
+                    </div>
                     <input
-                      type="text"
+                      type="number"
+                      maxlength="10"
+                      minlength="10"
                       @keypress="isNumber"
                       class="form-control shift_number k_inp_field"
-                      placeholder="Phone No."
-                      maxlength="13"
-                      minlength="10"
+                      :placeholder="
+                        $t(
+                          'company_profile.company_tab.company_setup_update.form.placeholder.phone_no'
+                        )
+                      "
                       @blur="v$.companyForm.phonenumber.$touch"
                       v-model="companyForm.phonenumber"
                       :class="{
                         'is-invalid': v$.companyForm.phonenumber.$error,
                       }"
                     />
-
                     <div
                       v-if="v$.companyForm.phonenumber.$error"
                       class="invalid-feedback text-left"
@@ -416,6 +410,22 @@
                         class="text-left fs-14"
                       >
                         Phone number is required
+                      </span>
+                      <span
+                        v-if="
+                          v$.companyForm.phonenumber.maxLengthValue.$invalid
+                        "
+                        class="text-left fs-14"
+                      >
+                        Phone Number must be 10 digit
+                      </span>
+                      <span
+                        v-if="
+                          v$.companyForm.phonenumber.minLengthValue.$invalid
+                        "
+                        class="text-left fs-14"
+                      >
+                        Phone Number at lest 10 digit
                       </span>
                     </div>
                   </div>
@@ -635,7 +645,7 @@
 </template>
 
 <script>
-import { required } from "@vuelidate/validators";
+import { required, numeric, minLength, maxLength } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import Multiselect from "@vueform/multiselect";
 import CommonService from "../../Services/CommonService";
@@ -653,6 +663,9 @@ export default {
     return {
       valiImage: true,
       isSubmitted: false,
+      country_flag: "",
+      country_code: undefined,
+      codeWithNumber: "",
       numberPattern: /[0-9]/,
       defaultImg: "icons/cloud-upload.svg",
       staffData:
@@ -684,6 +697,7 @@ export default {
         company: "",
         country: null,
         main_industry: null,
+        country_code: "",
         sub_industry: null,
         corporation_legal_form: null,
         company_role: null,
@@ -706,7 +720,6 @@ export default {
       this.modal.show();
     }
   },
-  beforeCreate() {},
   created() {
     if (
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
@@ -727,7 +740,7 @@ export default {
       //   localStorage.getItem("bWFpbCI6Inpvb") == null ||
       //   localStorage.getItem("bWFpbCI6Inpvb") == ""
       // ) {
-      //   this.$router.push({ name: "signup-signin" });
+      this.$router.push({ name: "signup-signin" });
       // }
     }
 
@@ -748,7 +761,12 @@ export default {
       companyForm: {
         company: { required },
         country: { required },
-        phonenumber: { required },
+        phonenumber: {
+          required,
+          numeric,
+          maxLengthValue: maxLength(15),
+          minLengthValue: minLength(10),
+        },
         main_industry: { required },
         sub_industry: { required },
         detailed_industry: { required },
@@ -777,6 +795,15 @@ export default {
         return;
       } else {
         this.companyForm.auth_token = this.staffData.auth_token;
+        this.companyForm.country_code = this.country_code;
+        // if (this.companyForm.phonenumber && this.country_code) {
+        //   this.codeWithNumber =
+        //     "(+" + this.country_code + ")" + this.companyForm.phonenumber;
+        // }
+        // let data = {
+        //   ...this.companyForm,
+        // };
+        // data.phonenumber = this.codeWithNumber;
         console.log("company data", this.companyForm);
         this.isSubmitted = true;
         SignupService.setUpCompany(this.companyForm)
@@ -803,8 +830,9 @@ export default {
     },
     formReset() {
       this.v$.$reset();
+      this.country_flag = "";
+      this.country_code = "";
       this.companyForm = {
-        auth_token: "",
         company: "",
         country: null,
         main_industry: null,
@@ -812,6 +840,7 @@ export default {
         corporation_legal_form: null,
         company_role: null,
         region: null,
+        phonenumber: "",
         incorporation_year: null,
         client_logo: "",
         detailed_industry: null,
@@ -1029,6 +1058,7 @@ export default {
           auth_token: this.staffData.auth_token,
         }).then((resp) => {
           if (resp.data.status) {
+            console.log("chack for company is setup or not");
             this.$router.push({ name: "Dashboard" });
           }
         });
@@ -1054,11 +1084,63 @@ export default {
         }
       });
     },
+    onChangeCountry() {
+      console.log("Detail Industry", this.companyForm.country);
+      this.selectedCountryCode(+this.companyForm.country);
+    },
+    selectedCountryCode(id) {
+      console.log("get country id", id);
+      CommonService.getCountryCode({ country_id: id }).then((resp) => {
+        if (resp.data.status) {
+          this.country_flag = resp.data.data.image;
+          this.country_code = resp.data.data.code;
+          console.log(
+            "country codes and flags",
+            this.country_flag,
+            this.country_code
+          );
+        } else {
+          // this.countryLists = [
+          //   { value: 0, label: "No record found", disabled: true },
+          // ];
+        }
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.country_flag {
+  width: 30px;
+  position: relative;
+  top: 20%;
+  left: 14%;
+}
+.country_code_wrap {
+  position: relative;
+  top: 10px;
+  left: 20px;
+  background: transparent !important;
+}
+.country_code_val {
+  font-style: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 17%;
+  left: 7%;
+}
+.country_flag_wrap {
+  position: absolute;
+  top: -3px;
+  left: -4px;
+  background: #edf1f7 !important;
+  border-radius: 4px;
+  width: 40px;
+  height: 46px;
+}
 .confidencil_msg_body {
   background: linear-gradient(
     180deg,
@@ -1098,7 +1180,7 @@ export default {
   .phone_field {
     width: 100%;
     .shift_number {
-      padding-left: 90px !important;
+      padding-left: 6.8rem !important;
     }
   }
   .codes_select {

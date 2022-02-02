@@ -159,7 +159,7 @@ export default {
           auth_token: this.staffInfo.auth_token,
           invitation_id: +this.invitedStaffInfo.invitation_id,
         };
-        console.log("enter in invitaion acceptance");
+        console.log("enter in invitaion acceptance", data);
         CompanyService.acceptInvitation(data).then((res) => {
           if (res.data.status) {
             console.log("invitainon response ", res.data);

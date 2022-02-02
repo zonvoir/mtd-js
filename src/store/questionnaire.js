@@ -33,7 +33,6 @@ export default createStore({
       state.activeYear = values;
     },
     setStaffsDepartment(state, values) {
-      console.log("users Departments By role Id", values);
       state.staffsDepartment = values;
     },
     setActiveCompany(state, company) {
@@ -106,7 +105,7 @@ export default createStore({
     async getCompanyMembers(context, val) {
       context.commit("setCompanyMembers", val);
     },
-    async getStaffsDepartment(context, val) {
+    async GET_STAFFS_DEPARTMENT(context, val) {
       context.commit("setStaffsDepartment", val);
     },
     async getStaffsCompanies(context, val) {

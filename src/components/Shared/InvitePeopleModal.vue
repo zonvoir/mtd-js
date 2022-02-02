@@ -46,7 +46,7 @@ import InvitationRole from "../Shared/InvitationARole.vue";
 import { Modal } from "bootstrap";
 import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
-// import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -62,11 +62,11 @@ export default {
   mounted() {
     this.modal = new Modal(this.$refs.invitationModal);
   },
-  // computed: {
-  //   ...mapGetters({
-  //     // allDepartments: "staffsDepartment",
-  //   }),
-  // },
+  computed: {
+    ...mapGetters({
+      allDepartments: "staffsDepartment",
+    }),
+  },
   // watch: {
   //   allDepartments: function () {
   //     this.departmentLists = [...new Set(this.allDepartments)];
@@ -83,6 +83,9 @@ export default {
   //     this.getInvitaionPeopleListByRole();
   //   }
   // },
+  // created(){
+  //   this.departmentLists =allDepartments;
+  // },
   methods: {
     invitePeople() {
       console.log(
@@ -94,7 +97,8 @@ export default {
       // this.staffInfo != undefined ||
       // this.staffInfo != ""
       if (this.staffInfo && Object.keys(this.staffInfo).length != 0) {
-        this.departmentByStaffId();
+        this.departmentLists = this.allDepartments;
+        // this.departmentByStaffId();
         this.getInvitaionPeopleListByRole();
       }
     },

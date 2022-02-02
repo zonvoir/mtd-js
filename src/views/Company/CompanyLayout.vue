@@ -18,28 +18,12 @@
           <TabsHr :tabs="tablist" @changeTitle="ChangeT($event)" />
         </div>
         <div v-if="ownRole != 1" class="">
-          <CareerInformationModal>
+          <InvitePeopleModal>
             <template v-slot:invite-button>
-              <span>
-                Add Carreer Information<img
-                  src="K_Icons/info_gray_24dp.svg"
-                  class="m-l-4"
-                  alt=""
-              /></span>
+              {{ $t("overview_index.buttons.invite_people") }}
             </template>
-          </CareerInformationModal>
-          <!-- <InvitePeopleModal>
-            
-          </InvitePeopleModal> -->
+          </InvitePeopleModal>
         </div>
-        <!-- <div class="invite_btn_wrap">
-          <button
-            @click="invitePeople"
-            class="btn-primary btn text-uppercase k_btnfs14_w700"
-          >
-            {{ $t("company_profile.buttons.invite_members") }}
-          </button>
-        </div> -->
       </div>
       <!-- tabs end -->
       <div class="overview_container">
@@ -72,8 +56,8 @@ const tablist = [
 ];
 import TabsHr from "../../components/Shared/TabsHr.vue";
 import searchIcon from "../../../public/icons/search.svg";
-// import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
-import CareerInformationModal from "../../components/Shared/CareerInformationModal.vue";
+import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
+// import CareerInformationModal from "../../components/Shared/CareerInformationModal.vue";
 import { mapGetters } from "vuex";
 import companyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
@@ -90,8 +74,8 @@ export default {
   },
   components: {
     TabsHr,
-    // InvitePeopleModal,
-    CareerInformationModal,
+    InvitePeopleModal,
+    // CareerInformationModal,
   },
   computed: {
     ...mapGetters({
@@ -100,15 +84,16 @@ export default {
       ownRole: "roleInCompany",
     }),
   },
-  watch: {
-    allDepartments: function () {
-      this.departmentLists = this.allDepartments;
-    },
-  },
+  // watch: {
+  //   allDepartments: function () {
+  //     this.departmentLists = this.allDepartments;
+  //   },
+  // },
   created() {
     this.departmentLists = this.allDepartments;
     if (this.staffInfo != null) {
-      this.departmentByStaffId();
+      this.departmentLists = this.allDepartments;
+      // this.departmentByStaffId();
     }
   },
   methods: {
@@ -129,7 +114,7 @@ export default {
               this.departmentLists.push(dept);
             }
             console.log("all departments of role id", this.departmentLists);
-            this.$store.dispatch("getStaffsDepartment", this.departmentLists);
+            this.$store.dispatch("GET_STAFFS_DEPARTMENT", this.departmentLists);
           } else {
             errorhandler(res, this);
             // let $th = this;

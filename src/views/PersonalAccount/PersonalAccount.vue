@@ -539,17 +539,6 @@
                         <span class="att_val">{{
                           formatDepartments(career.department_list)
                         }}</span>
-                        <!-- <template
-                          v-for="(departments, i) in career.department"
-                          :key="departments.departmentid"
-                        >
-                          <span class="att_val"
-                            >{{ departments.name }}
-                            <span v-if="i != career.department.length - 1"
-                              >,</span
-                            ></span
-                          >
-                        </template> -->
                       </div>
                     </div>
                   </div>
@@ -874,6 +863,7 @@ export default {
     },
     upadateCareer(id, c) {
       this.toggleUpdate = false;
+      this.addCareer = false;
       console.log(c);
       this.careerInfo.push(id);
     },
@@ -900,6 +890,7 @@ export default {
       this.addCareer = true;
       this.v$.$touch();
       if (!this.v$.$invalid) {
+        this.careerInfo = [];
         this.$refs.childCareer.validateForm();
         this.careersList.push({
           company: "",
@@ -1103,9 +1094,8 @@ export default {
   .career_info_container {
     display: flex;
     align-items: center;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #edf1f7;
-    padding-top: 20px;
+    // border-bottom: 1px solid #edf1f7 !important;
+    padding: 10px 0px;
     &:first-child {
       padding-top: 0px;
     }

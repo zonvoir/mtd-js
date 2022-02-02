@@ -38,7 +38,6 @@
         />
       </div>
     </div>
-
     <div class="right-header">
       <!-- profile section -->
       <div class="profile-pic-conatiner">
@@ -125,6 +124,7 @@ export default {
     },
   },
   created() {
+    this.changeYear();
     // this.currentYear = "" + new Date().getFullYear();
     if (
       this.staffInfo != null &&
@@ -134,7 +134,6 @@ export default {
       this.getAllCompanies();
       this.getStaffDetails();
     }
-    this.changeYear();
     // console.log("current Year", this.currentYear);
   },
   methods: {
@@ -143,7 +142,6 @@ export default {
         .getPersonalDetails({ auth_token: this.staffInfo.auth_token })
         .then((res) => {
           if (res.data.status) {
-            console.log("pesonal data", res.data.data);
             this.$store.dispatch("getPersonalInfo", res.data.data);
           } else {
             errorhandler(res, this);
@@ -158,7 +156,6 @@ export default {
         .companiesList({ auth_token: this.staffInfo.auth_token })
         .then((res) => {
           if (res.data.status) {
-            console.log("companies List ", res.data.data);
             this.$store.dispatch("getStaffsCompanies", res.data.data);
             let defCompany = 0;
             for (const company of res.data.data) {
@@ -181,10 +178,9 @@ export default {
         });
     },
     changeCompany() {
-      console.log("Active Company", this.example8.value);
       localStorage.setItem("selected_company", this.example8.value);
       this.$store.dispatch("getActiveCompany", this.example8.value);
-      this.$router.push({ name: "Dashboard" });
+      // this.$router.push({ name: "Dashboard" });
       this.getAllMemberList(this.example8.value);
     },
     getAllMemberList(companyId) {
@@ -217,8 +213,8 @@ export default {
         };
         departmentAssignedToStaff.push(dept);
       });
-      console.log("All Departments", departmentAssignedToStaff);
-      this.$store.dispatch("getStaffsDepartment", departmentAssignedToStaff);
+      // this.$store.dispatch("getStaffsDepartment", departmentAssignedToStaff);
+      this.$store.dispatch("GET_STAFFS_DEPARTMENT", departmentAssignedToStaff);
     },
     changeYear() {
       companyService.getYears().then((res) => {
@@ -230,7 +226,7 @@ export default {
       });
       localStorage.setItem("selected_year", this.currentYear);
       this.$store.dispatch("getYear", this.currentYear);
-      this.$router.push({ name: "Dashboard" });
+      // this.$router.push({ name: "Dashboard" });
     },
 
     personalProfile() {
@@ -240,7 +236,6 @@ export default {
       console.log("profile Page", this.currentPage);
     },
     onLogout() {
-      console.log("Logout successfully");
       localStorage.removeItem("bWFpbCI6Inpvb");
       this.$router.push({ name: "signup-signin" });
     },

@@ -39,6 +39,8 @@ export default {
 }
 .error_message_wrapper {
   position: absolute;
+  text-align: center;
+
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -61,6 +63,8 @@ export default {
   font-weight: 600;
   font-size: 8rem;
   margin-bottom: 0;
+  margin-bottom: 2rem;
+
   color: #222b45;
 }
 .gap {

@@ -51,12 +51,13 @@ export default {
       let data = { auth_token: this.authToken };
       console.log("get departments", data);
       this.$store.dispatch("SET_DEPARTMENTS", data);
-      CommonService.getAllDepartments(data).then((res) => {
+      CommonService.getExtendedDepartments(data).then((res) => {
         if (res.data.status) {
-          this.departmentLists = res.data.data.filter(function (depts) {
-            return depts.is_default === "0";
-          });
-          console.log("dept_list", this.departmentLists);
+          this.departmentLists = res.data.data;
+          // .filter(function (depts) {
+          //   return depts.is_default === "0";
+          // });
+          console.log("dept_list kk", this.departmentLists);
         } else {
           errorhandler(res, this);
         }

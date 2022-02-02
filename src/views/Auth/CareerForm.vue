@@ -1,35 +1,56 @@
 <template>
   <div :class="className">
+    <!-- <Select2
+      v-model="myValue"
+      :options="myOptions"
+      :settings="{ settingOption: value, settingOption: value }"
+      @change="myChangeEvent($event)"
+      @select="mySelectEvent($event)"
+    /> -->
     <div class="k_form_group">
-      <input
-        type="text"
-        class="form-control k_inp_field"
-        placeholder="Company"
-        @blur="v$.careerForm.company.$touch"
-        v-model.trim="careerForm.company"
-        :class="{
-          'is-invalid': v$.careerForm.company.$error,
-        }"
-      />
-      <div
-        v-if="v$.careerForm.company.$error"
-        class="invalid-feedback text-left"
-      >
-        <span
-          v-if="v$.careerForm.company.required.$invalid"
-          class="text-left fs-14"
+      <div class="">
+        <input
+          type="text"
+          class="form-control k_inp_field"
+          placeholder="Company name"
+          @blur="v$.careerForm.company.$touch"
+          v-model.trim="careerForm.company"
+          :class="{
+            'is-invalid': v$.careerForm.company.$error,
+          }"
+        />
+        <div
+          v-if="v$.careerForm.company.$error"
+          class="invalid-feedback text-left"
         >
-          Company is required
-        </span>
+          <span
+            v-if="v$.careerForm.company.required.$invalid"
+            class="text-left fs-14"
+          >
+            Company is required
+          </span>
+        </div>
       </div>
+      <!-- <div class="custom_select2">
+        <BaseSelect2 />
+      </div> -->
     </div>
   </div>
   <div :class="className">
     <div class="k_form_group k_select_single">
+      <!--         :options="async function(query) {
+    return await fetchDepartments(query) // check JS block in JSFiddle for implementation
+  }" -->
       <Multiselect
         placeholder="Industry"
         class="form-control k_inp_field"
         rules="required"
+        :close-on-select="false"
+        :filter-results="false"
+        :min-chars="1"
+        :resolve-on-load="false"
+        :delay="0"
+        :searchable="true"
         :options="industries"
         @blur="v$.careerForm.industry.$touch"
         v-model="careerForm.industry"
@@ -197,9 +218,11 @@ import Datepicker from "vue3-date-time-picker";
 import Multiselect from "@vueform/multiselect";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-// import { getDepartemntsValue } from "../../utils/DepartmentModify";
+// import Select2 from "vue3-select2-component";
 import { formatDate } from "../../utils/FormatDate";
+// import BaseSelect2 from "../../components/Shared/AsyncSearch.vue";
 export default {
+  emits: ["addNewCareer"],
   props: {
     className: {
       required: true,
@@ -229,6 +252,8 @@ export default {
       fromDate: "From",
       toDate: "To",
       isValid: undefined,
+      myOptions: ["India", "France"],
+      myValue: "uservalue",
       date: new Date(),
       careerForm: this.myCareer,
       // careerForm: {
@@ -240,10 +265,6 @@ export default {
       // },
     };
   },
-  // created() {
-  //   console.log("vis", this.myCareer);
-  // },
-
   validations: {
     careerForm: {
       company: { required },
@@ -255,6 +276,7 @@ export default {
       seniority_level: { required },
     },
   },
+
   setup() {
     return {
       v$: useVuelidate(),
@@ -262,10 +284,19 @@ export default {
   },
   components: {
     Datepicker,
+    // Select2,
+    // BaseSelect2,
     Multiselect,
   },
-
+  updated() {
+    this.careerForm = this.myCareer;
+    console.log("props", this.myCareer);
+    console.log("staff career form  page mounted", this.myCareer);
+  },
   methods: {
+    // mySelectEvent({ id, text }) {
+    //   console.log("id", { id, text });
+    // },
     validateForm() {
       if (!this.v$.$invalid) {
         this.isValid = true;
@@ -275,12 +306,24 @@ export default {
           isvalid: this.isValid,
           newCareer: this.careerForm,
         });
+
+        return true;
+      } else {
+        return false;
       }
     },
   },
 };
 </script>
 <style lang="scss" scoped>
+.custom_select2 {
+  position: relative;
+  z-index: 99;
+  height: 3rem;
+  top: 10px;
+  left: 0;
+  right: 0;
+}
 .invalid_error {
   outline: 3px solid #db2c66 !important;
   &:focus {

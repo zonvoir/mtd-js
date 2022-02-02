@@ -16,6 +16,15 @@ class CommonService {
   getAllDepartments() {
     return http.get("lists/department");
   }
+  //get All deparartments
+  getExtendedDepartments(token) {
+    return http.post("lists/extended_departments", token, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
   // getAllDepartments(data) {
   //   return http.post("lists/department", data, {
   //     headers: {

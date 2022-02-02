@@ -19,7 +19,11 @@ class SignupService {
   updateCareerInformation(data) {
     return http.post(`staffs/career_info`, data);
   }
-
+  // get career by invitation Id
+  getInvitedCareerData(data) {
+    return http.post("staffs/invitation_detail", data);
+  }
+  // check is career is setup or not
   checkCareerInfo(data) {
     return http.post(`staffs/is_career_information_setup`, data);
   }

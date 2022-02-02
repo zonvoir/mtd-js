@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="modal-body invitaion_body">
-          <div class="team_wrapper m-b-20">
+          <!-- <div class="team_wrapper m-b-20">
             <div class="m-b-12">
               <p class="staff_desc">
                 Simply dummy text of the printing and typesetting industry.
@@ -27,8 +27,9 @@
                 created.It has been the industry's standard dummy text.
               </p>
             </div>
-          </div>
+          </div> -->
           <!-- career form start here -->
+
           <div class="from_container">
             <form @submit.prevent="saveCarreerInfo" action="">
               <div v-for="(career, idx) in carreerForm" :key="idx" class="">
@@ -49,8 +50,8 @@
                   </button>
                 </div>
                 <career-form
-                  v-if="multifrom"
                   :ref="'childCareer' + idx"
+                  @isFormValid="checkFormValidation"
                   @addNewCareer="isCareerFilled"
                   :className="'col-lg-12'"
                   :myCareer="career"
@@ -101,6 +102,7 @@ import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import CareerForm from "../../views/Auth/CareerForm.vue";
 export default {
+  emits: ["multiCareer"],
   props: {
     departments: {
       required: true,
@@ -120,6 +122,7 @@ export default {
       modal: null,
       from: "From",
       to: "To",
+      // emitedValidation: undefined,
       multifrom: false,
       newAddedCareer: [],
       invitation_id: undefined,
@@ -172,6 +175,9 @@ export default {
       };
       this.modal.hide();
     },
+    // checkFormValidation(value) {
+    //   this.emitedValidation = value;
+    // },
     addMultipleCareer() {
       this.newAddedCareer = [];
       this.modal.show();
@@ -194,15 +200,22 @@ export default {
     saveData() {
       this.v$.$touch();
       let data = [];
+      let dataResp = [];
       this.carreerForm.forEach((val, indx) => {
-        this.$refs["childCareer" + indx].validateForm();
+        dataResp[indx] = this.$refs["childCareer" + indx].validateForm();
+
+        console.log(dataResp);
         // console.log(this.$refs["childCareer" + indx], val, indx);
         data.push(val);
       });
-      this.$emit("multiCareer", {
-        newCareer: data,
-      });
-      this.modal.hide();
+
+      if (!dataResp.includes(false)) {
+        this.$emit("multiCareer", {
+          newCareer: data,
+        });
+        this.multifrom = false;
+        this.modal.hide();
+      }
       // if (!this.v$.$invalid) {
       // }
     },

@@ -48,6 +48,7 @@ export default {
           this.$refs.otpboxes
             .getElementsByTagName("input")
             [ev.target.dataset.index - 1].focus();
+          console.log(this.v);
           if (this.validateOtp(this.v)) {
             ev.preventDefault();
             return false;
@@ -56,10 +57,12 @@ export default {
       } else {
         if (this.validateOtp(this.v)) {
           ev.preventDefault();
-          this.v[ev.target.dataset.index] = undefined;
-          return false;
+          console.log("vishal", this.v, ev.target.dataset.index);
+          // this.v[ev.target.dataset.index] = undefined;
+          // return false;
         }
         if (ev.target.dataset.index < this.v.length - 1) {
+          console.log("vish", this.v, +ev.target.dataset.index + 1);
           this.$refs.otpboxes
             .getElementsByTagName("input")
             [+ev.target.dataset.index + 1].focus();
@@ -104,6 +107,8 @@ export default {
         errors.push(rule.test(val));
       });
 
+      console.log(errors);
+
       if (errors.includes(false) || errors.length != this.counters) {
         this.validated = false;
         this.msg["otp"] = this.validateMsg
@@ -127,6 +132,7 @@ export default {
   margin: 10px;
   justify-content: center;
 }
+
 .single_num_inp {
   font-size: 24px;
   font-weight: 600;

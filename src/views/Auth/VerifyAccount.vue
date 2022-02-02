@@ -19,7 +19,7 @@
       <div class="form-wrapper">
         <form @submit.prevent="OTPInput" action="">
           <div class="k_form_group">
-            <div>
+            <div class="text_center">
               <CustomOtp
                 :classesName="'k_inp_field single_num_inp'"
                 :counters="6"
@@ -147,10 +147,16 @@ export default {
     // if (this.invitedUserData && Object.keys(this.invitedUserData).length != 0) {
     //   this.isInvitedUser();
     // }
-    if (this.invitedUserData && Object.keys(this.invitedUserData).length != 0) {
-      this.otpForm.invitation_id = this.invitedUserData.invitation_id;
+    if (
+      this.invitedUserData &&
+      Object.keys(this.invitedUserData).length != 0 &&
+      this.invitedUserData.invitation_id != ""
+    ) {
+      this.otpForm.invitation_id = +this.invitedUserData.invitation_id;
+      console.log("invitation id", +this.invitedUserData.invitation_id);
     }
   },
+
   created() {
     if (
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
@@ -161,9 +167,11 @@ export default {
     this.otpForm.email = this.logData;
     // this.OTPInput();
   },
+
   setup() {
     return {};
   },
+
   methods: {
     onChange() {
       console.log("change event");
@@ -263,6 +271,9 @@ export default {
 <style lang="scss" scoped>
 .modal_action_btn {
   padding: 0 16px 16px 16px;
+}
+.text_center {
+  text-align: center;
 }
 .space_btn_acc_ver {
   padding-top: 384px;

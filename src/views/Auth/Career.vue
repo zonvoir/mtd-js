@@ -4,9 +4,10 @@
       <div class="">
         <div class="">
           <div class="main-heading-wrap text-center">
-            <h2 class="main-heading">Career Information {{ v$.$invalid }}</h2>
+            <h2 class="main-heading">Career Information</h2>
           </div>
         </div>
+        {{ staffCareerForm }}
         <div class="form-wrapper">
           <form action="">
             <div class="row">
@@ -28,7 +29,9 @@
               :industry="industryLists"
               @multiCareer="saveModalData"
             >
+              <!-- :isOpen="openModal" -->
               <template v-slot:add-button-action="{ addCareer }">
+                <!-- disabled="openModal" -->
                 <button
                   class="btn_add_multiple btn-transaprent btn-transaprent"
                   @click="addCareer"
@@ -125,6 +128,8 @@ import useVuelidate from "@vuelidate/core";
 import CareerInformationModal from "../../components/Shared/CareerInformationModal";
 import SignupService from "../../Services/SignupService";
 import errorhandler from "../../utils/Error";
+import { getDepartemntsValue } from "../../utils/DepartmentModify";
+// import { getIndustryModified } from "../../utils/commonHelperFuntions";
 // import Datepicker from "vue3-date-time-picker";
 import CareerForm from "./CareerForm.vue";
 
@@ -138,8 +143,7 @@ export default {
   data() {
     return {
       value: null,
-      fromDate: "From",
-      toDate: "To",
+      openModal: false,
       staffCareeArr1: [],
       staffCareeArr2: [],
       careersList: [
@@ -191,7 +195,6 @@ export default {
       //   department: [],
       // },
       staffCareerForm: {
-        // career_info: [],
         // company: "",
         // position: "",
         // invitation_id: undefined,
@@ -203,11 +206,9 @@ export default {
       },
     };
   },
-  // watch:{
-  //   v$.$invalid:function() {
-
-  //   }
-  // },
+  mounted() {
+    console.log("staff career form career page ", this.staffCareerForm);
+  },
   created() {
     if (
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
@@ -229,12 +230,13 @@ export default {
       Object.keys(this.invitedUserData).length != 0 &&
       this.invitedUserData.invitation_id
     ) {
+      this.invitationId = +this.invitedUserData.invitation_id;
       this.invitedUser = true;
-      this.invitationId = this.invitedUserData.invitation_id;
-      console.log(
-        "checking for invited User Data",
-        this.staffCareerForm.invitation_id
-      );
+      let data = {
+        invitation_id: this.invitationId,
+      };
+      this.getInvitationDetails(data);
+      console.log("checking for invited User Data", data);
     } else {
       this.invitedUser = false;
       this.invitationId = "";
@@ -252,7 +254,7 @@ export default {
         auth_token: this.staffData.auth_token,
         invitation_id: this.invitationId ? +this.invitationId : "",
       };
-      console.log("checking for staff Data");
+      console.log("checking for staff Data", data);
       this.checkCareerSetup(data);
     } else {
       console.log("vishal from checkCareerSetup at career.....");
@@ -289,13 +291,10 @@ export default {
     //save carreer details
     saveCarreerInfo() {
       // this.staffCareerForm.auth_token = this.staffData.auth_token;
-      this.staffCareerForm.invitation_id = this.invitationId
-        ? +this.invitationId
-        : "";
       this.v$.$touch();
       this.$refs.moreCareer.validateForm();
       let newMerge;
-      if (this.staffCareeArr2.length > 0) {
+      if (this.staffCareeArr1.length > 0 && this.staffCareeArr2.length > 0) {
         newMerge = [...this.staffCareeArr1, ...this.staffCareeArr2];
         console.log("both array");
       } else {
@@ -305,23 +304,26 @@ export default {
       console.log("merged Arr", newMerge);
       let data = {
         auth_token: this.staffData.auth_token,
-        invitation_id: this.invitationId,
+        invitation_id: this.invitationId ? this.invitationId : "",
         career_info: newMerge,
       };
-      console.log("career array", data);
-
-      if (!this.v$.$invalid) {
+      console.log("career is empty", data["career_info"].length > 0);
+      if (
+        data &&
+        Object.keys(data).length !== 0 &&
+        data["career_info"].length > 0
+      ) {
         // return;
         // } else {
-        console.log("career from Data after updatedkk", this.staffCareerForm);
+        console.log("career from Data after updatedkk", data);
         this.isSubmitted = true;
         SignupService.updateCareerInformation(data)
           .then((response) => {
             if (response.data.status) {
               this.errorType = true;
-              console.log("fsdfadskkkkkkkk", response);
-              console.log("dispatch kk career info", response.data.data);
-              this.$store.dispatch("getPersonalInfo", response.data.data); //update personal information
+              console.log("career info", response.data.data.career_info);
+
+              // this.$store.dispatch("getPersonalInfo", response.data.data); new flow //update personal information
               this.$toast.success(response.data.message, {
                 position: "bottom-left",
                 duration: 3712,
@@ -339,6 +341,23 @@ export default {
           });
       }
     },
+    getInvitationDetails(data) {
+      SignupService.getInvitedCareerData(data).then((res) => {
+        if (res.data.status) {
+          console.log("get data by invitaition id", res.data.data);
+          this.staffCareerForm = {
+            company: res.data.data.company.company_name,
+            department: getDepartemntsValue(res.data.data.departments),
+            industry: res.data.data.industry.id,
+          };
+          // this.staffCareerForm = {
+          //   ...invitedDetails,
+          // };
+        } else {
+          errorhandler(res, this);
+        }
+      });
+    },
     formReset() {
       if (localStorage.getItem("bWFpbCI6Inpvb") != null) {
         this.staffData.is_career_information_setup = true;
@@ -348,19 +367,19 @@ export default {
 
       this.v$.$reset();
       this.staffCareerForm = {
-        company: "",
-        position: "",
-        industry: null,
-        invitation_id: null,
-        seniority_level: null,
-        department: [],
+        // company: "",
+        // position: "",
+        // industry: null,
+        // invitation_id: null,
+        // seniority_level: null,
+        // department: [],
       };
       if (this.invitedUserData.invitation_id) {
         console.log("this is invited user after form reset");
         localStorage.removeItem("bWFInpvitedbpbUser");
-        // this.$router.push({ name: "Dashboard" }); now
+        this.$router.push({ name: "Dashboard" });
       } else {
-        // this.$router.push({ name: "signup-company" });  now
+        this.$router.push({ name: "signup-company" });
         console.log("data to career");
       }
     },
@@ -399,12 +418,13 @@ export default {
             Object.keys(this.invitedUserData).length == 0
           ) {
             console.log("user in regular user");
-          } else {
-            let givenDepartment = this.invitedUserData.departments;
-            // this.isInvitedDepartments = true;
-            console.log("invited department list", givenDepartment);
-            // this.staffCareerForm.department = givenDepartment;
           }
+          // else {
+          //   let givenDepartment = this.invitedUserData.departments;
+          //   // this.isInvitedDepartments = true;
+          //   console.log("invited department list", givenDepartment);
+          //   // this.staffCareerForm.department = givenDepartment;
+          // }
         } else {
           this.departmentLists = [
             { value: 0, label: "No record found", disabled: true },
@@ -415,25 +435,27 @@ export default {
     isCareerFilled(value) {
       if (value && Object.keys(value).length != 0) {
         this.staffCareeArr1.push(value.newCareer);
+        if (this.staffCareeArr1.length > 0) {
+          this.openModal = true;
+        }
         // this.careerArr.push(value.newCareer);
       }
     },
-    addMoreCareer() {
-      // this.addCareer = true;
-      console.log("kuldip", this.v$.$invalid);
-      this.v$.$touch();
-      this.$refs.moreCareer.validateForm();
-      if (!this.v$.$invalid) {
-        this.careersList.push({
-          company: "",
-          industry: "",
-          seniority_level: "",
-          department: [],
-          from: "",
-          to: "",
-        });
-      }
-    },
+    // addMoreCareer() {
+    //   console.log("kuldip", this.v$.$invalid);
+    //   this.v$.$touch();
+    //   this.$refs.moreCareer.validateForm();
+    //   if (!this.v$.$invalid) {
+    //     this.careersList.push({
+    //       company: "",
+    //       industry: "",
+    //       seniority_level: "",
+    //       department: [],
+    //       from: "",
+    //       to: "",
+    //     });
+    //   }
+    // },
     // get Seniority Levels
     getSeniorityLevel() {
       CommonService.getAllSeniorityLevels().then((resp) => {
@@ -454,7 +476,7 @@ export default {
     },
 
     checkCareerSetup(data) {
-      console.log(data);
+      console.log("iiiiiiiiiiiiiiiiiiiiikkkkkkkkkkk", data);
       // if (
       //   this.staffData != null &&
       //   (this.staffData.auth_token != undefined ||
@@ -463,31 +485,36 @@ export default {
       // ) {
       SignupService.checkCareerInfo(data).then((res) => {
         if (res.data.status) {
-          console.log(
-            "Kuldip from checkCareerSetup at career.....",
-            res.data.data
-          );
+          console.log("Kuldip from checkCareerSetup at career.", res.data.data);
+
           // No Company setup for Invited user
-          // this.$router.push({ name: "signup-company" }); now
-        } else {
-          let resData = res.data;
-          if (resData["data"] !== undefined) {
-            let company_name = res.data.data.company;
-            this.departmentsArr = res.data.data.department_list;
-            this.departmentsArr.forEach((item) => {
-              this.usersDepartmrnts.push(item["departmentid"]);
-            });
-            (this.staffCareerForm = {
-              company: company_name,
-              department: this.usersDepartmrnts,
-            }),
-              console.log(
-                "Invited User from checkCareerSetup at career.....",
-                company_name,
-                this.usersDepartmrnts
-              );
+          if (this.invitedUser === false) {
+            console.log("this is invited user", this.invitedUser);
+            this.$router.push({ name: "signup-company" });
           }
         }
+
+        // if user not setup career information and go to Login Page
+
+        // else {
+        //   let resData = res.data;
+        //   if (resData["data"] !== undefined) {
+        //     let company_name = res.data.data.company;
+        //     this.departmentsArr = res.data.data.department_list;
+        //     this.departmentsArr.forEach((item) => {
+        //       this.usersDepartmrnts.push(item["departmentid"]);
+        //     });
+        //     // (this.staffCareerForm = {
+        //     //   company: company_name,
+        //     //   department: this.usersDepartmrnts,
+        //     // }),
+        //     console.log(
+        //       "Invited User from checkCareerSetup at career.....",
+        //       company_name,
+        //       this.usersDepartmrnts
+        //     );
+        //   }
+        // }
       });
       // }
       // else {
