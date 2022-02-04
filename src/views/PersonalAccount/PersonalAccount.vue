@@ -173,6 +173,7 @@
                     placeholder="Description"
                     class="form-control k_inp_field"
                     rows="3"
+                    v-model.trim="personalAccount.description"
                   ></textarea>
                 </div>
               </div>
@@ -579,8 +580,6 @@
 
                 <template v-if="careerInfo.includes(career.id)">
                   <div class="row">
-                    <!-- ref="childCareer"
-                      @addNewCareer="isCareerFilled" -->
                     <CareerForm
                       ref="childCareer"
                       @addNewCareer="isCareerUpdated"
@@ -594,10 +593,6 @@
                 </template>
               </div>
             </div>
-            <!-- list of careers ends -->
-            <!-- work update details start -->
-            <!-- <div v-if="careersList.length > 1 || this.addCareer" class=""> -->
-
             <div v-if="this.addCareer" class="">
               <div class="row" v-for="(careerV, idx) in careersList" :key="idx">
                 <CareerForm
@@ -609,15 +604,6 @@
                   :industries="industryLists"
                   :seniority="seniorityLevels"
                 >
-                  <!-- <template v-slot:add-form="{ validateForm }">
-                    <button
-                      type="button"
-                      @click="validateForm"
-                      class="btn_adds btn-transaprent"
-                    >
-                      Add Carreer Information
-                    </button>
-                  </template> -->
                 </CareerForm>
               </div>
             </div>
@@ -729,6 +715,7 @@ export default {
         firstname: "",
         lastname: "",
         username: "",
+        description: "",
         alternate_emails: [],
         profile_image: "",
         email: "",
@@ -776,15 +763,11 @@ export default {
       }
     },
   },
-  // mounted() {
-  //   console.log(this.$refs.childCareer.isValid);
-  // },
+
   created() {
     this.selectedLanguage = localStorage.getItem("language") || "en";
     this.authToken = this.staffData.auth_token;
     this.getStaffDetails();
-    // this.careersArr.length>0?this.addCareer=true:this.this.addCareer
-    // staffData.auth_token;
   },
 
   validations() {
@@ -797,11 +780,6 @@ export default {
         lastname: { required },
         username: { required },
         email: { required, email },
-        // company: { required },
-        // position: { required },
-        // industry: { required },
-        // department: { required },
-        // seniority_level: { required },
         old_password: this.ch_password,
         password: this.ch_password,
         confirm_password: {
@@ -824,7 +802,12 @@ export default {
         this.personalAccount.career_info,
         this.careersArr
       );
-      this.$refs.childCareer.validateForm();
+      // console.log(
+      //   `this component is mounted ${this.addCareer} and toggle Career ${this.toggleUpdate}`
+      // );
+      if (this.addCareer === this.toggleUpdate) {
+        this.$refs.childCareer.validateForm();
+      }
       this.v$.$touch();
       if (!this.v$.$invalid) {
         // this.$refs.updateCareer.validateForm();
@@ -891,6 +874,9 @@ export default {
       this.v$.$touch();
       if (!this.v$.$invalid) {
         this.careerInfo = [];
+        console.log(
+          `this component is mounted  on add more ${this.addCareer} and toggle Career ${this.toggleUpdate}`
+        );
         this.$refs.childCareer.validateForm();
         this.careersList.push({
           company: "",

@@ -81,6 +81,7 @@
                         <div class="member_container">
                           <div class="">
                             <img
+                              v-if="_member.profile_image"
                               :src="
                                 _member.profile_image
                                   ? _member.profile_image
@@ -89,70 +90,19 @@
                               class="members_profile_pic"
                               alt=""
                             />
+                            <div
+                              v-else
+                              class="first_letter_wraper"
+                              :style="{ 'background-color': getBgColor() }"
+                            >
+                              <span class="member_first_letter">
+                                {{ formatMemberName(_member.firstname) }}</span
+                              >
+                            </div>
                           </div>
                         </div>
                       </a>
                     </li>
-                    <!-- <li>
-                      <a>
-                        <div class="member_container">
-                          <div class="">
-                            <img
-                              :src="UserPic"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Kevin"
-                      >
-                        <div class="icon_container">
-                          <div class="icon_bg">
-                            <img
-                              src="K_Icons/no_photo.svg"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div class="member_container">
-                          <div class="">
-                            <img
-                              :src="UserPic"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Logistic"
-                      >
-                        <div class="icon_container">
-                          <div class="icon_bg">
-                            <img
-                              src="K_Icons/no_photo.svg"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li> -->
                   </ul>
                 </div>
               </td>
@@ -162,212 +112,6 @@
                 </div>
               </td>
             </tr>
-            <!-- <tr class="company_tr">
-              <td class="company_td">
-                <div class="company_detail company_add">
-                  <div class="company_pic">
-                    <img
-                      src="K_Icons/company_no_logo.svg"
-                      class="company-logo"
-                    />
-                  </div>
-                  <div class="company_info">
-                    <h4 class="company_name">MTD</h4>
-                  </div>
-                </div>
-              </td>
-              <td class="company_td">
-                <div class="td_wrap td_wrap_location">
-                  <strong>Netherland,</strong> Amsterdam
-                </div>
-              </td>
-              <td class="company_td">
-                <div class="members_wrapper">
-                  <ul class="member_wrap list-inline">
-                    <li>
-                      <a
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Kingston"
-                      >
-                        <div class="member_container">
-                          <div class="">
-                            <img
-                              src="K_Icons/no_photo.svg"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div class="member_container">
-                          <div class="">
-                            <img
-                              :src="UserPic"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Kevin"
-                      >
-                        <div class="icon_container">
-                          <div class="icon_bg">
-                            <img
-                              src="K_Icons/no_photo.svg"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div class="member_container">
-                          <div class="">
-                            <img
-                              :src="UserPic"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Logistic"
-                      >
-                        <div class="icon_container">
-                          <div class="icon_bg">
-                            <img
-                              src="K_Icons/no_photo.svg"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </td>
-            </tr>
-            <tr class="company_tr">
-              <td class="company_td">
-                <div class="company_detail company_add">
-                  <div class="company_pic">
-                    <img
-                      src="K_Icons/company_no_logo.svg"
-                      class="company-logo"
-                    />
-                  </div>
-                  <div class="company_info">
-                    <h4 class="company_name">KPL</h4>
-                  </div>
-                </div>
-              </td>
-              <td class="company_td">
-                <div class="td_wrap td_wrap_location">
-                  <strong>Itlay,</strong> Rome
-                </div>
-              </td>
-              <td class="company_td">
-                <div class="members_wrapper">
-                  <ul class="member_wrap list-inline">
-                    <li>
-                      <a
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Kingston"
-                      >
-                        <div class="member_container">
-                          <div class="">
-                            <img
-                              src="K_Icons/no_photo.svg"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div class="member_container">
-                          <div class="">
-                            <img
-                              :src="UserPic"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Kevin"
-                      >
-                        <div class="icon_container">
-                          <div class="icon_bg">
-                            <img
-                              src="K_Icons/no_photo.svg"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <div class="member_container">
-                          <div class="">
-                            <img
-                              :src="UserPic"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Logistic"
-                      >
-                        <div class="icon_container">
-                          <div class="icon_bg">
-                            <img
-                              src="K_Icons/no_photo.svg"
-                              class="members_profile_pic"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </td>
-            </tr> -->
           </tbody>
         </table>
       </div>
@@ -380,7 +124,7 @@
 import UserPic from "../../assets/users/Avatar.png";
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
 import { mapGetters } from "vuex";
-
+import { getFirstLetter, setRandomBG } from "../../utils/commonHelperFuntions";
 const tablist = [
   {
     tabId: 0,
@@ -410,9 +154,19 @@ export default {
     }),
   },
   methods: {
+    // get member name format
+    formatMemberName(str) {
+      return getFirstLetter(str);
+    },
+    // get member name format
+    getBgColor() {
+      return setRandomBG();
+    },
+
     addCompany() {
       this.$router.push({ name: "company-update" });
     },
+
     companyDetails(id) {
       console.log("cliked company", id);
       localStorage.setItem("selected_company", id);
@@ -429,6 +183,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.first_letter_wraper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 36px;
+  // background-color: #8f9bb3;
+  padding: 8px 0;
+  text-align: center;
+}
+.member_first_letter {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+}
 .list-inline {
   margin-bottom: 0;
   padding-left: 0;
@@ -448,6 +219,7 @@ export default {
 .list-inline li a {
   cursor: pointer;
   z-index: 1;
+  text-decoration: none;
   &:hover {
     z-index: 9;
     position: relative;

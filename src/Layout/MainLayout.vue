@@ -19,7 +19,6 @@
 <script>
 import Header from "../components/Shared/Header.vue";
 import Sidebar from "../components/Shared/Sidebar.vue";
-import CommonService from "../Services/CommonService";
 export default {
   components: {
     Header,
@@ -32,23 +31,8 @@ export default {
       invitedId: undefined,
     };
   },
-  created() {
-    this.checkTotkenStatus();
-  },
+  created() {},
   methods: {
-    // check token status
-    checkTotkenStatus() {
-      CommonService.getTokenValidation({
-        auth_token: this.staffData.auth_token,
-      }).then((res) => {
-        console.log("data res", res);
-        // if (res.data.status) {
-        //   this.$router.push({ name: "Dashboard" });
-        // } else {
-        //   this.$router.push({ name: "signup-signin" });
-        // }
-      });
-    },
     onLogout() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       this.$router.push({ name: "signup-signin" });

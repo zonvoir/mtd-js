@@ -9,7 +9,7 @@
             </div>
           </div>
         </div>
-        <div class="invite_btn_wrap m-l-auto">
+        <div class="invite_btn_wrap m-l-auto" v-if="ownRole != 1">
           <InvitePeopleModal>
             <template v-slot:invite-button>
               {{ $t("overview_index.buttons.invite_people") }}
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 // import { mapGetters } from "vuex";
 const tablist = [
   {
@@ -49,7 +50,6 @@ const tablist = [
 ];
 import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
 import TabsHr from "../../components/Shared/TabsHr.vue";
-// import CompanyService from "../../Services/Company/CompanyService";
 export default {
   data() {
     return {
@@ -59,52 +59,31 @@ export default {
       title: "Company",
     };
   },
-  // computed: {
-  //   ...mapGetters({
-  //     staffInfo: "staffData",
-  //   }),
-  // },
   components: {
     TabsHr,
     InvitePeopleModal,
   },
-  created() {
-    // let invitedStaffData = this.$route.query;
-    // console.log("invited user query data", invitedStaffData);
-    // if (invitedStaffData && Object.keys(invitedStaffData).length != 0) {
-    //   this.invitedId = invitedStaffData.invitation_id;
-    //   console.log("invited id ", this.invitedId);
-    //   if (this.invitedId != undefined) {
-    //     this.invitaionAccepted();
-    //   }
-    // }
+
+  computed: {
+    ...mapGetters({
+      ownRole: "roleInCompany",
+    }),
   },
+  // created() {
+  //   let invitedStaffData = this.$route.query;
+  //   console.log("invited data", invitedStaffData);
+  //   if (invitedStaffData && Object.keys(invitedStaffData).length != 0) {
+  //     localStorage.setItem(
+  //       "bWFInpvitedbpbUser",
+  //       JSON.stringify(invitedStaffData)
+  //     );
+  //     console.log("invited user is awailble");
+  //     if (this.invitedUserData.invitation_id) {
+  //       this.$router.push({ name: "link-company-account" });
+  //     }
+  //   }
+  // },
   methods: {
-    // invitaionAccepted() {
-    //   CompanyService.acceptInvitation({
-    //     auth_token: this.staffInfo.auth_token,
-    //     invitation_id: this.invitedId,
-    //   }).then((res) => {
-    //     if (res.data.status) {
-    //       console.log("invitainon accepted successfully");
-    //     } else {
-    //       let $th = this;
-    //       if ("error" in res.data) {
-    //         Object.keys(res.data.error).map(function (key) {
-    //           $th.$toast.error(res.data.error[key], {
-    //             position: "bottom-left",
-    //             duration: 3712,
-    //           });
-    //         });
-    //       } else {
-    //         $th.$toast.error(res.data.message, {
-    //           position: "bottom-left",
-    //           duration: 3712,
-    //         });
-    //       }
-    //     }
-    //   });
-    // },
     ChangeT(title) {
       this.title = title;
     },

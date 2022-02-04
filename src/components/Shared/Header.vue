@@ -37,6 +37,8 @@
           :options="yearOptions"
         />
       </div>
+      <!-- {{ currentYear }}
+      {{ yearOptions }} -->
     </div>
     <div class="right-header">
       <!-- profile section -->
@@ -92,8 +94,10 @@ export default {
       userLogo,
       userpic: "",
       currentYear: "" + new Date().getFullYear(),
+      yearOptions: [],
       isprofile: false,
       companies: [],
+      staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       // selectedCompany: "66",
       example8: {
         value: "0",
@@ -105,7 +109,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      staffInfo: "staffData",
+      // staffInfo: "staffData",
       getProfileData: "personalInfo",
       getMembers: "companyMembers",
       companyLists: "staffsCompanies",
@@ -122,8 +126,18 @@ export default {
       },
       deep: true,
     },
+
+    // staffInfo: {
+    //   handler(val) {
+    //     console.log(val, "v");
+    //     this.getAllCompanies();
+    //     this.getStaffDetails();
+    //   },
+    // },
   },
   created() {
+    console.log("dsjksd", this.staffInfo);
+
     this.changeYear();
     // this.currentYear = "" + new Date().getFullYear();
     if (
@@ -152,6 +166,7 @@ export default {
         });
     },
     getAllCompanies() {
+      console.log(this.staffInfo.auth_token);
       companyService
         .companiesList({ auth_token: this.staffInfo.auth_token })
         .then((res) => {
@@ -237,6 +252,7 @@ export default {
     },
     onLogout() {
       localStorage.removeItem("bWFpbCI6Inpvb");
+      this.$store.dispatch("GET_STAFF_DATA", null);
       this.$router.push({ name: "signup-signin" });
     },
     toggleDropdown() {
@@ -249,6 +265,15 @@ export default {
     },
   },
   mounted() {
+    // if (
+    //   this.staffInfo != null &&
+    //   this.staffInfo != undefined &&
+    //   this.staffInfo != ""
+    // ) {
+    //   this.getAllCompanies();
+    //   this.getStaffDetails();
+    // }
+
     if (this.$route.path === "/personal-account") {
       this.isprofile = true;
     } else {

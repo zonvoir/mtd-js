@@ -55,7 +55,6 @@ import QuestionHint from "../views/Questionnarie/components/QuestionHint.vue";
 import nProgress from "nprogress";
 import { loadLocaleMessages, setI18nLanguage, setupI18n } from "../i18n";
 import CommonService from "../Services/CommonService";
-// import CompanyService from "../Services/Company/CompanyService";
 
 const locale = localStorage.getItem("language") || "en";
 const i18n = setupI18n({
@@ -68,8 +67,8 @@ function guardMyroute(to, from, next) {
   var isAuthenticated = false;
   let user = localStorage.getItem("bWFpbCI6Inpvb");
   user = JSON.parse(user);
-  let invitedUserData = JSON.parse(localStorage.getItem("bWFInpvitedbpbUser"));
-  console.log("invitedUserData", invitedUserData);
+  // let invitedUserData = JSON.parse(localStorage.getItem("bWFInpvitedbpbUser"));
+  // console.log("invitedUserData indexkkk", invitedUserData);
   if (
     user === null ||
     user === undefined ||
@@ -84,35 +83,30 @@ function guardMyroute(to, from, next) {
         if (!data.status) {
           localStorage.removeItem("bWFpbCI6Inpvb");
           next("/signup/signin");
-        } else if (
-          invitedUserData != null &&
-          invitedUserData != undefined &&
-          Object.keys(invitedUserData).length != 0 &&
-          invitedUserData != "" &&
-          invitedUserData.invitation_id != null &&
-          invitedUserData.invitation_id != undefined &&
-          invitedUserData.invitation_id != ""
-        ) {
-          console.log(
-            "career acceptqance kkk",
-            user.auth_token,
-            +invitedUserData.invitation_id
-          );
-
-          // CompanyService.acceptInvitation({
-          //   auth_token: user.auth_token,
-          //   invitation_id: invitedUserData.invitation_id,
-          // }).then((res) => {
-          //   if (res.data.status) {
-          //     console.log("invitainon ", res.data);
-          //     localStorage.removeItem("bWFInpvitedbpbUser");
-          //     next({ name: "Dashboard" });
-          //   } else {
-          //     console.log("there is some error in in invitaion acceptance");
-          //     next({ name: "signup-signin" });
-          //   }
-          // });
         }
+        // else if (
+        //   invitedUserData != null &&
+        //   invitedUserData != undefined &&
+        //   Object.keys(invitedUserData).length != 0 &&
+        //   invitedUserData != "" &&
+        //   invitedUserData.invitation_id != null &&
+        //   invitedUserData.invitation_id != undefined &&
+        //   invitedUserData.invitation_id != ""
+        // ) {
+        //   CompanyService.acceptInvitation({
+        //     auth_token: user.auth_token,
+        //     invitation_id: invitedUserData.invitation_id,
+        //   }).then((res) => {
+        //     if (res.data.status) {
+        //       console.log("invitainon ", res.data);
+        //       // localStorage.removeItem("bWFInpvitedbpbUser");
+        //       next({ name: "Dashboard" });
+        //     } else {
+        //       console.log("there is some error in in invitaion acceptance");
+        //       next({ name: "signup-signin" });
+        //     }
+        //   });
+        // }
       }
     );
     isAuthenticated = false;
@@ -123,17 +117,23 @@ function guardMyroute(to, from, next) {
     if (user.is_career_information_setup && user.is_company_setup) {
       next(); // go to '/login';
     } else {
-      console.log("careeer is not setup now");
       next({ name: "signup-career" });
     }
     // next();
   }
 }
+
 // check if user login then sign-up related page not show
 function loginGaurd(to, from, next) {
   var isAuthenticated = true;
+  console.log("kk to", to.query);
+  if (to.query.invitation_id != undefined) {
+    localStorage.setItem("bWFInpvitedbpbUser", JSON.stringify(to.query));
+  }
   let user = localStorage.getItem("bWFpbCI6Inpvb");
+  // let invitedUserData = JSON.parse(localStorage.getItem("bWFInpvitedbpbUser"));
   user = JSON.parse(user);
+  // console.log("invitedUserData logingaurd", invitedUserData, user);
   if (
     user === null ||
     user === undefined ||
@@ -146,13 +146,15 @@ function loginGaurd(to, from, next) {
     isAuthenticated = true;
   }
   if (isAuthenticated) {
-    // no need to go for accept invitation on dashboard
-    //   if (user.is_career_information_setup && user.is_company_setup) {
-    //     next({ name: "Dashboard", query: to.query }); // go to '/login';
-    //   } else {
-    //     next();
-    //   }
-    // } else {
+    if (user.is_career_information_setup && user.is_company_setup) {
+      if (to.query.invitation_id != undefined) {
+        next({ name: "link-company-account" });
+      }
+      next({ name: "Dashboard" }); // go to '/login';
+    } else {
+      next();
+    }
+  } else {
     next();
   }
 }
@@ -408,7 +410,6 @@ const routes = [
       {
         path: "signin",
         name: "signup-signin",
-
         beforeEnter: loginGaurd,
         component: Signin,
       },

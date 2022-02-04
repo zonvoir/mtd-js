@@ -170,10 +170,10 @@ export default {
           .createLogin(this.loginForm)
           .then((response) => {
             if (response.data.status) {
-              this.$toast.success(response.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
+              // this.$toast.success(response.data.message, {
+              //   position: "bottom-left",
+              //   duration: 3712,
+              // });
               this.formReset();
             } else {
               errorhandler(response, this);

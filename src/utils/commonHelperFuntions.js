@@ -20,3 +20,20 @@ export const getSeniorityModified = (seniorityArr) => {
   }
   return seniorityLevelArr;
 };
+
+//  get first letter of string
+export const getFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase();
+};
+//  genrate random hex color code
+export const setRandomBG = () => {
+  var letters = "0123456789ABCDEF";
+
+  // html color code starts with #
+  var color = "#";
+
+  // generating 6 times as HTML color code consist
+  // of 6 letter or digits
+  for (var i = 0; i < 6; i++) color += letters[Math.floor(Math.random() * 16)];
+  return color;
+};

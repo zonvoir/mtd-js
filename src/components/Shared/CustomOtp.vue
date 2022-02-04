@@ -7,7 +7,7 @@
       type="text"
       v-model="v[index]"
       maxlength="1"
-      @keyup="clicked"
+      @keydown="clicked"
       :data-index="index"
       minlength="0"
       :class="classesName"
@@ -43,30 +43,68 @@ export default {
   // },
   methods: {
     clicked(ev) {
-      if (ev.keyCode === 8 || ev.keyCode === 37) {
-        if (ev.target.dataset.index != 0) {
-          this.$refs.otpboxes
-            .getElementsByTagName("input")
-            [ev.target.dataset.index - 1].focus();
-          console.log(this.v);
+      /// backspace or delete code
+      if (ev.keyCode === 8) {
+        ev.preventDefault();
+        if (ev.target.dataset.index >= 0) {
+          // console.log(ev.target.dataset, this.v[ev.target.dataset.index]);
+
+          if (
+            this.v[ev.target.dataset.index] == null &&
+            ev.target.dataset.index > 0
+          ) {
+            this.$refs.otpboxes
+              .getElementsByTagName("input")
+              [ev.target.dataset.index - 1].focus();
+          }
+
+          this.v[ev.target.dataset.index] = null;
+          // console.log(this.v);
           if (this.validateOtp(this.v)) {
             ev.preventDefault();
             return false;
           }
         }
       } else {
-        if (this.validateOtp(this.v)) {
-          ev.preventDefault();
-          console.log("vishal", this.v, ev.target.dataset.index);
-          // this.v[ev.target.dataset.index] = undefined;
-          // return false;
+        ev.preventDefault();
+
+        if (ev.target.dataset.index < this.v.length) {
+          // to enter only numbers key and number pad
+          let keyCodes = [
+            9, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101,
+            102, 103, 104, 105,
+          ];
+          if (keyCodes.includes(ev.keyCode)) {
+            if (ev.keyCode !== 9) {
+              this.v[ev.target.dataset.index] = ev.key;
+              // if (this.v[ev.target.dataset.index] != null) {
+              if (ev.target.dataset.index < this.v.length - 1) {
+                this.$refs.otpboxes
+                  .getElementsByTagName("input")
+                  [+ev.target.dataset.index + 1].focus();
+              }
+              // }
+            }
+          }
+          // to move cursor right right arrow and tab
+          if (ev.keyCode == 39 || ev.keyCode == 9) {
+            if (ev.target.dataset.index < this.v.length - 1) {
+              this.$refs.otpboxes
+                .getElementsByTagName("input")
+                [+ev.target.dataset.index + 1].focus();
+            }
+          }
+          // to move cursor left side left arrow shift + tab
+          if ((ev.shiftKey && ev.keyCode == 9) || ev.keyCode === 37) {
+            if (ev.target.dataset.index >= 0) {
+              this.$refs.otpboxes
+                .getElementsByTagName("input")
+                [+ev.target.dataset.index - 1].focus();
+            }
+          }
         }
-        if (ev.target.dataset.index < this.v.length - 1) {
-          console.log("vish", this.v, +ev.target.dataset.index + 1);
-          this.$refs.otpboxes
-            .getElementsByTagName("input")
-            [+ev.target.dataset.index + 1].focus();
-        }
+        this.validateOtp(this.v);
+
         let $th = this;
         this.onChanges({
           lists: $th.v,
@@ -107,7 +145,7 @@ export default {
         errors.push(rule.test(val));
       });
 
-      console.log(errors);
+      // console.log(errors);
 
       if (errors.includes(false) || errors.length != this.counters) {
         this.validated = false;

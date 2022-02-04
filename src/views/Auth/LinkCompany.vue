@@ -105,7 +105,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import BaseCheckbox from "../../components/Shared/BaseCheckbox.vue";
 import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
@@ -114,6 +113,9 @@ export default {
     return {
       isSubmitted: false,
       invitedStaffInfo: JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")),
+      staffInfo:
+        JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
+        JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       invitedId: undefined,
       usersCompanies: [],
       usersDepartmrnts: [],
@@ -121,24 +123,11 @@ export default {
       invitaionStatus: true,
     };
   },
+
   components: {
     BaseCheckbox,
   },
-  computed: {
-    ...mapGetters({
-      staffInfo: "staffData",
-    }),
-  },
   created() {
-    console.log("invited user stored data", this.invitedStaffInfo);
-    // if (this.invitedStaffInfo && Object.keys(this.invitedStaffInfo).length != 0) {
-    //   this.invitedId = this.invitedStaffInfo.invitation_id;
-    //   console.log("invited id ", this.invitedId);
-    //   // if (this.invitedId != undefined) {
-    //   //   this.invitaionAccepted();
-    //   // }
-    // }
-    console.log("users email ", this.staffInfo);
     this.usersInvitedCompanies();
   },
   methods: {
@@ -159,21 +148,45 @@ export default {
           auth_token: this.staffInfo.auth_token,
           invitation_id: +this.invitedStaffInfo.invitation_id,
         };
-        console.log("enter in invitaion acceptance", data);
-        CompanyService.acceptInvitation(data).then((res) => {
-          if (res.data.status) {
-            console.log("invitainon response ", res.data);
-            this.$router.push({ name: "signup-career" });
-          } else {
-            console.log("there is some error in in invitaion acceptance");
-            // this.$router.push({ name: "signup-signin" });
-            // next({ name: "signup-signin" });
-          }
-        });
-      }
 
-      // this.$router.push({ name: "signup-career" });
+        CompanyService.acceptInvitation(data)
+          .then((res) => {
+            if (res.data.status) {
+              this.$toast.success(res.data.message, {
+                position: "bottom-left",
+                duration: 3712,
+              });
+              // set company is setup
+              if (
+                sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") ||
+                localStorage.getItem("bWFpbCI6Inpvb") != null
+              ) {
+                this.staffInfo["is_company_setup"] = true;
+              }
+
+              // remove invited user
+              // set local storage
+              localStorage.setItem(
+                "bWFpbCI6Inpvb",
+                JSON.stringify(this.staffInfo)
+              );
+              sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
+              localStorage.removeItem("bWFInpvitedbpbUser");
+
+              this.$router.push({ name: "Dashboard" });
+            } else {
+              errorhandler(res, this);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => {
+            this.isSubmitted = false;
+          });
+      }
     },
+
     usersInvitedCompanies() {
       CompanyService.usersAllCompanies({
         email: this.invitedStaffInfo.email,

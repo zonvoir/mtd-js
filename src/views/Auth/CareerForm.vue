@@ -218,9 +218,7 @@ import Datepicker from "vue3-date-time-picker";
 import Multiselect from "@vueform/multiselect";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-// import Select2 from "vue3-select2-component";
 import { formatDate } from "../../utils/FormatDate";
-// import BaseSelect2 from "../../components/Shared/AsyncSearch.vue";
 export default {
   emits: ["addNewCareer"],
   props: {
@@ -256,13 +254,6 @@ export default {
       myValue: "uservalue",
       date: new Date(),
       careerForm: this.myCareer,
-      // careerForm: {
-      //   company: "",
-      //   position: "",
-      //   industry: null,
-      //   seniority_level: null,
-      //   department: [],
-      // },
     };
   },
   validations: {
@@ -284,19 +275,12 @@ export default {
   },
   components: {
     Datepicker,
-    // Select2,
-    // BaseSelect2,
     Multiselect,
   },
   updated() {
     this.careerForm = this.myCareer;
-    console.log("props", this.myCareer);
-    console.log("staff career form  page mounted", this.myCareer);
   },
   methods: {
-    // mySelectEvent({ id, text }) {
-    //   console.log("id", { id, text });
-    // },
     validateForm() {
       if (!this.v$.$invalid) {
         this.isValid = true;

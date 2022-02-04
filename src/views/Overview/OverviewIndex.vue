@@ -84,7 +84,6 @@ export default {
       defaultDeptId: {},
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       authToken: "",
-      dept_id_default: undefined,
     };
   },
   components: {
@@ -124,15 +123,14 @@ export default {
     getdDepartmentList() {
       let data = { auth_token: this.authToken };
       // console.log("get departments", data);
-      // this.$store.dispatch("SET_DEPARTMENTS", data);
-      CommonService.getAllDepartments(data).then((res) => {
+      CommonService.getExtendedDepartments(data).then((res) => {
         if (res.data.status) {
           this.departmentLists = res.data.data.filter(function (depts) {
-            return depts.is_default === "1";
+            return depts.departmentid === "5"; //5 is default company department id
           });
-          this.dept_id_default = this.departmentLists[0].departmentid;
+          let department_Id = this.departmentLists[0].departmentid;
           let data = {
-            department_id: this.dept_id_default,
+            department_id: department_Id,
             auth_token: this.authToken,
           };
           this.getDefaultDeptCategories(data);

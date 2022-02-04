@@ -187,10 +187,10 @@ export default {
                 "OiJKV1QiLCJhbGciOiJIUzI1",
                 JSON.stringify(response.data.email)
               );
-              this.$toast.success(response.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
+              // this.$toast.success(response.data.message, {
+              //   position: "bottom-left",
+              //   duration: 3712,
+              // });
               this.formReset();
             } else {
               let $th = this;

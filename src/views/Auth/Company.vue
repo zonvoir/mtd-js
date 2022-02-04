@@ -425,7 +425,7 @@
                         "
                         class="text-left fs-14"
                       >
-                        Phone Number at lest 10 digit
+                        Phone Number at least 10 digit
                       </span>
                     </div>
                   </div>
@@ -732,17 +732,22 @@ export default {
         localStorage.getItem("bWFpbCI6Inpvb") == ""
       ) {
         this.$router.push({ name: "signup-signin" });
+      } else {
+        this.$router.push({ name: "signup-company" }); // now 3f
       }
-    } else {
-      console.log("ejejke");
-      // if (
-      //   localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-      //   localStorage.getItem("bWFpbCI6Inpvb") == null ||
-      //   localStorage.getItem("bWFpbCI6Inpvb") == ""
-      // ) {
-      this.$router.push({ name: "signup-signin" });
-      // }
     }
+    // now 3f
+
+    //  else {
+    //   console.log("ejejke");
+    //   // if (
+    //   //   localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
+    //   //   localStorage.getItem("bWFpbCI6Inpvb") == null ||
+    //   //   localStorage.getItem("bWFpbCI6Inpvb") == ""
+    //   // ) {
+    //   this.$router.push({ name: "signup-signin" });
+    //   // }
+    // }
 
     this.checkCompany();
     this.getIndustryList();

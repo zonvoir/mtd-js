@@ -7,7 +7,7 @@
             <h2 class="main-heading">Career Information</h2>
           </div>
         </div>
-        {{ staffCareerForm }}
+        <!-- {{ staffCareerForm }} -->
         <div class="form-wrapper">
           <form action="">
             <div class="row">
@@ -29,9 +29,7 @@
               :industry="industryLists"
               @multiCareer="saveModalData"
             >
-              <!-- :isOpen="openModal" -->
               <template v-slot:add-button-action="{ addCareer }">
-                <!-- disabled="openModal" -->
                 <button
                   class="btn_add_multiple btn-transaprent btn-transaprent"
                   @click="addCareer"
@@ -44,48 +42,6 @@
                   /></span>
                 </button>
               </template>
-              <!-- <template v-slot:career-description>
-                <div class="team_wrapper m-b-20">
-                  <div class="m-b-12">
-                    <p class="staff_desc">
-                      Simply dummy text of the printing and typesetting
-                      industry. Lorem Ipsum has been the industry's standard
-                      dummy text ever since the 150.Lorem Ipsum is simply dummy
-                      text of the printing and typesetting industry. Lorem Ipsum
-                      has been the industry's standard dummy text ever since the
-                      Lorem Dummy text Industry was created.It has been the
-                      industry's standard dummy text.
-                    </p>
-                  </div>
-                </div>
-              </template>
-              <template v-slot:more-careers="{ careersList }">
-                <div
-                  class="row"
-                  v-for="(career, idx) in careersList"
-                  :key="idx"
-                >
-                  <div class="m-b-24">
-                    <h4 class="m-t-0 title-dark">Add Carreer Information</h4>
-                  </div>
-             
-                  <CareerForm
-                    :className="'col-lg-12'"
-                    :myCareer="career"
-                    :departments="departmentLists"
-                    :industries="industryLists"
-                    :seniority="seniorityLevels"
-                  />
-                </div>
-                <div class="">
-                  <button
-                    @click="addMoreCareer"
-                    class="btn_add_multiple btn-transaprent"
-                  >
-                    add More
-                  </button>
-                </div>
-              </template> -->
             </CareerInformationModal>
           </div>
           <div class="d-grid space_btn">
@@ -135,8 +91,6 @@ import CareerForm from "./CareerForm.vue";
 
 export default {
   components: {
-    // Multiselect,
-    // Datepicker,
     CareerInformationModal,
     CareerForm,
   },
@@ -156,7 +110,6 @@ export default {
           from: "",
         },
       ],
-      // date: new Date(),
       departmentsArr: [],
       usersDepartmrnts: [],
       invitedUser: false,
@@ -185,25 +138,8 @@ export default {
           department: [],
         },
       ],
-      // careersForm: {
-      //   company: "",
-      //   position: "",
-      //   industry: null,
-      //   to: "",
-      //   from: "",
-      //   seniority_level: null,
-      //   department: [],
-      // },
-      staffCareerForm: {
-        // company: "",
-        // position: "",
-        // invitation_id: undefined,
-        // industry: null,
-        // to: "",
-        // from: "",
-        // seniority_level: null,
-        // department: [],
-      },
+
+      staffCareerForm: {},
     };
   },
   mounted() {
@@ -290,7 +226,6 @@ export default {
     },
     //save carreer details
     saveCarreerInfo() {
-      // this.staffCareerForm.auth_token = this.staffData.auth_token;
       this.v$.$touch();
       this.$refs.moreCareer.validateForm();
       let newMerge;
@@ -359,25 +294,41 @@ export default {
       });
     },
     formReset() {
-      if (localStorage.getItem("bWFpbCI6Inpvb") != null) {
-        this.staffData.is_career_information_setup = true;
-        console.log("this is invited user  enter reset");
-        localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
-      }
+      console.log(
+        localStorage.getItem("bWFpbCI6Inpvb"),
+        sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")
+      );
+      //xasasas
 
+      if (
+        localStorage.getItem("bWFpbCI6Inpvb") != null ||
+        sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null
+      ) {
+        this.staffData.is_career_information_setup = true;
+        console.log("this is invited user  enter reset", this.staffData);
+        // localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
+
+        // this code add also run for save email on login
+        if (sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null) {
+          sessionStorage.setItem(
+            "OiJKV1QiLCJhbGciOiJIUzI1",
+            JSON.stringify(this.staffData)
+          );
+        }
+      }
+      // this.invitedUserData.hasOwnProperty("invitation_id")
       this.v$.$reset();
-      this.staffCareerForm = {
-        // company: "",
-        // position: "",
-        // industry: null,
-        // invitation_id: null,
-        // seniority_level: null,
-        // department: [],
-      };
-      if (this.invitedUserData.invitation_id) {
+      this.staffCareerForm = {};
+      console.log("kk1", this.invitedUserData);
+      if (
+        this.invitedUserData != null &&
+        "invitation_id" in this.invitedUserData &&
+        this.invitedUserData.invitation_id
+      ) {
         console.log("this is invited user after form reset");
-        localStorage.removeItem("bWFInpvitedbpbUser");
-        this.$router.push({ name: "Dashboard" });
+        this.$router.push({ name: "link-company-account" });
+        // this.$router.push({ name: "Dashboard" });
+        // localStorage.removeItem("bWFInpvitedbpbUser");
       } else {
         this.$router.push({ name: "signup-company" });
         console.log("data to career");
@@ -490,6 +441,7 @@ export default {
           // No Company setup for Invited user
           if (this.invitedUser === false) {
             console.log("this is invited user", this.invitedUser);
+            // new flow
             this.$router.push({ name: "signup-company" });
           }
         }

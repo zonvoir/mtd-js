@@ -196,6 +196,7 @@ export default {
               JSON.stringify(res.data.data)
             );
             let user = JSON.parse(localStorage.getItem("bWFpbCI6Inpvb"));
+            // this.$store.dispatch("GET_STAFFS_DEPARTMENT", user);
             if (
               this.invitedUserData &&
               Object.keys(this.invitedUserData).length != 0 &&

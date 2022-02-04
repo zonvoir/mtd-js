@@ -9,6 +9,7 @@ export default createStore({
   // },
   state: {
     staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+    tokenStatus: undefined, // auth token status
     staffsDepartment: [],
     staffsCompanies: [],
     companyMembers: [],
@@ -28,6 +29,13 @@ export default createStore({
     activeYear: "" + new Date().getFullYear(),
   },
   mutations: {
+    // company profile
+    setStaffData(state, values) {
+      state.staffData = values;
+    },
+    setTokenStatus(state, status) {
+      state.tokenStatus = status; // auth token status
+    },
     // company profile
     setYear(state, values) {
       state.activeYear = values;
@@ -90,6 +98,12 @@ export default createStore({
   },
   actions: {
     // company Profile/
+    GET_TOKEN_STATUS(context, val) {
+      context.commit("setTokenStatus", val); // auth token status
+    },
+    GET_STAFF_DATA(context, val) {
+      context.commit("setStaffData", val);
+    },
     getYear(context, val) {
       context.commit("setYear", val);
     },
@@ -132,7 +146,6 @@ export default createStore({
       context.commit("SET_QUESTION_LIST", val);
     },
     async GET_CATEGORY_ARRAY(context, val) {
-      console.log("data is comming from kkkk", val);
       context.commit("SET_CATEGORY_ARRAY", val);
     },
     async GET_INCREMENT_PROGRESS_VALUE(context, val) {
@@ -145,6 +158,7 @@ export default createStore({
     // questionnaire close
   },
   getters: {
+    tokenStatus: (state) => state.tokenStatus, // auth token status
     staffData: (state) => state.staffData,
     activeYear: (state) => state.activeYear,
     invitationList: (state) => state.invitationList,

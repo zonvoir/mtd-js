@@ -1,6 +1,52 @@
 <template>
   <router-view />
 </template>
+<script>
+import CommonService from "./Services/CommonService";
+import errorhandler from "./utils/Error";
+
+export default {
+  data() {
+    return {
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+    };
+  },
+
+  created() {
+    this.checkTotkenStatus();
+  },
+
+  methods: {
+    // check token status
+    checkTotkenStatus() {
+      if (
+        this.staffData != null &&
+        this.staffData.auth_token != null &&
+        this.staffData.auth_token != undefined &&
+        Object.keys(this.staffData).length != 0
+      ) {
+        console.log("this is condtion is true");
+        CommonService.getTokenValidation({
+          auth_token: this.staffData.auth_token,
+        })
+          .then((res) => {
+            if (res.data.status) {
+              console.log("data res", res.data);
+            } else {
+              errorhandler(res, this);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => {
+            console.log("always run");
+          });
+      }
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap");
