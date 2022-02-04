@@ -93,7 +93,7 @@
                             <div
                               v-else
                               class="first_letter_wraper"
-                              :style="{ 'background-color': getBgColor() }"
+                              style="background-color: #8f9bb3"
                             >
                               <span class="member_first_letter">
                                 {{ formatMemberName(_member.firstname) }}</span
@@ -124,7 +124,7 @@
 import UserPic from "../../assets/users/Avatar.png";
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
 import { mapGetters } from "vuex";
-import { getFirstLetter, setRandomBG } from "../../utils/commonHelperFuntions";
+import { getFirstLetter } from "../../utils/commonHelperFuntions";
 const tablist = [
   {
     tabId: 0,
@@ -159,9 +159,9 @@ export default {
       return getFirstLetter(str);
     },
     // get member name format
-    getBgColor() {
-      return setRandomBG();
-    },
+    // getBgColor() {
+    //   return setRandomBG();
+    // },
 
     addCompany() {
       this.$router.push({ name: "company-update" });
