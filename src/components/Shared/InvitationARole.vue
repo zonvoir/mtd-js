@@ -341,6 +341,7 @@ export default {
   },
   created() {
     console.log("localstorage data", this.staffRoles.length);
+    console.log("local staffdata", this.staffInfo);
 
     this.getCompanyDetails(this.companyData);
     this.settings = {

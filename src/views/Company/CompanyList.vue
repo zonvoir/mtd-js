@@ -90,11 +90,7 @@
                               class="members_profile_pic"
                               alt=""
                             />
-                            <div
-                              v-else
-                              class="first_letter_wraper"
-                              style="background-color: #8f9bb3"
-                            >
+                            <div v-else class="first_letter_wraper">
                               <span class="member_first_letter">
                                 {{ formatMemberName(_member.firstname) }}</span
                               >
@@ -188,8 +184,9 @@ export default {
   width: 40px;
   height: 40px;
   border-radius: 36px;
-  // background-color: #8f9bb3;
-  padding: 8px 0;
+  border: 1px solid #fff;
+  background-color: #8f9bb3;
+  padding: 5px 0;
   text-align: center;
 }
 .member_first_letter {

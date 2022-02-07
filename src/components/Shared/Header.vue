@@ -52,6 +52,7 @@
             "
             class="profile-pic"
           />
+          <!-- 'default-user.png' -->
           <!-- <img src="../../assets/users/100_3.jpg" class="profile-pic" /> -->
         </a>
       </div>

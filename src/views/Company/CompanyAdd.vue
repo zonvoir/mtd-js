@@ -454,7 +454,69 @@
               </div>
             </div>
             <div class="col-lg-6">
-              <div class="wrap_phone_inp">
+              <div class="input-group d-flex">
+                <div class="country_flag_wrap">
+                  <img
+                    v-if="country_flag"
+                    :src="country_flag"
+                    class="country_flag"
+                    alt=""
+                  />
+                </div>
+                <div class="phone_main_wrap">
+                  <div class="d-flex w-100">
+                    <span v-if="country_code" class="country_code">
+                      (+{{ country_code }})
+                    </span>
+                    <span v-else class="country_code"> (+91) </span>
+                    <input
+                      class="form-control k_inp_field cus_ph_inp"
+                      aria-label="Phonenumber"
+                      aria-describedby="basic-addon1"
+                      type="text"
+                      @keypress="isNumber"
+                      :placeholder="
+                        $t(
+                          'company_profile.company_tab.company_setup_update.form.placeholder.phone_no'
+                        )
+                      "
+                      @blur="v$.companyForm.phonenumber.$touch"
+                      v-model="companyForm.phonenumber"
+                      :class="{
+                        'is-invalid': v$.companyForm.phonenumber.$error,
+                      }"
+                    />
+                    <div
+                      v-if="v$.companyForm.phonenumber.$error"
+                      class="invalid-feedback cust_err text-left"
+                    >
+                      <span
+                        v-if="v$.companyForm.phonenumber.required.$invalid"
+                        class="text-left fs-14"
+                      >
+                        Phone number is required
+                      </span>
+                      <span
+                        v-if="
+                          v$.companyForm.phonenumber.maxLengthValue.$invalid
+                        "
+                        class="text-left fs-14"
+                      >
+                        Phone Number must be 15 digit
+                      </span>
+                      <span
+                        v-if="
+                          v$.companyForm.phonenumber.minLengthValue.$invalid
+                        "
+                        class="text-left fs-14"
+                      >
+                        Phone Number at lest 6 digit
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="wrap_phone_inp">
                 <div class="k_form_group k_inp_number phone_field">
                   <div class="country_flag_wrap">
                     <img
@@ -509,7 +571,7 @@
                     </span>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
 
@@ -615,8 +677,8 @@ export default {
         phonenumber: {
           required,
           numeric,
-          maxLengthValue: maxLength(10),
-          minLengthValue: minLength(10),
+          maxLengthValue: maxLength(15),
+          minLengthValue: minLength(6),
         },
         main_industry: { required },
         sub_industry: { required },
@@ -917,20 +979,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wrap_phone_inp {
-  position: relative;
-  .phone_field {
-    width: 100%;
-    .shift_number {
-      padding-left: 155px !important;
-    }
-  }
-  .codes_select {
-    position: absolute;
-    left: -3px;
-    top: -3px;
-  }
+.cus_ph_inp {
+  padding-left: 60px;
+  border-radius: 0 4px 4px 0 !important;
+  padding-left: 5rem;
 }
+.phone_main_wrap {
+  width: 90%;
+  float: right;
+}
+.cust_err {
+  position: absolute;
+  top: 100%;
+}
+// .wrap_phone_inp {
+//   position: relative;
+//   .phone_field {
+//     width: 100%;
+//     .shift_number {
+//       padding-left: 155px !important;
+//     }
+//   }
+//   .codes_select {
+//     position: absolute;
+//     left: -3px;
+//     top: -3px;
+//   }
+// }
 .logo_action_container1 {
 }
 .logo_holder1 {
@@ -943,10 +1018,10 @@ export default {
   border-radius: 4px;
 }
 .country_flag {
-  width: 30px;
+  width: 2rem;
   position: relative;
   top: 16%;
-  left: 30%;
+  left: 0%;
 }
 .country_code_wrap {
   position: absolute;
@@ -957,22 +1032,31 @@ export default {
   height: 42px;
 }
 .country_code {
+  // position: relative;
+  // top: 21%;
+  // left: 39%;
   font-style: 500;
   font-size: 16px;
   line-height: 20px;
   color: rgba(0, 0, 0, 0.5);
-  position: relative;
-  top: 21%;
-  left: 20%;
+  position: absolute;
+  top: 11%;
+  bottom: 0;
+  padding: 5px;
+  z-index: 99;
 }
 .country_flag_wrap {
-  position: absolute;
-  top: -2px;
-  left: -4px;
-  background: #edf1f7 !important;
-  border-radius: 4px;
-  width: 75px;
-  height: 46px;
+  // position: absolute;
+  // top: -2px;
+  // left: -4px;
+  // background: #edf1f7 !important;
+  // border-radius: 4px;
+  // width: 75px;
+  // height: 46px;
+  width: 10%;
+  float: left;
+  background-color: #ced4da;
+  text-align: center;
 }
 .upload_image_wrapper {
   display: flex;

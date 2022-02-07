@@ -1,4 +1,5 @@
 module.exports = {
+  publicPath: "/mtd-vue/",
   pluginOptions: {
     i18n: {
       locale: "en",

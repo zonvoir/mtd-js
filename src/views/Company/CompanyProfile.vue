@@ -6,6 +6,7 @@
         <div class="company_prof_info">
           <div class="img_wrapper">
             <img
+              v-if="companyAllInformation.company_logo"
               :src="
                 companyAllInformation.company_logo
                   ? companyAllInformation.company_logo
@@ -14,6 +15,7 @@
               class="c_logo_wrapper"
               alt=""
             />
+            <div v-else class="c_logo_wrapper_default"></div>
           </div>
           <div class="c_details_wrapper">
             <h4 class="text_heading fs-22 fw-700 m-b-9">
@@ -829,6 +831,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.c_logo_wrapper_default {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  display: block;
+  text-align: center;
+  background-color: #222b45;
+}
 .ph_no {
   margin-left: 20px;
   font-size: 18px;

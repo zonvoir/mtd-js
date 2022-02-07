@@ -367,7 +367,69 @@
                 </div>
               </div>
               <div class="col-lg-6">
-                <div class="wrap_phone_inp">
+                <div class="input-group d-flex">
+                  <div class="country_flag_wrap">
+                    <img
+                      v-if="country_flag"
+                      :src="country_flag"
+                      class="country_flag"
+                      alt=""
+                    />
+                  </div>
+                  <div class="phone_main_wrap">
+                    <div class="d-flex w-100">
+                      <span v-if="country_code" class="country_code">
+                        (+{{ country_code }})
+                      </span>
+                      <span v-else class="country_code"> (+91) </span>
+                      <input
+                        class="form-control k_inp_field cus_ph_inp"
+                        aria-label="Phonenumber"
+                        aria-describedby="basic-addon1"
+                        type="text"
+                        @keypress="isNumber"
+                        :placeholder="
+                          $t(
+                            'company_profile.company_tab.company_setup_update.form.placeholder.phone_no'
+                          )
+                        "
+                        @blur="v$.companyForm.phonenumber.$touch"
+                        v-model="companyForm.phonenumber"
+                        :class="{
+                          'is-invalid': v$.companyForm.phonenumber.$error,
+                        }"
+                      />
+                      <div
+                        v-if="v$.companyForm.phonenumber.$error"
+                        class="invalid-feedback cust_err text-left"
+                      >
+                        <span
+                          v-if="v$.companyForm.phonenumber.required.$invalid"
+                          class="text-left fs-14"
+                        >
+                          Phone number is required
+                        </span>
+                        <span
+                          v-if="
+                            v$.companyForm.phonenumber.maxLengthValue.$invalid
+                          "
+                          class="text-left fs-14"
+                        >
+                          Phone Number must be 15 digit
+                        </span>
+                        <span
+                          v-if="
+                            v$.companyForm.phonenumber.minLengthValue.$invalid
+                          "
+                          class="text-left fs-14"
+                        >
+                          Phone Number at lest 6 digit
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="wrap_phone_inp">
                   <div class="k_form_group k_inp_number phone_field">
                     <div class="country_flag_wrap">
                       <img
@@ -378,7 +440,6 @@
                       />
                     </div>
                     <div class="country_code_wrap">
-                      <!-- <input type="text" :value="country_code" readonly /> -->
                       <span v-if="country_code" class="country_code_val"
                         >(+{{ country_code }})</span
                       >
@@ -429,7 +490,7 @@
                       </span>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
 
@@ -801,14 +862,6 @@ export default {
       } else {
         this.companyForm.auth_token = this.staffData.auth_token;
         this.companyForm.country_code = this.country_code;
-        // if (this.companyForm.phonenumber && this.country_code) {
-        //   this.codeWithNumber =
-        //     "(+" + this.country_code + ")" + this.companyForm.phonenumber;
-        // }
-        // let data = {
-        //   ...this.companyForm,
-        // };
-        // data.phonenumber = this.codeWithNumber;
         console.log("company data", this.companyForm);
         this.isSubmitted = true;
         SignupService.setUpCompany(this.companyForm)
@@ -1116,36 +1169,90 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.cus_ph_inp {
+  padding-left: 60px;
+  border-radius: 0 4px 4px 0 !important;
+  padding-left: 5rem;
+}
+.phone_main_wrap {
+  width: 82%;
+  float: right;
+}
+.cust_err {
+  position: absolute;
+  top: 100%;
+}
 .country_flag {
-  width: 30px;
+  width: 2rem;
   position: relative;
-  top: 20%;
-  left: 14%;
+  top: 16%;
+  left: 0%;
 }
 .country_code_wrap {
-  position: relative;
-  top: 10px;
-  left: 20px;
+  position: absolute;
+  top: 0px;
+  left: 14%;
   background: transparent !important;
+  width: auto;
+  height: 42px;
 }
-.country_code_val {
+.country_code {
+  // position: relative;
+  // top: 21%;
+  // left: 39%;
   font-style: 500;
   font-size: 16px;
   line-height: 20px;
   color: rgba(0, 0, 0, 0.5);
   position: absolute;
-  top: 17%;
-  left: 7%;
+  top: 11%;
+  bottom: 0;
+  padding: 5px;
+  z-index: 99;
 }
 .country_flag_wrap {
-  position: absolute;
-  top: -3px;
-  left: -4px;
-  background: #edf1f7 !important;
-  border-radius: 4px;
-  width: 40px;
-  height: 46px;
+  // position: absolute;
+  // top: -2px;
+  // left: -4px;
+  // background: #edf1f7 !important;
+  // border-radius: 4px;
+  // width: 75px;
+  // height: 46px;
+  width: 18%;
+  float: left;
+  background-color: #ced4da;
+  text-align: center;
 }
+// .country_flag {
+//   width: 30px;
+//   position: relative;
+//   top: 20%;
+//   left: 14%;
+// }
+// .country_code_wrap {
+//   position: relative;
+//   top: 10px;
+//   left: 20px;
+//   background: transparent !important;
+// }
+// .country_code_val {
+//   font-style: 500;
+//   font-size: 16px;
+//   line-height: 20px;
+//   color: rgba(0, 0, 0, 0.5);
+//   position: absolute;
+//   top: 17%;
+//   left: 7%;
+// }
+// .country_flag_wrap {
+//   position: absolute;
+//   top: -3px;
+//   left: -4px;
+//   background: #edf1f7 !important;
+//   border-radius: 4px;
+//   width: 40px;
+//   height: 46px;
+// }
 .confidencil_msg_body {
   background: linear-gradient(
     180deg,
@@ -1200,7 +1307,7 @@ export default {
   align-items: center;
   margin-bottom: 20px;
   .logo_holder {
-    width: 20%;
+    width: 6rem;
   }
   .logo_action_container {
     margin-left: 20px;
