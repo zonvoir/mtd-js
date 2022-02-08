@@ -121,7 +121,6 @@ export default {
   watch: {
     currentCompany: {
       handler(val) {
-        console.log(val);
         this.example8.value = val;
         this.getAllMemberList(this.example8.value);
       },
@@ -137,10 +136,7 @@ export default {
     // },
   },
   created() {
-    console.log("dsjksd", this.staffInfo);
-
     this.changeYear();
-    // this.currentYear = "" + new Date().getFullYear();
     if (
       this.staffInfo != null &&
       this.staffInfo != undefined &&
@@ -149,7 +145,6 @@ export default {
       this.getAllCompanies();
       this.getStaffDetails();
     }
-    // console.log("current Year", this.currentYear);
   },
   methods: {
     getStaffDetails() {
@@ -160,6 +155,7 @@ export default {
             this.$store.dispatch("getPersonalInfo", res.data.data);
           } else {
             errorhandler(res, this);
+            this.$router.push({ name: "signup-signin" });
           }
         })
         .catch((err) => {
@@ -167,7 +163,6 @@ export default {
         });
     },
     getAllCompanies() {
-      console.log(this.staffInfo.auth_token);
       companyService
         .companiesList({ auth_token: this.staffInfo.auth_token })
         .then((res) => {
@@ -229,7 +224,6 @@ export default {
         };
         departmentAssignedToStaff.push(dept);
       });
-      // this.$store.dispatch("getStaffsDepartment", departmentAssignedToStaff);
       this.$store.dispatch("GET_STAFFS_DEPARTMENT", departmentAssignedToStaff);
     },
     changeYear() {

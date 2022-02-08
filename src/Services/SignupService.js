@@ -42,7 +42,6 @@ class SignupService {
   }
   // Personal Details update
   getPersonalDetails(data) {
-    console.log("personal details", data);
     return http.post(
       "staffs/staff_by_token",
       { auth_token: data.auth_token },

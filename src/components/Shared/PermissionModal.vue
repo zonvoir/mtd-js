@@ -1,11 +1,5 @@
 <template>
   <div class="invite_btn_wrap">
-    <!-- <button
-      @click="invitePeople"
-      class="btn-primary btn text-uppercase k_btnfs14_w700"
-    >
-    </button> -->
-    <!-- @click="setPermission(people.staffid)" -->
     <button
       @click="setPermission"
       type="button"
@@ -39,7 +33,11 @@
             <BaseAccordion :allDepartments="membersDepartment">
               <template v-slot:accordion_content_body>
                 <div class="m-t-20">
-                  <PermissionTable />
+                  <PermissionTable
+                    :permissionArr="permissionArr.categories"
+                    v-for="permissionArr in permissionArr"
+                    :key="permissionArr.departmentid"
+                  />
                 </div>
               </template>
             </BaseAccordion>
@@ -54,8 +52,7 @@
             Cancel
           </button>
           <button
-            :disabled="isvalid"
-            @click="setMemberPermission"
+            @click="saveMemberPermission"
             type="button"
             class="btn btn-primary btn-set m-l-10"
           >
@@ -73,20 +70,26 @@ import DepartmentPermission from "../Shared/DepartmentPermission.vue";
 import { Modal } from "bootstrap";
 import BaseAccordion from "../Shared/BaseAccordion.vue";
 import { mapGetters } from "vuex";
+import CompanyService from "../../Services/Company/CompanyService";
+import errorhandler from "../../utils/Error";
 export default {
   data() {
     return {
       modal: null,
       rolesOfStaff: [],
       departmentLists: [],
+      permissionArr: [],
+      departmentArr: [],
       isvalid: true,
     };
   },
+
   components: {
     DepartmentPermission,
     PermissionTable,
     BaseAccordion,
   },
+
   mounted() {
     this.modal = new Modal(this.$refs.invitationModal);
   },
@@ -94,17 +97,40 @@ export default {
     ...mapGetters({
       staffInfo: "staffData",
       membersDepartment: "staffsDepartment",
+      // membersDepartment: "alocatedDepartments",
     }),
   },
   methods: {
     setPermission(id) {
       console.log("modal clicked", id);
-      this.modal.show();
+      let data = {
+        auth_token: this.staffInfo.auth_token,
+        staffid: 42,
+      };
+      CompanyService.setMemberPermission(data).then((res) => {
+        if (res.data.status) {
+          this.permissionArr = res.data.data;
+          this.departmentArr = [];
+          console.log("assign dept", res.data.data);
+          for (let i = 0; i < res.data.data.length; i++) {
+            let data = {
+              departmentid: res.data.data[i].departmentid,
+              name: res.data.data[i].name,
+            };
+            this.departmentArr.push(data);
+            console.log("show all departments of staff", this.departmentArr);
+          }
+          this.$store.dispatch("GET_ALOCATED_DEPARTMENTS", this.departmentArr);
+          this.modal.show();
+        } else {
+          errorhandler(res, this);
+        }
+      });
     },
     closeModal() {
       this.modal.hide();
     },
-    setMemberPermission() {
+    saveMemberPermission() {
       console.log("modal closed");
       this.closeModal();
     },

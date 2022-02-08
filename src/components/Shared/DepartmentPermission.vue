@@ -2,7 +2,7 @@
   <div>
     <div class="team_wrapper m-b-20">
       <div class="m-b-24">
-        <h4 class="m-b-0 title-dark">Description Permisiion</h4>
+        <h4 class="m-b-0 title-dark">Description Permission</h4>
       </div>
       <div class="m-b-12">
         <p class="staff_desc">
@@ -25,7 +25,7 @@
             v-model="dept_list"
             class="form-control k_inp_field"
             rules="required"
-            :options="allDepartments"
+            :options="modifyDept(allDepartments)"
           />
           <!-- @blur="v$.myDepartmensList.$touch"
             :class="{
@@ -57,7 +57,7 @@
             v-model="catgry_list"
             class="form-control k_inp_field"
             rules="required"
-            :options="categoriesList"
+            :options="modifyCategories(categoriesArr)"
           />
           <!-- @blur="v$.categoriesList.$touch"
             :class="{
@@ -86,7 +86,9 @@ import Multiselect from "@vueform/multiselect";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { mapGetters } from "vuex";
-import CommonService from "../../Services/CommonService";
+// import CommonService from "../../Services/CommonService";
+import { departmentModify } from "../../utils/DepartmentModify";
+import { getCategoryModified } from "../../utils/commonHelperFuntions";
 export default {
   props: {
     // departments: {
@@ -112,7 +114,8 @@ export default {
   computed: {
     ...mapGetters({
       staffInfo: "staffData",
-      allDepartments: "staffsDepartment",
+      categoriesArr: "allCategories",
+      allDepartments: "alocatedDepartments",
     }),
   },
   setup() {
@@ -126,39 +129,47 @@ export default {
       dept_list: { required },
     };
   },
-  mounted() {
-    this.isAccordionArr = new Array(4).fill(false);
-  },
+  // mounted() {
+  //   this.isAccordionArr = new Array(4).fill(false);
+  // },
   created() {
-    this.getCategoryList();
+    // this.getCategoryList();
   },
   methods: {
+    // get All dept lists
+    modifyDept(data) {
+      return departmentModify(data);
+    },
+    modifyCategories(data) {
+      return getCategoryModified(data);
+    },
+    // get All cateArr lists
     // get All Category lists
-    getCategoryList() {
-      CommonService.allCategories().then((resp) => {
-        if (resp.data.status) {
-          for (var i = 0; i < resp.data.data.length; i++) {
-            let categy = {
-              value: resp.data.data[i].id,
-              label: resp.data.data[i].name,
-            };
-            this.categoriesList.push(categy);
-          }
-          console.log("roles", this.categoriesList);
-        } else {
-          this.ownRoleLists = [
-            { value: 0, label: "No record found", disabled: true },
-          ];
-        }
-      });
-    },
-    toggleAccordion(index) {
-      this.isAccordionArr.forEach((ac, i) => {
-        if (index === i) {
-          this.isAccordionArr[i] = !this.isAccordionArr[i];
-        }
-      });
-    },
+    // getCategoryList() {
+    //   CommonService.allCategories().then((resp) => {
+    //     if (resp.data.status) {
+    //       for (var i = 0; i < resp.data.data.length; i++) {
+    //         let categy = {
+    //           value: resp.data.data[i].id,
+    //           label: resp.data.data[i].name,
+    //         };
+    //         this.categoriesList.push(categy);
+    //       }
+    //       console.log("roles", this.categoriesList);
+    //     } else {
+    //       this.ownRoleLists = [
+    //         { value: 0, label: "No record found", disabled: true },
+    //       ];
+    //     }
+    //   });
+    // },
+    // toggleAccordion(index) {
+    //   this.isAccordionArr.forEach((ac, i) => {
+    //     if (index === i) {
+    //       this.isAccordionArr[i] = !this.isAccordionArr[i];
+    //     }
+    //   });
+    // },
   },
 };
 </script>

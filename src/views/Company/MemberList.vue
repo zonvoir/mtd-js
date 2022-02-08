@@ -383,7 +383,6 @@ export default {
             roleInCompany.push(roles);
             this.ownRoleLists.push(roles);
           }
-          console.log("roles", this.ownRoleLists);
         } else {
           this.ownRoleLists = [
             { value: 0, label: "No record found", disabled: true },
@@ -395,6 +394,7 @@ export default {
     getCategoryList() {
       CommonService.allCategories().then((resp) => {
         if (resp.data.status) {
+          this.$store.dispatch("GET_ALL_CATEGORIES", resp.data.data);
           for (var i = 0; i < resp.data.data.length; i++) {
             let categy = {
               value: resp.data.data[i].id,
@@ -402,7 +402,6 @@ export default {
             };
             this.categoriesList.push(categy);
           }
-          console.log("roles", this.categoriesList);
         } else {
           this.ownRoleLists = [
             { value: 0, label: "No record found", disabled: true },

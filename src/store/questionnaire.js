@@ -10,6 +10,8 @@ export default createStore({
   state: {
     staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
     tokenStatus: undefined, // auth token status
+    alocatedDepartments: [], // departments allocated to perticular member
+    allCategories: [], // departments allocated to perticular member
     staffsDepartment: [],
     staffsCompanies: [],
     companyMembers: [],
@@ -30,8 +32,11 @@ export default createStore({
   },
   mutations: {
     // company profile
-    setStaffData(state, values) {
-      state.staffData = values;
+    setAlocatedDepartments(state, values) {
+      state.alocatedDepartments = values;
+    },
+    setAllCategories(state, values) {
+      state.allCategories = values;
     },
     setTokenStatus(state, status) {
       state.tokenStatus = status; // auth token status
@@ -101,8 +106,11 @@ export default createStore({
     GET_TOKEN_STATUS(context, val) {
       context.commit("setTokenStatus", val); // auth token status
     },
-    GET_STAFF_DATA(context, val) {
-      context.commit("setStaffData", val);
+    GET_ALOCATED_DEPARTMENTS(context, val) {
+      context.commit("setAlocatedDepartments", val);
+    },
+    GET_ALL_CATEGORIES(context, val) {
+      context.commit("setAllCategories", val);
     },
     getYear(context, val) {
       context.commit("setYear", val);
@@ -159,7 +167,9 @@ export default createStore({
   },
   getters: {
     tokenStatus: (state) => state.tokenStatus, // auth token status
-    staffData: (state) => state.staffData,
+    staffData: (state) => state.staffData, //get local storage data
+    allCategories: (state) => state.allCategories,
+    alocatedDepartments: (state) => state.alocatedDepartments,
     activeYear: (state) => state.activeYear,
     invitationList: (state) => state.invitationList,
     activeCompany: (state) => state.activeCompany,

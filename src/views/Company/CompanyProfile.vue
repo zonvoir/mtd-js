@@ -216,7 +216,8 @@
       </div>
       <div class="emloyees_wrap m-b-24">
         <div class="custom_grid g-0">
-          <div class="custom_grid_col m-r-15">
+          <CompanyInfo />
+          <!-- <div class="custom_grid_col m-r-15">
             <div class="detail_wrap b-radius-4 text-center bg_light zp-20">
               <h6 class="text_light info_title">
                 {{
@@ -229,7 +230,7 @@
                 {{ companyAllInformation.employees.total_employee }}
               </h1>
             </div>
-          </div>
+          </div> -->
           <div class="custom_grid_col m-r-15">
             <div class="detail_wrap b-radius-4 text-center bg_light zp-20">
               <h6 class="text_light info_title">
@@ -768,14 +769,13 @@ const tablist = [
 ];
 // import TabsHr from "../../components/Shared/TabsHr.vue";
 import Multiselect from "@vueform/multiselect";
-
+import CompanyInfo from "./components/CompanyInfoTile.vue";
 import { Modal } from "bootstrap";
 import companyService from "../../Services/Company/CompanyService";
 
 export default {
   components: {
-    // TabsHr,
-
+    CompanyInfo,
     Multiselect,
   },
   mounted() {

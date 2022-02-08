@@ -57,99 +57,55 @@
       </thead>
 
       <tbody>
-        <tr>
-          <td class="cell_width">
-            <div class="perms_td_title">KPI</div>
-          </td>
-          <td align="center" class="border_right_primary">
-            <div class="perms_td">
-              <BaseCheckBox />
-            </div>
-          </td>
-          <td align="center">
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td align="center" class="border_right_primary">
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td>
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td class="border_right_primary">
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td>
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td>
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td>
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td class="border_right_primary">
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td>
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td>
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-        </tr>
-        <tr>
-          <td class="cell_width">
-            <div class="perms_td_title">Advanced KPI</div>
-          </td>
-          <td align="center" class="border_right_primary">
-            <div class="perms_td">
-              <BaseCheckBox />
-            </div>
-          </td>
-          <td align="center">
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td align="center" class="border_right_primary">
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td>
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td class="border_right_primary">
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td>
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td>
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td>
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td class="border_right_primary">
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td>
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-          <td>
-            <div class="perms_td"><BaseCheckBox /></div>
-          </td>
-        </tr>
+        <!-- {{
+          categories
+        }} -->
+        <CategoryPermission
+          @getPermitData="getPermitData"
+          :categoryPermit="category"
+          v-for="category in permissionArr"
+          :key="category.cat_id"
+        />
+        <!-- <CategoryPermission /> -->
       </tbody>
     </table>
   </div>
 </template>
 
 <script>
-import BaseCheckBox from "../../components/Shared/BaseCheckbox.vue";
+import CategoryPermission from "./CategoryPermission.vue";
+
 export default {
-  daat() {
-    return {};
+  props: {
+    permissionArr: {
+      type: Array,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      isPermission: undefined,
+      cates: [],
+    };
   },
   components: {
-    BaseCheckBox,
+    // BaseCheckBox,
+    CategoryPermission,
+  },
+  created() {},
+  methods: {
+    getPermitData(val) {
+      this.isPermission = val.isAllowed;
+      let data = {
+        cat_id: 1,
+        val_id: val.id,
+        permission: val.isAllowed,
+      };
+      if (Object.values(data).length == 3) {
+        this.cates.push(data);
+      }
+      console.log("ger category permission", this.cates);
+    },
   },
 };
 </script>

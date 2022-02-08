@@ -84,6 +84,14 @@ class CompanyService {
       },
     });
   }
+  setMemberPermission(data) {
+    return http.post("staffs/member_permissions", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
   getYears() {
     return http.get("lists/years");
   }

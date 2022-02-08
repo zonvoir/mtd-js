@@ -5,8 +5,8 @@
         <input
           type="checkbox"
           :value="isChecked"
-          v-model="val"
           @change="updateAnswer"
+          v-model="val"
           checked="checked"
         />
         <span class="checkmark"></span>
@@ -33,9 +33,10 @@ export default {
   methods: {
     updateAnswer() {
       this.isChecked = !this.isChecked;
-      console.log("hello checked", this.val);
+      // console.log("hello checked", this.val);
       this.$emit("getCheckboxValue", {
-        checkedData: this.isChecked,
+        // checkedData: this.isChecked,
+        checkedData: this.val,
       });
     },
   },

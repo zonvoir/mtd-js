@@ -31,18 +31,6 @@
                 >
                   <!-- accordion body -->
                   <slot name="accordion_content_body"></slot>
-                  <!-- accordion body close -->
-                  <!-- <div class="m-b-12 m-t-20">
-                    <p class="staff_desc">
-                      Simply dummy text of the printing and typesetting
-                      industry. Lorem Ipsum has been the industry's standard
-                      dummy text ever since the 150.Lorem Ipsum is simply dummy
-                      text of the printing and typesetting industry. Lorem Ipsum
-                      has been the industry's standard dummy text ever since the
-                      Lorem Dummy text Industry was created.It has been the
-                      industry's standard dummy text.
-                    </p>
-                  </div> -->
                 </div>
               </div>
             </div>
@@ -77,6 +65,7 @@ export default {
   // },
   methods: {
     toggleAccordion(index) {
+      console.log("jhsddhs", index);
       this.isAccordionArr.forEach((ac, i) => {
         if (index === i) {
           this.isAccordionArr[i] = !this.isAccordionArr[i];

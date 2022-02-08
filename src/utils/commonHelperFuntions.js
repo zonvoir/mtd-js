@@ -20,6 +20,17 @@ export const getSeniorityModified = (seniorityArr) => {
   }
   return seniorityLevelArr;
 };
+export const getCategoryModified = (categoryArr) => {
+  let categoryArray = [];
+  for (var k = 0; k < categoryArr.length; k++) {
+    let level = {
+      value: categoryArr[k].id,
+      label: categoryArr[k].name,
+    };
+    categoryArray.push(level);
+  }
+  return categoryArray;
+};
 
 //  get first letter of string
 export const getFirstLetter = (str) => {

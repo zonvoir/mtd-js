@@ -59,8 +59,8 @@
             <div v-if="company.invited" class="select_check">
               <BaseCheckbox
                 :key="indx"
-                @getCheckboxValue="acceptUserChoice"
                 :checkval="company.invited"
+                @getCheckboxValue="acceptUserChoice"
               />
             </div>
           </div>
