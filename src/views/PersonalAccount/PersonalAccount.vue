@@ -811,7 +811,7 @@ export default {
       this.v$.$touch();
       if (!this.v$.$invalid) {
         // this.$refs.updateCareer.validateForm();
-        console.log(this.newAddedCareer);
+        console.log(this.newAddedCareer); //work start from here
         this.personalAccount.career_info = [
           ...this.careersArr,
           ...this.newAddedCareer,

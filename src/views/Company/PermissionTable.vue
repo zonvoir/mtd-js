@@ -57,9 +57,6 @@
       </thead>
 
       <tbody>
-        <!-- {{
-          categories
-        }} -->
         <CategoryPermission
           @getPermitData="getPermitData"
           :categoryPermit="category"

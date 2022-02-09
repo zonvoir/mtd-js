@@ -67,8 +67,6 @@ function guardMyroute(to, from, next) {
   var isAuthenticated = false;
   let user = localStorage.getItem("bWFpbCI6Inpvb");
   user = JSON.parse(user);
-  // let invitedUserData = JSON.parse(localStorage.getItem("bWFInpvitedbpbUser"));
-  // console.log("invitedUserData indexkkk", invitedUserData);
   if (
     user === null ||
     user === undefined ||

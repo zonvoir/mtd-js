@@ -213,16 +213,15 @@ export default {
                 this.isCompany
               );
               // this.$router.push({ name: "Dashboard" }); //for now temporrary basis
-              if (
+              if (res.data.data.is_career_information_setup == false) {
+                this.$router.push({ name: "signup-career" });
+              } else if (res.data.data.is_company_setup == false) {
+                this.$router.push({ name: "signup-company" });
+              } else if (
                 res.data.data.is_career_information_setup &&
                 res.data.data.is_company_setup
               ) {
                 this.$router.push({ name: "Dashboard" });
-                // if (
-                //   this.staffInfo != null &&
-                //   this.staffInfo != undefined &&
-                //   this.staffInfo != ""
-                // ) {
                 if (this.staffInfo && Object.keys(this.staffInfo).length != 0) {
                   this.invitaionAccepted();
                 }

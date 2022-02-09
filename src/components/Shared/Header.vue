@@ -11,18 +11,26 @@
           <template v-slot:singlelabel="{ value }">
             <div class="multiselect-single-label">
               <img
+                v-if="value.icon"
                 class="character-label-icon"
                 :src="value.icon ? value.icon : 'K_Icons/company_no_logo.svg'"
               />
+              <span v-else class="default_logo m-r-10">
+                <b>{{ getFirstCharacter(value.name) }}</b>
+              </span>
               {{ value.name }}
             </div>
           </template>
 
           <template v-slot:option="{ option }">
             <img
+              v-if="option.icon"
               class="character-option-icon"
               :src="option.icon ? option.icon : 'K_Icons/company_no_logo.svg'"
             />
+            <span v-else class="default_logo m-r-10">
+              <b> {{ getFirstCharacter(option.name) }}</b>
+            </span>
             {{ option.name }}
           </template>
         </Multiselect>
@@ -45,6 +53,14 @@
       <div class="profile-pic-conatiner">
         <a @click.prevent="toggleDropdown" class="user_acc">
           <img
+            v-if="
+              getProfileData.profile_image == '' || getProfileData.profile == ''
+            "
+            src="default-user.png"
+            class="profile-pic"
+          />
+          <img
+            v-else
             :src="
               getProfileData.profile_image
                 ? getProfileData.profile_image
@@ -80,10 +96,10 @@
 <script>
 import Multiselect from "@vueform/multiselect";
 import signupService from "../../Services/SignupService";
-import userLogo from "../../assets/users/100_3.jpg";
 import companyService from "../../Services/Company/CompanyService";
 import { mapGetters } from "vuex";
 import errorhandler from "../../utils/Error";
+import { getFirstLetter } from "../../utils/commonHelperFuntions";
 export default {
   name: "Header",
   components: {
@@ -92,7 +108,6 @@ export default {
   data() {
     return {
       state: false,
-      userLogo,
       userpic: "",
       currentYear: "" + new Date().getFullYear(),
       yearOptions: [],
@@ -161,6 +176,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    getFirstCharacter(str) {
+      return getFirstLetter(str);
     },
     getAllCompanies() {
       companyService
@@ -333,5 +351,26 @@ li {
   box-shadow: 0px 2px 25px rgba(178, 187, 211, 0.12);
   display: flex;
   align-items: center;
+}
+.default_logo {
+  justify-content: center;
+  align-content: center;
+  display: inline-flex;
+  padding-top: 4px;
+  // font-size: 18px;
+  line-height: 1.7rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  // font-weight: bold;
+  background-color: #42aaff;
+  border-radius: 4px;
+  b {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
 }
 </style>

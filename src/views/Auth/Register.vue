@@ -347,12 +347,12 @@
           </div>
           <div class="verify-subtitle q-pb-none">
             <h6 class="">
-              We've sent you a email verification link to
-              <strong>{{ registerForm.email }}</strong
+              We've sent you an email verification link to
+              <strong>{{ registeredEmail }}</strong
               ><br />
               Please click that link to verify your email address.
               <br />
-              If you dont't see it please check it in your
+              If you don't see it please check it in your
               <strong>spam</strong> folder
             </h6>
           </div>
@@ -401,9 +401,9 @@ export default {
 
   data() {
     return {
-      // visibilityIcon: "img/eye-off.ac4fa589.svg",
       visibilityIcon: "icons/eye-off.svg",
       passwordFieldType: "password",
+      registeredEmail: undefined,
       visibility: false,
       isSubmitted: false,
       invitedUserData: undefined,
@@ -508,12 +508,12 @@ export default {
           .then((response) => {
             if (response.data.status) {
               console.log("regitration respponse", response.data.data);
+              this.registeredEmail = response.data.data.email;
               this.$toast.success(response.data.message, {
                 position: "bottom-left",
                 duration: 3712,
               });
-              console.log(response);
-              this.formReset();
+
               if (this.invitedUserData === null) {
                 this.modal.show();
               } else {
@@ -524,6 +524,7 @@ export default {
                 this.$router.push({ name: "signup-career" });
                 console.log("userSata");
               }
+              this.formReset();
             } else {
               errorhandler(response, this);
             }

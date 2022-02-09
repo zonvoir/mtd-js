@@ -417,80 +417,18 @@
                         >
                           Phone Number must be 15 digit
                         </span>
-                        <span
+                        <!-- <span
                           v-if="
                             v$.companyForm.phonenumber.minLengthValue.$invalid
                           "
                           class="text-left fs-14"
                         >
                           Phone Number at lest 6 digit
-                        </span>
+                        </span> -->
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- <div class="wrap_phone_inp">
-                  <div class="k_form_group k_inp_number phone_field">
-                    <div class="country_flag_wrap">
-                      <img
-                        v-if="country_flag"
-                        :src="country_flag"
-                        class="country_flag"
-                        alt=""
-                      />
-                    </div>
-                    <div class="country_code_wrap">
-                      <span v-if="country_code" class="country_code_val"
-                        >(+{{ country_code }})</span
-                      >
-                      <span v-else class="country_code_val">(+ 91 )</span>
-                    </div>
-                    <input
-                      type="number"
-                      maxlength="10"
-                      minlength="10"
-                      @keypress="isNumber"
-                      class="form-control shift_number k_inp_field"
-                      :placeholder="
-                        $t(
-                          'company_profile.company_tab.company_setup_update.form.placeholder.phone_no'
-                        )
-                      "
-                      @blur="v$.companyForm.phonenumber.$touch"
-                      v-model="companyForm.phonenumber"
-                      :class="{
-                        'is-invalid': v$.companyForm.phonenumber.$error,
-                      }"
-                    />
-                    <div
-                      v-if="v$.companyForm.phonenumber.$error"
-                      class="invalid-feedback text-left"
-                    >
-                      <span
-                        v-if="v$.companyForm.phonenumber.required.$invalid"
-                        class="text-left fs-14"
-                      >
-                        Phone number is required
-                      </span>
-                      <span
-                        v-if="
-                          v$.companyForm.phonenumber.maxLengthValue.$invalid
-                        "
-                        class="text-left fs-14"
-                      >
-                        Phone Number must be 10 digit
-                      </span>
-                      <span
-                        v-if="
-                          v$.companyForm.phonenumber.minLengthValue.$invalid
-                        "
-                        class="text-left fs-14"
-                      >
-                        Phone Number at least 10 digit
-                      </span>
-                    </div>
-                  </div>
-                </div> -->
               </div>
             </div>
 
@@ -706,7 +644,7 @@
 </template>
 
 <script>
-import { required, numeric, minLength, maxLength } from "@vuelidate/validators";
+import { required, numeric, maxLength } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import Multiselect from "@vueform/multiselect";
 import CommonService from "../../Services/CommonService";
@@ -831,7 +769,7 @@ export default {
           required,
           numeric,
           maxLengthValue: maxLength(15),
-          minLengthValue: minLength(10),
+          // minLengthValue: minLength(10),
         },
         main_industry: { required },
         sub_industry: { required },

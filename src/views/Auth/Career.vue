@@ -7,7 +7,6 @@
             <h2 class="main-heading">Career Information</h2>
           </div>
         </div>
-        <!-- {{ staffCareerForm }} -->
         <div class="form-wrapper">
           <form action="">
             <div class="row">
@@ -279,7 +278,6 @@ export default {
     getInvitationDetails(data) {
       SignupService.getInvitedCareerData(data).then((res) => {
         if (res.data.status) {
-          console.log("get data by invitaition id", res.data.data);
           this.staffCareerForm = {
             company: res.data.data.company.company_name,
             department: getDepartemntsValue(res.data.data.departments),
@@ -294,18 +292,11 @@ export default {
       });
     },
     formReset() {
-      console.log(
-        localStorage.getItem("bWFpbCI6Inpvb"),
-        sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")
-      );
-      //xasasas
-
       if (
         localStorage.getItem("bWFpbCI6Inpvb") != null ||
         sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null
       ) {
         this.staffData.is_career_information_setup = true;
-        console.log("this is invited user  enter reset", this.staffData);
         // localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
 
         // this code add also run for save email on login
@@ -325,13 +316,11 @@ export default {
         "invitation_id" in this.invitedUserData &&
         this.invitedUserData.invitation_id
       ) {
-        console.log("this is invited user after form reset");
         this.$router.push({ name: "link-company-account" });
         // this.$router.push({ name: "Dashboard" });
         // localStorage.removeItem("bWFInpvitedbpbUser");
       } else {
         this.$router.push({ name: "signup-company" });
-        console.log("data to career");
       }
     },
     // get Industry lists
@@ -427,7 +416,7 @@ export default {
     },
 
     checkCareerSetup(data) {
-      console.log("iiiiiiiiiiiiiiiiiiiiikkkkkkkkkkk", data);
+      console.log("ik is career setup", data);
       // if (
       //   this.staffData != null &&
       //   (this.staffData.auth_token != undefined ||
@@ -436,8 +425,6 @@ export default {
       // ) {
       SignupService.checkCareerInfo(data).then((res) => {
         if (res.data.status) {
-          console.log("Kuldip from checkCareerSetup at career.", res.data.data);
-
           // No Company setup for Invited user
           if (this.invitedUser === false) {
             console.log("this is invited user", this.invitedUser);

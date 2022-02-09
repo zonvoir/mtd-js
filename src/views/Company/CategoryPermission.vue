@@ -8,7 +8,6 @@
         <BaseCheckBox
           :key="`${categoryPermit.company_id}${categoryPermit.category_id}`"
           :checkval="categoryPermit.permissions.ans"
-          @click="currentPermissson(1)"
           @getCheckboxValue="
             getPermissionValue(
               $event,
@@ -22,19 +21,30 @@
     <td align="center">
       <div class="perms_td">
         <BaseCheckBox
-          :key="2"
-          :checkval="true"
-          @click="currentPermissson(2)"
-          @getCheckboxValue="getPermissionValue"
+          :key="`${categoryPermit.company_id}${categoryPermit.category_id}`"
+          :checkval="categoryPermit.permissions.ans"
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.company_id,
+              categoryPermit.category_id
+            )
+          "
         />
       </div>
     </td>
     <td align="center" class="border_right_primary">
       <div class="perms_td">
         <BaseCheckBox
-          :key="3"
-          :checkval="true"
-          @getCheckboxValue="getPermissionValue"
+          :key="`${categoryPermit.company_id}${categoryPermit.category_id}`"
+          :checkval="categoryPermit.permissions.ans"
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.company_id,
+              categoryPermit.category_id
+            )
+          "
         />
       </div>
     </td>
@@ -167,6 +177,7 @@ export default {
   methods: {
     getPermissionValue(ev, companyId, categoryId) {
       console.log(companyId, categoryId);
+      this.currentId = companyId + categoryId;
       this.isAllowed = ev.checkedData;
       this.$emit("getPermitData", {
         id: this.currentId,
