@@ -201,15 +201,7 @@ export default {
   },
 
   validations: {
-    staffCareerForm: {
-      // company: { required },
-      // position: { required },
-      // industry: { required },
-      // department: { required },
-      // seniority_level: { required },
-      // to: { required },
-      // from: { required },
-    },
+    staffCareerForm: {},
   },
   setup() {
     return {
@@ -258,10 +250,10 @@ export default {
               console.log("career info", response.data.data.career_info);
 
               // this.$store.dispatch("getPersonalInfo", response.data.data); new flow //update personal information
-              this.$toast.success(response.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
+              // this.$toast.success(response.data.message, {
+              //   position: "bottom-left",
+              //   duration: 3712,
+              // });
               this.formReset();
             } else {
               errorhandler(response, this);

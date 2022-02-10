@@ -860,7 +860,7 @@ export default {
     isCareerFilled(value) {
       if (value && Object.keys(value).length != 0) {
         this.newAddedCareer.push(value.newCareer);
-        console.log("career array ", this.newAddedCareer);
+        console.log("career arraykk ", this.newAddedCareer);
       }
     },
     isCareerUpdated(value) {

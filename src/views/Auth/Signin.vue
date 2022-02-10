@@ -125,6 +125,7 @@ export default {
   created() {
     let invitedStaffData = this.$route.query;
     console.log(invitedStaffData);
+    //localStorage.removeItem("bWFpbCI6Inpvb"); //new 9f
     // if (
     //   invitedStaffData != null ||
     //   invitedStaffData != undefined ||

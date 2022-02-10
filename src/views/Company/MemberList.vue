@@ -122,11 +122,13 @@
                 <div class="member_detail">
                   <div class="member_pic">
                     <img
-                      :src="
-                        people.profile_image ? people.profile_image : UserPic
-                      "
+                      v-if="people.profile_image"
+                      :src="people.profile_image ? people.profile_image : ''"
                       class="member_profile"
                     />
+                    <span v-else class="default_logo">
+                      <b>{{ formatMemberName(people.firstname) }}</b>
+                    </span>
                   </div>
                   <div class="member_info">
                     <h4 class="member_Id">
@@ -225,12 +227,13 @@
 // import TabsHr from "../../components/Shared/TabsHr.vue";
 import Multiselect from "@vueform/multiselect";
 import searchIcon from "../../../public/icons/search.svg";
-import UserPic from "../../assets/users/Avatar.png";
+// import UserPic from "../../assets/users/Avatar.png";
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
 import { mapGetters } from "vuex";
 import CommonService from "../../Services/CommonService";
 import PermissionModal from "../../components/Shared/PermissionModal.vue";
 import CompanyService from "../../Services/Company/CompanyService";
+import { getFirstLetter } from "../../utils/commonHelperFuntions";
 const tablist = [
   {
     tabId: 0,
@@ -257,7 +260,7 @@ export default {
       filterRole: "",
       ownRoleLists: [],
       departmentLists: [],
-      UserPic,
+      // UserPic,
       tablist,
       dept_list: [],
       categy_list: [],
@@ -293,6 +296,9 @@ export default {
   methods: {
     setPermission(id) {
       console.log("staff id is ", id);
+    },
+    formatMemberName(str) {
+      return getFirstLetter(str);
     },
     // this.dept_list.map(Number),
     SearchByKeyword(event) {
@@ -432,6 +438,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.default_logo {
+  justify-content: center;
+  align-content: center;
+  display: inline-flex;
+  line-height: 3rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: #8f9bb3;
+  border: 2px solid #ffffff;
+  b {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 3rem;
+    text-align: center;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+}
 .icons_wrap {
   margin-bottom: 0;
   padding-left: 0;

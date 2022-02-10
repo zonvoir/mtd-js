@@ -5,37 +5,20 @@
     </td>
     <td align="center" class="border_right_primary">
       <div class="perms_td">
-        <BaseCheckBox
-          :key="`${categoryPermit.company_id}${categoryPermit.category_id}`"
-          :checkval="categoryPermit.permissions.ans"
-          @getCheckboxValue="
-            getPermissionValue(
-              $event,
-              categoryPermit.company_id,
-              categoryPermit.category_id
-            )
-          "
-        />
+        <!-- :checkval="categoryPermit.permissions.ans" -->
+        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
       </div>
     </td>
     <td align="center">
       <div class="perms_td">
-        <BaseCheckBox
-          :key="`${categoryPermit.company_id}${categoryPermit.category_id}`"
-          :checkval="categoryPermit.permissions.ans"
-          @getCheckboxValue="
-            getPermissionValue(
-              $event,
-              categoryPermit.company_id,
-              categoryPermit.category_id
-            )
-          "
-        />
+        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
       </div>
     </td>
     <td align="center" class="border_right_primary">
       <div class="perms_td">
-        <BaseCheckBox
+        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
+        <!-- <BaseCheckBox
+          :checkval="categoryPermit.permissions.ans"
           :key="`${categoryPermit.company_id}${categoryPermit.category_id}`"
           :checkval="categoryPermit.permissions.ans"
           @getCheckboxValue="
@@ -45,7 +28,7 @@
               categoryPermit.category_id
             )
           "
-        />
+        /> -->
       </div>
     </td>
     <td>

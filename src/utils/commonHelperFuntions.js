@@ -39,7 +39,6 @@ export const getFirstLetter = (str) => {
 //  genrate random hex color code
 export const setRandomBG = () => {
   var letters = "0123456789ABCDEF";
-
   // html color code starts with #
   var color = "#";
 
@@ -47,4 +46,9 @@ export const setRandomBG = () => {
   // of 6 letter or digits
   for (var i = 0; i < 6; i++) color += letters[Math.floor(Math.random() * 16)];
   return color;
+};
+export const setRandomBackground = () => {
+  let backgrounds = ["#0ACA8A", "#FFC94D", "#2E3A59"];
+  let background = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+  return background;
 };

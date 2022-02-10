@@ -111,15 +111,17 @@ export default {
         if (res.data.status) {
           this.permissionArr = res.data.data;
           this.departmentArr = [];
-          console.log("assign dept", res.data.data);
+          console.log("assign dept", this.permissionArr);
           for (let i = 0; i < res.data.data.length; i++) {
             let data = {
-              departmentid: res.data.data[i].departmentid,
-              name: res.data.data[i].name,
+              value: res.data.data[i].departmentid,
+              label: res.data.data[i].name,
             };
             this.departmentArr.push(data);
-            console.log("show all departments of staff", this.departmentArr);
           }
+          // this.permissionArr.push(this.departmentArr);
+          this.permissionArr.departments = this.departmentArr;
+          console.log("show all departments of staff", this.permissionArr);
           this.$store.dispatch("GET_ALOCATED_DEPARTMENTS", this.departmentArr);
           this.modal.show();
         } else {

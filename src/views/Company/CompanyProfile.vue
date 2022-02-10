@@ -10,12 +10,15 @@
               :src="
                 companyAllInformation.company_logo
                   ? companyAllInformation.company_logo
-                  : 'K_icons/company_logo_64.svg'
+                  : ''
               "
               class="c_logo_wrapper"
-              alt=""
+              :alt="companyAllInformation.company"
             />
-            <div v-else class="c_logo_wrapper_default"></div>
+            <span class="default_logo" :style="{ background: getBgColor() }">
+              <b>{{ formatMemberName(companyAllInformation.company) }}</b>
+            </span>
+            <!-- <div v-else class="c_logo_wrapper_default"></div> -->
           </div>
           <div class="c_details_wrapper">
             <h4 class="text_heading fs-22 fw-700 m-b-9">
@@ -772,6 +775,10 @@ import Multiselect from "@vueform/multiselect";
 import CompanyInfo from "./components/CompanyInfoTile.vue";
 import { Modal } from "bootstrap";
 import companyService from "../../Services/Company/CompanyService";
+import {
+  getFirstLetter,
+  setRandomBackground,
+} from "../../utils/commonHelperFuntions";
 
 export default {
   components: {
@@ -796,6 +803,14 @@ export default {
     };
   },
   methods: {
+    // get member name format
+    formatMemberName(str) {
+      return getFirstLetter(str);
+    },
+    // get member name format
+    getBgColor() {
+      return setRandomBackground();
+    },
     openCustomModal() {
       this.modal.show();
     },
@@ -831,6 +846,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.default_logo {
+  justify-content: center;
+  align-content: center;
+  display: inline-flex;
+  line-height: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 4px;
+  b {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 2.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+}
 .c_logo_wrapper_default {
   width: 40px;
   height: 40px;

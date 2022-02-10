@@ -735,19 +735,6 @@ export default {
         this.$router.push({ name: "signup-company" }); // now 3f
       }
     }
-    // now 3f
-
-    //  else {
-    //   console.log("ejejke");
-    //   // if (
-    //   //   localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-    //   //   localStorage.getItem("bWFpbCI6Inpvb") == null ||
-    //   //   localStorage.getItem("bWFpbCI6Inpvb") == ""
-    //   // ) {
-    //   this.$router.push({ name: "signup-signin" });
-    //   // }
-    // }
-
     this.checkCompany();
     this.getIndustryList();
     this.getLegalCoporation();
@@ -761,7 +748,6 @@ export default {
   },
   validations() {
     return {
-      // $th = this,
       companyForm: {
         company: { required },
         country: { required },
@@ -785,12 +771,10 @@ export default {
     this.modal.hide();
   },
   unmounted() {
-    console.log("vishal from unmounted", this.modal);
     this.modal.hide();
   },
   methods: {
     visRedirect() {
-      // this.modal.hide();
       this.$router.push({ name: "signup-signin" });
     },
     saveCompanyInfo() {
@@ -805,12 +789,36 @@ export default {
         SignupService.setUpCompany(this.companyForm)
           .then((response) => {
             if (response.data.status) {
-              console.log("company Infomation", response.data.data);
+              console.log("COMPANY INFOMATION", response.data.data);
               this.$store.dispatch("getCompanyInfoDetails", response.data.data);
-              this.$toast.success(response.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
+              // set local storage Data
+              if (
+                localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
+                localStorage.getItem("bWFpbCI6Inpvb") == null ||
+                localStorage.getItem("bWFpbCI6Inpvb") == ""
+              ) {
+                let memberStaffData = {
+                  auth_token: response.data.data.auth_token,
+                  is_company_setup: true,
+                  is_career_information_setup: true,
+                };
+                console.log("member Data", memberStaffData);
+                localStorage.setItem(
+                  "bWFpbCI6Inpvb",
+                  JSON.stringify(memberStaffData)
+                );
+              }
+              // delete session storage Data
+              if (
+                sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") !=
+                  undefined ||
+                sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null ||
+                sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != ""
+              ) {
+                console.log("session deleted !");
+                sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
+              }
+
               this.formReset();
             } else {
               errorhandler(response, this);
@@ -844,6 +852,7 @@ export default {
       if (localStorage.getItem("bWFpbCI6Inpvb") != null) {
         this.staffData.is_company_setup = true;
         localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
+        console.log(" there is data in local storage");
         this.$router.push({ name: "Dashboard" });
       } else {
         this.$router.push({ name: "signup-signin" });
@@ -1054,7 +1063,7 @@ export default {
           auth_token: this.staffData.auth_token,
         }).then((resp) => {
           if (resp.data.status) {
-            console.log("chack for company is setup or not");
+            console.log("there company is already setup");
             this.$router.push({ name: "Dashboard" });
           }
         });
@@ -1081,24 +1090,13 @@ export default {
       });
     },
     onChangeCountry() {
-      console.log("Detail Industry", this.companyForm.country);
       this.selectedCountryCode(+this.companyForm.country);
     },
     selectedCountryCode(id) {
-      console.log("get country id", id);
       CommonService.getCountryCode({ country_id: id }).then((resp) => {
         if (resp.data.status) {
           this.country_flag = resp.data.data.image;
           this.country_code = resp.data.data.code;
-          console.log(
-            "country codes and flags",
-            this.country_flag,
-            this.country_code
-          );
-        } else {
-          // this.countryLists = [
-          //   { value: 0, label: "No record found", disabled: true },
-          // ];
         }
       });
     },

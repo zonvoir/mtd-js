@@ -38,26 +38,7 @@
             <button class="btn btn-primary btn-set">Watch</button>
           </div>
           <div>
-            <Accordion3 :items="item.subItems">
-              <!-- <template v-slot:accordionbody1>
-                <div class="list_wrap">
-                  <ul>
-                    <li>{{ item.subItems }}</li>
-                    <li
-                      v-for="point in item.subItems[index].points"
-                      :key="point.id"
-                    >
-                      <div class="list_item">
-                        <h4 class="m-b-0 list_title">
-                          <span class="m-r-2">{{ point.id }}.</span
-                          >{{ point.title }}
-                        </h4>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </template> -->
-            </Accordion3>
+            <Accordion3 :items="item.subItems"> </Accordion3>
           </div>
         </div>
       </div>
@@ -75,128 +56,7 @@ export default {
     Accordion3,
   },
   data() {
-    return {
-      //   items: [
-      //     {
-      //       id: 1,
-      //       title: "KPI",
-      //       video_title: "What is KPI ?",
-      //       subItems: [
-      //         {
-      //           id: 1,
-      //           title: "How do you measure KPI?",
-      //           points: [
-      //             {
-      //               id: 1,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 2,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 3,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 4,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 5,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //           ],
-      //         },
-      //         {
-      //           id: 2,
-      //           title: "What are good KPI examples?",
-      //           points: [
-      //             {
-      //               id: 1,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 2,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 3,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 4,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 5,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //           ],
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       id: 2,
-      //       title: "Advanced KPI",
-      //       video_title: "What is Advanced KPI ?",
-      //       subItems: [
-      //         {
-      //           id: 1,
-      //           title: "How do you measure KPI?",
-      //           points: [
-      //             {
-      //               id: 1,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 2,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 3,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 4,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 5,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //           ],
-      //         },
-      //         {
-      //           id: 2,
-      //           title: "What are good KPI examples?",
-      //           points: [
-      //             {
-      //               id: 1,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 2,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 3,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 4,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //             {
-      //               id: 5,
-      //               title: "Monthly new leads/prospects.",
-      //             },
-      //           ],
-      //         },
-      //       ],
-      //     },
-      //   ],
-    };
+    return {};
   },
 };
 </script>

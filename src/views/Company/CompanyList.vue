@@ -47,6 +47,7 @@
                 <div class="company_detail company_add">
                   <div class="company_pic">
                     <img
+                      v-if="_company.company_logo"
                       :src="
                         _company.company_logo
                           ? _company.company_logo
@@ -54,6 +55,13 @@
                       "
                       class="company-logo"
                     />
+                    <span
+                      v-else
+                      :style="{ background: getBgColor() }"
+                      class="default_logo m-r-10"
+                    >
+                      <b>{{ formatMemberName(_company.company) }}</b>
+                    </span>
                   </div>
                   <div class="company_info">
                     <h4 class="company_name">{{ _company.company }}</h4>
@@ -90,10 +98,11 @@
                               class="members_profile_pic"
                               alt=""
                             />
-                            <div v-else class="first_letter_wraper">
-                              <span class="member_first_letter">
-                                {{ formatMemberName(_member.firstname) }}</span
-                              >
+                            <div
+                              v-else
+                              class="default_logo default_member_logo"
+                            >
+                              <b> {{ formatMemberName(_member.firstname) }}</b>
                             </div>
                           </div>
                         </div>
@@ -120,7 +129,10 @@
 import UserPic from "../../assets/users/Avatar.png";
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
 import { mapGetters } from "vuex";
-import { getFirstLetter } from "../../utils/commonHelperFuntions";
+import {
+  getFirstLetter,
+  setRandomBackground,
+} from "../../utils/commonHelperFuntions";
 const tablist = [
   {
     tabId: 0,
@@ -155,9 +167,9 @@ export default {
       return getFirstLetter(str);
     },
     // get member name format
-    // getBgColor() {
-    //   return setRandomBG();
-    // },
+    getBgColor() {
+      return setRandomBackground();
+    },
 
     addCompany() {
       this.$router.push({ name: "company-update" });
@@ -179,6 +191,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.default_logo {
+  justify-content: center;
+  align-content: center;
+  display: inline-flex;
+  line-height: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 4px;
+  b {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 2.4rem;
+    text-align: center;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+}
+.default_member_logo {
+  background-color: #8f9bb3;
+  border-radius: 50% !important;
+  border: 2px solid #ffffff;
+}
 .first_letter_wraper {
   position: relative;
   width: 40px;

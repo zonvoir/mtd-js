@@ -77,19 +77,14 @@
         <div class="modal-body">
           <div class="verify_email">
             <h2 class="verify_title">
-              <strong>Please setup your Company first.</strong>
+              <strong
+                >Please setup your company and career information first.</strong
+              >
             </h2>
           </div>
           <div class="verify-subtitle q-pb-none">
             <h6 class="">
               You've not setup your company and career information
-              <!-- <strong>{{ registerForm.email }}</strong 
-              > -->
-              <!-- <br />
-              Please setup your Company first.
-              <br /> -->
-              <!-- If you dont't see it please check it in your
-              <strong>spam</strong> folder -->
             </h6>
           </div>
         </div>
@@ -213,11 +208,12 @@ export default {
                 this.isCompany
               );
               // this.$router.push({ name: "Dashboard" }); //for now temporrary basis
-              if (res.data.data.is_career_information_setup == false) {
-                this.$router.push({ name: "signup-career" });
-              } else if (res.data.data.is_company_setup == false) {
-                this.$router.push({ name: "signup-company" });
-              } else if (
+              //    if (res.data.data.is_career_information_setup == false) {
+              //   this.modal.show();
+              // } else if (res.data.data.is_company_setup == false) {
+              //   this.modal.show();
+              // } else
+              if (
                 res.data.data.is_career_information_setup &&
                 res.data.data.is_company_setup
               ) {
@@ -257,12 +253,13 @@ export default {
     closeModal() {
       console.log(this.isCompany, this.isCareer);
       this.modal.hide();
-      this.$router.push({ name: "signup-career" });
-    },
-    formReset() {
-      this.v$.$reset();
-
-      this.$router.push({ name: "Dashboard" });
+      if (this.isCareer == false) {
+        this.$router.push({ name: "signup-career" });
+      } else if (this.isCompany == false) {
+        this.$router.push({ name: "signup-company" });
+      } else {
+        this.$router.push({ name: "Dashboard" });
+      }
     },
   },
 };
