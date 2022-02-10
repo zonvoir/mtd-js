@@ -16,6 +16,7 @@
             <div class="d-inline-flex">
               <div class="com_logo_wrap">
                 <img
+                  v-if="company.company_logo"
                   :src="
                     company.company_logo
                       ? company.company_logo
@@ -24,6 +25,9 @@
                   class="com_logo"
                   alt=""
                 />
+                <span v-else class="default_logo default_member_logo">
+                  <b> {{ formatMemberName(company.company) }}</b>
+                </span>
               </div>
               <div class="comp_basic_info">
                 <h5 class="company_title">{{ company.company }}</h5>
@@ -107,6 +111,7 @@
 <script>
 import BaseCheckbox from "../../components/Shared/BaseCheckbox.vue";
 import CompanyService from "../../Services/Company/CompanyService";
+import { getFirstLetter } from "../../utils/commonHelperFuntions";
 import errorhandler from "../../utils/Error";
 export default {
   data() {
@@ -134,6 +139,9 @@ export default {
     acceptUserChoice(value) {
       console.log("value date", value);
       this.invitaionStatus = value.checkedData;
+    },
+    formatMemberName(str) {
+      return getFirstLetter(str);
     },
     companySelected() {
       this.isSubmitted = true;
@@ -218,6 +226,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.default_logo {
+  justify-content: center;
+  align-content: center;
+  display: inline-flex;
+  line-height: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #42aaff;
+  border-radius: 4px;
+  b {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 2.4rem;
+    text-align: center;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+}
 .space_btn3 {
   margin-top: 287px;
   margin-bottom: 30px;

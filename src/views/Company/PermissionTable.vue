@@ -60,9 +60,13 @@
         <CategoryPermission
           @getPermitData="getPermitData"
           :categoryPermit="category"
-          v-for="category in permissionArr"
-          :key="category.cat_id"
+          v-for="category in categoryList"
+          :key="category.id"
         />
+        <!-- <template v-if="categoryList.permissions">
+        </template> -->
+        <!-- v-for="permission in categoryList.permissions"
+          :key="permission.cat_id" -->
         <!-- <CategoryPermission /> -->
       </tbody>
     </table>
@@ -74,7 +78,7 @@ import CategoryPermission from "./CategoryPermission.vue";
 
 export default {
   props: {
-    permissionArr: {
+    categoryList: {
       type: Array,
       required: true,
     },
@@ -89,7 +93,9 @@ export default {
     // BaseCheckBox,
     CategoryPermission,
   },
-  created() {},
+  created() {
+    console.log("data from table", this.categoryList);
+  },
   methods: {
     getPermitData(val) {
       this.isPermission = val.isAllowed;

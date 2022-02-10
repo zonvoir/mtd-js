@@ -239,8 +239,6 @@ export default {
         Object.keys(data).length !== 0 &&
         data["career_info"].length > 0
       ) {
-        // return;
-        // } else {
         console.log("career from Data after updatedkk", data);
         this.isSubmitted = true;
         SignupService.updateCareerInformation(data)

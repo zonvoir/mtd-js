@@ -6,18 +6,30 @@
     <td align="center" class="border_right_primary">
       <div class="perms_td">
         <!-- :checkval="categoryPermit.permissions.ans" -->
-        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
+        <BaseCheckBox
+          v-if="categoryPermit.permissions != null"
+          :checkval="categoryPermit.permissions.ans"
+          @getCheckboxValue="getPermissionValue"
+        />
       </div>
     </td>
     <td align="center">
       <div class="perms_td">
-        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
+        <BaseCheckBox
+          v-if="categoryPermit.permissions != null"
+          :checkval="categoryPermit.permissions.edit_own"
+          @getCheckboxValue="getPermissionValue"
+        />
       </div>
     </td>
     <td align="center" class="border_right_primary">
       <div class="perms_td">
-        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
-        <!-- <BaseCheckBox
+        <BaseCheckBox
+          v-if="categoryPermit.permissions != null"
+          :checkval="categoryPermit.permissions.edit_dept"
+          @getCheckboxValue="getPermissionValue"
+        />
+        <!-- <BaseCheckBox v-if="categoryPermit.permissions!=null"
           :checkval="categoryPermit.permissions.ans"
           :key="`${categoryPermit.company_id}${categoryPermit.category_id}`"
           :checkval="categoryPermit.permissions.ans"
@@ -33,42 +45,75 @@
     </td>
     <td>
       <div class="perms_td">
-        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
+        <BaseCheckBox
+          v-if="categoryPermit.permissions != null"
+          :checkval="categoryPermit.permissions.vr_own"
+          @getCheckboxValue="getPermissionValue"
+        />
       </div>
     </td>
     <td class="border_right_primary">
       <div class="perms_td">
-        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
+        <BaseCheckBox
+          v-if="categoryPermit.permissions != null"
+          :checkval="categoryPermit.permissions.vr_dept"
+          @getCheckboxValue="getPermissionValue"
+        />
       </div>
     </td>
     <td>
       <div class="perms_td">
-        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
+        <BaseCheckBox
+          v-if="categoryPermit.permissions != null"
+          :checkval="categoryPermit.permissions.gr_own_module"
+          @getCheckboxValue="getPermissionValue"
+        />
       </div>
     </td>
     <td>
       <div class="perms_td">
-        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
+        <BaseCheckBox
+          v-if="categoryPermit.permissions != null"
+          :checkval="categoryPermit.permissions.gr_own_dept"
+          @getCheckboxValue="getPermissionValue"
+        />
       </div>
     </td>
     <td>
       <div class="perms_td">
-        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
+        <BaseCheckBox
+          v-if="categoryPermit.permissions != null"
+          :checkval="categoryPermit.permissions.gr_inc_peer"
+          @getCheckboxValue="getPermissionValue"
+        />
       </div>
     </td>
     <td class="border_right_primary">
       <div class="perms_td">
-        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
+        <!-- change here  -->
+        <BaseCheckBox
+          v-if="categoryPermit.permissions != null"
+          :checkval="categoryPermit.permissions.gr_dept"
+          @getCheckboxValue="getPermissionValue"
+        />
       </div>
     </td>
     <td>
       <div class="perms_td">
-        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
+        <BaseCheckBox
+          v-if="categoryPermit.permissions != null"
+          :checkval="categoryPermit.permissions.inv_dept"
+          @getCheckboxValue="getPermissionValue"
+        />
       </div>
     </td>
     <td>
       <div class="perms_td">
-        <BaseCheckBox @getCheckboxValue="getPermissionValue" />
+        <BaseCheckBox
+          v-if="categoryPermit.permissions != null"
+          :checkval="categoryPermit.permissions.inv_global"
+          @getCheckboxValue="getPermissionValue"
+        />
       </div>
     </td>
   </tr>
@@ -88,68 +133,6 @@ export default {
     return {
       isAllowed: undefined,
       currentId: undefined,
-
-      // departmentsWisePermissions: [
-      //   {
-      //     id: 1,
-      //     name: "company",
-      //     categories: [
-      //       {
-      //         category_name: "KPI",
-      //         cat_id: 1,
-      //         permissons: {
-      //           ans: true,
-      //           edit_own: true,
-      //           edit_dept: false,
-      //           vr_own: true,
-      //           vr_dept: false,
-      //           gr_own_dept: true,
-      //           gr_own_module: true,
-      //           gr_dept: false,
-      //           gr_inc_peer: false,
-      //           inv_dept: true,
-      //           inv_globle: false,
-      //         },
-      //       },
-      //     ],
-      //   },
-      // ],
-      // categories: [
-      //   {
-      //     category_name: "KPI",
-      //     cat_id: 1,
-      //     permissons: {
-      //       ans: true,
-      //       edit_own: true,
-      //       edit_dept: false,
-      //       vr_own: true,
-      //       vr_dept: false,
-      //       gr_own_dept: true,
-      //       gr_own_module: true,
-      //       gr_dept: false,
-      //       gr_inc_peer: false,
-      //       inv_dept: true,
-      //       inv_globle: false,
-      //     },
-      //   },
-      //   {
-      //     category_name: "Advance KPI",
-      //     cat_id: 2,
-      //     permissons: {
-      //       ans: true,
-      //       edit_own: true,
-      //       edit_dept: false,
-      //       vr_own: true,
-      //       vr_dept: false,
-      //       gr_own_dept: true,
-      //       gr_own_module: true,
-      //       gr_dept: false,
-      //       gr_inc_peer: false,
-      //       inv_dept: true,
-      //       inv_globle: false,
-      //     },
-      //   },
-      // ],
     };
   },
 
@@ -157,6 +140,9 @@ export default {
     BaseCheckBox,
   },
 
+  created() {
+    console.log("permission page ", this.categoryPermit.permissions);
+  },
   methods: {
     getPermissionValue(ev, companyId, categoryId) {
       console.log(companyId, categoryId);

@@ -65,7 +65,6 @@ export default {
   // },
   methods: {
     toggleAccordion(index) {
-      console.log("jhsddhs", index);
       this.isAccordionArr.forEach((ac, i) => {
         if (index === i) {
           this.isAccordionArr[i] = !this.isAccordionArr[i];

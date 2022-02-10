@@ -30,7 +30,7 @@
             />
           </div>
           <div class="">
-            <BaseAccordion :allDepartments="membersDepartment">
+            <!-- <BaseAccordion :allDepartments="membersDepartment">
               <template v-slot:accordion_content_body>
                 <div class="m-t-20">
                   <PermissionTable
@@ -40,7 +40,58 @@
                   />
                 </div>
               </template>
-            </BaseAccordion>
+            </BaseAccordion> -->
+            <div class="accordion custom_acc">
+              <div class="">
+                <div
+                  class="body_wrap"
+                  v-for="(department, index) in permissionArr"
+                  :key="index"
+                >
+                  <div class="sub_acc_body">
+                    <div class="team_wrapper">
+                      <div class="">
+                        <div
+                          @click="toggleAccordion(index)"
+                          class="section_wrap"
+                        >
+                          <h4 class="m-b-0 title-dark">
+                            {{ department.name }}
+                          </h4>
+
+                          <div class="m-l-auto">
+                            <img
+                              :src="
+                                isAccordionArr[index]
+                                  ? 'K_Icons/chevron-up.svg'
+                                  : 'K_Icons/chevron-down.svg'
+                              "
+                              alt=""
+                              class=""
+                            />
+                          </div>
+                        </div>
+                        <div
+                          :class="{ collapse: isAccordionArr[index] }"
+                          class="description_body_wrap"
+                        >
+                          <!-- accordion body -->
+                          <div class="m-t-20">
+                            <PermissionTable
+                              :categoryList="department.categories"
+                            />
+                          </div>
+                          <!-- v-for="category in department.categories[index]"
+                              :key="category.departmentid" -->
+                          <!-- accordion body close -->
+                          <!-- <slot name="accordion_content_body"></slot> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer invite_modal_footer">
@@ -65,10 +116,10 @@
 </template>
 
 <script>
-import PermissionTable from "../../views/Company/PermissionTable.vue";
 import DepartmentPermission from "../Shared/DepartmentPermission.vue";
+import PermissionTable from "../../views/Company/PermissionTable.vue";
+// import BaseAccordion from "../Shared/BaseAccordion.vue";
 import { Modal } from "bootstrap";
-import BaseAccordion from "../Shared/BaseAccordion.vue";
 import { mapGetters } from "vuex";
 import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
@@ -80,6 +131,7 @@ export default {
       departmentLists: [],
       permissionArr: [],
       departmentArr: [],
+      isAccordionArr: [],
       isvalid: true,
     };
   },
@@ -87,12 +139,15 @@ export default {
   components: {
     DepartmentPermission,
     PermissionTable,
-    BaseAccordion,
+    // BaseAccordion,
   },
 
   mounted() {
     this.modal = new Modal(this.$refs.invitationModal);
   },
+  // updated(){
+  //   this.isAccordionArr.fill
+  // },
   computed: {
     ...mapGetters({
       staffInfo: "staffData",
@@ -105,12 +160,15 @@ export default {
       console.log("modal clicked", id);
       let data = {
         auth_token: this.staffInfo.auth_token,
-        staffid: 42,
+        staffid: 70,
       };
       CompanyService.setMemberPermission(data).then((res) => {
         if (res.data.status) {
           this.permissionArr = res.data.data;
           this.departmentArr = [];
+          this.isAccordionArr = new Array(this.permissionArr.length).fill(
+            false
+          );
           console.log("assign dept", this.permissionArr);
           for (let i = 0; i < res.data.data.length; i++) {
             let data = {
@@ -135,6 +193,14 @@ export default {
     saveMemberPermission() {
       console.log("modal closed");
       this.closeModal();
+    },
+    // toggle accordion
+    toggleAccordion(index) {
+      this.isAccordionArr.forEach((ac, i) => {
+        if (index === i) {
+          this.isAccordionArr[i] = !this.isAccordionArr[i];
+        }
+      });
     },
   },
 };
@@ -166,4 +232,45 @@ export default {
   padding: 0px 26px;
 }
 // modal end
+// style for accordion
+.desc_cont {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  color: #222b45;
+}
+.accordion-button:not(.collapsed) {
+  &::after {
+    background-image: url(../../../public/K_Icons/arrow_d.svg);
+  }
+}
+.section_wrap {
+  display: flex;
+  align-items: center;
+  // margin-bottom: 24px;
+  cursor: pointer;
+}
+.body_wrap {
+  margin-bottom: 10px;
+}
+.description_body_wrap {
+  display: none;
+  min-block-size: 0;
+  transition: 500ms;
+  transition: height 500ms;
+  &.collapse {
+    transition: 1s;
+    transition: height 500ms;
+    display: block !important;
+  }
+  // margin-top: 24px;
+}
+.acc_body {
+  padding: 0;
+}
+.sub_acc_body {
+  padding: 12px 18px;
+  background: #f7f9fc;
+  border-radius: 4px;
+}
 </style>

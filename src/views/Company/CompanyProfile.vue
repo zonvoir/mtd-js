@@ -15,10 +15,13 @@
               class="c_logo_wrapper"
               :alt="companyAllInformation.company"
             />
-            <span class="default_logo" :style="{ background: getBgColor() }">
+            <span
+              v-else
+              class="default_logo"
+              :style="{ background: getBgColor() }"
+            >
               <b>{{ formatMemberName(companyAllInformation.company) }}</b>
             </span>
-            <!-- <div v-else class="c_logo_wrapper_default"></div> -->
           </div>
           <div class="c_details_wrapper">
             <h4 class="text_heading fs-22 fw-700 m-b-9">
