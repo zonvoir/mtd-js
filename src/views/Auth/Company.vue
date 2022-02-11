@@ -852,7 +852,6 @@ export default {
       if (localStorage.getItem("bWFpbCI6Inpvb") != null) {
         this.staffData.is_company_setup = true;
         localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
-        console.log(" there is data in local storage");
         this.$router.push({ name: "Dashboard" });
       } else {
         this.$router.push({ name: "signup-signin" });
@@ -888,19 +887,7 @@ export default {
           // console.log(image.height, image.width);
           image.onload = function () {
             //Determine the Height and Width.
-            var height = this.height;
-            var width = this.width;
-            if (height === 100 && width === 100) {
-              // $th.valiImage = true;
-              // $th.$refs.uploader.validate();
-              $th.uploadCompanyLogo(files[0]);
-              return true;
-            } else {
-              $th.defaultImg = "icons/cloud-upload.svg";
-              $th.valiImage = false;
-              // $th.$refs.uploader.validate();
-              return false;
-            }
+            $th.uploadCompanyLogo(files[0]);
           };
         };
       } else {
@@ -1133,9 +1120,6 @@ export default {
   height: 42px;
 }
 .country_code {
-  // position: relative;
-  // top: 21%;
-  // left: 39%;
   font-style: 500;
   font-size: 16px;
   line-height: 20px;
@@ -1147,48 +1131,11 @@ export default {
   z-index: 99;
 }
 .country_flag_wrap {
-  // position: absolute;
-  // top: -2px;
-  // left: -4px;
-  // background: #edf1f7 !important;
-  // border-radius: 4px;
-  // width: 75px;
-  // height: 46px;
   width: 18%;
   float: left;
   background-color: #ced4da;
   text-align: center;
 }
-// .country_flag {
-//   width: 30px;
-//   position: relative;
-//   top: 20%;
-//   left: 14%;
-// }
-// .country_code_wrap {
-//   position: relative;
-//   top: 10px;
-//   left: 20px;
-//   background: transparent !important;
-// }
-// .country_code_val {
-//   font-style: 500;
-//   font-size: 16px;
-//   line-height: 20px;
-//   color: rgba(0, 0, 0, 0.5);
-//   position: absolute;
-//   top: 17%;
-//   left: 7%;
-// }
-// .country_flag_wrap {
-//   position: absolute;
-//   top: -3px;
-//   left: -4px;
-//   background: #edf1f7 !important;
-//   border-radius: 4px;
-//   width: 40px;
-//   height: 46px;
-// }
 .confidencil_msg_body {
   background: linear-gradient(
     180deg,
@@ -1196,9 +1143,6 @@ export default {
     #ffffff 100%
   );
   border-radius: 4px;
-}
-.terms_wrapper {
-  // padding: 17px 34px 34px 34px;
 }
 .temrs_para {
   font-weight: 400;

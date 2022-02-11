@@ -22,9 +22,10 @@
             <div class="text_center">
               <CustomOtp
                 :classesName="'k_inp_field single_num_inp'"
-                :counters="6"
                 :onChanges="getChange"
+                :counters="6"
                 :onComplete="onCompleted"
+                @onPaste="handleOnPaste"
                 validateType="numeric"
                 validateMsg="Please enter the valid OTP code"
               />
@@ -175,6 +176,9 @@ export default {
       console.log("this is invited user");
       this.$router.push({ name: "link-company-account" });
     },
+    handleOnPaste(ev) {
+      console.log(ev);
+    },
     OTPInput() {
       if (this.isSubmitted) {
         return false;
@@ -241,6 +245,9 @@ export default {
       this.isSubmitted = !ev.valiated;
       this.otpForm.otp = ev.asString;
       this.otpForm.code = ev.lists;
+      if (!this.isSubmitted) {
+        this.OTPInput();
+      }
       console.log("completed", ev, this.isSubmitted);
     },
 

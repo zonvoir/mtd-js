@@ -12,7 +12,7 @@
         <form @submit.prevent="onLogin" action="">
           <div class="k_form_group psw_visibilty">
             <input
-              ref="refPass"
+              ref="focusInp"
               :type="passwordFieldType"
               @blur="v$.loginForm.password.$touch"
               v-model.trim="loginForm.password"
@@ -138,6 +138,9 @@ export default {
       this.$router.push({ name: "signup-signin" });
     }
     this.loginForm.email = this.logData;
+  },
+  mounted() {
+    this.$refs.focusInp.focus();
   },
   validations() {
     return {

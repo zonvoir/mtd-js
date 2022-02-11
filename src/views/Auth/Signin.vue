@@ -14,6 +14,7 @@
             <input
               :readonly="invitedId"
               type="email"
+              ref="focusInp"
               @blur="v$.emailVerify.email.$touch"
               v-model.trim="emailVerify.email"
               class="form-control k_inp_field"
@@ -105,6 +106,7 @@ export default {
     }),
   },
   mounted() {
+    this.$refs.focusInp.focus();
     this.invitedUserData = JSON.parse(
       localStorage.getItem("bWFInpvitedbpbUser")
     );

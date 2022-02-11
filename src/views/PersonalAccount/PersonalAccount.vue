@@ -75,12 +75,12 @@
                   </button>
                 </div>
                 <div class="hint_message_wrap">
-                  <p v-if="valiImage" class="text-secodary m-t-10">
+                  <p class="text-secodary m-t-10">
                     {{ $t("personal_account.form.invalid_msgs.image_hint") }}
                   </p>
-                  <p v-else class="text-danger m-t-10">
+                  <!-- <p v-else class="text-danger m-t-10">
                     {{ $t("personal_account.form.invalid_msgs.image_hint") }}
-                  </p>
+                  </p> -->
                 </div>
               </div>
             </div>
@@ -802,9 +802,6 @@ export default {
         this.personalAccount.career_info,
         this.careersArr
       );
-      // console.log(
-      //   `this component is mounted ${this.addCareer} and toggle Career ${this.toggleUpdate}`
-      // );
       if (this.addCareer === this.toggleUpdate) {
         this.$refs.childCareer.validateForm();
       }
@@ -985,16 +982,16 @@ export default {
           var image = new Image(); //Set the Base64 string return from FileReader as source.
           image.src = e.target.result;
           image.onload = function () {
-            var height = this.height;
-            var width = this.width;
-            if (height === 100 && width === 100) {
-              $th.uploadCompanyLogo(files[0]);
-              return true;
-            } else {
-              $th.defaultImg = "icons/cloud-upload.svg";
-              $th.valiImage = false;
-              return false;
-            }
+            $th.uploadCompanyLogo(files[0]);
+            // var height = this.height;
+            // var width = this.width;
+            // if (height === 100 && width === 100) {
+            //   return true;
+            // } else {
+            //   $th.defaultImg = "icons/cloud-upload.svg";
+            //   $th.valiImage = false;
+            //   return false;
+            // }
           };
         };
       } else {
@@ -1002,6 +999,7 @@ export default {
       }
     },
     removeImage() {
+      this.personalAccount.profile = "";
       this.defaultImg = "icons/cloud-upload.svg";
     },
 

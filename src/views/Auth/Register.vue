@@ -21,6 +21,7 @@
             <input
               type="text"
               name="firstName"
+              ref="focusInp"
               @blur="v$.registerForm.firstname.$touch"
               v-model.trim="registerForm.firstname"
               class="form-control k_inp_field"
@@ -455,10 +456,8 @@ export default {
     };
   },
   mounted() {
+    this.$refs.focusInp.focus();
     this.modal = new Modal(this.$refs.exampleModal);
-    // this.invitedUserData = JSON.parse(
-    //   localStorage.getItem("bWFInpvitedbpbUser")
-    // );
     this.invitedUserData = JSON.parse(
       localStorage.getItem("bWFInpvitedbpbUser")
     );

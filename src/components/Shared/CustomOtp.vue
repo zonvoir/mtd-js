@@ -5,9 +5,11 @@
       v-for="index in v.keys()"
       :key="index"
       type="text"
+      ref="focusInp"
       v-model="v[index]"
       maxlength="1"
       @keydown="clicked"
+      @paste="onPaste(index)"
       :data-index="index"
       minlength="0"
       :class="classesName"
@@ -19,6 +21,7 @@
 <script>
 export default {
   name: "CustomOtp",
+  emits: ["onPaste"],
   props: {
     counters: Number,
     classesName: String,
@@ -31,16 +34,7 @@ export default {
   data() {
     return { v: Array(this.counters), msg: [], validated: false };
   },
-  // watch: {
-  //   v: {
-  //     handler(val) {
-  //       if (val.length === this.v.length) {
-  //         this.onCompleted();
-  //       }
-  //     },
-  //     deep: true,
-  //   },
-  // },
+
   methods: {
     clicked(ev) {
       /// backspace or delete code
@@ -86,13 +80,30 @@ export default {
               // }
             }
           }
-          // to move cursor right right arrow and tab
+          // to move cursor right arrow and tab
           if (ev.keyCode == 39 || ev.keyCode == 9) {
             if (ev.target.dataset.index < this.v.length - 1) {
               this.$refs.otpboxes
                 .getElementsByTagName("input")
                 [+ev.target.dataset.index + 1].focus();
             }
+          }
+          /// ctrl || cmd copy and paste
+          if (ev.ctrlKey && ev.keyCode == 86) {
+            window.navigator.clipboard
+              .readText()
+              .then((text) => {
+                for (let i = 0; i < this.v.length; i++) {
+                  this.v[i] = text[i];
+                }
+                this.validateOtp(this.v);
+                if (this.validated) {
+                  this.onCompleted();
+                }
+              })
+              .catch((err) => {
+                console.error("Failed to read clipboard contents: ", err);
+              });
           }
           // to move cursor left side left arrow shift + tab
           if ((ev.shiftKey && ev.keyCode == 9) || ev.keyCode === 37) {
@@ -116,6 +127,11 @@ export default {
       if (this.validated) {
         this.onCompleted();
       }
+    },
+
+    onPaste(evt, index) {
+      console.log("on paste", evt, index);
+      return true;
     },
 
     onCompleted() {

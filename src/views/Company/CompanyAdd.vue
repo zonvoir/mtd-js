@@ -70,6 +70,7 @@
               <div class="k_form_group">
                 <input
                   type="text"
+                  ref="focusInp"
                   class="form-control k_inp_field"
                   :placeholder="
                     $t(
@@ -504,74 +505,10 @@
                       >
                         Phone Number must be 15 digit
                       </span>
-                      <span
-                        v-if="
-                          v$.companyForm.phonenumber.minLengthValue.$invalid
-                        "
-                        class="text-left fs-14"
-                      >
-                        Phone Number at lest 6 digit
-                      </span>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- <div class="wrap_phone_inp">
-                <div class="k_form_group k_inp_number phone_field">
-                  <div class="country_flag_wrap">
-                    <img
-                      v-if="country_flag"
-                      :src="country_flag"
-                      class="country_flag"
-                      alt=""
-                    />
-                  </div>
-                  <div v-if="country_code" class="country_code_wrap">
-                    <span class="country_code">(+ {{ country_code }})</span>
-                  </div>
-                  <input
-                    type="number"
-                    maxlength="10"
-                    minlength="10"
-                    @keypress="isNumber"
-                    class="form-control shift_number k_inp_field"
-                    :placeholder="
-                      $t(
-                        'company_profile.company_tab.company_setup_update.form.placeholder.phone_no'
-                      )
-                    "
-                    @blur="v$.companyForm.phonenumber.$touch"
-                    v-model="companyForm.phonenumber"
-                    :class="{
-                      'is-invalid': v$.companyForm.phonenumber.$error,
-                    }"
-                  />
-
-                  <div
-                    v-if="v$.companyForm.phonenumber.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.companyForm.phonenumber.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Phone number is required
-                    </span>
-                    <span
-                      v-if="v$.companyForm.phonenumber.maxLengthValue.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Phone Number must be 10 digit
-                    </span>
-                    <span
-                      v-if="v$.companyForm.phonenumber.minLengthValue.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Phone Number at lest 10 digit
-                    </span>
-                  </div>
-                </div>
-              </div> -->
             </div>
           </div>
 
@@ -588,12 +525,9 @@
               type="submit"
               class="btn btn-primary btn-set text-uppercase"
             >
-              <div
-                v-if="isSubmitted"
-                class="spinner-border text-light"
-                role="status"
-              >
-                <span class="visually-hidden">Loading...</span>
+              <div v-if="isSubmitted">
+                <span class="spinner-border text-light" role="status"></span>
+                Loading...
               </div>
               <span v-else>
                 {{
@@ -628,7 +562,7 @@ export default {
       isSubmitted: false,
       defaultImg: "icons/cloud-upload.svg",
       country_flag: "",
-      country_code: "",
+      country_code: undefined,
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       industryLists: [],
       legalCorpLists: [],
@@ -644,6 +578,7 @@ export default {
       companyForm: {
         auth_token: "",
         company: "",
+        country_code: "",
         country: null,
         main_industry: null,
         sub_industry: null,
@@ -664,6 +599,9 @@ export default {
     this.getRoleInCompany();
     this.getRegions();
   },
+  mounted() {
+    this.$refs.focusInp.focus();
+  },
   setup() {
     return {
       v$: useVuelidate(),
@@ -678,7 +616,6 @@ export default {
           required,
           numeric,
           maxLengthValue: maxLength(15),
-          minLengthValue: minLength(6),
         },
         main_industry: { required },
         sub_industry: { required },
@@ -702,7 +639,7 @@ export default {
         return;
       } else {
         this.companyForm.auth_token = this.staffData.auth_token;
-        console.log("company data", this.companyForm);
+        this.companyForm.country_code = this.country_code;
         this.isSubmitted = true;
         signupService
           .setUpCompany(this.companyForm)
@@ -710,10 +647,6 @@ export default {
             if (res.data.status) {
               console.log("company_data res", res.data.data);
               // this.$store.dispatch("getStaffsCompanies", res.data.data);
-              this.$toast.success(res.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
               this.formReset();
             } else {
               errorhandler(res, this);
@@ -729,6 +662,9 @@ export default {
     },
     formReset() {
       this.v$.$reset();
+      this.defaultImg = "icons/cloud-upload.svg";
+      this.country_flag = "";
+      this.country_code = "";
       this.companyForm = {
         auth_token: "",
         company: "",
@@ -756,7 +692,6 @@ export default {
       this.valiImage = true;
       const files = event.target.files;
       let $th = this;
-      console.log("seelcted Files", files);
       if (files != "undefined" && files.length > 0) {
         var reader = new FileReader();
         reader.readAsDataURL(files[0]);
@@ -764,16 +699,7 @@ export default {
           var image = new Image();
           image.src = e.target.result;
           image.onload = function () {
-            var height = this.height;
-            var width = this.width;
-            if (height === 100 && width === 100) {
-              $th.uploadCompanyLogo(files[0]);
-              return true;
-            } else {
-              $th.defaultImg = "icons/cloud-upload.svg";
-              $th.valiImage = false;
-              return false;
-            }
+            $th.uploadCompanyLogo(files[0]);
           };
         };
       } else {
@@ -792,8 +718,6 @@ export default {
         // $th.companyForm.client_logo = reader.result;
         $th.defaultImg = reader.result.toString();
         $th.companyForm.client_logo = $th.defaultImg;
-
-        console.log($th.defaultImg);
       };
       reader.onerror = function (error) {
         console.log("Error: ", error);
@@ -957,7 +881,6 @@ export default {
     },
     // get country code
     selectedCountryCode(id) {
-      console.log("get country id", id);
       CommonService.getCountryCode({ country_id: id }).then((resp) => {
         if (resp.data.status) {
           this.country_flag = resp.data.data.image;
@@ -967,10 +890,6 @@ export default {
             this.country_flag,
             this.country_code
           );
-        } else {
-          // this.countryLists = [
-          //   { value: 0, label: "No record found", disabled: true },
-          // ];
         }
       });
     },
@@ -992,22 +911,7 @@ export default {
   position: absolute;
   top: 100%;
 }
-// .wrap_phone_inp {
-//   position: relative;
-//   .phone_field {
-//     width: 100%;
-//     .shift_number {
-//       padding-left: 155px !important;
-//     }
-//   }
-//   .codes_select {
-//     position: absolute;
-//     left: -3px;
-//     top: -3px;
-//   }
-// }
-.logo_action_container1 {
-}
+
 .logo_holder1 {
   margin-right: 20px;
 }
@@ -1032,9 +936,6 @@ export default {
   height: 42px;
 }
 .country_code {
-  // position: relative;
-  // top: 21%;
-  // left: 39%;
   font-style: 500;
   font-size: 16px;
   line-height: 20px;
@@ -1046,13 +947,6 @@ export default {
   z-index: 99;
 }
 .country_flag_wrap {
-  // position: absolute;
-  // top: -2px;
-  // left: -4px;
-  // background: #edf1f7 !important;
-  // border-radius: 4px;
-  // width: 75px;
-  // height: 46px;
   width: 10%;
   float: left;
   background-color: #ced4da;

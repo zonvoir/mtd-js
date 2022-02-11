@@ -9,7 +9,18 @@
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.ans"
-          @getCheckboxValue="getPermissionValue"
+          :key="
+            'ans' +
+            categoryPermit.permissions.department_id +
+            categoryPermit.permissions.category_id
+          "
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.permissions.department_id,
+              categoryPermit.permissions.category_id
+            )
+          "
         />
       </div>
     </td>
@@ -18,7 +29,18 @@
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.edit_own"
-          @getCheckboxValue="getPermissionValue"
+          :key="
+            'edit_own' +
+            categoryPermit.permissions.department_id +
+            categoryPermit.permissions.category_id
+          "
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.permissions.department_id,
+              categoryPermit.permissions.category_id
+            )
+          "
         />
       </div>
     </td>
@@ -27,7 +49,17 @@
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.edit_dept"
-          @getCheckboxValue="getPermissionValue"
+          :key="
+            categoryPermit.permissions.department_id +
+            categoryPermit.permissions.category_id
+          "
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.permissions.department_id,
+              categoryPermit.permissions.category_id
+            )
+          "
         />
         <!-- <BaseCheckBox v-if="categoryPermit.permissions!=null"
           :checkval="categoryPermit.permissions.ans"
@@ -48,7 +80,17 @@
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.vr_own"
-          @getCheckboxValue="getPermissionValue"
+          :key="
+            categoryPermit.permissions.department_id +
+            categoryPermit.permissions.category_id
+          "
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.permissions.department_id,
+              categoryPermit.permissions.category_id
+            )
+          "
         />
       </div>
     </td>
@@ -57,7 +99,17 @@
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.vr_dept"
-          @getCheckboxValue="getPermissionValue"
+          :key="
+            categoryPermit.permissions.department_id +
+            categoryPermit.permissions.category_id
+          "
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.permissions.department_id,
+              categoryPermit.permissions.category_id
+            )
+          "
         />
       </div>
     </td>
@@ -66,7 +118,17 @@
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.gr_own_module"
-          @getCheckboxValue="getPermissionValue"
+          :key="
+            categoryPermit.permissions.department_id +
+            categoryPermit.permissions.category_id
+          "
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.permissions.department_id,
+              categoryPermit.permissions.category_id
+            )
+          "
         />
       </div>
     </td>
@@ -75,7 +137,17 @@
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.gr_own_dept"
-          @getCheckboxValue="getPermissionValue"
+          :key="
+            categoryPermit.permissions.department_id +
+            categoryPermit.permissions.category_id
+          "
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.permissions.department_id,
+              categoryPermit.permissions.category_id
+            )
+          "
         />
       </div>
     </td>
@@ -84,7 +156,17 @@
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.gr_inc_peer"
-          @getCheckboxValue="getPermissionValue"
+          :key="
+            categoryPermit.permissions.department_id +
+            categoryPermit.permissions.category_id
+          "
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.permissions.department_id,
+              categoryPermit.permissions.category_id
+            )
+          "
         />
       </div>
     </td>
@@ -94,7 +176,17 @@
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.gr_dept"
-          @getCheckboxValue="getPermissionValue"
+          :key="
+            categoryPermit.permissions.department_id +
+            categoryPermit.permissions.category_id
+          "
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.permissions.department_id,
+              categoryPermit.permissions.category_id
+            )
+          "
         />
       </div>
     </td>
@@ -103,7 +195,17 @@
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.inv_dept"
-          @getCheckboxValue="getPermissionValue"
+          :key="
+            categoryPermit.permissions.department_id +
+            categoryPermit.permissions.category_id
+          "
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.permissions.department_id,
+              categoryPermit.permissions.category_id
+            )
+          "
         />
       </div>
     </td>
@@ -112,7 +214,17 @@
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.inv_global"
-          @getCheckboxValue="getPermissionValue"
+          :key="
+            categoryPermit.permissions.department_id +
+            categoryPermit.permissions.category_id
+          "
+          @getCheckboxValue="
+            getPermissionValue(
+              $event,
+              categoryPermit.permissions.department_id,
+              categoryPermit.permissions.category_id
+            )
+          "
         />
       </div>
     </td>
@@ -140,18 +252,18 @@ export default {
     BaseCheckBox,
   },
 
-  created() {
-    console.log("permission page ", this.categoryPermit.permissions);
-  },
+  // created() {
+  //   console.log("permission page ", this.categoryPermit.permissions);
+  // },
   methods: {
     getPermissionValue(ev, companyId, categoryId) {
-      console.log(companyId, categoryId);
-      this.currentId = companyId + categoryId;
-      this.isAllowed = ev.checkedData;
-      this.$emit("getPermitData", {
-        id: this.currentId,
-        isAllowed: this.isAllowed,
-      });
+      console.log(ev.checkedData, companyId, categoryId);
+      // this.currentId = companyId + categoryId;
+      // this.isAllowed = ev.checkedData;
+      // this.$emit("getPermitData", {
+      //   id: this.currentId,
+      //   isAllowed: this.isAllowed,
+      // });
     },
     currentPermissson(id) {
       this.currentId = id;

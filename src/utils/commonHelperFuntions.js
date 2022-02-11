@@ -52,3 +52,38 @@ export const setRandomBackground = () => {
   let background = backgrounds[Math.floor(Math.random() * backgrounds.length)];
   return background;
 };
+// get image free size 100*100
+// onFilePicked(event) {
+//     this.valiImage = true;
+//     const files = event.target.files;
+//     // let file = files[0];
+//     let $th = this;
+//     console.log("seelcted Files", files);
+//     if (files != "undefined" && files.length > 0) {
+//       var reader = new FileReader();
+//       reader.readAsDataURL(files[0]);
+//       reader.onload = function (e) {
+//         var image = new Image(); //Set the Base64 string return from FileReader as source.
+//         image.src = e.target.result;
+//         // console.log(image.height, image.width);
+//         image.onload = function () {
+//           //Determine the Height and Width.
+//           var height = this.height;
+//           var width = this.width;
+//             $th.uploadCompanyLogo(files[0]);
+//           // if (height === 100 && width === 100) {
+//           //   // $th.valiImage = true;
+//           //   // $th.$refs.uploader.validate();
+//           //   return true;
+//           // } else {
+//           //   $th.defaultImg = "icons/cloud-upload.svg";
+//           //   $th.valiImage = false;
+//           //   // $th.$refs.uploader.validate();
+//           //   return false;
+//           // }
+//         };
+//       };
+//     } else {
+//       return true;
+//     }
+//   },

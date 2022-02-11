@@ -59,16 +59,6 @@
   position: relative;
   left: 0px;
 }
-.link-list-wrapper {
-  //   &:last-child(1) {
-  //     position: relative;
-  //     bottom: 0;
-  //   }
-  //   &:last-child(2) {
-  //     position: relative;
-  //     bottom: 56px;
-  //   }
-}
 // header
 .profile-pic-conatiner {
   @include circle(40px, $background-color: $white, $circle: true);

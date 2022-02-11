@@ -60,7 +60,8 @@
         <CategoryPermission
           @getPermitData="getPermitData"
           :categoryPermit="category"
-          v-for="category in categoryList"
+          :keyIndex="idx"
+          v-for="(category, idx) in categoryList"
           :key="category.id"
         />
         <!-- <template v-if="categoryList.permissions">
@@ -93,9 +94,7 @@ export default {
     // BaseCheckBox,
     CategoryPermission,
   },
-  created() {
-    console.log("data from table", this.categoryList);
-  },
+
   methods: {
     getPermitData(val) {
       this.isPermission = val.isAllowed;
