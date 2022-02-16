@@ -92,6 +92,22 @@ class CompanyService {
       },
     });
   }
+  updateMemberPermission(data) {
+    return http.post("staffs/update_member_permissions", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+  filterMemberPermission(data) {
+    return http.post("staffs/member_permissions_filter", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
   getYears() {
     return http.get("lists/years");
   }

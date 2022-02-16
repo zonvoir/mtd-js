@@ -17,6 +17,7 @@
           @getCheckboxValue="
             getPermissionValue(
               $event,
+              'ans',
               categoryPermit.permissions.department_id,
               categoryPermit.permissions.category_id
             )
@@ -37,6 +38,7 @@
           @getCheckboxValue="
             getPermissionValue(
               $event,
+              'edit_own',
               categoryPermit.permissions.department_id,
               categoryPermit.permissions.category_id
             )
@@ -50,12 +52,14 @@
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.edit_dept"
           :key="
+            'edit_dept' +
             categoryPermit.permissions.department_id +
             categoryPermit.permissions.category_id
           "
           @getCheckboxValue="
             getPermissionValue(
               $event,
+              'edit_dept',
               categoryPermit.permissions.department_id,
               categoryPermit.permissions.category_id
             )
@@ -81,12 +85,14 @@
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.vr_own"
           :key="
+            'vr_own' +
             categoryPermit.permissions.department_id +
             categoryPermit.permissions.category_id
           "
           @getCheckboxValue="
             getPermissionValue(
               $event,
+              'vr_own',
               categoryPermit.permissions.department_id,
               categoryPermit.permissions.category_id
             )
@@ -100,12 +106,14 @@
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.vr_dept"
           :key="
+            'vr_dept' +
             categoryPermit.permissions.department_id +
             categoryPermit.permissions.category_id
           "
           @getCheckboxValue="
             getPermissionValue(
               $event,
+              'vr_dept',
               categoryPermit.permissions.department_id,
               categoryPermit.permissions.category_id
             )
@@ -119,12 +127,14 @@
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.gr_own_module"
           :key="
+            'gr_own_module' +
             categoryPermit.permissions.department_id +
             categoryPermit.permissions.category_id
           "
           @getCheckboxValue="
             getPermissionValue(
               $event,
+              'gr_own_module',
               categoryPermit.permissions.department_id,
               categoryPermit.permissions.category_id
             )
@@ -138,12 +148,14 @@
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.gr_own_dept"
           :key="
+            'gr_own_dept' +
             categoryPermit.permissions.department_id +
             categoryPermit.permissions.category_id
           "
           @getCheckboxValue="
             getPermissionValue(
               $event,
+              'gr_own_dept',
               categoryPermit.permissions.department_id,
               categoryPermit.permissions.category_id
             )
@@ -157,12 +169,14 @@
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.gr_inc_peer"
           :key="
+            'gr_inc_peer' +
             categoryPermit.permissions.department_id +
             categoryPermit.permissions.category_id
           "
           @getCheckboxValue="
             getPermissionValue(
               $event,
+              'gr_inc_peer',
               categoryPermit.permissions.department_id,
               categoryPermit.permissions.category_id
             )
@@ -175,15 +189,17 @@
         <!-- change here  -->
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
-          :checkval="categoryPermit.permissions.gr_dept"
+          :checkval="categoryPermit.permissions.gr_globle_peer"
           :key="
+            'gr_globle_peer' +
             categoryPermit.permissions.department_id +
             categoryPermit.permissions.category_id
           "
           @getCheckboxValue="
             getPermissionValue(
               $event,
-              categoryPermit.permissions.department_id,
+              'gr_globle_peer',
+              +categoryPermit.permissions.department_id,
               categoryPermit.permissions.category_id
             )
           "
@@ -196,12 +212,14 @@
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.inv_dept"
           :key="
+            'inv_dept' +
             categoryPermit.permissions.department_id +
             categoryPermit.permissions.category_id
           "
           @getCheckboxValue="
             getPermissionValue(
               $event,
+              'inv_dept',
               categoryPermit.permissions.department_id,
               categoryPermit.permissions.category_id
             )
@@ -215,12 +233,14 @@
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.inv_global"
           :key="
+            'inv_global' +
             categoryPermit.permissions.department_id +
             categoryPermit.permissions.category_id
           "
           @getCheckboxValue="
             getPermissionValue(
               $event,
+              'inv_global',
               categoryPermit.permissions.department_id,
               categoryPermit.permissions.category_id
             )
@@ -256,23 +276,31 @@ export default {
   //   console.log("permission page ", this.categoryPermit.permissions);
   // },
   methods: {
-    getPermissionValue(ev, companyId, categoryId) {
-      console.log(ev.checkedData, companyId, categoryId);
+    getPermissionValue(ev, keyname, departmentId, categoryId) {
+      console.log(ev.checkedData, keyname, departmentId, categoryId);
       // this.currentId = companyId + categoryId;
       // this.isAllowed = ev.checkedData;
-      // this.$emit("getPermitData", {
-      //   id: this.currentId,
-      //   isAllowed: this.isAllowed,
-      // });
+      this.$emit("getPermitData", {
+        dept_id: departmentId,
+        cat_id: categoryId,
+        parms_change: keyname,
+        isAllowed: ev.checkedData,
+      });
     },
-    currentPermissson(id) {
-      this.currentId = id;
-    },
+    // currentPermissson(id) {
+    //   this.currentId = id;
+    // },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.border_right_primary {
+  border-right: 1px solid #7900d8 !important;
+}
+.border_bottom_primary {
+  border-bottom: 1px solid #7900d8 !important;
+}
 tr {
   td {
     border: 1px solid #edf1f7;

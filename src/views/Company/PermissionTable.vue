@@ -64,11 +64,6 @@
           v-for="(category, idx) in categoryList"
           :key="category.id"
         />
-        <!-- <template v-if="categoryList.permissions">
-        </template> -->
-        <!-- v-for="permission in categoryList.permissions"
-          :key="permission.cat_id" -->
-        <!-- <CategoryPermission /> -->
       </tbody>
     </table>
   </div>
@@ -87,26 +82,31 @@ export default {
   data() {
     return {
       isPermission: undefined,
-      cates: [],
+      updatedCategories: [],
     };
   },
   components: {
     // BaseCheckBox,
     CategoryPermission,
   },
-
+  mounted() {
+    this.updatedCategories = this.categoryList;
+    // console.log("all categories kkk", this.updatedCategories);
+  },
   methods: {
     getPermitData(val) {
-      this.isPermission = val.isAllowed;
-      let data = {
-        cat_id: 1,
-        val_id: val.id,
-        permission: val.isAllowed,
-      };
-      if (Object.values(data).length == 3) {
-        this.cates.push(data);
-      }
-      console.log("ger category permission", this.cates);
+      let updated = this.updatedCategories.filter((category, idx, catArr) => {
+        if (category.id == val.cat_id) {
+          category.permissions[val.parms_change] = val.isAllowed;
+          // console.log("category Array", catArr, val.dept_id);
+        }
+        return catArr;
+      });
+      this.$emit("getUpdatedPermission", {
+        deptPermission: updated,
+        dept_id: val.dept_id,
+      });
+      // console.log("updated Categories", updated);
     },
   },
 };
@@ -149,7 +149,7 @@ export default {
           .perms_th_sub {
             font-weight: 500;
             // font-size: 11px;
-            font-size: 14px;
+            font-size: 12px;
             line-height: 19px;
             text-align: center;
             color: #8f9bb3;

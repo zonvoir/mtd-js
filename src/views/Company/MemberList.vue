@@ -197,7 +197,17 @@
                   </ul>
                   <div v-if="ownRole == 5" class="permission_btns">
                     <PermissionModal>
-                      <template v-slot:permission-button> permission </template>
+                      <template
+                        v-slot:permission-button="{ openPermissionModal }"
+                      >
+                        <button
+                          @click="openPermissionModal(people.staffid)"
+                          type="button"
+                          class="btn-light fs-14 btn-set fw-700 btn"
+                        >
+                          Permission
+                        </button>
+                      </template>
                     </PermissionModal>
                     <!-- <button
                       type="button"
@@ -294,13 +304,9 @@ export default {
     this.getCategoryList();
   },
   methods: {
-    setPermission(id) {
-      console.log("staff id is ", id);
-    },
     formatMemberName(str) {
       return getFirstLetter(str);
     },
-    // this.dept_list.map(Number),
     SearchByKeyword(event) {
       this.userKeyword = event.target.value;
       if (
@@ -339,7 +345,6 @@ export default {
     },
     // filter by role
     memberFilterbyRole(id) {
-      // console.log("deta in", id);
       this.filterRole = id;
       let data = {
         role_id: this.filterRole,
@@ -355,24 +360,8 @@ export default {
           let filterdMemberList = res.data.data;
           this.allMembersList = filterdMemberList;
           console.log("data by response", this.allMembersList);
-          // this.$store.dispatch("getCompanyMembers", filterdMemberList);
         } else {
           this.allMembersList = [];
-          // let $th = this;
-          // if ("error" in res.data) {
-          //   Object.keys(res.data.error).map(function (key) {
-          //     $th.$toast.error(res.data.error[key], {
-          //       position: "bottom-left",
-          //       duration: 3712,
-          //     });
-          //   });
-          // } else {
-          //   // this.$store.dispatch("getCompanyMembers", []);
-          //   // $th.$toast.error(res.data.message, {
-          //   //   position: "bottom-left",
-          //   //   duration: 3712,
-          //   // });
-          // }
         }
       });
     },
@@ -678,9 +667,6 @@ export default {
   color: #8f9bb3;
   font-weight: 500;
   margin-bottom: 9px;
-  // border-bottom: 1px solid #edf1f7;
-  // padding-bottom: 9px;
-  // margin-bottom: 0;
 }
 .border-0 {
   border: 0;
@@ -690,5 +676,8 @@ export default {
   padding: 20px 24px 0 24px;
   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
   border-radius: 4px;
+}
+.btn-set {
+  text-transform: uppercase;
 }
 </style>

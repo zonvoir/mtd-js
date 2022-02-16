@@ -15,8 +15,10 @@
         </p>
       </div>
     </div>
+    <!-- Accordion Of Emp with list -->
     <div class="accordion custom_acc">
       <div class="">
+        <!-- departments Sections -->
         <div class="">
           <div class="section_wrap k_acc_sub_btn m-b-10">
             <h4 class="m-b-0 title-dark">Choose departament(s)</h4>
@@ -34,6 +36,8 @@
                 v-model="myDepartmensList"
                 class="form-control k_inp_field"
                 rules="required"
+                @deselect="filterInvitationList"
+                @select="filterInvitationList"
                 :options="departments"
                 @blur="v$.myDepartmensList.$touch"
                 :class="{
@@ -59,27 +63,11 @@
                 :enableTimePicker="false"
                 v-model="expiryDate"
                 @closed="updateDate"
-                @blur="v$.expiryDate.$touch"
-                :class="{
-                  'is-invalid': v$.expiryDate.$error,
-                }"
               />
-              <div
-                v-if="v$.expiryDate.$error"
-                class="invalid-feedback text-left"
-              >
-                <span
-                  v-if="v$.expiryDate.required.$invalid"
-                  class="text-left fs-14"
-                >
-                  Expiry date is Required
-                </span>
-              </div>
             </div>
           </div>
         </div>
-        <!-- <template>
-        </template> -->
+        <!-- departments Sections ends -->
         <div
           class="body_wrap"
           v-for="(staffrole, index) in staffRoles"
@@ -183,13 +171,15 @@
                           )
                         }}
                       </h6>
-                      <div class="list_wrap m-b-20">
+                      <div class="list_wrap scroll_list m-b-20">
                         <ul class="list-group">
+                          <!--   v-for="member in staffrole.invitation_list" -->
                           <li
                             v-for="member in staffrole.invitation_list"
                             :key="member.id"
                             class="list_group_item d-inline-flex m-b-8"
                           >
+                            <!-- <InvitationEmail :member="member" /> -->
                             <div class="list_wrapper">
                               <div class="name_wrap">
                                 <p
@@ -241,6 +231,7 @@
         </div>
       </div>
     </div>
+    <!-- Accordion Of Emp with list -->
   </div>
 </template>
 
@@ -250,25 +241,27 @@ import "vue3-date-time-picker/dist/main.css";
 import Select2 from "vue3-select2-component";
 import Multiselect from "@vueform/multiselect";
 import useVuelidate from "@vuelidate/core";
-import companyService from "../../Services/Company/CompanyService";
 import { required } from "@vuelidate/validators";
 import { mapGetters } from "vuex";
 import errorhandler from "../../utils/Error";
+import CompanyService from "../../Services/Company/CompanyService";
+// import InvitationEmail from "../Shared/InvitationEmail.vue";
 export default {
   props: {
     departments: {
       type: Array,
       required: true,
     },
-    staffRoles: {
-      type: Array,
-      required: true,
-    },
+    // staffRoles: {
+    //   type: Array,
+    //   required: true,
+    // },
   },
   components: {
     Select2,
     Multiselect,
     Datepicker,
+    // InvitationEmail,
   },
   data() {
     return {
@@ -276,34 +269,11 @@ export default {
       myValue: "",
       expiryDate: "",
       validity_date: "",
-      rolePermissions: [
-        // owner
-        {
-          isEmployeeAllow: true,
-          isConsultantAllow: true,
-          isManagerAllow: true,
-          isOwnweAllow: true,
-        },
-        // consultant
-        {
-          isEmployeeAllow: true,
-          isConsultantAllow: false,
-          isManagerAllow: true,
-          isOwnweAllow: false,
-        },
-        // Managers
-        {
-          isEmployeeAllow: true,
-          isConsultantAllow: false,
-          isManagerAllow: true,
-          isOwnweAllow: false,
-        },
-      ],
+
       myDepartmensList: null,
       settings: {},
       emailPattern:
         /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/,
-      // is_uploaded: undefined,
       is_FileUploaded: false,
       myOptions: [],
       tempEmails: [],
@@ -318,8 +288,8 @@ export default {
   computed: {
     ...mapGetters({
       staffInfo: "staffData",
-      invitedMembers: "invitationList",
-      // selectedDepartments: "staffsDepartment",
+      // invitedMembers: "invitationList",
+      staffRoles: "invitationStaffRoleList",
       companyLists: "staffsCompanies",
       ownRole: "roleInCompany",
     }),
@@ -329,16 +299,19 @@ export default {
       v$: useVuelidate(),
     };
   },
+
   validations() {
     return {
-      expiryDate: { required },
       myDepartmensList: { required },
     };
-    // myValue: { email },
   },
+
   mounted() {
+    // this.isAccordionArr = new Array(this.staffRoles.length).fill(false);
+
     this.isAccordionArr = new Array(4).fill(false);
   },
+
   created() {
     this.getCompanyDetails(this.companyData);
     this.settings = {
@@ -373,14 +346,13 @@ export default {
         return false;
       }
     },
+
     updateDate() {
       // this.checkValidation();
       this.validity_date = this.expiryDate.toISOString().slice(0, 10);
       console.log("date", this.validity_date);
     },
-    // selectedDepartments() {
-    //   console.lg("selected departments");
-    // },
+
     getCompanyDetails(companyId) {
       let companyArr;
       this.tempCompnies = this.companyLists;
@@ -394,11 +366,13 @@ export default {
       console.log("all conpany dettails", companyArr);
       // this.$store.dispatch("getCompanyMembers", memberArr);
     },
+
     checkRole(id) {
       if (id) {
         return true;
       }
     },
+
     importFile(fileNameIndex = 0) {
       this.v$.$touch();
       if (this.v$.$invalid) {
@@ -444,6 +418,41 @@ export default {
         return true;
       }
     },
+
+    //  filter invitation list by departments
+    filterInvitationList() {
+      let data = {
+        auth_token: this.staffInfo.auth_token,
+        departments: this.myDepartmensList.map(Number),
+      };
+      if (this.myDepartmensList.length > 0) {
+        CompanyService.getInvitationByRole(data).then((res) => {
+          if (res.data.status) {
+            console.log("filterd invitaion list ", res.data.data);
+            this.$store.dispatch(
+              "GET_INVITATION_STAFFROLE_LIST",
+              res.data.data
+            );
+          } else {
+            errorhandler(res, this);
+          }
+        });
+      } else {
+        console.log("no array dept founds ");
+        CompanyService.getInvitationByRole(data).then((res) => {
+          if (res.data.status) {
+            console.log("no array dept founds ", res.data.data);
+            this.$store.dispatch(
+              "GET_INVITATION_STAFFROLE_LIST",
+              res.data.data
+            );
+          } else {
+            errorhandler(res, this);
+          }
+        });
+      }
+    },
+
     // upload excel File
     sendInvitationByFile(file, staffrole) {
       // this.is_uploaded = false;
@@ -456,9 +465,8 @@ export default {
         invitation_validity: this.validity_date,
       };
       console.log("fileData ", data);
-      companyService.invitationByFile(data).then((res) => {
+      CompanyService.invitationByFile(data).then((res) => {
         if (res.data.status) {
-          // this.is_uploaded = true;
           this.is_FileUploaded = false;
           this.$toast.success(" file Uploaded !! update list after some time", {
             position: "bottom-left",
@@ -488,14 +496,16 @@ export default {
           departments: this.myDepartmensList.map(Number),
           invitation_validity: this.validity_date,
         };
-        console.log("emails Array to be send ", data);
-        companyService.invitationByEmails(data).then((res) => {
+
+        CompanyService.invitationByEmails(data).then((res) => {
           if (res.data.status) {
             this.myValue.length = 0;
+            console.log("data emails", res.data.data);
             this.$store.dispatch(
-              "getInvitationList",
-              res.data.data.invitation_list
+              "GET_INVITATION_STAFFROLE_LIST",
+              res.data.data
             );
+
             this.disbaleInvited = true;
             this.$toast.success("Invitations have been sent ", {
               position: "bottom-left",
@@ -665,6 +675,37 @@ export default {
   background: #f7f9fc;
   border-radius: 4px;
 }
+// .scroll_list{
+
+// }
+.scroll_list {
+  height: 5rem;
+  overflow: scroll;
+  // &::after {
+  //   content: "";
+  //   position: fixed;
+  //   top: 0;
+  //   bottom: 0;
+  //   right: 0;
+  //   left: 0;
+  //   z-index: 99;
+  //   background-color: #1d1d1d6b;
+  // }
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  // / Track /
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #f7f9fc;
+    border-radius: 0px;
+  }
+  // / Handle /
+  &::-webkit-scrollbar-thumb {
+    background-color: #aab4c5bd !important;
+    border-radius: 10px;
+  }
+}
+
 .list_wrap {
   ul {
     padding-left: 0;

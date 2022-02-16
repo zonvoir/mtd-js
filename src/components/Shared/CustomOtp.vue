@@ -90,6 +90,12 @@ export default {
           }
           /// ctrl || cmd copy and paste
           if (ev.ctrlKey && ev.keyCode == 86) {
+            console.log(
+              window,
+              window.navigator,
+              window.navigator.clipboard,
+              "vis"
+            );
             window.navigator.clipboard
               .readText()
               .then((text) => {

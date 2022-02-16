@@ -22,10 +22,7 @@
           </div>
         </div>
         <div class="modal-body invitaion_body">
-          <InvitationRole
-            :departments="departmentLists"
-            :staffRoles="rolesOfStaff"
-          />
+          <InvitationRole :departments="departmentLists" />
         </div>
         <div class="modal-footer invite_modal_footer">
           <button
@@ -67,38 +64,13 @@ export default {
       allDepartments: "staffsDepartment",
     }),
   },
-  // watch: {
-  //   allDepartments: function () {
-  //     this.departmentLists = [...new Set(this.allDepartments)];
-  //   },
-  // },
 
-  // created() {
-  //   if (
-  //     this.staffInfo != null ||
-  //     this.staffInfo != undefined ||
-  //     this.staffInfo != ""
-  //   ) {
-  //     this.departmentByStaffId();
-  //     this.getInvitaionPeopleListByRole();
-  //   }
-  // },
-  // created(){
-  //   this.departmentLists =allDepartments;
-  // },
   methods: {
     invitePeople() {
-      console.log(
-        "modal clicked",
-        this.staffInfo && Object.keys(this.staffInfo).length != 0
-      );
       this.modal.show();
-      // this.staffInfo != null ||
-      // this.staffInfo != undefined ||
-      // this.staffInfo != ""
+
       if (this.staffInfo && Object.keys(this.staffInfo).length != 0) {
         this.departmentLists = this.allDepartments;
-        // this.departmentByStaffId();
         this.getInvitaionPeopleListByRole();
       }
     },
@@ -114,25 +86,9 @@ export default {
         if (res.data.status) {
           console.log("all invitaion list of people", res.data.data);
           this.rolesOfStaff = res.data.data;
-          this.$store.dispatch(
-            "getInvitationList",
-            res.data.data.invitation_list
-          );
+          this.$store.dispatch("GET_INVITATION_STAFFROLE_LIST", res.data.data);
         } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          }
+          errorhandler(res, this);
         }
       });
     },

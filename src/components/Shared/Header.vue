@@ -141,14 +141,6 @@ export default {
       },
       deep: true,
     },
-
-    // staffInfo: {
-    //   handler(val) {
-    //     console.log(val, "v");
-    //     this.getAllCompanies();
-    //     this.getStaffDetails();
-    //   },
-    // },
   },
   created() {
     this.changeYear();

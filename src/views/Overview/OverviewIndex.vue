@@ -145,9 +145,7 @@ export default {
       CommonService.getAllCategories(data)
         .then((res) => {
           if (res.data.status) {
-            // this.$store.dispatch("getCategoryArray", res.data.data);
             this.$store.dispatch("GET_CATEGORY_ARRAY", res.data.data);
-            console.log(res.data.data);
           } else {
             errorhandler(res, this);
             this.$store.dispatch("GET_CATEGORY_ARRAY", []);

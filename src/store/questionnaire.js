@@ -13,12 +13,21 @@ export default createStore({
     alocatedDepartments: [], // departments allocated to perticular member
     allCategories: [], // departments allocated to perticular member
     staffsDepartment: [],
+
+    // company States start
+
+    memberPermissions: [], //member permission array
     staffsCompanies: [],
     companyMembers: [],
     role_id: undefined,
     roleInCompany: undefined,
-    invitationList: [],
+    invitationStaffRoleList: [], // invitation list of members
     activeCompany: undefined,
+    companyInfoDetails: [],
+    activeYear: "" + new Date().getFullYear(),
+
+    // company States end
+
     questionnaire: {},
     questionnaireDetails: {},
     quizProgressValue: 0.0,
@@ -27,8 +36,6 @@ export default createStore({
     getAnsweredQuestion: 0,
     categoryArray: [],
     personalInfo: [],
-    companyInfoDetails: [],
-    activeYear: "" + new Date().getFullYear(),
   },
   mutations: {
     // company profile
@@ -42,6 +49,9 @@ export default createStore({
       state.tokenStatus = status; // auth token status
     },
     // company profile
+    setMemberPermissions(state, values) {
+      state.memberPermissions = values;
+    },
     setYear(state, values) {
       state.activeYear = values;
     },
@@ -60,8 +70,9 @@ export default createStore({
     setCompanyMembers(state, values) {
       state.companyMembers = values;
     },
-    setInvitationList(state, list) {
-      state.invitationList = list;
+    setInvitationStaffRoleList(state, list) {
+      console.log("all invited list", list);
+      state.invitationStaffRoleList = list;
     },
     setRoleId(state, role) {
       state.role_id = role;
@@ -109,14 +120,17 @@ export default createStore({
     GET_ALOCATED_DEPARTMENTS(context, val) {
       context.commit("setAlocatedDepartments", val);
     },
+    GET_PERMISSION_ARRAY(context, val) {
+      context.commit("setMemberPermissions", val);
+    },
     GET_ALL_CATEGORIES(context, val) {
       context.commit("setAllCategories", val);
     },
     getYear(context, val) {
       context.commit("setYear", val);
     },
-    async getInvitationList(context, val) {
-      context.commit("setInvitationList", val);
+    async GET_INVITATION_STAFFROLE_LIST(context, val) {
+      context.commit("setInvitationStaffRoleList", val);
     },
     async getActiveCompany(context, val) {
       context.commit("setActiveCompany", val);
@@ -168,21 +182,30 @@ export default createStore({
   getters: {
     tokenStatus: (state) => state.tokenStatus, // auth token status
     staffData: (state) => state.staffData, //get local storage data
-    allCategories: (state) => state.allCategories,
     alocatedDepartments: (state) => state.alocatedDepartments,
+
+    // company getters start
+
+    memberPermissions: (state) => state.memberPermissions, //get local storage data
     activeYear: (state) => state.activeYear,
-    invitationList: (state) => state.invitationList,
+    invitationStaffRoleList: (state) => state.invitationStaffRoleList,
     activeCompany: (state) => state.activeCompany,
-    companyMembers: (state) => state.companyMembers,
-    staffsDepartment: (state) => state.staffsDepartment,
     staffsCompanies: (state) => state.staffsCompanies,
-    personalInfo: (state) => state.personalInfo,
     roleInCompany: (state) => state.roleInCompany,
+    companyMembers: (state) => state.companyMembers,
     companyInfoDetails: (state) => state.companyInfoDetails,
+
+    // company getters end
+
+    // questionnire getter start
+
+    staffsDepartment: (state) => state.staffsDepartment,
+    personalInfo: (state) => state.personalInfo,
     quizProgressValue: (state) => state.quizProgressValue,
     questionnaireDetails: (state) => state.questionnaireDetails,
     questionnaire: (state) => state.questionnaire,
     categoryArrayItems: (state) => state.categoryArray,
+    allCategories: (state) => state.allCategories,
     getQuestionList(state) {
       return state.questionList;
     },

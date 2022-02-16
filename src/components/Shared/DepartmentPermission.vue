@@ -25,7 +25,9 @@
             v-model="dept_list"
             class="form-control k_inp_field"
             rules="required"
-            :options="modifyDept(allDepartments)"
+            @deselect="permissionFilter"
+            @select="permissionFilter"
+            :options="allDepartments"
           />
           <!-- @blur="v$.myDepartmensList.$touch"
             :class="{
@@ -55,6 +57,8 @@
             :searchable="true"
             :createTag="true"
             v-model="catgry_list"
+            @deselect="permissionFilter"
+            @select="permissionFilter"
             class="form-control k_inp_field"
             rules="required"
             :options="modifyCategories(categoriesArr)"
@@ -83,18 +87,20 @@
 <script>
 import "vue3-date-time-picker/dist/main.css";
 import Multiselect from "@vueform/multiselect";
-import useVuelidate from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+// import useVuelidate from "@vuelidate/core";
+// import { required } from "@vuelidate/validators";
 import { mapGetters } from "vuex";
 // import CommonService from "../../Services/CommonService";
 import { departmentModify } from "../../utils/DepartmentModify";
 import { getCategoryModified } from "../../utils/commonHelperFuntions";
+// import filterMemberPermissions from "../../utils/permissiion-filter";
+import CompanyService from "../../Services/Company/CompanyService";
 export default {
   props: {
-    // departments: {
-    //   type: Array,
-    //   required: true,
-    // },
+    staffId: {
+      type: String,
+      required: true,
+    },
     staffRoles: {
       type: Array,
       required: true,
@@ -106,8 +112,10 @@ export default {
   data() {
     return {
       dept_list: [],
+      count: 0,
       catgry_list: [],
       categoriesList: [],
+      permissonsArr: [],
     };
   },
 
@@ -115,25 +123,26 @@ export default {
     ...mapGetters({
       staffInfo: "staffData",
       categoriesArr: "allCategories",
+      permissonList: "memberPermissions",
+
       allDepartments: "alocatedDepartments",
     }),
   },
-  setup() {
-    return {
-      v$: useVuelidate(),
-    };
-  },
-  validations() {
-    return {
-      catgry_list: { required },
-      dept_list: { required },
-    };
-  },
-  // mounted() {
-  //   this.isAccordionArr = new Array(4).fill(false);
+  // created() {
+  //   this.permissonsArr = this.permissonList;
+  //   console.log("permission alter", this.permissonsArr);
   // },
-  created() {
-    // this.getCategoryList();
+  watch: {
+    permissonList: {
+      handler(val) {
+        this.count++;
+        if (this.count == 1) {
+          this.permissonsArr = val;
+        }
+        // this.getAllMemberList(this.example8.value);
+      },
+      deep: true,
+    },
   },
   methods: {
     // get All dept lists
@@ -143,33 +152,28 @@ export default {
     modifyCategories(data) {
       return getCategoryModified(data);
     },
-    // get All cateArr lists
-    // get All Category lists
-    // getCategoryList() {
-    //   CommonService.allCategories().then((resp) => {
-    //     if (resp.data.status) {
-    //       for (var i = 0; i < resp.data.data.length; i++) {
-    //         let categy = {
-    //           value: resp.data.data[i].id,
-    //           label: resp.data.data[i].name,
-    //         };
-    //         this.categoriesList.push(categy);
-    //       }
-    //       console.log("roles", this.categoriesList);
-    //     } else {
-    //       this.ownRoleLists = [
-    //         { value: 0, label: "No record found", disabled: true },
-    //       ];
-    //     }
-    //   });
-    // },
-    // toggleAccordion(index) {
-    //   this.isAccordionArr.forEach((ac, i) => {
-    //     if (index === i) {
-    //       this.isAccordionArr[i] = !this.isAccordionArr[i];
-    //     }
-    //   });
-    // },
+
+    permissionFilter() {
+      let data = {
+        auth_token: this.staffInfo.auth_token,
+        staffid: this.staffId,
+        cat_idArr:
+          this.catgry_list.length > 0 ? this.catgry_list.map(Number) : "",
+        dept_idArr: this.dept_list.length > 0 ? this.dept_list.map(Number) : "",
+      };
+      if (this.catgry_list.length > 0 || this.dept_list.length > 0) {
+        CompanyService.filterMemberPermission(data).then((res) => {
+          if (res.data.status) {
+            console.log("res off filter data", res.data.data);
+            this.$store.dispatch("GET_PERMISSION_ARRAY", res.data.data);
+          }
+        });
+      } else {
+        console.log("no params");
+
+        this.$store.dispatch("GET_PERMISSION_ARRAY", this.permissonsArr);
+      }
+    },
   },
 };
 </script>

@@ -1,12 +1,12 @@
 <template>
-  <div class="invite_btn_wrap">
-    <button
-      @click="setPermission"
+  <div class="">
+    <!-- <button
+      @click="setPermission(id)"
       type="button"
       class="btn-light fs-14 btn-set fw-700 btn"
     >
-      <slot name="permission-button"></slot>
-    </button>
+    </button> -->
+    <slot name="permission-button" :openPermissionModal="setPermission"></slot>
   </div>
   <!-- Permission Invite People Modal -->
   <div class="modal fade" ref="invitationModal">
@@ -24,28 +24,14 @@
         </div>
         <div class="modal-body invitaion_body">
           <div class="">
-            <DepartmentPermission
-              :departments="departmentLists"
-              :staffRoles="rolesOfStaff"
-            />
+            <DepartmentPermission :staffId="currentStaffId" />
           </div>
           <div class="">
-            <!-- <BaseAccordion :allDepartments="membersDepartment">
-              <template v-slot:accordion_content_body>
-                <div class="m-t-20">
-                  <PermissionTable
-                    :permissionArr="permissionArr.categories"
-                    v-for="permissionArr in permissionArr"
-                    :key="permissionArr.departmentid"
-                  />
-                </div>
-              </template>
-            </BaseAccordion> -->
             <div class="accordion custom_acc">
               <div class="">
                 <div
                   class="body_wrap"
-                  v-for="(department, index) in permissionArr"
+                  v-for="(department, index) in permissonList"
                   :key="index"
                 >
                   <div class="sub_acc_body">
@@ -78,13 +64,10 @@
                           <!-- accordion body -->
                           <div class="m-t-20">
                             <PermissionTable
+                              @getUpdatedPermission="getLatestPermission"
                               :categoryList="department.categories"
                             />
                           </div>
-                          <!-- v-for="category in department.categories[index]"
-                              :key="category.departmentid" -->
-                          <!-- accordion body close -->
-                          <!-- <slot name="accordion_content_body"></slot> -->
                         </div>
                       </div>
                     </div>
@@ -132,7 +115,9 @@ export default {
       permissionArr: [],
       departmentArr: [],
       isAccordionArr: [],
+      updatedPermissionArr: undefined,
       isvalid: true,
+      currentStaffId: undefined,
     };
   },
 
@@ -151,16 +136,28 @@ export default {
   computed: {
     ...mapGetters({
       staffInfo: "staffData",
-      membersDepartment: "staffsDepartment",
-      // membersDepartment: "alocatedDepartments",
+      permissonList: "memberPermissions",
+      membersDepartment: "alocatedDepartments",
     }),
   },
   methods: {
+    getLatestPermission(val) {
+      console.log("updated department permissions", val);
+      this.updatedPermissionArr = this.permissionArr.filter(
+        (dept, idx, deptArr) => {
+          if (dept.id == val.dept_id) {
+            dept.category = val.deptPermission;
+          }
+          return deptArr;
+        }
+      );
+      console.log("updated permissions", this.updatedPermissionArr);
+    },
     setPermission(id) {
-      console.log("modal clicked", id);
+      this.currentStaffId = id;
       let data = {
         auth_token: this.staffInfo.auth_token,
-        staffid: 70,
+        staffid: this.currentStaffId,
       };
       CompanyService.setMemberPermission(data).then((res) => {
         if (res.data.status) {
@@ -178,9 +175,10 @@ export default {
             this.departmentArr.push(data);
           }
           // this.permissionArr.push(this.departmentArr);
-          this.permissionArr.departments = this.departmentArr;
+          // this.permissionArr.departments = this.departmentArr;
           console.log("show all departments of staff", this.permissionArr);
           this.$store.dispatch("GET_ALOCATED_DEPARTMENTS", this.departmentArr);
+          this.$store.dispatch("GET_PERMISSION_ARRAY", this.permissionArr);
           this.modal.show();
         } else {
           errorhandler(res, this);
@@ -191,8 +189,24 @@ export default {
       this.modal.hide();
     },
     saveMemberPermission() {
+      console.log("updated permission", this.updatedPermissionArr);
+      let data = {
+        auth_token: this.staffInfo.auth_token,
+        staffid: this.currentStaffId,
+        member_permissions: this.updatedPermissionArr,
+      };
+      CompanyService.updateMemberPermission(data).then((res) => {
+        if (res.data.status) {
+          this.permissionArr = res.data.data;
+          this.$store.dispatch("GET_PERMISSION_ARRAY", this.permissionArr);
+          console.log(
+            "response is comming from updated permissions",
+            res.data.data
+          );
+          this.modal.hide();
+        }
+      });
       console.log("modal closed");
-      this.closeModal();
     },
     // toggle accordion
     toggleAccordion(index) {
