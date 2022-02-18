@@ -16,6 +16,12 @@ export const getDepartemntsValue = (deptsArr) => {
   }
   return departments2;
 };
+export const selectedDepartemntsValue = (deptArr) => {
+  let departments4 = deptArr.map((dept) => {
+    return dept.value;
+  });
+  return departments4;
+};
 export const getDepartemntsLables = (deptsArr) => {
   let departments3 = [];
   for (var k = 0; k < deptsArr.length; k++) {

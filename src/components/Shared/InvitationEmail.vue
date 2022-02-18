@@ -22,13 +22,54 @@
             {{ member.status }}
           </p>
         </div>
-        <img src="K_Icons/more-vertical.svg" alt="" class="" />
+        <!-- <img src="K_Icons/more-vertical.svg" alt="" class="" /> -->
+        <Button
+          type="button"
+          icon="pi pi-ellipsis-v"
+          class="p-button-rounded kp_icon_btn p-button-text p-button-plain"
+          @click="toggle"
+          aria-haspopup="true"
+          aria-controls="overlay_tmenu"
+        />
+        <TieredMenu id="overlay_tmenu" ref="menu" :model="items" :popup="true">
+          <template #item="{ item }">
+            <div class="d-flex align-items-center" @click="deleteInvitaion">
+              <Button
+                type="button"
+                :icon="item.icon"
+                class="
+                  p-button-rounded
+                  kp_icon_btn
+                  p-button-text p-button-plain
+                "
+                aria-haspopup="true"
+                aria-controls="overlay_tmenu"
+              />
+              <span icon="item"></span>
+              <a :href="item.url" class="cusdropdown">{{ item.label }}</a>
+            </div>
+          </template>
+        </TieredMenu>
+
+        <!-- <SplitButton :model="items" class="bg-primary border-round">
+         <Button @click="save">
+            <img
+              alt="logo"
+              src="K_Icons/more-vertical.svg"
+              style="width: 1rem"
+            />
+          </Button>
+        </SplitButton> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+// import SplitButton from "primevue/splitbutton";
+import TieredMenu from "primevue/tieredmenu";
+import Button from "primevue/button";
+
 export default {
   props: {
     member: {
@@ -36,14 +77,42 @@ export default {
       required: true,
     },
   },
-
+  components: {
+    TieredMenu,
+    Button,
+  },
   data() {
-    return {};
+    return {
+      items: [
+        {
+          label: "Delete",
+          icon: "pi pi-trash",
+        },
+      ],
+    };
+  },
+  methods: {
+    toggle(event) {
+      this.$refs.menu.toggle(event);
+    },
+    deleteInvitaion() {
+      alert("hello from each");
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.cusdropdown {
+  cursor: pointer;
+  text-decoration: none;
+  color: #222b45;
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: #222b45;
+  }
+}
 .list_wrapper {
   display: flex;
   align-items: center;
@@ -74,7 +143,7 @@ export default {
     color: white !important;
   }
   &.expired {
-    background-color: #db2c66;
+    background-color: #ff5c92;
     color: white !important;
   }
   .email_status {

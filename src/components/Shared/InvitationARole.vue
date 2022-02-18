@@ -179,8 +179,8 @@
                             :key="member.id"
                             class="list_group_item d-inline-flex m-b-8"
                           >
-                            <!-- <InvitationEmail :member="member" /> -->
-                            <div class="list_wrapper">
+                            <InvitationEmail :member="member" />
+                            <!-- <div class="list_wrapper">
                               <div class="name_wrap">
                                 <p
                                   class="
@@ -218,7 +218,7 @@
                                   />
                                 </div>
                               </div>
-                            </div>
+                            </div> -->
                           </li>
                         </ul>
                       </div>
@@ -242,10 +242,11 @@ import Select2 from "vue3-select2-component";
 import Multiselect from "@vueform/multiselect";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
+
 import { mapGetters } from "vuex";
 import errorhandler from "../../utils/Error";
 import CompanyService from "../../Services/Company/CompanyService";
-// import InvitationEmail from "../Shared/InvitationEmail.vue";
+import InvitationEmail from "../Shared/InvitationEmail.vue";
 export default {
   props: {
     departments: {
@@ -261,7 +262,7 @@ export default {
     Select2,
     Multiselect,
     Datepicker,
-    // InvitationEmail,
+    InvitationEmail,
   },
   data() {
     return {
@@ -282,12 +283,12 @@ export default {
       emailTag: "",
       isOpenAcc: true,
       isAccordionArr: undefined,
+      staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
     };
   },
 
   computed: {
     ...mapGetters({
-      staffInfo: "staffData",
       // invitedMembers: "invitationList",
       staffRoles: "invitationStaffRoleList",
       companyLists: "staffsCompanies",
@@ -679,20 +680,11 @@ export default {
 
 // }
 .scroll_list {
-  height: 5rem;
-  overflow: scroll;
-  // &::after {
-  //   content: "";
-  //   position: fixed;
-  //   top: 0;
-  //   bottom: 0;
-  //   right: 0;
-  //   left: 0;
-  //   z-index: 99;
-  //   background-color: #1d1d1d6b;
-  // }
+  max-height: 15rem;
+  overflow: auto;
+  padding-right: 6px;
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
   // / Track /
   &::-webkit-scrollbar-track {

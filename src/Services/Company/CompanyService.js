@@ -1,5 +1,8 @@
 import http from "@/http-common";
 class CompanyService {
+  companySuggestions() {
+    return http.get("customers/data_suggestion");
+  }
   invitationByFile(data) {
     return http.post("invitation/send_invitation_file", data, {
       headers: {

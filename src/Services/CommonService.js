@@ -82,8 +82,12 @@ class CommonService {
     return http.get("lists/region");
   }
   // get all country by region
-  getAllCountry(id) {
-    return http.get(`lists/region_countries/${id}`);
+  // getAllCountry(id) {
+  //   return http.get(`lists/region_countries/${id}`);
+  // }
+  // get all country by region
+  getAllCountry() {
+    return http.get(`lists/region_countries`);
   }
   // get all country code by country id
   getCountryCode(countryId) {

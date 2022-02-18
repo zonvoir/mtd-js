@@ -1,13 +1,31 @@
 <template>
   <div :class="className">
-    <!-- <Select2
-      v-model="myValue"
-      :options="myOptions"
-      :settings="{ settingOption: value, settingOption: value }"
-      @change="myChangeEvent($event)"
-      @select="mySelectEvent($event)"
-    /> -->
     <div class="k_form_group">
+      <AutoComplete
+        class="k_prime_inp_field"
+        :suggestions="filteredCompanies"
+        @complete="searchCompany($event)"
+        field="label"
+        placeholder="Company name"
+        @blur="v$.careerForm.company.$touch"
+        v-model="careerForm.company"
+        :class="{
+          'is-invalid': v$.careerForm.company.$error,
+        }"
+      />
+      <div
+        v-if="v$.careerForm.company.$error"
+        class="invalid-feedback text-left"
+      >
+        <span
+          v-if="v$.careerForm.company.required.$invalid"
+          class="text-left fs-14"
+        >
+          Company is required
+        </span>
+      </div>
+    </div>
+    <!-- <div class="k_form_group">
       <div class="">
         <input
           type="text"
@@ -31,16 +49,36 @@
           </span>
         </div>
       </div>
-      <!-- <div class="custom_select2">
-        <BaseSelect2 />
-      </div> -->
-    </div>
+   
+    </div> -->
   </div>
   <div :class="className">
-    <div class="k_form_group k_select_single">
-      <!--         :options="async function(query) {
-    return await fetchDepartments(query) // check JS block in JSFiddle for implementation
-  }" -->
+    <div class="k_form_group">
+      <Dropdown
+        class="k_prime_inp_select"
+        v-model="careerForm.industry"
+        :options="industries"
+        :optionValue="careerForm.industry"
+        optionLabel="label"
+        placeholder="Industry"
+        @blur="v$.careerForm.industry.$touch"
+        :class="{
+          'is-invalid': v$.careerForm.industry.$error,
+        }"
+      />
+      <div
+        v-if="v$.careerForm.industry.$error"
+        class="invalid-feedback text-left"
+      >
+        <span
+          v-if="v$.careerForm.industry.required.$invalid"
+          class="text-left fs-14"
+        >
+          Industry is required
+        </span>
+      </div>
+    </div>
+    <!-- <div class="k_form_group k_select_single">
       <Multiselect
         placeholder="Industry"
         class="form-control k_inp_field"
@@ -69,10 +107,38 @@
           Industry is required
         </span>
       </div>
-    </div>
+    </div> -->
   </div>
+  <!-- {{ careerForm.department }} -->
   <div :class="className">
-    <div class="k_form_group k_select_single">
+    <!-- {{ careerForm.department }} -->
+    <div class="k_form_group">
+      <prime-multiSelect
+        v-model="careerForm.department"
+        :options="departments"
+        class="prime_multiselect"
+        optionLabel="label"
+        :optionValue="getDefaulDepartment(departments, careerForm.department)"
+        placeholder="Department"
+        @blur="v$.careerForm.department.$touch"
+        :class="{
+          'is-invalid': v$.careerForm.department.$error,
+        }"
+      />
+
+      <div
+        v-if="v$.careerForm.department.$error"
+        class="invalid-feedback text-left"
+      >
+        <span
+          v-if="v$.careerForm.department.required.$invalid"
+          class="text-left fs-14"
+        >
+          {{ $t("personal_account.form.invalid_msgs.Department_is_required") }}
+        </span>
+      </div>
+    </div>
+    <!-- <div class="k_form_group k_select_single">
       <Multiselect
         placeholder="department"
         :closeOnSelect="false"
@@ -99,7 +165,7 @@
           {{ $t("personal_account.form.invalid_msgs.Department_is_required") }}
         </span>
       </div>
-    </div>
+    </div> -->
   </div>
   <div :class="className">
     <div class="k_form_group">
@@ -219,6 +285,13 @@ import Multiselect from "@vueform/multiselect";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import { formatDate } from "../../utils/FormatDate";
+import AutoComplete from "primevue/autocomplete";
+import Dropdown from "primevue/dropdown";
+import MultiSelect from "primevue/multiselect";
+import CompanyService from "../../Services/Company/CompanyService";
+import errorhandler from "../../utils/Error";
+// import { selectedDepartemntsValue } from "../../utils/DepartmentModify";
+
 export default {
   emits: ["addNewCareer"],
   props: {
@@ -254,6 +327,8 @@ export default {
       myValue: "uservalue",
       date: new Date(),
       careerForm: this.myCareer,
+      filteredCompanies: null,
+      companies: [],
     };
   },
   validations: {
@@ -276,14 +351,93 @@ export default {
   components: {
     Datepicker,
     Multiselect,
+    "prime-multiSelect": MultiSelect,
+    AutoComplete,
+    Dropdown,
   },
   updated() {
     this.careerForm = this.myCareer;
   },
+  mounted() {
+    this.getAllCompany();
+  },
+
   methods: {
+    getDefaultOption() {
+      let defOption = { value: "5", label: "Computer Industry" };
+      // defOption = options.forEach((element) => {
+      //   if (element.value == defaultOpt) {
+      //     console.log("element", element);
+      //     return element;
+      //   }
+      // });
+      // console.log(defOption);
+      return defOption;
+    },
+    getDefaulDepartment(options, dept) {
+      let filterdArr = options.filter((item) => {
+        return dept.includes(item.value);
+      });
+      console.log("filter arr", filterdArr);
+      return filterdArr;
+    },
+    searchCompany(event) {
+      setTimeout(() => {
+        if (!event.query.trim().length) {
+          this.filteredCompanies = [...this.companies];
+        } else {
+          this.filteredCompanies = this.companies.filter((compnay) => {
+            return compnay.label
+              .toLowerCase()
+              .startsWith(event.query.toLowerCase());
+          });
+        }
+      }, 250);
+    },
+    getAllCompany() {
+      CompanyService.companySuggestions().then((res) => {
+        if (res.data.status) {
+          this.companies = [];
+          this.companies = res.data.data;
+        } else {
+          errorhandler(res, this);
+        }
+      });
+    },
+    modifyCompanyData(data, parmas) {
+      if (typeof data === "object") {
+        console.log("this is object");
+        return data[parmas];
+      } else {
+        return data;
+      }
+    },
+    modifyCompanyDepartment(deptArr) {
+      let departments4 = deptArr.map((dept) => {
+        return dept.value;
+      });
+      return departments4;
+      // if (typeof data === "object") {
+      //   console.log("this is object");
+      //   return data[parmas];
+      // } else {
+      //   return data;
+      // }
+    },
     validateForm() {
       if (!this.v$.$invalid) {
         this.isValid = true;
+        this.careerForm.company = this.modifyCompanyData(
+          this.careerForm.company,
+          "label"
+        );
+        this.careerForm.industry = this.modifyCompanyData(
+          this.careerForm.industry,
+          "value"
+        );
+        this.careerForm.department = this.modifyCompanyDepartment(
+          this.careerForm.department
+        );
         this.careerForm.to = formatDate(this.careerForm["to"], "L");
         this.careerForm.from = formatDate(this.careerForm["from"], "L");
         this.$emit("addNewCareer", {
@@ -314,5 +468,7 @@ export default {
     outline: 2px solid #db2c66 !important;
     outline-offset: 0px;
   }
+}
+.p-autocomplete-input {
 }
 </style>

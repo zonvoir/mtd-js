@@ -5,6 +5,11 @@ import store from "./store";
 import quest from "./store/questionnaire";
 import Toaster from "@meforma/vue-toaster";
 import CKEditor from "@ckeditor/ckeditor5-vue";
+import PrimeVue from "primevue/config";
+
+import "primevue/resources/themes/bootstrap4-light-blue/theme.css";
+import "primevue/resources/primevue.min.css";
+import "primeicons/primeicons.css";
 import "bootstrap";
 import "bootstrap/scss/bootstrap.scss";
 import "@vueform/multiselect/themes/default.scss";
@@ -20,11 +25,24 @@ const i18n = setupI18n({
 loadLocaleMessages(i18n, localStorage.getItem("language") || "en");
 
 // .use(i18n)
-createApp(App)
+const app = createApp(App);
+app
   .use(i18n)
   .use(Toaster)
   .use(CKEditor)
   .use(store)
   .use(quest)
+  .use(PrimeVue)
   .use(router)
   .mount("#app");
+
+// createApp(App)
+//   .use(i18n)
+//   .use(Toaster)
+//   .use(CKEditor)
+//   .use(store)
+//   .use(quest)
+//   .use(PrimeVue)
+//   .use(router)
+//   .mount("#app");
+// app.component("Dialog", Dialog);

@@ -309,12 +309,12 @@
                 <select
                   class="form-control k_inp_field"
                   @change="onChangeRegion"
-                  @blur="v$.companyForm.region.$touch"
                   v-model="companyForm.region"
+                >
+                  <!-- @blur="v$.companyForm.region.$touch"
                   :class="{
                     'is-invalid': v$.companyForm.region.$error,
-                  }"
-                >
+                  }" -->
                   <option :value="null" disabled selected>
                     {{
                       $t(
@@ -332,7 +332,7 @@
                   </option>
                 </select>
 
-                <div
+                <!-- <div
                   v-if="v$.companyForm.region.$error"
                   class="invalid-feedback text-left"
                 >
@@ -346,7 +346,7 @@
                       )
                     }}
                   </span>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="col-lg-6">
@@ -598,6 +598,7 @@ export default {
     this.getLegalCoporation();
     this.getRoleInCompany();
     this.getRegions();
+    this.getCountries();
   },
   mounted() {
     this.$refs.focusInp.focus();
@@ -627,7 +628,7 @@ export default {
           maxLengthValue: maxLength(4),
           minLengthValue: minLength(4),
         },
-        region: { required },
+        // region: { required },
         corporation_legal_form: { required },
       },
     };
@@ -776,6 +777,7 @@ export default {
     },
     onChangeRegion() {
       console.log("Detail Industry", this.companyForm.region);
+
       this.getCountries(this.companyForm.region);
     },
     onChangeCountry() {
