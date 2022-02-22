@@ -18,7 +18,7 @@
           </div>
         </div>
         <!-- This button is available on project list is available -->
-        <div class="invite_btn_wrap m-l-auto">
+        <div class="invite_btn_wrap m-l-auto" v-if="ownRole.can_invite">
           <InvitePeopleModal>
             <template v-slot:invite-button>
               {{ $t("projects.buttons.invite_people") }}
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
 
 export default {
@@ -51,6 +52,11 @@ export default {
       dept: true,
       title: "Projects",
     };
+  },
+  computed: {
+    ...mapGetters({
+      ownRole: "roleInCompany",
+    }),
   },
   components: {
     InvitePeopleModal,

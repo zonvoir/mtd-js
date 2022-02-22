@@ -530,7 +530,13 @@
                         }}</span>
                       </div>
                       <div class="in_company_wrap d-flex">
-                        <h5 class="in_company">{{ career.company }}</h5>
+                        <h5 class="in_company">
+                          {{
+                            typeof career.company == "object"
+                              ? career.company.label
+                              : career.company
+                          }}
+                        </h5>
                         <span class="in_durartion att_val">
                           <span> {{ formatMyDate(career.from) }}</span> -
                           <span>{{ formatMyDate(career.to) }}</span>
@@ -808,37 +814,38 @@ export default {
       this.v$.$touch();
       if (!this.v$.$invalid) {
         // this.$refs.updateCareer.validateForm();
-        console.log(this.newAddedCareer); //work start from here
+        //work start from here
         this.personalAccount.career_info = [
           ...this.careersArr,
           ...this.newAddedCareer,
         ];
+
         console.log("latest career inforamtion", this.personalAccount);
-        // signupService
-        //   .updatePersonalDetails(this.personalAccount)
-        //   .then((res) => {
-        //     if (res.data.status) {
-        //       this.addCareer = false;
-        //       this.toggleUpdate = true;
-        //       this.personalAccount = res.data.data;
-        //       this.careersArr = this.personalAccount.career_info;
-        //       console.log("upadated data", this.careersArr);
-        //       this.careerInfo = [];
-        //       // this.careersList = [];
-        //       this.personalAccount["profile"] =
-        //         this.personalAccount.profile_image;
-        //       this.personalAccount["profile_image"] = null;
-        //       this.$store.dispatch("getPersonalInfo", res.data.data);
-        //     } else {
-        //       errorhandler(res, this);
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   })
-        //   .finally(() => {
-        //     console.log("");
-        //   });
+        signupService
+          .updatePersonalDetails(this.personalAccount)
+          .then((res) => {
+            if (res.data.status) {
+              this.addCareer = false;
+              this.toggleUpdate = true;
+              this.personalAccount = res.data.data;
+              this.careersArr = this.personalAccount.career_info;
+              console.log("upadated data", this.careersArr);
+              this.careerInfo = [];
+              // this.careersList = [];
+              this.personalAccount["profile"] =
+                this.personalAccount.profile_image;
+              this.personalAccount["profile_image"] = null;
+              this.$store.dispatch("getPersonalInfo", res.data.data);
+            } else {
+              errorhandler(res, this);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            console.log("");
+          });
       }
     },
     upadateCareer(id, c) {

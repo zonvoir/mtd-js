@@ -25,10 +25,22 @@
           </div>
           <div class="d-flex">
             <div class="dept_selct_wrap k_form_group k_lang k_select_single">
-              <Multiselect
+              <MultiSelect
                 :placeholder="
                   $t('personal_account.form.placeholder.department')
                 "
+                @change="filterInvitationList"
+                class="prime_multiselect"
+                optionLabel="label"
+                optionValue="value"
+                v-model="myDepartmensList"
+                :options="departments"
+                @blur="v$.myDepartmensList.$touch"
+                :class="{
+                  'is-invalid': v$.myDepartmensList.$error,
+                }"
+              />
+              <!-- <Multiselect
                 mode="tags"
                 :closeOnSelect="false"
                 :searchable="true"
@@ -43,7 +55,7 @@
                 :class="{
                   'is-invalid': v$.myDepartmensList.$error,
                 }"
-              />
+              /> -->
               <div
                 v-if="v$.myDepartmensList.$error"
                 class="invalid-feedback text-left"
@@ -108,9 +120,12 @@
                     </p>
                   </div>
                   <!-- v-if="staffrole.roleid !== 0" -->
-                  <div v-if="staffrole.roleid != ownRole" class="form_wrapper">
+                  <div
+                    v-if="staffrole.roleid != ownRole.roleId"
+                    class="form_wrapper"
+                  >
                     <form action="">
-                      <div class="d-flex m-b-24">
+                      <div class="m-b-24">
                         <div class="select_wrap_invite">
                           <Select2
                             v-model="myValue"
@@ -119,20 +134,25 @@
                             :settings="settings"
                             @select="mySelectEvent($event)"
                           />
-                        </div>
-                        <div class="btn_wrap">
-                          <button
-                            :disabled="disbaleInvited"
-                            @click="SendEmailsList(staffrole.roleid)"
-                            type="button"
-                            class="btn-primary btn btn-set text-uppercase"
-                          >
-                            {{
-                              $t(
-                                "category_details.team_mangementTab.buttons.invite"
-                              )
-                            }}
-                          </button>
+                          <div class="btn_wrap">
+                            <button
+                              :disabled="disbaleInvited"
+                              @click="SendEmailsList(staffrole.roleid)"
+                              type="button"
+                              class="
+                                btn-primary
+                                inv_button
+                                btn btn-set
+                                text-uppercase
+                              "
+                            >
+                              {{
+                                $t(
+                                  "category_details.team_mangementTab.buttons.invite"
+                                )
+                              }}
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </form>
@@ -175,7 +195,9 @@
                         <ul class="list-group">
                           <!--   v-for="member in staffrole.invitation_list" -->
                           <li
-                            v-for="member in staffrole.invitation_list"
+                            v-for="member in staffrole.invitation_list
+                              .slice()
+                              .reverse()"
                             :key="member.id"
                             class="list_group_item d-inline-flex m-b-8"
                           >
@@ -239,9 +261,10 @@
 import Datepicker from "vue3-date-time-picker";
 import "vue3-date-time-picker/dist/main.css";
 import Select2 from "vue3-select2-component";
-import Multiselect from "@vueform/multiselect";
+// import Multiselect from "@vueform/multiselect";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
+import MultiSelect from "primevue/multiselect";
 
 import { mapGetters } from "vuex";
 import errorhandler from "../../utils/Error";
@@ -260,10 +283,11 @@ export default {
   },
   components: {
     Select2,
-    Multiselect,
+    MultiSelect,
     Datepicker,
     InvitationEmail,
   },
+
   data() {
     return {
       companyData: JSON.parse(localStorage.getItem("selected_company")),
@@ -271,7 +295,7 @@ export default {
       expiryDate: "",
       validity_date: "",
 
-      myDepartmensList: null,
+      myDepartmensList: [],
       settings: {},
       emailPattern:
         /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/,
@@ -300,17 +324,22 @@ export default {
       v$: useVuelidate(),
     };
   },
-
+  //vis
   validations() {
     return {
       myDepartmensList: { required },
     };
   },
 
-  mounted() {
-    // this.isAccordionArr = new Array(this.staffRoles.length).fill(false);
+  updated() {
+    this.isAccordionArr = new Array(this.staffRoles.length).fill(false);
 
-    this.isAccordionArr = new Array(4).fill(false);
+    // this.isAccordionArr = new Array(4).fill(false);
+  },
+  mounted() {
+    this.isAccordionArr = new Array(this.staffRoles.length).fill(false);
+
+    // this.isAccordionArr = new Array(4).fill(false);
   },
 
   created() {
@@ -333,15 +362,17 @@ export default {
   },
   methods: {
     checkRoles(roleid) {
-      console.log("users role id is ", this.ownRole);
-      if (this.ownRole == 4 && (roleid == 1 || roleid == 4 || roleid == 9)) {
+      if (
+        this.ownRole.roleId == 4 &&
+        (roleid == 1 || roleid == 4 || roleid == 9)
+      ) {
         return true;
       } else if (
-        this.ownRole == 5 &&
+        this.ownRole.roleId == 5 &&
         (roleid == 1 || roleid == 4 || roleid == 5 || roleid == 9)
       ) {
         return true;
-      } else if (this.ownRole == 9 && (roleid == 1 || roleid == 9)) {
+      } else if (this.ownRole.roleId == 9 && (roleid == 1 || roleid == 9)) {
         return true;
       } else {
         return false;
@@ -580,6 +611,8 @@ export default {
   cursor: pointer;
 }
 .select_wrap_invite {
+  position: relative;
+
   .select2-container {
     width: 100%;
   }
@@ -769,5 +802,13 @@ li {
   font-weight: 300;
   font-style: italic;
   color: #222b45;
+}
+.inv_button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 39px;
+  border-radius: 0 4px 4px 0px !important;
 }
 </style>

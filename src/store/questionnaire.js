@@ -20,7 +20,7 @@ export default createStore({
     staffsCompanies: [],
     companyMembers: [],
     role_id: undefined,
-    roleInCompany: undefined,
+    roleInCompany: { roleId: 0, can_invite: false },
     invitationStaffRoleList: [], // invitation list of members
     activeCompany: undefined,
     companyInfoDetails: [],

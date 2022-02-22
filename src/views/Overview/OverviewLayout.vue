@@ -9,7 +9,7 @@
             </div>
           </div>
         </div>
-        <div class="invite_btn_wrap m-l-auto" v-if="ownRole != 1">
+        <div class="invite_btn_wrap m-l-auto" v-if="ownRole.can_invite">
           <InvitePeopleModal>
             <template v-slot:invite-button>
               {{ $t("overview_index.buttons.invite_people") }}

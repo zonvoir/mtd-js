@@ -16,7 +16,16 @@
       </div>
       <div class="d-flex">
         <div class="dept_selct_wrap k_form_group k_lang k_select_single m-r-20">
-          <Multiselect
+          <MultiSelect
+            :placeholder="$t('personal_account.form.placeholder.department')"
+            @change="permissionFilter"
+            class="prime_multiselect"
+            optionLabel="label"
+            optionValue="value"
+            v-model="dept_list"
+            :options="allDepartments"
+          />
+          <!-- <Multiselect
             :placeholder="$t('personal_account.form.placeholder.department')"
             mode="tags"
             :closeOnSelect="false"
@@ -28,7 +37,7 @@
             @deselect="permissionFilter"
             @select="permissionFilter"
             :options="allDepartments"
-          />
+          /> -->
           <!-- @blur="v$.myDepartmensList.$touch"
             :class="{
               'is-invalid': v$.myDepartmensList.$error,
@@ -46,7 +55,20 @@
           </div> -->
         </div>
         <div class="k_form_group dept_selct_wrap k_lang k_select_single">
-          <Multiselect
+          <MultiSelect
+            :placeholder="
+              $t(
+                'company_profile.members_tab.members_table.placeholder.category'
+              )
+            "
+            @change="permissionFilter"
+            class="prime_multiselect"
+            optionLabel="label"
+            optionValue="value"
+            v-model="catgry_list"
+            :options="modifyCategories(categoriesArr)"
+          />
+          <!-- <Multiselect
             :placeholder="
               $t(
                 'company_profile.members_tab.members_table.placeholder.category'
@@ -62,7 +84,7 @@
             class="form-control k_inp_field"
             rules="required"
             :options="modifyCategories(categoriesArr)"
-          />
+          /> -->
           <!-- @blur="v$.categoriesList.$touch"
             :class="{
               'is-invalid': v$.categoriesList.$error,
@@ -86,7 +108,8 @@
 
 <script>
 import "vue3-date-time-picker/dist/main.css";
-import Multiselect from "@vueform/multiselect";
+// import Multiselect from "@vueform/multiselect";
+import MultiSelect from "primevue/multiselect";
 // import useVuelidate from "@vuelidate/core";
 // import { required } from "@vuelidate/validators";
 import { mapGetters } from "vuex";
@@ -107,7 +130,7 @@ export default {
     },
   },
   components: {
-    Multiselect,
+    MultiSelect,
   },
   data() {
     return {

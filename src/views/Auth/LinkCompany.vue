@@ -7,10 +7,10 @@
             <h2 class="main-heading p-b-30">Add a new company</h2>
           </div>
         </div>
-        <div class="all_comp_wraper">
+        <div class="all_comp_wraper scroll_list">
           <div
             class="compnay_tile"
-            v-for="(company, indx) in usersCompanies"
+            v-for="(company, indx) in usersCompanies.slice().reverse()"
             :key="indx"
           >
             <div class="d-inline-flex">
@@ -226,6 +226,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.scroll_list {
+  max-height: 12rem;
+  overflow: auto;
+  padding-right: 6px;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  // / Track /
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #f7f9fc;
+    border-radius: 0px;
+  }
+  // / Handle /
+  &::-webkit-scrollbar-thumb {
+    background-color: #aab4c5bd !important;
+    border-radius: 10px;
+  }
+}
 .default_logo {
   justify-content: center;
   align-content: center;

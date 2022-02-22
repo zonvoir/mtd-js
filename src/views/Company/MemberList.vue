@@ -36,7 +36,10 @@
                     <td class="member_name_td">
                       <div class="k_select_single member_filter m-r-8">
                         <!-- :closeOnSelect="false" -->
-                        <Multiselect
+                        <Dropdown
+                          class="k_prime_inp_select"
+                          optionLabel="label"
+                          optionValue="value"
                           :placeholder="
                             $t(
                               'company_profile.members_tab.members_table.placeholder.role'
@@ -45,15 +48,34 @@
                           v-model="myRole"
                           @deselect="memberListDeafault()"
                           @select="memberFilterbyRole(myRole)"
-                          class="form-control k_inp_field"
-                          rules="required"
                           :options="ownRoleLists"
                         />
+                        <!-- <Multiselect
+                          :placeholder="
+                            $t(
+                              'company_profile.members_tab.members_table.placeholder.role'
+                            )
+                          "
+                          v-model="myRole"
+                          @deselect="memberListDeafault()"
+                          @select="memberFilterbyRole(myRole)"
+                          :options="ownRoleLists"
+                          class="form-control k_inp_field"
+                          rules="required"
+                        /> -->
                       </div>
                     </td>
                     <td class="member_name_td">
-                      <div class="k_select_single member_filter">
-                        <Multiselect
+                      <div class="k_select_single member_filter m-r-8">
+                        <MultiSelect
+                          :options="categoriesList"
+                          class="prime_multiselect"
+                          optionLabel="label"
+                          optionValue="value"
+                          placeholder="Category"
+                          v-model="categy_list"
+                        />
+                        <!-- <Multiselect
                           :placeholder="
                             $t(
                               'company_profile.members_tab.members_table.placeholder.category'
@@ -62,15 +84,22 @@
                           class="form-control k_inp_field"
                           rules="required"
                           :options="categoriesList"
-                        />
+                        /> -->
                         <!-- @deselect="memberListDeafault()"
                           @select="memberFilterbyRole(myRole)" -->
                       </div>
                     </td>
                     <td class="member_name_td">
                       <div class="k_select_single member_filter">
-                        <!-- mode="multiple" -->
-                        <Multiselect
+                        <MultiSelect
+                          :options="departmentLists"
+                          class="prime_multiselect"
+                          optionLabel="label"
+                          optionValue="value"
+                          placeholder="Departemnts"
+                          v-model="dept_list"
+                        />
+                        <!-- <Multiselect
                           :searchable="true"
                           mode="tags"
                           :close-on-select="false"
@@ -80,7 +109,7 @@
                           @select="memberFilterbyDepartment()"
                           v-model="dept_list"
                           :options="departmentLists"
-                        />
+                        /> -->
                       </div>
                     </td>
                   </tr>
@@ -92,9 +121,9 @@
                   <tr>
                     <td class="member_name_td">
                       <div class="psw_visibilty">
+                        <!-- v-model="SearchKeyword" -->
                         <input
                           type="text"
-                          v-model="SearchKeyword"
                           @input="SearchByKeyword"
                           class="form-control _search_filter k_inp_field"
                           :placeholder="
@@ -117,7 +146,10 @@
             </tr>
           </thead>
           <tbody class="member_tbody">
-            <tr v-for="(people, index) in allMembersList" :key="index">
+            <tr
+              v-for="(people, index) in allMembersList.slice().reverse()"
+              :key="index"
+            >
               <td class="member_td">
                 <div class="member_detail">
                   <div class="member_pic">
@@ -195,7 +227,7 @@
                       </a>
                     </li>
                   </ul>
-                  <div v-if="ownRole == 5" class="permission_btns">
+                  <div v-if="ownRole.roleId == 5" class="permission_btns">
                     <PermissionModal>
                       <template
                         v-slot:permission-button="{ openPermissionModal }"
@@ -209,11 +241,6 @@
                         </button>
                       </template>
                     </PermissionModal>
-                    <!-- <button
-                      type="button"
-                      @click="setPermission(people.staffid)"
-                      class="btn-light fs-14 btn-set fw-700 btn"
-                    ></button> -->
                   </div>
                 </div>
               </td>
@@ -235,9 +262,12 @@
 
 <script>
 // import TabsHr from "../../components/Shared/TabsHr.vue";
-import Multiselect from "@vueform/multiselect";
+// import Multiselect from "@vueform/multiselect";
 import searchIcon from "../../../public/icons/search.svg";
 // import UserPic from "../../assets/users/Avatar.png";
+import Dropdown from "primevue/dropdown";
+import MultiSelect from "primevue/multiselect";
+
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
 import { mapGetters } from "vuex";
 import CommonService from "../../Services/CommonService";
@@ -258,9 +288,10 @@ const tablist = [
 ];
 export default {
   components: {
-    // TabsHr,
+    Dropdown,
     PermissionModal,
-    Multiselect,
+    // Multiselect,
+    MultiSelect,
   },
   data() {
     return {
@@ -573,9 +604,11 @@ export default {
     }
   }
 }
-
+// .table > :not(caption) > * > * {
+//   padding: 0.1rem 0.1rem !important;
+// }
 .table {
-  padding: 0;
+  padding: 0 !important;
   // &.table > :not(caption) > * > * {
   //   padding: 0;
   //   border: 0;
@@ -660,7 +693,7 @@ export default {
 }
 .member_filter {
   // width: 170px;
-  width: 190px;
+  width: 180px;
 }
 .table_label {
   font-size: 14px;

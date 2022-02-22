@@ -26,14 +26,17 @@
         <Button
           type="button"
           icon="pi pi-ellipsis-v"
-          class="p-button-rounded kp_icon_btn p-button-text p-button-plain"
+          class="kp_icon_btn p-button-text p-button-plain"
           @click="toggle"
           aria-haspopup="true"
           aria-controls="overlay_tmenu"
         />
         <TieredMenu id="overlay_tmenu" ref="menu" :model="items" :popup="true">
           <template #item="{ item }">
-            <div class="d-flex align-items-center" @click="deleteInvitaion">
+            <div
+              class="d-flex align-items-center"
+              @click="removeInvitaion(member.id)"
+            >
               <Button
                 type="button"
                 :icon="item.icon"
@@ -50,16 +53,6 @@
             </div>
           </template>
         </TieredMenu>
-
-        <!-- <SplitButton :model="items" class="bg-primary border-round">
-         <Button @click="save">
-            <img
-              alt="logo"
-              src="K_Icons/more-vertical.svg"
-              style="width: 1rem"
-            />
-          </Button>
-        </SplitButton> -->
       </div>
     </div>
   </div>
@@ -69,6 +62,8 @@
 // import SplitButton from "primevue/splitbutton";
 import TieredMenu from "primevue/tieredmenu";
 import Button from "primevue/button";
+import CompanyService from "../../Services/Company/CompanyService";
+import errorhandler from "../../utils/Error";
 
 export default {
   props: {
@@ -83,6 +78,7 @@ export default {
   },
   data() {
     return {
+      staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       items: [
         {
           label: "Delete",
@@ -95,8 +91,33 @@ export default {
     toggle(event) {
       this.$refs.menu.toggle(event);
     },
-    deleteInvitaion() {
-      alert("hello from each");
+    removeInvitaion(inv_Id) {
+      console.log("invitaion deleted successfully", inv_Id);
+      let data = {
+        auth_token: this.staffInfo.auth_token,
+        invitation_id: inv_Id,
+      };
+      CompanyService.deleleInvitation(data)
+        .then((res) => {
+          if (res.data.status) {
+            this.deletedInvitaion(inv_Id);
+            console.log("deleted invitaion res ", res.data);
+            this.$store.dispatch(
+              "GET_INVITATION_STAFFROLE_LIST",
+              res.data.data
+            );
+          } else {
+            errorhandler(res, this);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
+    // deleted list
+    deletedInvitaion(id) {
+      console.log("id deletedInvitaion ", id);
     },
   },
 };

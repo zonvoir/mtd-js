@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="form_container">
+    <div class="form_container m-b-20">
       <!-- warn section start -->
       <div class="alert-notification">
         <div class="img_wrap">

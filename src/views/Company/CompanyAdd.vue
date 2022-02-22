@@ -102,7 +102,23 @@
             </div>
             <div class="col-lg-6">
               <div class="k_form_group k_select_single">
-                <Multiselect
+                <Dropdown
+                  class="k_prime_inp_select"
+                  optionLabel="label"
+                  optionValue="value"
+                  :placeholder="
+                    $t(
+                      'company_profile.company_tab.company_setup_update.form.placeholder.own_role_company'
+                    )
+                  "
+                  :options="ownRoleLists"
+                  @blur="v$.companyForm.company_role.$touch"
+                  v-model="companyForm.company_role"
+                  :class="{
+                    'is-invalid': v$.companyForm.company_role.$error,
+                  }"
+                />
+                <!-- <Multiselect
                   :placeholder="
                     $t(
                       'company_profile.company_tab.company_setup_update.form.placeholder.own_role_company'
@@ -116,7 +132,7 @@
                   :class="{
                     'is-invalid': v$.companyForm.company_role.$error,
                   }"
-                />
+                /> -->
                 <div
                   v-if="v$.companyForm.company_role.$error"
                   class="invalid-feedback text-left"
@@ -136,7 +152,23 @@
             </div>
             <div class="col-lg-6">
               <div class="k_form_group k_select_single">
-                <Multiselect
+                <Dropdown
+                  class="k_prime_inp_select"
+                  optionLabel="label"
+                  optionValue="value"
+                  :placeholder="
+                    $t(
+                      'company_profile.company_tab.company_setup_update.form.placeholder.legal_form_corporation'
+                    )
+                  "
+                  :options="legalCorpLists"
+                  @blur="v$.companyForm.corporation_legal_form.$touch"
+                  v-model="companyForm.corporation_legal_form"
+                  :class="{
+                    'is-invalid': v$.companyForm.corporation_legal_form.$error,
+                  }"
+                />
+                <!-- <Multiselect
                   :placeholder="
                     $t(
                       'company_profile.company_tab.company_setup_update.form.placeholder.legal_form_corporation'
@@ -150,7 +182,7 @@
                   :class="{
                     'is-invalid': v$.companyForm.corporation_legal_form.$error,
                   }"
-                />
+                /> -->
                 <div
                   v-if="v$.companyForm.corporation_legal_form.$error"
                   class="invalid-feedback text-left"
@@ -172,7 +204,22 @@
             </div>
             <div class="col-lg-6">
               <div class="k_form_group k_select_single">
-                <select
+                <Dropdown
+                  class="k_prime_inp_select"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="
+                   Main Industry
+                  "
+                  :options="industryLists"
+                  @change="onChangeMainIndustry"
+                  @blur="v$.companyForm.main_industry.$touch"
+                  v-model="companyForm.main_industry"
+                  :class="{
+                    'is-invalid': v$.companyForm.main_industry.$error,
+                  }"
+                />
+                <!-- <select
                   class="form-control k_inp_field"
                   @change="onChangeMainIndustry"
                   @blur="v$.companyForm.main_industry.$touch"
@@ -196,7 +243,7 @@
                   >
                     {{ mainInd.label }}
                   </option>
-                </select>
+                </select> -->
 
                 <div
                   v-if="v$.companyForm.main_industry.$error"
@@ -217,7 +264,22 @@
             </div>
             <div class="col-lg-6">
               <div class="k_form_group k_select_single">
-                <select
+                <Dropdown
+                  class="k_prime_inp_select"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="
+                   Sub Industry
+                  "
+                  :options="subIndustryLists"
+                  @change="onChangeSubIndustry"
+                  @blur="v$.companyForm.sub_industry.$touch"
+                  v-model="companyForm.sub_industry"
+                  :class="{
+                    'is-invalid': v$.companyForm.sub_industry.$error,
+                  }"
+                />
+                <!-- <select
                   class="form-control k_inp_field"
                   @change="onChangeSubIndustry"
                   @blur="v$.companyForm.sub_industry.$touch"
@@ -241,7 +303,7 @@
                   >
                     {{ subInd.label }}
                   </option>
-                </select>
+                </select> -->
 
                 <div
                   v-if="v$.companyForm.sub_industry.$error"
@@ -262,7 +324,21 @@
             </div>
             <div class="col-lg-6">
               <div class="k_form_group k_select_single">
-                <select
+                <Dropdown
+                  class="k_prime_inp_select"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="
+                   Detailed Industry
+                  "
+                  :options="detailedIndustryLists"
+                  @blur="v$.companyForm.detailed_industry.$touch"
+                  v-model="companyForm.detailed_industry"
+                  :class="{
+                    'is-invalid': v$.companyForm.detailed_industry.$error,
+                  }"
+                />
+                <!-- <select
                   class="form-control k_inp_field"
                   @blur="v$.companyForm.detailed_industry.$touch"
                   v-model="companyForm.detailed_industry"
@@ -285,7 +361,7 @@
                   >
                     {{ detailInd.label }}
                   </option>
-                </select>
+                </select> -->
 
                 <div
                   v-if="v$.companyForm.detailed_industry.$error"
@@ -306,15 +382,23 @@
             </div>
             <div class="col-lg-6">
               <div class="k_form_group k_select_single">
-                <select
+                <Dropdown
+                  class="k_prime_inp_select"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="
+                   Region
+                  "
+                  :options="regionLists"
+                  @change="onChangeRegion"
+                  v-model="companyForm.region"
+                />
+                <!-- <select
                   class="form-control k_inp_field"
                   @change="onChangeRegion"
                   v-model="companyForm.region"
                 >
-                  <!-- @blur="v$.companyForm.region.$touch"
-                  :class="{
-                    'is-invalid': v$.companyForm.region.$error,
-                  }" -->
+                 
                   <option :value="null" disabled selected>
                     {{
                       $t(
@@ -330,7 +414,7 @@
                   >
                     {{ region.label }}
                   </option>
-                </select>
+                </select> -->
 
                 <!-- <div
                   v-if="v$.companyForm.region.$error"
@@ -351,7 +435,22 @@
             </div>
             <div class="col-lg-6">
               <div class="k_form_group k_select_single">
-                <select
+                <Dropdown
+                  class="k_prime_inp_select"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="
+                   Country
+                  "
+                  :options="countryLists"
+                  @blur="v$.companyForm.country.$touch"
+                  @change="onChangeCountry"
+                  v-model="companyForm.country"
+                  :class="{
+                    'is-invalid': v$.companyForm.country.$error,
+                  }"
+                />
+                <!-- <select
                   class="form-control k_inp_field"
                   @blur="v$.companyForm.country.$touch"
                   @change="onChangeCountry"
@@ -375,7 +474,7 @@
                   >
                     {{ country.label }}
                   </option>
-                </select>
+                </select> -->
 
                 <div
                   v-if="v$.companyForm.country.$error"
@@ -548,13 +647,15 @@
 import { required, numeric, minLength, maxLength } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import signupService from "../../Services/SignupService";
-import Multiselect from "@vueform/multiselect";
+// import Multiselect from "@vueform/multiselect";
 import CommonService from "../../Services/CommonService";
 import errorhandler from "../../utils/Error";
+import Dropdown from "primevue/dropdown";
 
 export default {
   components: {
-    Multiselect,
+    // Multiselect,
+    Dropdown,
   },
   data() {
     return {
@@ -574,7 +675,6 @@ export default {
       // InCorpYearLists: ["2021"],
       countryLists: [],
       value: null,
-      // options: ["Batman", "Robin", "Joker"],
       companyForm: {
         auth_token: "",
         company: "",

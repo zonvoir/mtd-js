@@ -37,7 +37,7 @@
                   class="
                     m-b-24
                     d-flex
-                    aligm-items-center
+                    align-items-center
                     justify-content-between
                   "
                 >

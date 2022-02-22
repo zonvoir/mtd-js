@@ -51,7 +51,12 @@
     <div class="right-header">
       <!-- profile section -->
       <div class="profile-pic-conatiner">
-        <a @click.prevent="toggleDropdown" class="user_acc">
+        <a
+          @click.prevent="toggleDropdown"
+          aria-haspopup="true"
+          aria-controls="prime_profile_dropdown"
+          class="user_acc"
+        >
           <img
             v-if="
               getProfileData.profile_image == '' || getProfileData.profile == ''
@@ -68,6 +73,30 @@
             "
             class="profile-pic"
           />
+          <!-- <TieredMenu
+            id="prime_profile_dropdown"
+            ref="menu"
+            :model="items"
+            :popup="true"
+          >
+            <template #item="{ item }">
+              <div class="d-flex align-items-center" @click="removeInvitaion">
+                <Button
+                  type="button"
+                  :icon="item.icon"
+                  class="
+                    p-button-rounded
+                    kp_icon_btn
+                    p-button-text p-button-plain
+                  "
+                  aria-haspopup="true"
+                  aria-controls="prime_profile_dropdown"
+                />
+                <span icon="item"></span>
+                <a :href="item.url" class="cusdropdown">{{ item.label }}</a>
+              </div>
+            </template>
+          </TieredMenu> -->
           <!-- 'default-user.png' -->
           <!-- <img src="../../assets/users/100_3.jpg" class="profile-pic" /> -->
         </a>
@@ -100,10 +129,15 @@ import companyService from "../../Services/Company/CompanyService";
 import { mapGetters } from "vuex";
 import errorhandler from "../../utils/Error";
 import { getFirstLetter } from "../../utils/commonHelperFuntions";
+// import TieredMenu from "primevue/tieredmenu";
+// import Button from "primevue/button";
 export default {
   name: "Header",
+
   components: {
     Multiselect,
+    // TieredMenu,
+    // Button,
   },
   data() {
     return {
@@ -114,7 +148,13 @@ export default {
       isprofile: false,
       companies: [],
       staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      // selectedCompany: "66",
+
+      items: [
+        {
+          label: "Delete",
+          icon: "pi pi-trash",
+        },
+      ],
       example8: {
         value: "0",
         placeholder: "header.placeholder.select_your_company",
@@ -212,7 +252,10 @@ export default {
       this.tempCompnies.forEach((item) => {
         if (item.company_id == companyId) {
           memberArr = item.member;
-          roleId = item.company_role_id;
+          roleId = {
+            roleId: item.company_role_id,
+            can_invite: item.can_invite,
+          };
           // departments that realted to staff in a perticular company
           item.member.forEach((memItem) => {
             if (roleId == memItem.role_id) {
@@ -260,8 +303,9 @@ export default {
       this.$store.dispatch("GET_STAFF_DATA", null);
       this.$router.push({ name: "signup-signin" });
     },
-    toggleDropdown() {
+    toggleDropdown(event) {
       this.state = !this.state;
+      this.$refs.menu.toggle(event);
     },
     close(e) {
       if (!this.$el.contains(e.target)) {

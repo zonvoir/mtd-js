@@ -9,6 +9,7 @@
         placeholder="Company name"
         @blur="v$.careerForm.company.$touch"
         v-model="careerForm.company"
+        modelValue="value"
         :class="{
           'is-invalid': v$.careerForm.company.$error,
         }"
@@ -58,8 +59,8 @@
         class="k_prime_inp_select"
         v-model="careerForm.industry"
         :options="industries"
-        :optionValue="careerForm.industry"
         optionLabel="label"
+        optionValue="value"
         placeholder="Industry"
         @blur="v$.careerForm.industry.$touch"
         :class="{
@@ -112,13 +113,14 @@
   <!-- {{ careerForm.department }} -->
   <div :class="className">
     <!-- {{ careerForm.department }} -->
+    <!-- :optionValue="getDefaulDepartment(departments, careerForm.department)" -->
     <div class="k_form_group">
       <prime-multiSelect
         v-model="careerForm.department"
         :options="departments"
         class="prime_multiselect"
         optionLabel="label"
-        :optionValue="getDefaulDepartment(departments, careerForm.department)"
+        optionValue="value"
         placeholder="Department"
         @blur="v$.careerForm.department.$touch"
         :class="{
@@ -193,8 +195,20 @@
     </div>
   </div>
   <div :class="className">
-    <div class="k_form_group k_select_single">
-      <Multiselect
+    <div class="k_form_group">
+      <Dropdown
+        class="k_prime_inp_select"
+        optionLabel="label"
+        optionValue="value"
+        :placeholder="$t('personal_account.form.placeholder.seniority_level')"
+        :options="seniority"
+        @blur="v$.careerForm.seniority_level.$touch"
+        v-model="careerForm.seniority_level"
+        :class="{
+          'is-invalid': v$.careerForm.seniority_level.$error,
+        }"
+      />
+      <!-- <Multiselect
         :placeholder="$t('personal_account.form.placeholder.seniority_level')"
         class="form-control k_inp_field"
         rules="required"
@@ -204,7 +218,7 @@
         :class="{
           'is-invalid': v$.careerForm.seniority_level.$error,
         }"
-      />
+      /> -->
       <div
         v-if="v$.careerForm.seniority_level.$error"
         class="invalid-feedback text-left"
@@ -281,7 +295,7 @@
 
 <script>
 import Datepicker from "vue3-date-time-picker";
-import Multiselect from "@vueform/multiselect";
+// import Multiselect from "@vueform/multiselect";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import { formatDate } from "../../utils/FormatDate";
@@ -326,7 +340,7 @@ export default {
       myOptions: ["India", "France"],
       myValue: "uservalue",
       date: new Date(),
-      careerForm: this.myCareer,
+      careerForm: this.myCareer, //{ ...this.myCareer },
       filteredCompanies: null,
       companies: [],
     };
@@ -350,13 +364,13 @@ export default {
   },
   components: {
     Datepicker,
-    Multiselect,
+    // Multiselect,
     "prime-multiSelect": MultiSelect,
     AutoComplete,
     Dropdown,
   },
   updated() {
-    this.careerForm = this.myCareer;
+    // this.careerForm = {...this.myCareer};
   },
   mounted() {
     this.getAllCompany();
@@ -413,10 +427,11 @@ export default {
       }
     },
     modifyCompanyDepartment(deptArr) {
-      let departments4 = deptArr.map((dept) => {
-        return dept.value;
-      });
-      return departments4;
+      console.log(deptArr);
+      // let departments4 = deptArr.map((dept) => {
+      //   return dept.value;
+      // });
+      return deptArr;
       // if (typeof data === "object") {
       //   console.log("this is object");
       //   return data[parmas];
@@ -431,13 +446,13 @@ export default {
           this.careerForm.company,
           "label"
         );
-        this.careerForm.industry = this.modifyCompanyData(
-          this.careerForm.industry,
-          "value"
-        );
-        this.careerForm.department = this.modifyCompanyDepartment(
-          this.careerForm.department
-        );
+        // this.careerForm.industry = this.modifyCompanyData(
+        //   this.careerForm.industry,
+        //   "value"
+        // );
+        // this.careerForm.department = this.modifyCompanyDepartment(
+        //   this.careerForm.department
+        // );
         this.careerForm.to = formatDate(this.careerForm["to"], "L");
         this.careerForm.from = formatDate(this.careerForm["from"], "L");
         this.$emit("addNewCareer", {

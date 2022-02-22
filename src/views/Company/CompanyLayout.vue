@@ -17,7 +17,7 @@
         <div class="">
           <TabsHr :tabs="tablist" @changeTitle="ChangeT($event)" />
         </div>
-        <div v-if="ownRole != 1" class="">
+        <div class="" v-if="ownRole.can_invite">
           <InvitePeopleModal>
             <template v-slot:invite-button>
               {{ $t("overview_index.buttons.invite_people") }}

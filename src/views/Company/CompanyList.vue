@@ -38,7 +38,7 @@
               <td class="company_td"></td>
             </tr>
             <tr
-              v-for="(_company, index) in companyLists"
+              v-for="(_company, index) in companyLists.slice().reverse()"
               :key="index"
               @click="companyDetails(_company.company_id)"
               class="company_tr"
@@ -77,7 +77,9 @@
                 <div class="members_wrapper">
                   <ul class="member_wrap list-inline">
                     <li
-                      v-for="(_member, index) in _company.member"
+                      v-for="(_member, index) in _company.member
+                        .slice()
+                        .reverse()"
                       :key="index"
                     >
                       <a
