@@ -106,14 +106,15 @@ export default {
         .then((res) => {
           if (res.data.status) {
             this.departmentLists = [];
-            for (let k = 0; k < res.data.data.length; k++) {
-              let dept = {
-                value: res.data.data[k].departmentid,
-                label: res.data.data[k].name,
-              };
-              this.departmentLists.push(dept);
-            }
-            console.log("all departments of role id", this.departmentLists);
+            this.departmentLists = res.data.data;
+            // for (let k = 0; k < res.data.data.length; k++) {
+            //   let dept = {
+            //     value: res.data.data[k].departmentid,
+            //     label: res.data.data[k].name,
+            //   };
+            //   this.departmentLists.push(dept);
+            // }
+            // console.log("all departments of role id", this.departmentLists);
             this.$store.dispatch("GET_STAFFS_DEPARTMENT", this.departmentLists);
           } else {
             errorhandler(res, this);

@@ -22,8 +22,10 @@
           </div>
         </div>
         <div class="modal-body invitaion_body">
+          <div class=""></div>
           <InvitationRole :departments="departmentLists" />
         </div>
+
         <div class="modal-footer invite_modal_footer">
           <button
             type="button"
@@ -61,6 +63,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      // membersRole: "invitationStaffRoleList",
       allDepartments: "staffsDepartment",
     }),
   },
@@ -71,6 +74,7 @@ export default {
 
       if (this.staffInfo && Object.keys(this.staffInfo).length != 0) {
         this.departmentLists = this.allDepartments;
+        console.log("data", this.allDepartments);
         this.getInvitaionPeopleListByRole();
       }
     },
@@ -99,14 +103,15 @@ export default {
       }).then((res) => {
         if (res.data.status) {
           this.departmentLists = [];
-          for (let k = 0; k < res.data.data.length; k++) {
-            let dept = {
-              value: res.data.data[k].departmentid,
-              label: res.data.data[k].name,
-            };
-            this.departmentLists.push(dept);
-          }
-          this.$store.dispatch("getStaffsDepartment", this.departmentLists);
+          this.departmentLists = res.data.data;
+          // for (let k = 0; k < res.data.data.length; k++) {
+          //   let dept = {
+          //     value: res.data.data[k].departmentid,
+          //     label: res.data.data[k].name,
+          //   };
+          //   this.departmentLists.push(dept);
+          // }
+          this.$store.dispatch("GET_STAFFS_DEPARTMENT", this.departmentLists);
           console.log("latest department kk list", this.departmentLists);
         } else {
           errorhandler(res, this);

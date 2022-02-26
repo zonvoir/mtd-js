@@ -16,20 +16,6 @@
           </div>
         </div>
         <div class="modal-body invitaion_body">
-          <!-- <div class="team_wrapper m-b-20">
-            <div class="m-b-12">
-              <p class="staff_desc">
-                Simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever
-                since the 150.Lorem Ipsum is simply dummy text of the printing
-                and typesetting industry. Lorem Ipsum has been the industry's
-                standard dummy text ever since the Lorem Dummy text Industry was
-                created.It has been the industry's standard dummy text.
-              </p>
-            </div>
-          </div> -->
-          <!-- career form start here -->
-
           <div class="from_container">
             <form @submit.prevent="saveCarreerInfo" action="">
               <div v-for="(career, idx) in carreerForm" :key="idx" class="">

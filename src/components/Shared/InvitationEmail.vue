@@ -31,6 +31,7 @@
           aria-haspopup="true"
           aria-controls="overlay_tmenu"
         />
+        <!-- {{ ownRole.roleId != consultantId && member.status != "accepted" }} -->
         <TieredMenu id="overlay_tmenu" ref="menu" :model="items" :popup="true">
           <template #item="{ item }">
             <div
@@ -64,6 +65,7 @@ import TieredMenu from "primevue/tieredmenu";
 import Button from "primevue/button";
 import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -72,6 +74,13 @@ export default {
       required: true,
     },
   },
+
+  computed: {
+    ...mapGetters({
+      ownRole: "roleInCompany",
+    }),
+  },
+
   components: {
     TieredMenu,
     Button,
@@ -79,6 +88,7 @@ export default {
   data() {
     return {
       staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      consultantId: 4,
       items: [
         {
           label: "Delete",
@@ -92,7 +102,6 @@ export default {
       this.$refs.menu.toggle(event);
     },
     removeInvitaion(inv_Id) {
-      console.log("invitaion deleted successfully", inv_Id);
       let data = {
         auth_token: this.staffInfo.auth_token,
         invitation_id: inv_Id,

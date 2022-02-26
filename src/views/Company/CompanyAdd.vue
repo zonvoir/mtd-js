@@ -651,6 +651,7 @@ import signupService from "../../Services/SignupService";
 import CommonService from "../../Services/CommonService";
 import errorhandler from "../../utils/Error";
 import Dropdown from "primevue/dropdown";
+import CompanyService from "../../Services/Company/CompanyService";
 
 export default {
   components: {
@@ -746,7 +747,8 @@ export default {
           .setUpCompany(this.companyForm)
           .then((res) => {
             if (res.data.status) {
-              console.log("company_data res", res.data.data);
+              console.log("company_data res added", res.data.data);
+              this.getAllCompanies();
               // this.$store.dispatch("getStaffsCompanies", res.data.data);
               this.formReset();
             } else {
@@ -760,6 +762,18 @@ export default {
             this.isSubmitted = false;
           });
       }
+    },
+    getAllCompanies() {
+      CompanyService.companiesList({
+        auth_token: this.staffData.auth_token,
+      }).then((res) => {
+        if (res.data.status) {
+          console.log("get All Companies added", res.data.data);
+          this.$store.dispatch("getStaffsCompanies", res.data.data);
+        } else {
+          errorhandler(res, this);
+        }
+      });
     },
     formReset() {
       this.v$.$reset();
@@ -839,7 +853,7 @@ export default {
           }
         } else {
           this.industryLists = [
-            { value: 0, label: "No record found", disabled: true },
+            // { value: 0, label: "No record found", disabled: true },
           ];
         }
       });
@@ -861,7 +875,7 @@ export default {
           console.log("detailed industry", this.detailedIndustryLists);
         } else {
           this.detailedIndustryLists = [
-            { value: 0, label: "No record found", disabled: true },
+            // { value: 0, label: "No record found", disabled: true },
           ];
         }
       });
@@ -920,7 +934,7 @@ export default {
           }
         } else {
           this.legalCorpLists = [
-            { value: 0, label: "No record found", disabled: true },
+            // { value: 0, label: "No record found", disabled: true },
           ];
         }
       });
@@ -938,7 +952,7 @@ export default {
           }
         } else {
           this.ownRoleLists = [
-            { value: 0, label: "No record found", disabled: true },
+            // { value: 0, label: "No record found", disabled: true },
           ];
         }
       });
@@ -956,7 +970,7 @@ export default {
           }
         } else {
           this.regionLists = [
-            { value: 0, label: "No record found", disabled: true },
+            // { value: 0, label: "No record found", disabled: true },
           ];
         }
       });
@@ -976,7 +990,7 @@ export default {
           console.log("country industry", this.countryLists);
         } else {
           this.countryLists = [
-            { value: 0, label: "No record found", disabled: true },
+            // { value: 0, label: "No record found", disabled: true },
           ];
         }
       });

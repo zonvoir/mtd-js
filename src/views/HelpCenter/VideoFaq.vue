@@ -1,23 +1,59 @@
 <template>
   <div class="help_conatiner">
-    <!-- <div v-for="list in acc_items" :key="list.id" class="acc_container"> -->
-
-    <Accordion :items="acc_items">
-      <!-- <template v-slot:accordionbody>
-          <div class="desc_wrap">
-            <p class="m-b-0 desc_cont">Hello Parent</p>
+    <Accordion :activeIndex="0" class="helpC_accordion">
+      <AccordionTab
+        v-for="item in acc_items"
+        :key="item.id"
+        class="helpC_accordion_tab"
+      >
+        <template #header>
+          <div class="d-inline-flex align-items-center">
+            <div class="icon_wrap m-r-10">
+              <img src="K_Icons/clipboard_32.svg" alt="" class="icon_c" />
+            </div>
+            <div class="">
+              <h2 class="m-b-0 dep_title">{{ item.title }}</h2>
+            </div>
           </div>
-        </template> -->
+        </template>
+        <div class="video_wrap">
+          <h4 class="m-b-0 video_title">{{ item.video_title }}</h4>
+          <button class="btn btn-primary btn-set">Watch</button>
+        </div>
+        <Accordion class="sub_helpC_accordion">
+          <AccordionTab
+            v-for="sub_item in item.subItems"
+            :key="sub_item.id"
+            :header="sub_item.title"
+            class="sub_helpC_accordion_tab"
+          >
+            <div class="list_wrap">
+              <ul>
+                <li v-for="point in sub_item.points" :key="point.id">
+                  <div class="list_item">
+                    <h4 class="m-b-0 list_title">
+                      <span class="m-r-2">{{ point.id }}.</span
+                      >{{ point.title }}
+                    </h4>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </AccordionTab>
+        </Accordion>
+      </AccordionTab>
     </Accordion>
-    <!-- </div> -->
   </div>
 </template>
 
 <script>
-import Accordion from "../../components/Shared/Accordion.vue";
+// import Accordion from "../../components/Shared/Accordion.vue";
+import Accordion from "primevue/accordion";
+import AccordionTab from "primevue/accordiontab";
 export default {
   components: {
     Accordion,
+    AccordionTab,
   },
   data() {
     return {

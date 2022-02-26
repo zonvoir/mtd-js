@@ -119,7 +119,6 @@ export default {
         JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
         JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       isSubmitted: false,
-      errorType: Boolean,
       toastMessage: "",
       industryLists: [],
       departmentLists: [],
@@ -137,7 +136,6 @@ export default {
           department: [],
         },
       ],
-
       staffCareerForm: {},
     };
   },
@@ -244,14 +242,6 @@ export default {
         SignupService.updateCareerInformation(data)
           .then((response) => {
             if (response.data.status) {
-              this.errorType = true;
-              console.log("career info", response.data.data.career_info);
-
-              // this.$store.dispatch("getPersonalInfo", response.data.data); new flow //update personal information
-              // this.$toast.success(response.data.message, {
-              //   position: "bottom-left",
-              //   duration: 3712,
-              // });
               this.formReset();
             } else {
               errorhandler(response, this);

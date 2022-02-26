@@ -167,13 +167,13 @@
                       {{ people.firstname }} {{ people.lastname }}
                     </h4>
                     <p
-                      v-if="people.invited_email === null"
+                      v-if="people.primary_email === null"
                       class="member_email"
                     >
-                      {{ people.primary_email }}
+                      {{ people.invited_email }}
                     </p>
                     <p v-else class="member_email">
-                      {{ people.invited_email }}
+                      {{ people.primary_email }}
                     </p>
                   </div>
                 </div>

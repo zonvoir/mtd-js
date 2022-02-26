@@ -13,7 +13,18 @@
         </div>
         <div class="search_wrap m-l-auto">
           <div class="k_form_group k_lang k_select_single">
-            <Multiselect
+            <Dropdown
+              class="k_prime_inp_select"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="
+                    Select Language
+                  "
+              v-model="selectedLanguage"
+              @change="onChangeLanguage"
+              :options="laguage"
+            />
+            <!-- <Multiselect
               placeholder="English"
               :searchable="true"
               class="form-control k_inp_field"
@@ -21,7 +32,7 @@
               v-model="selectedLanguage"
               @select="onChangeLanguage"
               :options="laguage"
-            />
+            /> -->
           </div>
         </div>
       </div>
@@ -648,7 +659,7 @@
 <script>
 import { required, email, sameAs } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-import Multiselect from "@vueform/multiselect";
+// import Multiselect from "@vueform/multiselect";
 import signupService from "../../Services/SignupService";
 import commonService from "../../Services/CommonService";
 import { loadLocaleMessages } from "../../i18n";
@@ -656,7 +667,7 @@ import errorhandler from "../../utils/Error";
 import CareerForm from "../Auth/CareerForm.vue";
 import { formatDate } from "../../utils/FormatDate";
 import { getDepartemntsLables } from "../../utils/DepartmentModify";
-
+import Dropdown from "primevue/dropdown";
 // MINIMUM 8 CHARCTER
 const minimum8CharCalc = (val) => val.length >= 8;
 // for upper case calculation
@@ -671,8 +682,8 @@ const specialCharCalc = (val) => {
 };
 export default {
   components: {
-    Multiselect,
-    // Datepicker,
+    // Multiselect,
+    Dropdown,
     CareerForm,
   },
   data() {
@@ -815,11 +826,13 @@ export default {
       if (!this.v$.$invalid) {
         // this.$refs.updateCareer.validateForm();
         //work start from here
-        this.personalAccount.career_info = [
-          ...this.careersArr,
-          ...this.newAddedCareer,
-        ];
-
+        let careers = [...this.careersArr, ...this.newAddedCareer];
+        const ids = careers.map((o) => o.id);
+        const filteredCareer = careers.filter(
+          ({ id }, index) => !ids.includes(id, index + 1)
+        );
+        console.log("filter arrays", filteredCareer);
+        this.personalAccount.career_info = filteredCareer;
         console.log("latest career inforamtion", this.personalAccount);
         signupService
           .updatePersonalDetails(this.personalAccount)
@@ -1195,6 +1208,7 @@ export default {
   border-radius: 4px;
 }
 .k_lang {
+  background-color: #ffffff;
   width: 200px;
   .k_inp_field {
     input {

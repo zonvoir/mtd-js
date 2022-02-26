@@ -47,24 +47,28 @@
             <tr>
               <td class="sub_partner_td">
                 <div class="k_select_single zp-0 m-r-8">
-                  <Multiselect
+                  <Dropdown
+                    class="k_prime_inp_select"
+                    optionLabel="label"
+                    optionValue="value"
+                    :options="regions"
+                    :placeholder="$t('find_partner.table.placeholder.role')"
+                  />
+                  <!-- <Multiselect
                     :placeholder="$t('find_partner.table.placeholder.role')"
                     class="form-control k_inp_field"
                     rules="required"
                     :options="regions"
-                  />
+                  /> -->
                 </div>
               </td>
               <td class="sub_partner_td">
                 <div class="k_select_single zp-0">
-                  <Multiselect
+                  <MultiSelect
                     :placeholder="$t('find_partner.table.placeholder.category')"
-                    class="form-control k_inp_field"
-                    rules="required"
-                    mode="tags"
-                    :closeOnSelect="false"
-                    :searchable="true"
-                    :createTag="true"
+                    class="prime_multiselect"
+                    optionLabel="label"
+                    optionValue="value"
                     :options="specialization"
                   />
                 </div>
@@ -538,13 +542,14 @@
 </template>
 
 <script>
-import Multiselect from "@vueform/multiselect";
+import MultiSelect from "primevue/multiselect";
 import searchIcon from "../../../public/icons/search.svg";
 import UserPic from "../../assets/users/Avatar.png";
-
+import Dropdown from "primevue/dropdown";
 export default {
   components: {
-    Multiselect,
+    MultiSelect,
+    Dropdown,
   },
   data() {
     return {
@@ -569,10 +574,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import"../node_modules/@syncfusion/ej2-base/styles/material.scss";
-// @import "../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
-// @import "../../node_modules/@syncfusion/ej2-vue-dropdowns/styles/material.css";
-// @import "../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
 .bg-gray5 {
   background-color: #f7f9fc;
   // border: 10px solid #ffffff;

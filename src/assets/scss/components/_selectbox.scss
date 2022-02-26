@@ -67,6 +67,12 @@
       display: none;
     }
     .multiselect-dropdown {
+      @include scrollbar(
+        $width: 5px,
+        $height: 15rem,
+        $border-radius: 10px,
+        $background-color: #b2bac7bd
+      );
       background-color: $white !important;
       .is-selected {
         background: $primary;
@@ -117,7 +123,12 @@
   }
 }
 // select2 with chips
-
+.select2-results__options {
+  display: none !important;
+}
+.select2-container--default .select2-selection--multiple {
+  padding: 4px;
+}
 .select2-container--default {
   .select2-results__option {
     border: 1px solid #e4e9f2;
@@ -182,4 +193,18 @@
     outline: 1px solid #edf1f7 !important;
     outline-offset: 0px;
   }
+}
+
+// box height
+.multiselect-options {
+  max-height: 20rem !important;
+}
+.multiselect-dropdown {
+  max-height: 20rem !important;
+  @include scrollbar(
+    $width: 5px,
+    $height: 20rem,
+    $border-radius: 10px,
+    $background-color: #b2bac7bd
+  );
 }

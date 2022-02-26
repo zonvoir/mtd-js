@@ -54,6 +54,8 @@ export default {
       console.log("get departments", data);
       CommonService.getExtendedDepartments(data).then((res) => {
         if (res.data.status) {
+          this.$store.dispatch("GET_STAFFS_DEPARTMENT", res.data.data);
+
           this.departmentLists = res.data.data.filter(function (depts) {
             return depts.departmentid != "5"; //5 is default company department id
           });

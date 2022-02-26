@@ -58,7 +58,37 @@
             </div>
           </div>
           <div class="col-lg-6">
-            <div class="wrap_phone_inp">
+            <div class="input-group d-flex">
+              <div class="country_flag_wrap">
+                <img
+                  v-if="country_flag"
+                  :src="country_flag"
+                  class="country_flag"
+                  alt=""
+                />
+              </div>
+              <div class="phone_main_wrap">
+                <div class="d-flex w-100">
+                  <span v-if="country_code" class="country_code">
+                    (+{{ country_code }})
+                  </span>
+                  <span v-else class="country_code"> (+91) </span>
+                  <input
+                    class="form-control k_inp_field cus_ph_inp"
+                    aria-label="Phonenumber"
+                    aria-describedby="basic-addon1"
+                    type="text"
+                    @keypress="isNumber"
+                    :placeholder="
+                      $t(
+                        'company_profile.company_tab.company_setup_update.form.placeholder.phone_no'
+                      )
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+            <!-- <div class="wrap_phone_inp">
               <div class="k_form_group codes_select k_select_single">
                 <Multiselect
                   v-model="value"
@@ -91,7 +121,7 @@
                   :placeholder="$t('payments.form.placeholder.Phone_No')"
                 />
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="col-lg-6">
             <div class="k_form_group">
@@ -131,7 +161,35 @@
           </div>
           <div class="col-lg-6">
             <div class="k_form_group k_select_single">
-              <Multiselect
+              <Dropdown
+                v-model="selectedCountry"
+                :options="countries"
+                optionLabel="name"
+                class="k_prime_inp_select"
+                placeholder="Select a Country"
+              >
+                <template #value="slotProps">
+                  <div
+                    class="company-item company-item-value"
+                    v-if="slotProps.value"
+                  >
+                    <img class="img_logo" :src="slotProps.value.icon" />
+                    <span class="company_item_name">{{
+                      slotProps.value.name
+                    }}</span>
+                  </div>
+                </template>
+                <template #option="slotProps">
+                  <div class="company-item">
+                    <img class="img_logo" :src="slotProps.option.icon" />
+                    <span class="company_item_name">{{
+                      slotProps.option.name
+                    }}</span>
+                  </div>
+                </template>
+              </Dropdown>
+
+              <!-- <Multiselect
                 v-model="value"
                 :placeholder="
                   $t('payments.form.placeholder.Select_your_country')
@@ -157,19 +215,25 @@
                   />
                   {{ option.name }}
                 </template>
-              </Multiselect>
+              </Multiselect> -->
             </div>
           </div>
 
           <div class="col-lg-6">
             <div class="k_form_group k_select_single">
-              <Multiselect
+              <Dropdown
+                class="k_prime_inp_select"
+                optionLabel="label"
+                optionValue="value"
                 :placeholder="$t('payments.form.placeholder.Currency')"
+                :options="services"
+              />
+              <!-- <Multiselect
                 :searchable="true"
                 class="form-control k_inp_field"
                 rules="required"
                 :options="services"
-              />
+              /> -->
             </div>
           </div>
         </div>
@@ -178,13 +242,20 @@
         <div class="row">
           <div class="col lg-6">
             <div class="k_form_group k_select_single">
-              <Multiselect
+              <Dropdown
+                class="k_prime_inp_select"
+                optionLabel="label"
+                optionValue="value"
+                :placeholder="$t('payments.form.placeholder.Service')"
+                :options="services"
+              />
+              <!-- <Multiselect
                 :placeholder="$t('payments.form.placeholder.Service')"
                 :searchable="true"
                 class="form-control k_inp_field"
                 rules="required"
                 :options="services"
-              />
+              /> -->
             </div>
           </div>
           <div class="col lg-6">
@@ -231,31 +302,48 @@
 </template>
 
 <script>
-const countryList = [
-  {
-    value: "usa",
-    name: "USA",
-    icon: "K_Icons/flag1.svg",
-  },
-  {
-    value: "india",
-    name: "India",
-    icon: "K_Icons/flag1.svg",
-  },
-  {
-    value: "germany",
-    name: "Germany",
-    icon: "K_Icons/flag1.svg",
-  },
-];
-import Multiselect from "@vueform/multiselect";
+// const countryList = [
+//   {
+//     value: "usa",
+//     name: "USA",
+//     icon: "K_Icons/flag1.svg",
+//   },
+//   {
+//     value: "india",
+//     name: "India",
+//     icon: "K_Icons/flag1.svg",
+//   },
+//   {
+//     value: "germany",
+//     name: "Germany",
+//     icon: "K_Icons/flag1.svg",
+//   },
+// ];
+// import Multiselect from "@vueform/multiselect";
 import Datepicker from "vue3-date-time-picker";
+import Dropdown from "primevue/dropdown";
 import "vue3-date-time-picker/dist/main.css";
 export default {
   data() {
     return {
       date: new Date(),
-      heros: countryList,
+      countries: [
+        {
+          value: "usa",
+          name: "USA",
+          icon: "K_Icons/flag1.svg",
+        },
+        {
+          value: "india",
+          name: "India",
+          icon: "K_Icons/flag1.svg",
+        },
+        {
+          value: "germany",
+          name: "Germany",
+          icon: "K_Icons/flag1.svg",
+        },
+      ],
       countryCodes: [
         {
           value: "+923",
@@ -270,7 +358,7 @@ export default {
           icon: "K_Icons/flag1.svg",
         },
       ],
-
+      selectedCountry: null,
       services: [
         { value: 0, label: "Service 1" },
         { value: 1, label: "Service 2" },
@@ -279,8 +367,9 @@ export default {
     };
   },
   components: {
-    Multiselect,
+    // Multiselect,
     Datepicker,
+    Dropdown,
   },
   methods: {
     saveInvoiceInfo() {},
@@ -353,5 +442,15 @@ export default {
   padding: 20px 28px;
   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
   border-radius: 4px;
+}
+.company-item {
+  display: flex;
+  align-items: center;
+  .img_logo {
+    width: 20px;
+  }
+  .company_item_name {
+    margin-left: 5px;
+  }
 }
 </style>

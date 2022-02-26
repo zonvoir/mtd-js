@@ -268,3 +268,45 @@
     }
   }
 }
+
+//////////////////phone number /////////////////@at-root
+.phone_main_wrap {
+  width: 90%;
+  float: right;
+}
+.cus_ph_inp {
+  padding-left: 60px !important;
+  border-radius: 0 4px 4px 0 !important;
+  padding-left: 5rem;
+}
+.country_flag {
+  width: 2rem;
+  position: relative;
+  top: 16%;
+  left: 0%;
+}
+.country_code_wrap {
+  position: absolute;
+  top: 0px;
+  left: 14%;
+  background: transparent !important;
+  width: auto;
+  height: 42px;
+}
+.country_code {
+  font-style: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 11%;
+  bottom: 0;
+  padding: 5px;
+  z-index: 9;
+}
+.country_flag_wrap {
+  width: 10%;
+  float: left;
+  background-color: #ced4da;
+  text-align: center;
+}

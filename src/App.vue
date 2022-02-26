@@ -90,7 +90,7 @@ body::-webkit-scrollbar {
 
 // / Track /
 body::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px #f7f9fc;
+  box-shadow: inset 0 0 5px grey;
   border-radius: 0px;
 }
 

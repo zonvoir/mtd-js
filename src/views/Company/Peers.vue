@@ -21,90 +21,6 @@
       <div class="">
         <form action="">
           <div class="row">
-            <div class="col-lg-6">
-              <div class="k_form_group k_select_single">
-                <Multiselect
-                  placeholder="Select region"
-                  class="form-control k_inp_field"
-                  rules="required"
-                  @select="onChangeRegion"
-                  @deselect="deselectRegion"
-                  :options="regionLists"
-                  @blur="v$.peerForm.region.$touch"
-                  v-model="peerForm.region"
-                  :class="{
-                    'is-invalid': v$.peerForm.region.$error,
-                  }"
-                />
-                <div
-                  v-if="v$.peerForm.region.$error"
-                  class="invalid-feedback text-left"
-                >
-                  <span
-                    v-if="v$.peerForm.region.required.$invalid"
-                    class="text-left fs-14"
-                  >
-                    Region is required
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="k_form_group k_select_single">
-                <!-- :delay="-1"
-                  :loading="true"
-                  :min-chars="1"
-                  :resolve-on-load="false" -->
-                <Multiselect
-                  placeholder="Select country"
-                  class="form-control k_inp_field"
-                  rules="required"
-                  :options="countryLists"
-                  @blur="v$.peerForm.country.$touch"
-                  v-model="peerForm.country"
-                  :class="{
-                    'is-invalid': v$.peerForm.country.$error,
-                  }"
-                />
-                <div
-                  v-if="v$.peerForm.country.$error"
-                  class="invalid-feedback text-left"
-                >
-                  <span
-                    v-if="v$.peerForm.country.required.$invalid"
-                    class="text-left fs-14"
-                  >
-                    Country is required
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="k_form_group k_select_single">
-                <Multiselect
-                  class="form-control k_inp_field"
-                  rules="required"
-                  placeholder="Select company size "
-                  :options="companySize"
-                  @blur="v$.peerForm.company_size.$touch"
-                  v-model="peerForm.company_size"
-                  :class="{
-                    'is-invalid': v$.peerForm.company_size.$error,
-                  }"
-                />
-                <div
-                  v-if="v$.peerForm.company_size.$error"
-                  class="invalid-feedback text-left"
-                >
-                  <span
-                    v-if="v$.peerForm.company_size.required.$invalid"
-                    class="text-left fs-14"
-                  >
-                    Company Size is required
-                  </span>
-                </div>
-              </div>
-            </div>
             <div
               class="industries_info_wraper"
               v-for="(industry, idx) in industriesInformation"
@@ -113,14 +29,25 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="k_form_group k_select_single">
-                    <Multiselect
-                      placeholder="Industry"
-                      class="form-control k_inp_field"
+                    <Dropdown
+                      class="k_prime_inp_select"
+                      optionLabel="label"
+                      optionValue="value"
+                      placeholder="
+                   Select industry
+                  "
                       :options="industryLists"
-                      rules="required"
                       @select="onChangeMainIndustry"
                       v-model="industry.main_industry"
                     />
+                    <!-- <Multiselect
+                      placeholder="Industry"
+                      class="form-control k_inp_field"
+                      rules="required"
+                      :options="industryLists"
+                      @select="onChangeMainIndustry"
+                      v-model="industry.main_industry"
+                    /> -->
                     <!-- @blur="v$.peerForm.main_industry.$touch"
                   :class="{
                     'is-invalid': v$.peerForm.main_industry.$error,
@@ -140,15 +67,22 @@
                 </div>
                 <div class="col-lg-6">
                   <div class="k_form_group k_select_single">
-                    <!-- loading="true"
-                  delay="5" -->
-                    <Multiselect
+                    <Dropdown
+                      class="k_prime_inp_select"
+                      optionLabel="label"
+                      optionValue="value"
+                      placeholder="Sub Industry"
+                      :options="subIndustryLists"
+                      rules="required"
+                      v-model="industry.sub_industry"
+                    />
+                    <!-- <Multiselect
                       placeholder="Sub Industry"
                       class="form-control k_inp_field"
                       :options="subIndustryLists"
                       rules="required"
                       v-model="industry.sub_industry"
-                    />
+                    /> -->
                     <!-- @blur="v$.peerForm.sub_industry.$touch"
                   :class="{
                     'is-invalid': v$.peerForm.sub_industry.$error,
@@ -168,15 +102,22 @@
                 </div>
                 <div class="col-lg-6">
                   <div class="k_form_group k_select_single">
-                    <!-- loading="true"
-                  delay="5" -->
-                    <Multiselect
+                    <Dropdown
+                      class="k_prime_inp_select"
+                      optionLabel="label"
+                      optionValue="value"
                       placeholder="Detailed Industry"
-                      class="form-control k_inp_field"
                       :options="detailedIndustryLists"
                       rules="required"
                       v-model="industry.detailed_industry"
                     />
+                    <!-- <Multiselect
+                      class="form-control k_inp_field"
+                      placeholder="Detailed Industry"
+                      :options="detailedIndustryLists"
+                      rules="required"
+                      v-model="industry.detailed_industry"
+                    /> -->
                     <!-- @blur="v$.peerForm.detailed_industry.$touch"
                   :class="{
                     'is-invalid': v$.peerForm.detailed_industry.$error,
@@ -229,17 +170,45 @@
       </div>
     </div>
   </div>
+  <!-- checking custom select -->
+  <!-- {{ selectedCountry }}
+  <Dropdown
+    v-model="selectedCountry"
+    :options="countries"
+    optionLabel="name"
+    class="k_prime_inp_select"
+    placeholder="Select a Country"
+  >
+    <template #value="slotProps">
+      <div class="company-item company-item-value" v-if="slotProps.value">
+        <img
+          class="img_logo"
+          src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png"
+        />
+        <span class="company_item_name">{{ slotProps.value.name }}</span>
+      </div>
+    </template>
+    <template #option="slotProps">
+      <div class="company-item">
+        <img
+          class="img_logo"
+          src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png"
+        />
+        <span class="company_item_name">{{ slotProps.option.name }}</span>
+      </div>
+    </template>
+  </Dropdown> -->
 </template>
 
 <script>
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-import Multiselect from "@vueform/multiselect";
 import CommonService from "../../Services/CommonService";
+import Dropdown from "primevue/dropdown";
 
 export default {
   components: {
-    Multiselect,
+    Dropdown,
   },
 
   data() {
@@ -257,7 +226,24 @@ export default {
       regionLists: [],
       subIndustryLists: [],
       detailedIndustryLists: [],
-      companySize: ["100", "500", "1000"],
+      selectedCountry: null,
+      countries: [
+        { name: "Australia", code: "AU" },
+        { name: "Brazil", code: "BR" },
+        { name: "China", code: "CN" },
+        { name: "Egypt", code: "EG" },
+        { name: "France", code: "FR" },
+        { name: "Germany", code: "DE" },
+        { name: "India", code: "IN" },
+        { name: "Japan", code: "JP" },
+        { name: "Spain", code: "ES" },
+        { name: "United States", code: "US" },
+      ],
+      companySize: [
+        { label: "100", value: "100" },
+        { label: "200", value: "200" },
+        { label: "300", value: "300" },
+      ],
       // "India", "France", "Italy"
       countryLists: [],
       peerForm: {
@@ -445,6 +431,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.company-item {
+  display: flex;
+  align-items: center;
+  .img_logo {
+    width: 30px;
+  }
+  .company_item_name {
+    margin-left: 5px;
+  }
+}
 .form_container {
   background-color: #ffffff;
   padding: 20px 28px;

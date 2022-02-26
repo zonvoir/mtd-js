@@ -18,7 +18,26 @@
       <h2 class="m-b-0 letter_title">{{ lists[tagId].tag_name }}</h2>
     </div>
     <!-- list_wrap -->
-    <div v-for="(list, idx) in lists" :key="list.id" class="">
+    <div v-for="list in lists" :key="list.id" class="">
+      <Accordion :activeIndex="0" class="prime_accordion">
+        <AccordionTab
+          v-for="item in list.tag_list"
+          :key="item.id"
+          :header="item.title"
+          class="prime_accordion_tab"
+        >
+          <p class="desc_cont">
+            Simply dummy text of the printing and typesetting industry. Lorem
+            Ipsum has been the industry's standard dummy text ever since the
+            150.Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the Lorem Dummy text Industry was created.It has been the
+            industry's standard dummy text.
+          </p>
+        </AccordionTab>
+      </Accordion>
+    </div>
+    <!-- <div v-for="(list, idx) in lists" :key="list.id" class="">
       <Accordion2 :items="list.tag_list">
         <template v-slot:accordionbody1>
           <div class="desc_wrap">
@@ -26,162 +45,21 @@
           </div>
         </template>
       </Accordion2>
-    </div>
-
-    <!-- <div class="accordion custom_acc" id="accordionExample1">
-      <div class="accordion-item acc_sub_item">
-        <h2 class="accordion-header" id="headingSubOne">
-          <button
-            class="accordion-button k_acc_sub_btn"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseSubOne"
-            aria-expanded="true"
-            aria-controls="collapseSubOne"
-          >
-            <div class="">
-              <h2 class="m-b-0 sub_acc_title">How do you measure KPI?</h2>
-            </div>
-          </button>
-        </h2>
-        <div
-          id="collapseSubOne"
-          class="accordion-collapse collapse show"
-          aria-labelledby="headingSubOne"
-          data-bs-parent="#accordionExample1"
-        >
-          <div class="accordion-body sub_acc_body">
-            <div class="list_wrap">
-              <ul>
-                <li>
-                  <div class="list_item">
-                    <h4 class="m-b-0 list_title">
-                      <span class="m-r-2">1.</span>Monthly new leads/prospects.
-                    </h4>
-                  </div>
-                </li>
-                <li>
-                  <div class="list_item">
-                    <h4 class="m-b-0 list_title">
-                      <span class="m-r-2">2.</span>Monthly new leads/prospects.
-                    </h4>
-                  </div>
-                </li>
-                <li>
-                  <div class="list_item">
-                    <h4 class="m-b-0 list_title">
-                      <span class="m-r-2">3.</span>Monthly new leads/prospects.
-                    </h4>
-                  </div>
-                </li>
-                <li>
-                  <div class="list_item">
-                    <h4 class="m-b-0 list_title">
-                      <span class="m-r-2">4.</span>Monthly new leads/prospects.
-                    </h4>
-                  </div>
-                </li>
-                <li>
-                  <div class="list_item">
-                    <h4 class="m-b-0 list_title">
-                      <span class="m-r-2">5.</span>Monthly new leads/prospects.
-                    </h4>
-                  </div>
-                </li>
-                <li>
-                  <div class="list_item">
-                    <h4 class="m-b-0 list_title">
-                      <span class="m-r-2">6.</span>Monthly new leads/prospects.
-                    </h4>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="accordion-item acc_sub_item">
-        <h2 class="accordion-header" id="headingSubtwo">
-          <button
-            class="accordion-button k_acc_sub_btn"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseSubTwo"
-            aria-expanded="true"
-            aria-controls="collapseSubTwo"
-          >
-            <div class="">
-              <h2 class="m-b-0 sub_acc_title">How do you measure KPI?</h2>
-            </div>
-          </button>
-        </h2>
-        <div
-          id="collapseSubTwo"
-          class="accordion-collapse collapse"
-          aria-labelledby="headingSubtwo"
-          data-bs-parent="#accordionExample1"
-        >
-          <div class="accordion-body sub_acc_body">
-            <div class="list_wrap">
-              <ul>
-                <li>
-                  <div class="list_item">
-                    <h4 class="m-b-0 list_title">
-                      <span class="m-r-2">1.</span>Monthly new leads/prospects.
-                    </h4>
-                  </div>
-                </li>
-                <li>
-                  <div class="list_item">
-                    <h4 class="m-b-0 list_title">
-                      <span class="m-r-2">2.</span>Monthly new leads/prospects.
-                    </h4>
-                  </div>
-                </li>
-                <li>
-                  <div class="list_item">
-                    <h4 class="m-b-0 list_title">
-                      <span class="m-r-2">3.</span>Monthly new leads/prospects.
-                    </h4>
-                  </div>
-                </li>
-                <li>
-                  <div class="list_item">
-                    <h4 class="m-b-0 list_title">
-                      <span class="m-r-2">4.</span>Monthly new leads/prospects.
-                    </h4>
-                  </div>
-                </li>
-                <li>
-                  <div class="list_item">
-                    <h4 class="m-b-0 list_title">
-                      <span class="m-r-2">5.</span>Monthly new leads/prospects.
-                    </h4>
-                  </div>
-                </li>
-                <li>
-                  <div class="list_item">
-                    <h4 class="m-b-0 list_title">
-                      <span class="m-r-2">6.</span>Monthly new leads/prospects.
-                    </h4>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
     </div> -->
+
     <!-- list_wrap -->
   </div>
 </template>
 
 <script>
-import Accordion2 from "../../components/Shared/Accordion2.vue";
-
+// import Accordion2 from "../../components/Shared/Accordion2.vue";
+import Accordion from "primevue/accordion";
+import AccordionTab from "primevue/accordiontab";
 export default {
   components: {
-    Accordion2,
+    // Accordion2,
+    Accordion,
+    AccordionTab,
   },
   data() {
     return {

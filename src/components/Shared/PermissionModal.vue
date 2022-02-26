@@ -27,47 +27,58 @@
             <DepartmentPermission :staffId="currentStaffId" />
           </div>
           <div class="">
-            <div class="accordion custom_acc">
-              <div class="">
-                <div
-                  class="body_wrap"
-                  v-for="(department, index) in permissonList"
-                  :key="index"
-                >
-                  <div class="sub_acc_body">
-                    <div class="team_wrapper">
-                      <div class="">
-                        <div
-                          @click="toggleAccordion(index)"
-                          class="section_wrap"
-                        >
-                          <h4 class="m-b-0 title-dark">
-                            {{ department.name }}
-                          </h4>
+            <Accordion :activeIndex="0" class="prime_accordion">
+              <AccordionTab
+                v-for="(department, index) in permissonList"
+                :key="index"
+                class="prime_accordion_tab"
+                :header="department.name"
+              >
+                <div class="staff_desc">
+                  <PermissionTable
+                    @getUpdatedPermission="getLatestPermission"
+                    :categoryList="department.categories"
+                  />
+                </div>
+              </AccordionTab>
+            </Accordion>
+          </div>
+          <!-- <div class="accordion custom_acc">
+            <div class="">
+              <div
+                class="body_wrap"
+                v-for="(department, index) in permissonList"
+                :key="index"
+              >
+                <div class="sub_acc_body">
+                  <div class="team_wrapper">
+                    <div class="">
+                      <div @click="toggleAccordion(index)" class="section_wrap">
+                        <h4 class="m-b-0 title-dark">
+                          {{ department.name }}
+                        </h4>
 
-                          <div class="m-l-auto">
-                            <img
-                              :src="
-                                isAccordionArr[index]
-                                  ? 'K_Icons/chevron-up.svg'
-                                  : 'K_Icons/chevron-down.svg'
-                              "
-                              alt=""
-                              class=""
-                            />
-                          </div>
+                        <div class="m-l-auto">
+                          <img
+                            :src="
+                              isAccordionArr[index]
+                                ? 'K_Icons/chevron-up.svg'
+                                : 'K_Icons/chevron-down.svg'
+                            "
+                            alt=""
+                            class=""
+                          />
                         </div>
-                        <div
-                          :class="{ collapse: isAccordionArr[index] }"
-                          class="description_body_wrap"
-                        >
-                          <!-- accordion body -->
-                          <div class="m-t-20">
-                            <PermissionTable
-                              @getUpdatedPermission="getLatestPermission"
-                              :categoryList="department.categories"
-                            />
-                          </div>
+                      </div>
+                      <div
+                        :class="{ collapse: isAccordionArr[index] }"
+                        class="description_body_wrap"
+                      >
+                        <div class="m-t-20">
+                          <PermissionTable
+                            @getUpdatedPermission="getLatestPermission"
+                            :categoryList="department.categories"
+                          />
                         </div>
                       </div>
                     </div>
@@ -75,7 +86,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="modal-footer invite_modal_footer">
           <button
@@ -101,7 +112,8 @@
 <script>
 import DepartmentPermission from "../Shared/DepartmentPermission.vue";
 import PermissionTable from "../../views/Company/PermissionTable.vue";
-// import BaseAccordion from "../Shared/BaseAccordion.vue";
+import Accordion from "primevue/accordion";
+import AccordionTab from "primevue/accordiontab";
 import { Modal } from "bootstrap";
 import { mapGetters } from "vuex";
 import CompanyService from "../../Services/Company/CompanyService";
@@ -124,7 +136,8 @@ export default {
   components: {
     DepartmentPermission,
     PermissionTable,
-    // BaseAccordion,
+    Accordion,
+    AccordionTab,
   },
 
   mounted() {
@@ -224,6 +237,9 @@ export default {
 .btn-set {
   text-transform: uppercase;
 }
+.staff_desc {
+  padding-bottom: 20px;
+}
 // modal start
 .invitation_dialog {
   width: 80%;
@@ -268,7 +284,6 @@ export default {
   margin-bottom: 10px;
 }
 .description_body_wrap {
-  display: none;
   min-block-size: 0;
   transition: 500ms;
   transition: height 500ms;

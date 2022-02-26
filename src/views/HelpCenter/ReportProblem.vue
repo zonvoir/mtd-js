@@ -7,14 +7,21 @@
     </div>
     <div class="form_container">
       <div class="k_select_single k_inp_half m-b-20">
-        <Multiselect
+        <Dropdown
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select a problem"
+          class="k_prime_inp_select"
+          :options="issues"
+        />
+        <!-- <Multiselect
           :placeholder="
             $t('help_center.Report_a_problem_tab.form.placeholder.role')
           "
           class="form-control k_inp_field"
           rules="required"
           :options="issues"
-        />
+        /> -->
       </div>
       <div class="k_form_group p-b-49">
         <textarea
@@ -35,11 +42,11 @@
 </template>
 
 <script>
-import Multiselect from "@vueform/multiselect";
-
+// import Multiselect from "@vueform/multiselect";
+import Dropdown from "primevue/dropdown";
 export default {
   components: {
-    Multiselect,
+    Dropdown,
   },
   data() {
     return {

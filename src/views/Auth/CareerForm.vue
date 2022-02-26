@@ -111,22 +111,59 @@
     </div> -->
   </div>
   <!-- {{ careerForm.department }} -->
+  <!-- :options="myOptions" -->
   <div :class="className">
-    <!-- {{ careerForm.department }} -->
-    <!-- :optionValue="getDefaulDepartment(departments, careerForm.department)" -->
+    <!-- <div class="btn_wrap">
+      <button
+        :disabled="disbaleInvited"
+        @click="SendEmailsList(staffrole.roleid)"
+        type="button"
+        class="btn-primary inv_button btn btn-set text-uppercase"
+      >
+        {{ $t("category_details.team_mangementTab.buttons.invite") }}
+      </button>
+    </div> -->
     <div class="k_form_group">
-      <prime-multiSelect
-        v-model="careerForm.department"
-        :options="departments"
-        class="prime_multiselect"
-        optionLabel="label"
-        optionValue="value"
-        placeholder="Department"
-        @blur="v$.careerForm.department.$touch"
-        :class="{
-          'is-invalid': v$.careerForm.department.$error,
-        }"
-      />
+      <div v-if="addNewDept" class="">
+        <Select2
+          v-model="myValue"
+          class="select_to"
+          :settings="settings"
+          @select="mySelectEvent($event)"
+        />
+        <div class="text_right">
+          <button
+            @click="changeDepartment"
+            type="button"
+            class="btn_adds btn-transaprent"
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+      <div class="" v-else>
+        <MultiSelect
+          v-model="careerForm.department"
+          :options="departments"
+          class="prime_multiselect"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Department"
+          @blur="v$.careerForm.department.$touch"
+          :class="{
+            'is-invalid': v$.careerForm.department.$error,
+          }"
+        />
+        <div class="text_right">
+          <button
+            @click="changeDepartment"
+            type="button"
+            class="btn_adds btn-transaprent"
+          >
+            Add new department
+          </button>
+        </div>
+      </div>
 
       <div
         v-if="v$.careerForm.department.$error"
@@ -304,6 +341,8 @@ import Dropdown from "primevue/dropdown";
 import MultiSelect from "primevue/multiselect";
 import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
+import Select2 from "vue3-select2-component";
+
 // import { selectedDepartemntsValue } from "../../utils/DepartmentModify";
 
 export default {
@@ -333,6 +372,7 @@ export default {
   },
   data() {
     return {
+      addNewDept: false,
       checkValidation: undefined,
       fromDate: "From",
       toDate: "To",
@@ -365,36 +405,53 @@ export default {
   components: {
     Datepicker,
     // Multiselect,
-    "prime-multiSelect": MultiSelect,
+    Select2,
+    MultiSelect,
     AutoComplete,
     Dropdown,
   },
   updated() {
-    // this.careerForm = {...this.myCareer};
+    this.careerForm = this.myCareer;
   },
   mounted() {
+    this.careerForm = this.myCareer;
+
     this.getAllCompany();
+  },
+  created() {
+    this.settings = {
+      tags: true,
+      allowClear: true,
+      multiple: true,
+      insertTag: function (data, tag) {
+        // Insert the tag at the end of the results
+        this.emailTag = tag;
+        console.log("data", data, "tag", tag);
+        data.push(tag);
+      },
+    };
+
+    this.mySettings = {
+      multiple: true,
+    };
   },
 
   methods: {
-    getDefaultOption() {
-      let defOption = { value: "5", label: "Computer Industry" };
-      // defOption = options.forEach((element) => {
-      //   if (element.value == defaultOpt) {
-      //     console.log("element", element);
-      //     return element;
-      //   }
-      // });
-      // console.log(defOption);
-      return defOption;
+    mySelectEvent({ id, text }) {
+      console.log("id", { id, text });
+
+      console.log("my all department", this.myValue);
     },
-    getDefaulDepartment(options, dept) {
-      let filterdArr = options.filter((item) => {
-        return dept.includes(item.value);
-      });
-      console.log("filter arr", filterdArr);
-      return filterdArr;
+    changeDepartment() {
+      this.addNewDept = !this.addNewDept;
     },
+    // getDefaulDepartment(options, dept) {
+    //   let filterdArr = options.filter((item) => {
+    //     return dept.includes(item.value);
+    //   });
+    //   console.log("filter arr", filterdArr);
+    //   return filterdArr;
+    // },
     searchCompany(event) {
       setTimeout(() => {
         if (!event.query.trim().length) {
@@ -426,19 +483,7 @@ export default {
         return data;
       }
     },
-    modifyCompanyDepartment(deptArr) {
-      console.log(deptArr);
-      // let departments4 = deptArr.map((dept) => {
-      //   return dept.value;
-      // });
-      return deptArr;
-      // if (typeof data === "object") {
-      //   console.log("this is object");
-      //   return data[parmas];
-      // } else {
-      //   return data;
-      // }
-    },
+
     validateForm() {
       if (!this.v$.$invalid) {
         this.isValid = true;
@@ -446,13 +491,7 @@ export default {
           this.careerForm.company,
           "label"
         );
-        // this.careerForm.industry = this.modifyCompanyData(
-        //   this.careerForm.industry,
-        //   "value"
-        // );
-        // this.careerForm.department = this.modifyCompanyDepartment(
-        //   this.careerForm.department
-        // );
+
         this.careerForm.to = formatDate(this.careerForm["to"], "L");
         this.careerForm.from = formatDate(this.careerForm["from"], "L");
         this.$emit("addNewCareer", {
@@ -484,6 +523,18 @@ export default {
     outline-offset: 0px;
   }
 }
-.p-autocomplete-input {
+.btn_adds {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  color: #7900d8;
+  text-align: left;
+}
+.text_right {
+  text-align: right !important;
+}
+.select_to {
+  width: 100% !important;
 }
 </style>

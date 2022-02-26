@@ -4,7 +4,6 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import PageNotFound from "../Layout/Error/404Error.vue";
 import ServerError from "../Layout/Error/500Error.vue";
 import InternetError from "../Layout/Error/NoInternet.vue";
-import DemoPage from "../components/Shared/Demo.vue";
 import LinkCompany from "../views/Auth/LinkCompany.vue";
 import Authentication from "../Layout/Authentication.vue";
 import Register from "../views/Auth/Register.vue";
@@ -468,11 +467,7 @@ const routes = [
     name: "internet-error",
     component: InternetError,
   },
-  {
-    path: "/demo",
-    name: "demo",
-    component: DemoPage,
-  },
+
   {
     path: "/:catchAll(.*)",
     name: "page-not-found",

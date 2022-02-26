@@ -1,35 +1,41 @@
-import CommonService from "../../Services/CommonService";
-
-const state = {
-  staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-  Departments: [],
-};
-const mutations = {
-  GET_DEPARTMENTS: (state, value) => {
-    state.Departments = value;
+import { createStore } from "vuex";
+export default createStore({
+  state: {
+    staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+    personalInfo: [],
   },
-};
-const actions = {
-  SET_DEPARTMENTS: ({ commit }, data) => {
-    return new Promise((resolve, reject) => {
-      CommonService.getAllDepartments(data).then(
-        (res) => {
-          if (res.data.status) {
-            let departmentLists = res.data.data.filter(function (depts) {
-              return depts.is_default === "0";
-            });
-            commit("GET_DEPARTMENTS", departmentLists);
-          }
-          resolve(res);
-        },
-        (error) => {
-          reject(error);
-        }
-      );
-    });
+  mutations: {
+    // personal Account
+    setPersonalInfo(state, per_data) {
+      state.personalInfo = per_data;
+    },
   },
-};
-const getters = {
-  staffDepartments: (state) => state.Departments,
-};
-export default { state, getters, mutations, actions };
+  actions: {
+    async getPersonalInfo(context, val) {
+      context.commit("setPersonalInfo", val);
+    },
+  },
+  getters: {
+    personalInfo: (state) => state.personalInfo,
+  },
+});
+// const state = {
+//   staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+//   Departments: [],
+//   personalInfo: [],
+// };
+// const mutations = {
+//   // personal Account
+//   setPersonalInfo(state, per_data) {
+//     state.personalInfo = per_data;
+//   },
+// };
+// const actions = {
+//   async getPersonalInfo(context, val) {
+//     context.commit("setPersonalInfo", val);
+//   },
+// };
+// const getters = {
+//   personalInfo: (state) => state.personalInfo,
+// };
+// export default { state, getters, mutations, actions };

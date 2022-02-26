@@ -1,7 +1,9 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+// import commonModule from "./store/Modules/CommonModule";
+// import questModule from "./store/Modules/QuestionnaireModule";
+// import companyModule from "./store/Modules/CompanyModule";
 import quest from "./store/questionnaire";
 import Toaster from "@meforma/vue-toaster";
 import CKEditor from "@ckeditor/ckeditor5-vue";
@@ -30,19 +32,10 @@ app
   .use(i18n)
   .use(Toaster)
   .use(CKEditor)
-  .use(store)
   .use(quest)
+  // .use(commonModule)
+  // .use(companyModule)
+  // .use(questModule)
   .use(PrimeVue)
   .use(router)
   .mount("#app");
-
-// createApp(App)
-//   .use(i18n)
-//   .use(Toaster)
-//   .use(CKEditor)
-//   .use(store)
-//   .use(quest)
-//   .use(PrimeVue)
-//   .use(router)
-//   .mount("#app");
-// app.component("Dialog", Dialog);

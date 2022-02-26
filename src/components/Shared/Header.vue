@@ -143,7 +143,9 @@ export default {
     return {
       state: false,
       userpic: "",
-      currentYear: "" + new Date().getFullYear(),
+      currentYear: localStorage.getItem("selected_year")
+        ? localStorage.getItem("selected_year")
+        : +new Date().getFullYear(),
       yearOptions: [],
       isprofile: false,
       companies: [],
@@ -181,8 +183,31 @@ export default {
       },
       deep: true,
     },
+    companyLists: function (val) {
+      console.log("get  hit company pai again", val);
+      this.example8.options = [];
+      for (const company of val) {
+        let d1 = {
+          value: company.company_id,
+          name: company.company,
+          icon: company.company_logo,
+        };
+        this.example8.options.push(d1);
+      }
+    },
+  },
+  mounted() {
+    this.example8.value = localStorage.getItem("selected_company");
+    console.log("mounted at", this.example8.value);
+    if (this.$route.path === "/personal-account") {
+      this.isprofile = true;
+    } else {
+      this.isprofile = false;
+    }
+    document.addEventListener("click", this.close);
   },
   created() {
+    console.log("created at");
     this.changeYear();
     if (
       this.staffInfo != null &&
@@ -193,6 +218,7 @@ export default {
       this.getStaffDetails();
     }
   },
+
   methods: {
     getStaffDetails() {
       signupService
@@ -217,6 +243,7 @@ export default {
         .companiesList({ auth_token: this.staffInfo.auth_token })
         .then((res) => {
           if (res.data.status) {
+            console.log("get All Companies", res.data.data);
             this.$store.dispatch("getStaffsCompanies", res.data.data);
             let defCompany = 0;
             for (const company of res.data.data) {
@@ -225,13 +252,16 @@ export default {
                 name: company.company,
                 icon: company.company_logo,
               };
-              if (company.is_main == "1") {
+              if (company.created_by_me == "1") {
                 defCompany = company.company_id;
               }
               this.example8.options.push(d1);
               this.companies.push(d1);
             }
-            this.example8.value = +defCompany;
+            localStorage.getItem("selected_company")
+              ? (this.example8.value = localStorage.getItem("selected_company"))
+              : (this.example8.value = +defCompany);
+            // this.example8.value = +defCompany;
             this.changeCompany();
           } else {
             errorhandler(res, this);
@@ -241,7 +271,7 @@ export default {
     changeCompany() {
       localStorage.setItem("selected_company", this.example8.value);
       this.$store.dispatch("getActiveCompany", this.example8.value);
-      // this.$router.push({ name: "Dashboard" });
+      this.$router.push({ name: "Dashboard" });
       this.getAllMemberList(this.example8.value);
     },
     getAllMemberList(companyId) {
@@ -270,13 +300,14 @@ export default {
       this.$store.dispatch("getRoleInCompany", roleId);
       // modify Accroding to multi select
       let departmentAssignedToStaff = [];
-      deprtmentArr.forEach((item) => {
-        let dept = {
-          value: item.departmentid,
-          label: item.name,
-        };
-        departmentAssignedToStaff.push(dept);
-      });
+      departmentAssignedToStaff = deprtmentArr;
+      // deprtmentArr.forEach((item) => {
+      //   let dept = {
+      //     value: item.departmentid,
+      //     label: item.name,
+      //   };
+      //   departmentAssignedToStaff.push(dept);
+      // });
       this.$store.dispatch("GET_STAFFS_DEPARTMENT", departmentAssignedToStaff);
     },
     changeYear() {
@@ -288,8 +319,11 @@ export default {
         }
       });
       localStorage.setItem("selected_year", this.currentYear);
+      localStorage.getItem("selected_year")
+        ? (this.currentYear = localStorage.getItem("selected_year"))
+        : (this.currentYear = +new Date().getFullYear());
       this.$store.dispatch("getYear", this.currentYear);
-      // this.$router.push({ name: "Dashboard" });
+      this.$router.push({ name: "Dashboard" });
     },
 
     personalProfile() {
@@ -300,35 +334,21 @@ export default {
     },
     onLogout() {
       localStorage.removeItem("bWFpbCI6Inpvb");
+      localStorage.removeItem("selected_company");
+      localStorage.removeItem("language");
+      localStorage.removeItem("selected_year");
       this.$store.dispatch("GET_STAFF_DATA", null);
       this.$router.push({ name: "signup-signin" });
     },
-    toggleDropdown(event) {
+    toggleDropdown() {
       this.state = !this.state;
-      this.$refs.menu.toggle(event);
+      // this.$refs.menu.toggle(event);
     },
     close(e) {
       if (!this.$el.contains(e.target)) {
         this.state = false;
       }
     },
-  },
-  mounted() {
-    // if (
-    //   this.staffInfo != null &&
-    //   this.staffInfo != undefined &&
-    //   this.staffInfo != ""
-    // ) {
-    //   this.getAllCompanies();
-    //   this.getStaffDetails();
-    // }
-
-    if (this.$route.path === "/personal-account") {
-      this.isprofile = true;
-    } else {
-      this.isprofile = false;
-    }
-    document.addEventListener("click", this.close);
   },
 
   beforeUnmount() {

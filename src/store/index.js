@@ -1,11 +1,13 @@
 import { createStore } from "vuex";
-// import company from "./Modules/CompanyModule";
-// import QuestionnaireModule from "./Modules/QuestionnaireModule";
+// import companyModule from "./Modules/CompanyModule";
+// import commonModule from "./Modules/CommonModule";
+// import questionnaireModule from "./Modules/QuestionnaireModule";
 export default createStore({
-  //   modules: {
-  //     company,
-  //     QuestionnaireModule,
-  //   },
+  // modules: {
+  //   companyModule,
+  //   questionnaireModule,
+  //   commonModule,
+  // },
   //   state: {
   //     staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
   //     memberPic: "hello from vuex state",
