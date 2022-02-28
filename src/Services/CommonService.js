@@ -16,6 +16,10 @@ class CommonService {
   getAllDepartments() {
     return http.get("lists/department");
   }
+  //add one deparartment
+  addNewDepartment(data) {
+    return http.post("staffs/add_new_department", data);
+  }
   //get All deparartments
   getExtendedDepartments(token) {
     return http.post("lists/extended_departments", token, {

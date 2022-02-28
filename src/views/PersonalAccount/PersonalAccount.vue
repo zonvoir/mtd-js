@@ -37,7 +37,6 @@
         </div>
       </div>
       <div class="overview_container">
-        <!-- <router-view /> -->
         <div class="form_container">
           <div class="">
             <h4 class="form_title">
@@ -602,9 +601,10 @@
                       @addNewCareer="isCareerUpdated"
                       :className="'col-lg-6'"
                       :myCareer="career"
-                      :departments="departmentLists"
+                      :departments="modifyDepartment(departmentLists)"
                       :industries="industryLists"
                       :seniority="seniorityLevels"
+                      :authToken="staffData.auth_token"
                     />
                   </div>
                 </template>
@@ -617,9 +617,10 @@
                   @addNewCareer="isCareerFilled"
                   :className="'col-lg-6'"
                   :myCareer="careerV"
-                  :departments="departmentLists"
+                  :departments="modifyDepartment(departmentLists)"
                   :industries="industryLists"
                   :seniority="seniorityLevels"
+                  :authToken="staffData.auth_token"
                 >
                 </CareerForm>
               </div>
@@ -666,8 +667,12 @@ import { loadLocaleMessages } from "../../i18n";
 import errorhandler from "../../utils/Error";
 import CareerForm from "../Auth/CareerForm.vue";
 import { formatDate } from "../../utils/FormatDate";
-import { getDepartemntsLables } from "../../utils/DepartmentModify";
+import {
+  departmentModify,
+  getDepartemntsLables,
+} from "../../utils/DepartmentModify";
 import Dropdown from "primevue/dropdown";
+import { mapGetters } from "vuex";
 // MINIMUM 8 CHARCTER
 const minimum8CharCalc = (val) => val.length >= 8;
 // for upper case calculation
@@ -723,7 +728,7 @@ export default {
         { value: "de", label: "German" },
       ],
       industryLists: [],
-      departmentLists: [],
+      // departmentLists: [],
       seniorityLevels: [],
       profileData: {},
       personalAccount: {
@@ -747,6 +752,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      departmentLists: "allCompanyDepartment",
+    }),
     careerLength() {
       return this.careersArr.length;
     },
@@ -812,6 +820,11 @@ export default {
   },
 
   methods: {
+    modifyDepartment(data) {
+      let deptsArr = departmentModify(data);
+      return deptsArr.slice().reverse();
+    },
+
     savePersonalInfo() {
       this.personalAccount.auth_token = this.staffData.auth_token;
       console.log(
@@ -946,14 +959,10 @@ export default {
               };
               this.seniorityLevels.push(seniorLevel);
             }
-            // Department list
-            for (var k = 0; k < res.data.departments_list.length; k++) {
-              let dept = {
-                value: res.data.departments_list[k].departmentid,
-                label: res.data.departments_list[k].name,
-              };
-              this.departmentLists.push(dept);
-            }
+            this.$store.dispatch(
+              "GET_ALL_COMPANY_DEPARTMENT",
+              res.data.departments_list
+            );
           } else {
             errorhandler(res, this);
           }
@@ -1003,15 +1012,6 @@ export default {
           image.src = e.target.result;
           image.onload = function () {
             $th.uploadCompanyLogo(files[0]);
-            // var height = this.height;
-            // var width = this.width;
-            // if (height === 100 && width === 100) {
-            //   return true;
-            // } else {
-            //   $th.defaultImg = "icons/cloud-upload.svg";
-            //   $th.valiImage = false;
-            //   return false;
-            // }
           };
         };
       } else {

@@ -210,7 +210,7 @@
                       </a>
                     </li>
 
-                    <li v-if="people.departments.length > 4">
+                    <li v-if="people.departments.length > 3">
                       <a data-bs-placement="bottom">
                         <div class="icon_container">
                           <div class="icon_bg bg_light_yellow">
@@ -221,7 +221,7 @@
                             />
                           </div>
                           <span class="total_icons">
-                            +{{ people.departments.length - 4 }}
+                            +{{ people.departments.length - 3 }}
                           </span>
                         </div>
                       </a>
@@ -273,7 +273,10 @@ import { mapGetters } from "vuex";
 import CommonService from "../../Services/CommonService";
 import PermissionModal from "../../components/Shared/PermissionModal.vue";
 import CompanyService from "../../Services/Company/CompanyService";
-import { getFirstLetter } from "../../utils/commonHelperFuntions";
+import {
+  getCategoryModified,
+  getFirstLetter,
+} from "../../utils/commonHelperFuntions";
 const tablist = [
   {
     tabId: 0,
@@ -421,17 +424,17 @@ export default {
       CommonService.allCategories().then((resp) => {
         if (resp.data.status) {
           this.$store.dispatch("GET_ALL_CATEGORIES", resp.data.data);
-          for (var i = 0; i < resp.data.data.length; i++) {
-            let categy = {
-              value: resp.data.data[i].id,
-              label: resp.data.data[i].name,
-            };
-            this.categoriesList.push(categy);
-          }
+          this.categoriesList = getCategoryModified(resp.data.data);
+
+          // for (var i = 0; i < resp.data.data.length; i++) {
+          //   let categy = {
+          //     value: resp.data.data[i].id,
+          //     label: resp.data.data[i].name,
+          //   };
+          //   this.categoriesList.push(categy);
+          // }
         } else {
-          this.ownRoleLists = [
-            { value: 0, label: "No record found", disabled: true },
-          ];
+          this.categoriesList = [];
         }
       });
     },

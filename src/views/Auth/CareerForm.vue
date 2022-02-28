@@ -125,21 +125,40 @@
     </div> -->
     <div class="k_form_group">
       <div v-if="addNewDept" class="">
-        <Select2
+        <div class="add_dept">
+          <input
+            type="text"
+            class="form-control k_inp_field"
+            placeholder="Department"
+            v-model="newDepartment"
+          />
+          <div class="btn-dept">
+            <button
+              @click="updateDepartment"
+              type="button"
+              class="btn btn-primary update_btn btn-set"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+        <div class="text_right">
+          <button
+            @click="addNewDept = false"
+            type="button"
+            class="btn_adds btn-transaprent"
+          >
+            Back
+          </button>
+        </div>
+        <!-- v-model.trim="depts" -->
+        <!-- <Select2
           v-model="myValue"
           class="select_to"
           :settings="settings"
           @select="mySelectEvent($event)"
-        />
-        <div class="text_right">
-          <button
-            @click="changeDepartment"
-            type="button"
-            class="btn_adds btn-transaprent"
-          >
-            Go Back
-          </button>
-        </div>
+        /> -->
+        <!-- <div class="text_right"></div> -->
       </div>
       <div class="" v-else>
         <MultiSelect
@@ -154,27 +173,28 @@
             'is-invalid': v$.careerForm.department.$error,
           }"
         />
+        <div
+          v-if="v$.careerForm.department.$error"
+          class="invalid-feedback text-left"
+        >
+          <span
+            v-if="v$.careerForm.department.required.$invalid"
+            class="text-left fs-14"
+          >
+            {{
+              $t("personal_account.form.invalid_msgs.Department_is_required")
+            }}
+          </span>
+        </div>
         <div class="text_right">
           <button
-            @click="changeDepartment"
+            @click="extrernalDepartment"
             type="button"
             class="btn_adds btn-transaprent"
           >
-            Add new department
+            Add department
           </button>
         </div>
-      </div>
-
-      <div
-        v-if="v$.careerForm.department.$error"
-        class="invalid-feedback text-left"
-      >
-        <span
-          v-if="v$.careerForm.department.required.$invalid"
-          class="text-left fs-14"
-        >
-          {{ $t("personal_account.form.invalid_msgs.Department_is_required") }}
-        </span>
       </div>
     </div>
     <!-- <div class="k_form_group k_select_single">
@@ -341,7 +361,8 @@ import Dropdown from "primevue/dropdown";
 import MultiSelect from "primevue/multiselect";
 import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
-import Select2 from "vue3-select2-component";
+import CommonService from "../../Services/CommonService";
+// import Select2 from "vue3-select2-component";
 
 // import { selectedDepartemntsValue } from "../../utils/DepartmentModify";
 
@@ -352,6 +373,9 @@ export default {
       required: true,
       type: String,
       default: "col-lg-12",
+    },
+    authToken: {
+      type: String,
     },
     seniority: {
       type: Array,
@@ -372,10 +396,12 @@ export default {
   },
   data() {
     return {
+      staffData: this.authToken,
       addNewDept: false,
       checkValidation: undefined,
       fromDate: "From",
       toDate: "To",
+      newDepartment: "",
       isValid: undefined,
       myOptions: ["India", "France"],
       myValue: "uservalue",
@@ -405,7 +431,7 @@ export default {
   components: {
     Datepicker,
     // Multiselect,
-    Select2,
+    // Select2,
     MultiSelect,
     AutoComplete,
     Dropdown,
@@ -437,13 +463,30 @@ export default {
   },
 
   methods: {
+    extrernalDepartment() {
+      this.addNewDept = true;
+      this.newDepartment = "";
+    },
     mySelectEvent({ id, text }) {
       console.log("id", { id, text });
 
       console.log("my all department", this.myValue);
     },
-    changeDepartment() {
-      this.addNewDept = !this.addNewDept;
+    updateDepartment() {
+      let deptData = {
+        auth_token: this.staffData,
+        name: this.newDepartment,
+      };
+      CommonService.addNewDepartment(deptData).then((res) => {
+        if (res.data.status) {
+          this.addNewDept = false;
+          this.$store.dispatch("GET_ALL_COMPANY_DEPARTMENT", res.data.data);
+          console.log("new department added successfully", res.data.data);
+        } else {
+          errorhandler(res, this);
+        }
+      });
+      console.log("update department value", this.newDepartment);
     },
     // getDefaulDepartment(options, dept) {
     //   let filterdArr = options.filter((item) => {
@@ -508,6 +551,18 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.add_dept {
+  position: relative;
+  .btn-dept {
+    position: absolute;
+    top: 0;
+    right: 0;
+    .update_btn {
+      border-radius: 0;
+      text-transform: uppercase;
+    }
+  }
+}
 .custom_select2 {
   position: relative;
   z-index: 99;
@@ -532,6 +587,9 @@ export default {
   text-align: left;
 }
 .text_right {
+  position: relative;
+  top: 0;
+  right: 0;
   text-align: right !important;
 }
 .select_to {

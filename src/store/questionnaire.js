@@ -12,7 +12,8 @@ export default createStore({
     tokenStatus: undefined, // auth token status
     alocatedDepartments: [], // departments allocated to perticular member
     allCategories: [], // departments allocated to perticular member
-    staffsDepartment: [],
+    staffsDepartment: [], // department of a member that is logIn
+    allCompanyDepartment: [], // All department of Company
 
     // company States start
 
@@ -57,6 +58,10 @@ export default createStore({
     },
     setStaffsDepartment(state, values) {
       state.staffsDepartment = values;
+    },
+    setAllCompanyDepartment(state, values) {
+      console.log("added new department", values);
+      state.allCompanyDepartment = values;
     },
     setActiveCompany(state, company) {
       state.activeCompany = company;
@@ -144,6 +149,9 @@ export default createStore({
     async GET_STAFFS_DEPARTMENT(context, val) {
       context.commit("setStaffsDepartment", val);
     },
+    async GET_ALL_COMPANY_DEPARTMENT(context, val) {
+      context.commit("setAllCompanyDepartment", val);
+    },
     async getStaffsCompanies(context, val) {
       context.commit("setStaffsCompanies", val);
     },
@@ -183,7 +191,7 @@ export default createStore({
     tokenStatus: (state) => state.tokenStatus, // auth token status
     staffData: (state) => state.staffData, //get local storage data
     alocatedDepartments: (state) => state.alocatedDepartments,
-
+    allCompanyDepartment: (state) => state.allCompanyDepartment,
     // company getters start
 
     memberPermissions: (state) => state.memberPermissions, //get local storage data

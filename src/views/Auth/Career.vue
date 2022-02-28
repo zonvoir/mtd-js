@@ -15,15 +15,16 @@
                 @addNewCareer="isCareerFilled"
                 :className="'col-lg-12'"
                 :myCareer="staffCareerForm"
-                :departments="departmentLists"
+                :departments="modifyDepartment(departmentLists)"
                 :industries="industryLists"
                 :seniority="seniorityLevels"
+                :authToken="staffData.auth_token"
               />
             </div>
           </form>
           <div class="add_multiple_career">
             <CareerInformationModal
-              :departments="departmentLists"
+              :departments="modifyDepartment(departmentLists)"
               :seniority_level="seniorityLevels"
               :industry="industryLists"
               @multiCareer="saveModalData"
@@ -83,10 +84,14 @@ import useVuelidate from "@vuelidate/core";
 import CareerInformationModal from "../../components/Shared/CareerInformationModal";
 import SignupService from "../../Services/SignupService";
 import errorhandler from "../../utils/Error";
-import { getDepartemntsValue } from "../../utils/DepartmentModify";
+import {
+  departmentModify,
+  getDepartemntsValue,
+} from "../../utils/DepartmentModify";
 // import { getIndustryModified } from "../../utils/commonHelperFuntions";
 // import Datepicker from "vue3-date-time-picker";
 import CareerForm from "./CareerForm.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -121,7 +126,6 @@ export default {
       isSubmitted: false,
       toastMessage: "",
       industryLists: [],
-      departmentLists: [],
       seniorityLevels: [],
       invitationId: "",
       careerArr: [],
@@ -139,6 +143,13 @@ export default {
       staffCareerForm: {},
     };
   },
+
+  computed: {
+    ...mapGetters({
+      departmentLists: "allCompanyDepartment",
+    }),
+  },
+
   mounted() {
     console.log("staff career form career page ", this.staffCareerForm);
   },
@@ -212,6 +223,10 @@ export default {
       if (val.newCareer.length > 0) {
         this.staffCareeArr2 = val.newCareer;
       }
+    },
+    modifyDepartment(data) {
+      let deptsArr = departmentModify(data);
+      return deptsArr.slice().reverse();
     },
     //save carreer details
     saveCarreerInfo() {
@@ -324,15 +339,10 @@ export default {
 
     // get departmens lists
     getdDepartmentList() {
-      CommonService.getAllDepartments().then((resp) => {
-        if (resp.data.status) {
-          for (var i = 0; i < resp.data.data.length; i++) {
-            let dept = {
-              value: resp.data.data[i].departmentid,
-              label: resp.data.data[i].name,
-            };
-            this.departmentLists.push(dept);
-          }
+      CommonService.getAllDepartments().then((res) => {
+        if (res.data.status) {
+          this.$store.dispatch("GET_ALL_COMPANY_DEPARTMENT", res.data.data);
+
           if (
             this.invitedUserData &&
             Object.keys(this.invitedUserData).length == 0
@@ -346,9 +356,8 @@ export default {
           //   // this.staffCareerForm.department = givenDepartment;
           // }
         } else {
-          this.departmentLists = [
-            { value: 0, label: "No record found", disabled: true },
-          ];
+          this.$store.dispatch("GET_ALL_COMPANY_DEPARTMENT", []);
+          errorhandler(res, this);
         }
       });
     },
