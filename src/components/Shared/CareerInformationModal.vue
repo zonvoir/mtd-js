@@ -151,14 +151,15 @@ export default {
     },
     resetCareer() {
       this.v$.$reset();
-      this.carreerForm = {
-        company: "",
-        position: "",
-        industry: null,
-        invitation_id: null,
-        seniority_level: null,
-        department: [],
-      };
+      this.carreerForm = [
+        {
+          company: "",
+          position: "",
+          industry: "",
+          seniority_level: "",
+          department: [],
+        },
+      ];
       this.modal.hide();
     },
     // checkFormValidation(value) {

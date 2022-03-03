@@ -12,7 +12,8 @@ import Company from "../views/Auth/Company.vue";
 import Signin from "../views/Auth/Signin.vue";
 import Password from "../views/Auth/Password.vue";
 import UpdatePassword from "../views/Auth/UpdatePassword.vue";
-import InvitedUser from "../views/Auth/InvitedUser.vue";
+import ResetPassword from "../views/Auth/ResetPassword.vue";
+// import InvitedUser from "../views/Auth/InvitedUser.vue";
 import InvitedCareer from "../views/Auth/InvitedCareer.vue";
 import VerifyAccount from "../views/Auth/VerifyAccount.vue";
 import VerifyEmail from "../views/Auth/EmailConfirmation.vue";
@@ -423,9 +424,9 @@ const routes = [
         component: UpdatePassword,
       },
       {
-        path: "invited-user",
-        name: "signup-invited-user",
-        component: InvitedUser,
+        path: "reset-password",
+        name: "reset-forget-password",
+        component: ResetPassword,
       },
       {
         path: "invited-career",

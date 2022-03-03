@@ -47,7 +47,7 @@
           <form @submit.prevent="savePersonalInfo" action="">
             <div class="upload_image_wrapper">
               <div class="logo_holder1">
-                <div class="c_logo_container">
+                <div @click="onPickFile" class="c_logo_container">
                   <img
                     :src="
                       personalAccount.profile
@@ -1086,6 +1086,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.c_logo_container {
+  cursor: pointer;
+}
 .btn_adds {
   font-style: normal;
   font-weight: 600;

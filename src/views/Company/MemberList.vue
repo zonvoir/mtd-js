@@ -67,12 +67,13 @@
                     </td>
                     <td class="member_name_td">
                       <div class="k_select_single member_filter m-r-8">
+                        <!-- :options="categoriesList" -->
                         <MultiSelect
-                          :options="categoriesList"
                           class="prime_multiselect"
                           optionLabel="label"
                           optionValue="value"
                           placeholder="Category"
+                          :options="categoriesList"
                           v-model="categy_list"
                         />
                         <!-- <Multiselect
@@ -276,7 +277,10 @@ import CompanyService from "../../Services/Company/CompanyService";
 import {
   getCategoryModified,
   getFirstLetter,
+  getRolesModified,
 } from "../../utils/commonHelperFuntions";
+import errorhandler from "../../utils/Error";
+import { departmentModify } from "../../utils/DepartmentModify";
 const tablist = [
   {
     tabId: 0,
@@ -403,19 +407,10 @@ export default {
     getRoleInCompany() {
       CommonService.getAllOwnRoleInCompany().then((resp) => {
         if (resp.data.status) {
-          let roleInCompany = [];
-          for (var i = 0; i < resp.data.data.length; i++) {
-            let roles = {
-              value: resp.data.data[i].id,
-              label: resp.data.data[i].name,
-            };
-            roleInCompany.push(roles);
-            this.ownRoleLists.push(roles);
-          }
+          this.ownRoleLists = getRolesModified(resp.data.data);
         } else {
-          this.ownRoleLists = [
-            { value: 0, label: "No record found", disabled: true },
-          ];
+          this.ownRoleLists = [];
+          errorhandler(resp, this);
         }
       });
     },
@@ -424,6 +419,7 @@ export default {
       CommonService.allCategories().then((resp) => {
         if (resp.data.status) {
           this.$store.dispatch("GET_ALL_CATEGORIES", resp.data.data);
+          console.log("all category ", resp.data.data);
           this.categoriesList = getCategoryModified(resp.data.data);
 
           // for (var i = 0; i < resp.data.data.length; i++) {
@@ -435,24 +431,25 @@ export default {
           // }
         } else {
           this.categoriesList = [];
+          errorhandler(resp, this);
         }
       });
     },
     getdDepartmentList() {
       CommonService.getAllDepartments().then((resp) => {
         if (resp.data.status) {
-          for (var i = 0; i < resp.data.data.length; i++) {
-            let dept = {
-              value: resp.data.data[i].departmentid,
-              label: resp.data.data[i].name,
-            };
-            this.departmentLists.push(dept);
-          }
+          this.departmentLists = departmentModify(resp.data.data);
+          // for (var i = 0; i < resp.data.data.length; i++) {
+          //   let dept = {
+          //     value: resp.data.data[i].departmentid,
+          //     label: resp.data.data[i].name,
+          //   };
+          //   this.departmentLists.push(dept);
+          // }
           console.log("department lsit", this.departmentLists);
         } else {
-          this.departmentLists = [
-            { value: 0, label: "No record found", disabled: true },
-          ];
+          this.departmentLists = [];
+          errorhandler(resp, this);
         }
       });
     },

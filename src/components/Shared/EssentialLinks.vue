@@ -1,6 +1,8 @@
 <template>
+  <!--  -->
   <a
     class="text-secondary sidebar_link_wrap"
+    :class="currentUrl == component_name ? 'active_side_link' : ''"
     @click="changeRoute(component_name)"
   >
     <div class="_link_icon_wrap">
@@ -9,7 +11,9 @@
       </div>
     </div>
     <div class="link_label_wrap">
-      <h5 class="link_title">{{ $t(title) }}</h5>
+      <h5 class="link_title">
+        {{ $t(title) }}
+      </h5>
     </div>
   </a>
 </template>
@@ -39,18 +43,31 @@ export default {
   data() {
     return {
       tabId: 1,
+      currentUrl: "",
     };
   },
+
   methods: {
     changeRoute(data) {
       this.$router.push({ name: data });
-      // if (this.tabId != id) {
-      //   this.tabId = id;
-      //   console.log(this.tabId);
-      // }
+      this.getCurrentRoute();
+    },
+    getCurrentRoute() {
+      let url = this.$route.path;
+      this.currentUrl = this.getRoutePath(url);
+      console.log("current url kk", this.currentUrl);
+    },
+    getRoutePath(val) {
+      return val.split("/")[1];
     },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.active_side_link {
+  background-color: #192038;
+  text-decoration: none;
+  padding: 16px 0 16px 20px;
+}
+</style>

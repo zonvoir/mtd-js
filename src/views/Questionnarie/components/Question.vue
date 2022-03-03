@@ -206,7 +206,7 @@ import AnsSelect from "./AnsSelect.vue";
 import AnsTextEditor from "./AnsTextEditor.vue";
 import AnsDate from "./AnsDate.vue";
 import QuestionnaireService from "../../../Services/QuestionnaireServices/Questionnaire";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import QuestionHint from "./QuestionHint.vue";
 import errorhandler from "../../../utils/Error";
 
@@ -242,9 +242,12 @@ export default {
   },
 
   computed: {
-    ...mapState({
-      questions: (state) => state.questionList,
+    ...mapGetters({
+      questions: "getQuestionList",
     }),
+    // ...mapState({
+    //   questions: (state) => state.questionList,
+    // }),
     questionIdex() {
       // this.isValidated = false;
       console.log(this.$store.getters.randomQuizIndex);

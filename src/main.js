@@ -4,7 +4,8 @@ import router from "./router";
 // import commonModule from "./store/Modules/CommonModule";
 // import questModule from "./store/Modules/QuestionnaireModule";
 // import companyModule from "./store/Modules/CompanyModule";
-import quest from "./store/questionnaire";
+import store from "./store/index";
+// import quest from "./store/questionnaire";
 import Toaster from "@meforma/vue-toaster";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import PrimeVue from "primevue/config";
@@ -32,7 +33,8 @@ app
   .use(i18n)
   .use(Toaster)
   .use(CKEditor)
-  .use(quest)
+  // .use(quest)
+  .use(store)
   // .use(commonModule)
   // .use(companyModule)
   // .use(questModule)

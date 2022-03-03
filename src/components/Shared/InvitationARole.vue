@@ -71,6 +71,7 @@
           <Datepicker
             ref="selected_date"
             class="invalid_error"
+            @open="clearDate"
             :enableTimePicker="false"
             v-model="expiryDate"
             @closed="updateDate"
@@ -328,6 +329,9 @@ export default {
     };
   },
   methods: {
+    clearDate() {
+      this.expiryDate = "";
+    },
     departmentModifyComp(val) {
       return departmentModify(val);
     },

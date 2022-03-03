@@ -48,7 +48,7 @@
             </span>
           </div>
           <div class="k_form_group k_toggle">
-            <Toggle v-model="value1" />
+            <Toggle v-model="stay_signIn" />
             <label id="toggle-label" class="toggle_label m-l-12">{{
               $t("login.password_step.stay_signed")
             }}</label>
@@ -108,10 +108,12 @@ const numberCalc = (val) => /[0-9]/.test(val);
 const specialCharCalc = (val) => {
   return /[ `!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?~]/.test(val);
 };
-import loginService from "../../Services/LoginService";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import errorhandler from "../../utils/Error";
+import LoginService from "../../Services/LoginService";
+// import loginService from "../../Services/LoginService";
+// import errorhandler from "../../utils/Error";
 export default {
   data() {
     return {
@@ -119,7 +121,7 @@ export default {
       passwordFieldType: "password",
       visibility: false,
       isSubmitted: false,
-      value1: true,
+      stay_signIn: false,
       logData: JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")),
       loginForm: {
         email: "",
@@ -137,7 +139,7 @@ export default {
     ) {
       this.$router.push({ name: "signup-signin" });
     }
-    this.loginForm.email = this.logData;
+    this.loginForm.email = this.logData.email;
   },
   mounted() {
     this.$refs.focusInp.focus();
@@ -167,16 +169,17 @@ export default {
       if (this.v$.$invalid) {
         return;
       } else {
-        console.log("lginform", this.loginForm);
+        this.logData.stay_signIn = this.stay_signIn;
+
+        sessionStorage.setItem(
+          "OiJKV1QiLCJhbGciOiJIUzI1",
+          JSON.stringify(this.logData)
+        );
+        console.log("lginform", this.logData);
         this.isSubmitted = true;
-        loginService
-          .createLogin(this.loginForm)
+        LoginService.createLogin(this.loginForm)
           .then((response) => {
             if (response.data.status) {
-              // this.$toast.success(response.data.message, {
-              //   position: "bottom-left",
-              //   duration: 3712,
-              // });
               this.formReset();
             } else {
               errorhandler(response, this);

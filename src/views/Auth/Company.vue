@@ -10,7 +10,7 @@
         <div class="form-wrapper">
           <form @submit.prevent="saveCompanyInfo" action="">
             <div class="upload_image_wrapper">
-              <div class="logo_holder">
+              <div @click="onPickFile" class="logo_holder">
                 <div class="c_logo_container">
                   <img :src="defaultImg" class="upload_logo" />
                 </div>
@@ -1261,6 +1261,7 @@ export default {
   margin-bottom: 20px;
   .logo_holder {
     width: 6rem;
+    cursor: pointer;
   }
   .logo_action_container {
     margin-left: 20px;

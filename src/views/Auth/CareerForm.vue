@@ -300,21 +300,23 @@
             class="project_date_picker custom_label"
             v-model="careerForm.from"
             :enableTimePicker="false"
+            @open="clearFromDate"
             @blur="v$.careerForm.from.$touch"
             placeholder="dd/mm/yyyy"
             :class="{
               invalid_error: v$.careerForm.from.$error,
             }"
           />
+          <!-- {{ v$.careerForm.from.required.$invalid }} -->
           <div
             v-if="v$.careerForm.from.$error"
-            class="invalid-feedback text-left"
+            class="invalid_feedback text-left"
           >
             <span
               v-if="v$.careerForm.from.required.$invalid"
               class="text-left fs-14"
             >
-              Enter From Date
+              From date is required
             </span>
           </div>
         </div>
@@ -326,6 +328,7 @@
             class="project_date_picker custom_label"
             :enableTimePicker="false"
             v-model="careerForm.to"
+            @open="clearToDate"
             @blur="v$.careerForm.to.$touch"
             placeholder="dd/mm/yyyy"
             :class="{
@@ -334,13 +337,13 @@
           />
           <div
             v-if="v$.careerForm.to.$error"
-            class="invalid-feedback text-left"
+            class="invalid_feedback text-left"
           >
             <span
               v-if="v$.careerForm.to.required.$invalid"
               class="text-left fs-14"
             >
-              Enter To Date
+              To date is required
             </span>
           </div>
         </div>
@@ -463,6 +466,14 @@ export default {
   },
 
   methods: {
+    clearFromDate() {
+      this.careerForm.from = "";
+      console.log("date", this.careerForm.from);
+    },
+    clearToDate() {
+      this.careerForm.to = "";
+      console.log("date", this.careerForm.to);
+    },
     extrernalDepartment() {
       this.addNewDept = true;
       this.newDepartment = "";
@@ -577,6 +588,12 @@ export default {
     outline: 2px solid #db2c66 !important;
     outline-offset: 0px;
   }
+}
+.invalid_feedback {
+  padding-top: 2px;
+  color: #db2c66;
+  font-size: 14px;
+  font-weight: 400;
 }
 .btn_adds {
   font-style: normal;

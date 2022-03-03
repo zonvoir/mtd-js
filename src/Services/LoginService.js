@@ -12,6 +12,14 @@ class LoginService {
   createLogin(data) {
     return http.post("userlogin/login", data);
   }
+
+  forgotPassword(data) {
+    return http.post("userlogin/forgot_password_user", data);
+  }
+  resetPassword(data) {
+    return http.post("userlogin/forgot_password_reset", data);
+  }
+
   emailVerifcationLogin(data) {
     // console.log("service", data);
     return http.post("userlogin/email_verification", data);

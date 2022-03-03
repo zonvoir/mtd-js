@@ -46,7 +46,7 @@
                 <router-link
                   target="_blank"
                   class="muted_link"
-                  to="/signup/signin"
+                  :to="{ name: 'signin-update-password' }"
                 >
                   {{ $t("login.email_step.forgot_password") }}</router-link
                 >
@@ -89,6 +89,7 @@ import { required, email } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import loginService from "../../Services/LoginService";
 import { mapGetters } from "vuex";
+import errorhandler from "../../utils/Error";
 // import CommonService from "../../Services/CommonService";
 export default {
   data() {
@@ -186,33 +187,42 @@ export default {
           .emailVerifcationLogin(this.emailVerify)
           .then((response) => {
             if (response.data.status) {
+              let data = {
+                email: response.data.email,
+              };
+              console.log("data", data);
               sessionStorage.setItem(
                 "OiJKV1QiLCJhbGciOiJIUzI1",
-                JSON.stringify(response.data.email)
+                JSON.stringify(data)
               );
+              // sessionStorage.setItem(
+              //   "OiJKV1QiLCJhbGciOiJIUzI1",
+              //   JSON.stringify(response.data.email)
+              // );
               this.formReset();
             } else {
-              let $th = this;
-              if ("error" in response.data) {
-                if ("error" in response.data) {
-                  Object.keys(response.data.error).map(function (key) {
-                    $th.$toast.error(response.data.error[key], {
-                      position: "bottom-left",
-                      duration: 3712,
-                    });
-                  });
-                } else {
-                  $th.$toast.error(response.data.message, {
-                    position: "bottom-left",
-                    duration: 3712,
-                  });
-                }
-              } else {
-                $th.$toast.error(response.data.message, {
-                  position: "bottom-left",
-                  duration: 3712,
-                });
-              }
+              errorhandler(response, this);
+              // let $th = this;
+              // if ("error" in response.data) {
+              //   if ("error" in response.data) {
+              //     Object.keys(response.data.error).map(function (key) {
+              //       $th.$toast.error(response.data.error[key], {
+              //         position: "bottom-left",
+              //         duration: 3712,
+              //       });
+              //     });
+              //   } else {
+              //     $th.$toast.error(response.data.message, {
+              //       position: "bottom-left",
+              //       duration: 3712,
+              //     });
+              //   }
+              // } else {
+              //   $th.$toast.error(response.data.message, {
+              //     position: "bottom-left",
+              //     duration: 3712,
+              //   });
+              // }
             }
           })
           .catch((error) => {

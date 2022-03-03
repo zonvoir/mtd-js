@@ -33,17 +33,24 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import Question from "../Questionnarie/components/Question.vue";
 export default {
   props: {},
   components: {
     Question,
   },
-  computed: mapState({
-    questionnaire: (state) => state.questionnaire,
-    questionnaireDetails: (state) => state.questionnaireDetails,
-  }),
+  // computed: mapState({
+  //   questionnaire: (state) => state.questionnaire,
+  //   questionnaireDetails: (state) => state.questionnaireDetails,
+  // }),
+  computed: {
+    ...mapGetters({
+      questionnaireDetails: "questionnaireDetails",
+      questionnaire: "questionnaire",
+    }),
+  },
+
   data() {
     return {};
   },

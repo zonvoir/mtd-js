@@ -115,9 +115,8 @@ import MultiSelect from "primevue/multiselect";
 import { mapGetters } from "vuex";
 // import CommonService from "../../Services/CommonService";
 import { departmentModify } from "../../utils/DepartmentModify";
-import { getCategoryModified } from "../../utils/commonHelperFuntions";
-// import filterMemberPermissions from "../../utils/permissiion-filter";
 import CompanyService from "../../Services/Company/CompanyService";
+import errorhandler from "../../utils/Error";
 export default {
   props: {
     staffId: {
@@ -173,7 +172,8 @@ export default {
       return departmentModify(data);
     },
     modifyCategories(data) {
-      return getCategoryModified(data);
+      // return getCategoryModified(data);
+      return data;
     },
 
     permissionFilter() {
@@ -189,11 +189,11 @@ export default {
           if (res.data.status) {
             console.log("res off filter data", res.data.data);
             this.$store.dispatch("GET_PERMISSION_ARRAY", res.data.data);
+          } else {
+            errorhandler(res, this);
           }
         });
       } else {
-        console.log("no params");
-
         this.$store.dispatch("GET_PERMISSION_ARRAY", this.permissonsArr);
       }
     },

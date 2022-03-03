@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 import TabsHr from "../../components/Shared/TabsHr.vue";
 import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
 import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
@@ -77,15 +77,31 @@ export default {
     InvitePeopleModal,
   },
   computed: {
-    ...mapState({
-      category: (state) => state.questionnaire,
-      questionnaireDetails: (state) => state.questionnaireDetails,
-    }),
+    // ...mapState({
+    //   category: (state) => {
+    //     console.log(state.questionnaire);
+    //     return state.questionnaire;
+    //   },
+    //   questionnaireDetails: (state) => state.questionnaireDetails,
+    // }),
     ...mapGetters({
+      questionnaireDetails: "questionnaireDetails",
+      category: "questionnaire",
       ownRole: "roleInCompany",
     }),
   },
   created() {
+    this.departmentId = this.$route.params.did;
+    this.categoryID = this.$route.params.id;
+    this.authToken = this.staffData.auth_token;
+    if (this.departmentId && this.categoryID && this.authToken) {
+      let data = {
+        auth_token: this.authToken,
+        department_id: this.departmentId,
+        category_id: this.categoryID,
+      };
+      this.getDeptAndCategoryDetails(data);
+    }
     this.tablist = [
       {
         tabId: 0,
@@ -141,12 +157,15 @@ export default {
 
   methods: {
     getDeptAndCategoryDetails(data) {
+      console.log(this.category);
       QuestionnaireService.getOneCategory(data).then((res) => {
         if (res.data.status) {
           this.$store.dispatch(
             "GET_QUESTIONNAIRE",
             res.data.data.category_details
           );
+
+          console.log(this.category);
 
           this.$store.dispatch(
             "GET_QUESTIONNAIRE_DETAILS",

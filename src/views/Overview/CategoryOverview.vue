@@ -134,8 +134,9 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 // import moment from ''
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 import DonutChart from "../../components/Shared/DonutChart.vue";
 import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
 export default {
@@ -154,9 +155,13 @@ export default {
   },
 
   computed: {
-    ...mapState({
-      category: (state) => state.questionnaire,
-      questionnaireDetails: (state) => state.questionnaireDetails,
+    // ...mapState({
+    //   category: (state) => state.questionnaire,
+    //   questionnaireDetails: (state) => state.questionnaireDetails,
+    // }),
+    ...mapGetters({
+      questionnaireDetails: "questionnaireDetails",
+      category: "questionnaire",
     }),
   },
   created() {

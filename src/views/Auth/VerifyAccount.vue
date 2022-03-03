@@ -127,6 +127,7 @@ export default {
       invitedUserData: JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")),
       otpForm: {
         email: "",
+        stay_signed_in: "",
         otp: "",
         invitation_id: undefined,
         code: [],
@@ -160,7 +161,8 @@ export default {
     ) {
       this.$router.push({ path: "/signup/signin" });
     }
-    this.otpForm.email = this.logData;
+    this.otpForm.email = this.logData.email;
+    this.otpForm.stay_signed_in = this.logData.stay_signIn;
     // this.OTPInput();
   },
 
@@ -180,6 +182,7 @@ export default {
       console.log(ev);
     },
     OTPInput() {
+      console.log("opt form", this.otpForm);
       if (this.isSubmitted) {
         return false;
       }
@@ -245,9 +248,9 @@ export default {
       this.isSubmitted = !ev.valiated;
       this.otpForm.otp = ev.asString;
       this.otpForm.code = ev.lists;
-      if (!this.isSubmitted) {
-        this.OTPInput();
-      }
+      // if (!this.isSubmitted) {
+      //   this.OTPInput();
+      // }
       console.log("completed", ev, this.isSubmitted);
     },
 

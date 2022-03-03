@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import logo from "../../../assets/images/mtd-logos-rgb_Main-Logo-Size-1-black.png";
 
 export default {
@@ -64,8 +64,8 @@ export default {
   },
 
   computed: {
-    ...mapState({
-      questions: (state) => state.questionList,
+    ...mapGetters({
+      questions: "getQuestionList",
     }),
   },
 

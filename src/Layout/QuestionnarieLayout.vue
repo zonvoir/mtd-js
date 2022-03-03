@@ -27,8 +27,7 @@
 <script>
 import Progressbar from "../components/Shared/Progressbar.vue";
 import QuestionsSidebar from "../views/Questionnarie/components/QuestionsSidebar.vue";
-// import quest from "./store/questionnaire";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import QuestionnaireService from "../Services/QuestionnaireServices/Questionnaire";
 import QuestionTest from "../views/Questionnarie/QuestionnarieTest.vue";
 import errorhandler from "../utils/Error";
@@ -46,11 +45,18 @@ export default {
       questionArr: [],
     };
   },
-  computed: mapState({
-    questionnaire: (state) => state.questionnaire,
-    questionList: (state) => state.questionList,
-    valuenow: (state) => state.quizProgressValue,
-  }),
+  // computed: mapState({
+  //   questionnaire: (state) => state.questionnaire,
+  //   questionList: (state) => state.questionList,
+  //   valuenow: (state) => state.quizProgressValue,
+  // }),
+  computed: {
+    ...mapGetters({
+      questionnaire: "questionnaire",
+      questionList: "questionList",
+      valuenow: "quizProgressValue",
+    }),
+  },
 
   mounted() {
     this.departmentId = this.$route.params.departmentid;

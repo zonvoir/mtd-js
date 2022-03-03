@@ -106,7 +106,7 @@
           <div class="k_form_group psw_visibilty">
             <input
               ref="refPass"
-              :type="passwordFieldType"
+              :type="passwordFieldType1"
               @blur="v$.registerForm.password.$touch"
               v-model.trim="registerForm.password"
               class="form-control k_inp_field"
@@ -193,17 +193,17 @@
             </div>
             <span class="visibilty_btn">
               <button
-                @click="switchVisibility"
+                @click="switchVisibilityPswd"
                 type="button"
                 class="btn eye_btn btn-white"
               >
-                <img :src="visibilityIcon" class="eye_icon" />
+                <img :src="visibilityIcon1" class="eye_icon" />
               </button>
             </span>
           </div>
           <div class="k_form_group psw_visibilty">
             <input
-              :type="passwordFieldType"
+              :type="passwordFieldType2"
               @click="sw"
               @blur="v$.registerForm.confirm_password.$touch"
               v-model.trim="registerForm.confirm_password"
@@ -233,11 +233,11 @@
 
             <span class="visibilty_btn">
               <button
-                @click="switchVisibility"
+                @click="switchVisibilityConfirmPswd"
                 type="button"
                 class="btn eye_btn btn-white"
               >
-                <img :src="visibilityIcon" class="eye_icon" />
+                <img :src="visibilityIcon2" class="eye_icon" />
               </button>
             </span>
           </div>
@@ -402,10 +402,13 @@ export default {
 
   data() {
     return {
-      visibilityIcon: "icons/eye-off.svg",
-      passwordFieldType: "password",
+      visibilityIcon1: "icons/eye-off.svg",
+      visibilityIcon2: "icons/eye-off.svg",
+      passwordFieldType1: "password",
+      passwordFieldType2: "password",
       registeredEmail: undefined,
-      visibility: false,
+      visibilityPswd: false,
+      visibilityConfirmPswd: false,
       isSubmitted: false,
       invitedUserData: undefined,
       registerForm: {
@@ -553,15 +556,21 @@ export default {
     closeModal() {
       this.modal.hide();
     },
-    switchVisibility() {
-      this.visibility = !this.visibility;
-      this.passwordFieldType = this.visibility ? "text" : "password";
-      this.visibilityIcon = this.visibility
+    switchVisibilityPswd() {
+      this.visibilityPswd = !this.visibilityPswd;
+      this.passwordFieldType1 = this.visibilityPswd ? "text" : "password";
+      this.visibilityIcon1 = this.visibilityPswd
         ? "icons/eye.svg"
         : "icons/eye-off.svg";
-      // this.visibilityIcon = this.visibility
-      //   ? "img/eye.77c3e01f.svg"
-      //   : "img/eye-off.ac4fa589.svg";
+    },
+    switchVisibilityConfirmPswd() {
+      this.visibilityConfirmPswd = !this.visibilityConfirmPswd;
+      this.passwordFieldType2 = this.visibilityConfirmPswd
+        ? "text"
+        : "password";
+      this.visibilityIcon2 = this.visibilityConfirmPswd
+        ? "icons/eye.svg"
+        : "icons/eye-off.svg";
     },
   },
 };

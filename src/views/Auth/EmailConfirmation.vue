@@ -72,10 +72,6 @@ export default {
             console.log(response);
           } else {
             this.verificationMessage = response.data.message;
-            // this.$toast.error(response.data.message, {
-            //   position: "bottom-left",
-            //   duration: 3712,
-            // });
             errorhandler(response, this);
           }
         })
