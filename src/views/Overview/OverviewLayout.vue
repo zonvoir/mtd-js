@@ -63,6 +63,9 @@ export default {
     InvitePeopleModal,
   },
 
+  beforeCreate() {
+    localStorage.removeItem("bWFInpvitedbpbUser");
+  },
   computed: {
     ...mapGetters({
       ownRole: "roleInCompany",

@@ -105,6 +105,11 @@ export default {
       this.getdDepartmentList();
     },
   },
+
+  beforeCreate() {
+    localStorage.removeItem("bWFInpvitedbpbUser");
+  },
+
   created() {
     if (
       localStorage.getItem("bWFpbCI6Inpvb") == undefined ||

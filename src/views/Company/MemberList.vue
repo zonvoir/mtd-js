@@ -45,8 +45,7 @@
                             )
                           "
                           v-model="myRole"
-                          @deselect="memberListDeafault()"
-                          @select="memberFilterbyRole(myRole)"
+                          @change="memberFilterbyRole(myRole)"
                           :options="ownRoleLists"
                         />
                       </div>
@@ -71,6 +70,7 @@
                           optionLabel="label"
                           optionValue="value"
                           placeholder="Departemnts"
+                          @change="memberFilterbyDepartment"
                           v-model="dept_list"
                         />
                       </div>
