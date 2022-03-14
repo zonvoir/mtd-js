@@ -1,4 +1,4 @@
-import router from "../router/index";
+// import router from "../router/index";
 import { useToast } from "vue-toastification";
 const toastOptions = {
   position: "bottom-left",
@@ -32,11 +32,11 @@ const errorhandler = (res) => {
     res.data.message == "Authentication token expired" ||
     res.data.message == "Authentication Token Mismatch"
   ) {
-    localStorage.removeItem("bWFpbCI6Inpvb");
-    localStorage.removeItem("selected_company");
+    // localStorage.removeItem("bWFpbCI6Inpvb");
+    // localStorage.removeItem("selected_company");
     localStorage.removeItem("language");
-    localStorage.removeItem("selected_year");
-    router.push({ name: "signup-signin" });
+    // localStorage.removeItem("selected_year");
+    // router.push({ name: "signup-signin" });
   }
 };
 export const successhandler = (res) => {

@@ -287,7 +287,7 @@ export default {
               if (!res.data.data.length) return;
               let deptArr = res.data.data.map((item) => {
                 return {
-                  value: item.id,
+                  value: item.departmentid,
                   label: item.name,
                 };
               });

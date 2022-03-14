@@ -8,15 +8,6 @@ export const departmentModify = (deptsArr) => {
   });
   console.log("transformed department ", deptsArr);
   return departments1;
-  // let departments1 = [];
-  // for (var k = 0; k < deptsArr.length; k++) {
-  //   let dept = {
-  //     value: deptsArr[k].departmentid,
-  //     label: deptsArr[k].name,
-  //   };
-  //   departments1.push(dept);
-  // }
-  // return departments1;
 };
 export const getDepartemntsValue = (deptsArr) => {
   let departments2 = [];
