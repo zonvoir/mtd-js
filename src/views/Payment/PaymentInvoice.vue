@@ -16,7 +16,23 @@
                 type="text"
                 class="form-control k_inp_field"
                 :placeholder="$t('payments.form.placeholder.company_name')"
+                v-model="paymentForm.company_name"
+                @blur="v$.paymentForm.company_name.$touch"
+                :class="{
+                  'is-invalid': v$.paymentForm.company_name.$error,
+                }"
               />
+              <div
+                v-if="v$.paymentForm.company_name.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.paymentForm.company_name.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  Company is required
+                </span>
+              </div>
             </div>
           </div>
           <div class="col-lg-6">
@@ -27,6 +43,7 @@
                 :placeholder="
                   $t('payments.form.placeholder.department_name_optional')
                 "
+                v-model="paymentForm.department_name"
               />
             </div>
           </div>
@@ -36,7 +53,23 @@
                 type="text"
                 class="form-control k_inp_field"
                 :placeholder="$t('payments.form.placeholder.firstname')"
+                v-model="paymentForm.first_name"
+                @blur="v$.paymentForm.first_name.$touch"
+                :class="{
+                  'is-invalid': v$.paymentForm.first_name.$error,
+                }"
               />
+              <div
+                v-if="v$.paymentForm.first_name.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.paymentForm.first_name.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  First name is required
+                </span>
+              </div>
             </div>
           </div>
           <div class="col-lg-6">
@@ -45,7 +78,23 @@
                 type="text"
                 class="form-control k_inp_field"
                 :placeholder="$t('payments.form.placeholder.lastname')"
+                v-model="paymentForm.last_name"
+                @blur="v$.paymentForm.last_name.$touch"
+                :class="{
+                  'is-invalid': v$.paymentForm.last_name.$error,
+                }"
               />
+              <div
+                v-if="v$.paymentForm.last_name.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.paymentForm.last_name.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  Last name is required
+                </span>
+              </div>
             </div>
           </div>
           <div class="col-lg-6">
@@ -54,9 +103,225 @@
                 type="email"
                 class="form-control k_inp_field"
                 :placeholder="$t('payments.form.placeholder.email')"
+                v-model="paymentForm.email"
+                @blur="v$.paymentForm.email.$touch"
+                :class="{
+                  'is-invalid': v$.paymentForm.email.$error,
+                }"
               />
+              <div
+                v-if="v$.paymentForm.email.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.paymentForm.email.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  Email name is required
+                </span>
+                <span
+                  v-if="v$.paymentForm.email.email.$invalid"
+                  class="text-left fs-14"
+                >
+                  Email is not valid
+                </span>
+              </div>
             </div>
           </div>
+          <div class="col-lg-6">
+            <div class="k_form_group k_select_single">
+              <Dropdown
+                v-model="paymentForm.country"
+                :options="countryLists"
+                optionLabel="label"
+                class="k_prime_inp_select"
+                placeholder="Select a Country"
+                @change="onChangeCountry(paymentForm.country)"
+                @blur="v$.paymentForm.country.$touch"
+                :class="{
+                  'is-invalid': v$.paymentForm.country.$error,
+                }"
+              >
+                <template #value="slotProps">
+                  <div
+                    class="company-item company-item-value"
+                    v-if="slotProps.value"
+                  >
+                    <img
+                      class="img_logo"
+                      :src="
+                        slotProps.value.icon
+                          ? slotProps.value.icon
+                          : 'usflag.png'
+                      "
+                    />
+                    <span class="company_item_name">{{
+                      slotProps.value.label
+                    }}</span>
+                  </div>
+                </template>
+                <template #option="slotProps">
+                  <div class="company-item">
+                    <img
+                      class="img_logo"
+                      :src="
+                        slotProps.option.icon
+                          ? slotProps.option.icon
+                          : 'usflag.png'
+                      "
+                    />
+                    <span class="company_item_name">{{
+                      slotProps.option.label
+                    }}</span>
+                  </div>
+                </template>
+              </Dropdown>
+
+              <div
+                v-if="v$.paymentForm.country.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.paymentForm.country.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  Country is required
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- state -->
+          <div class="col-lg-6">
+            <div class="k_form_group">
+              <input
+                type="text"
+                class="form-control k_inp_field"
+                :placeholder="$t('payments.form.placeholder.State_province')"
+                v-model="paymentForm.state"
+                @blur="v$.paymentForm.state.$touch"
+                :class="{
+                  'is-invalid': v$.paymentForm.state.$error,
+                }"
+              />
+              <div
+                v-if="v$.paymentForm.state.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.paymentForm.state.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  State is required
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- currency -->
+          <div class="col-lg-6">
+            <div class="k_form_group k_select_single">
+              <Dropdown
+                class="k_prime_inp_select"
+                optionLabel="label"
+                optionValue="value"
+                :placeholder="$t('payments.form.placeholder.Currency')"
+                :options="services"
+                v-model="paymentForm.currency"
+                @blur="v$.paymentForm.currency.$touch"
+                :class="{
+                  'is-invalid': v$.paymentForm.currency.$error,
+                }"
+              />
+              <div
+                v-if="v$.paymentForm.currency.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.paymentForm.currency.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  Currency is required
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="k_form_group">
+              <input
+                type="text"
+                class="form-control k_inp_field"
+                :placeholder="$t('payments.form.placeholder.Address_1')"
+                v-model="paymentForm.address1"
+                @blur="v$.paymentForm.address1.$touch"
+                :class="{
+                  'is-invalid': v$.paymentForm.address1.$error,
+                }"
+              />
+              <div
+                v-if="v$.paymentForm.address1.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.paymentForm.address1.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  Address 1 is required
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="k_form_group">
+              <input
+                type="text"
+                class="form-control k_inp_field"
+                :placeholder="$t('payments.form.placeholder.Address_2')"
+                v-model="paymentForm.address2"
+                @blur="v$.paymentForm.address2.$touch"
+                :class="{
+                  'is-invalid': v$.paymentForm.address2.$error,
+                }"
+              />
+              <div
+                v-if="v$.paymentForm.address2.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.paymentForm.address2.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  Address 2 is required
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="k_form_group">
+              <input
+                type="text"
+                class="form-control k_inp_field"
+                :placeholder="$t('payments.form.placeholder.Zip')"
+                @keypress="isNumber"
+                v-model="paymentForm.zipcode"
+                @blur="v$.paymentForm.zipcode.$touch"
+                :class="{
+                  'is-invalid': v$.paymentForm.zipcode.$error,
+                }"
+              />
+              <div
+                v-if="v$.paymentForm.zipcode.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.paymentForm.zipcode.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  Zipcode is required
+                </span>
+              </div>
+            </div>
+          </div>
+
           <div class="col-lg-6">
             <div class="input-group d-flex">
               <div class="country_flag_wrap">
@@ -84,156 +349,25 @@
                         'company_profile.company_tab.company_setup_update.form.placeholder.phone_no'
                       )
                     "
+                    v-model="paymentForm.phone_number"
+                    @blur="v$.paymentForm.phone_number.$touch"
+                    :class="{
+                      'is-invalid': v$.paymentForm.phone_number.$error,
+                    }"
                   />
+                  <div
+                    v-if="v$.paymentForm.phone_number.$error"
+                    class="invalid-feedback cust_err text-left"
+                  >
+                    <span
+                      v-if="v$.paymentForm.phone_number.required.$invalid"
+                      class="text-left fs-14"
+                    >
+                      Phone number is required
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- <div class="wrap_phone_inp">
-              <div class="k_form_group codes_select k_select_single">
-                <Multiselect
-                  v-model="value"
-                  label="name"
-                  class="form-control country_codes"
-                  :options="countryCodes"
-                >
-                  <template v-slot:singlelabel="{ value }">
-                    <div class="multiselect-single-label">
-                      <img
-                        class="character-label-icon country_flag p-r-10"
-                        :src="value.icon"
-                      />
-                      {{ value.name }}
-                    </div>
-                  </template>
-
-                  <template v-slot:option="{ option }">
-                    <img
-                      class="character-option-icon country_flag p-r-10"
-                      :src="option.icon"
-                    />
-                  </template>
-                </Multiselect>
-              </div>
-              <div class="k_form_group k_inp_number phone_field">
-                <input
-                  type="number"
-                  class="form-control shift_number k_inp_field"
-                  :placeholder="$t('payments.form.placeholder.Phone_No')"
-                />
-              </div>
-            </div> -->
-          </div>
-          <div class="col-lg-6">
-            <div class="k_form_group">
-              <input
-                type="text"
-                class="form-control k_inp_field"
-                :placeholder="$t('payments.form.placeholder.Address_1')"
-              />
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="k_form_group">
-              <input
-                type="text"
-                class="form-control k_inp_field"
-                :placeholder="$t('payments.form.placeholder.Address_2')"
-              />
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="k_form_group">
-              <input
-                type="text"
-                class="form-control k_inp_field"
-                :placeholder="$t('payments.form.placeholder.State_province')"
-              />
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="k_form_group">
-              <input
-                type="text"
-                class="form-control k_inp_field"
-                :placeholder="$t('payments.form.placeholder.Zip')"
-              />
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="k_form_group k_select_single">
-              <Dropdown
-                v-model="selectedCountry"
-                :options="countries"
-                optionLabel="name"
-                class="k_prime_inp_select"
-                placeholder="Select a Country"
-              >
-                <template #value="slotProps">
-                  <div
-                    class="company-item company-item-value"
-                    v-if="slotProps.value"
-                  >
-                    <img class="img_logo" :src="slotProps.value.icon" />
-                    <span class="company_item_name">{{
-                      slotProps.value.name
-                    }}</span>
-                  </div>
-                </template>
-                <template #option="slotProps">
-                  <div class="company-item">
-                    <img class="img_logo" :src="slotProps.option.icon" />
-                    <span class="company_item_name">{{
-                      slotProps.option.name
-                    }}</span>
-                  </div>
-                </template>
-              </Dropdown>
-
-              <!-- <Multiselect
-                v-model="value"
-                :placeholder="
-                  $t('payments.form.placeholder.Select_your_country')
-                "
-                label="name"
-                class="form-control country_select k_inp_field"
-                :options="heros"
-              >
-                <template v-slot:singlelabel="{ value }">
-                  <div class="multiselect-single-label">
-                    <img
-                      class="character-label-icon country_flag p-r-10"
-                      :src="value.icon"
-                    />
-                    {{ value.name }}
-                  </div>
-                </template>
-
-                <template v-slot:option="{ option }">
-                  <img
-                    class="character-option-icon country_flag p-r-10"
-                    :src="option.icon"
-                  />
-                  {{ option.name }}
-                </template>
-              </Multiselect> -->
-            </div>
-          </div>
-
-          <div class="col-lg-6">
-            <div class="k_form_group k_select_single">
-              <Dropdown
-                class="k_prime_inp_select"
-                optionLabel="label"
-                optionValue="value"
-                :placeholder="$t('payments.form.placeholder.Currency')"
-                :options="services"
-              />
-              <!-- <Multiselect
-                :searchable="true"
-                class="form-control k_inp_field"
-                rules="required"
-                :options="services"
-              /> -->
             </div>
           </div>
         </div>
@@ -248,20 +382,50 @@
                 optionValue="value"
                 :placeholder="$t('payments.form.placeholder.Service')"
                 :options="services"
+                v-model="paymentForm.service_type"
+                @blur="v$.paymentForm.service_type.$touch"
+                :class="{
+                  'is-invalid': v$.paymentForm.service_type.$error,
+                }"
               />
-              <!-- <Multiselect
-                :placeholder="$t('payments.form.placeholder.Service')"
-                :searchable="true"
-                class="form-control k_inp_field"
-                rules="required"
-                :options="services"
-              /> -->
+              <div
+                v-if="v$.paymentForm.service_type.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.paymentForm.service_type.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  Service is required
+                </span>
+              </div>
             </div>
           </div>
           <div class="col lg-6">
             <div class="k_form_group">
               <div class="k_date_picker">
-                <Datepicker class="" v-model="date"></Datepicker>
+                <Datepicker
+                  class="custom_label"
+                  :enableTimePicker="false"
+                  v-model="paymentForm.service_date"
+                  @open="paymentForm.service_date = ''"
+                  @blur="v$.paymentForm.service_date.$touch"
+                  placeholder="dd/mm/yyyy"
+                  :class="{
+                    invalid_error: v$.paymentForm.service_date.$error,
+                  }"
+                />
+                <div
+                  v-if="v$.paymentForm.service_date.$error"
+                  class="invalid_feedback text-left"
+                >
+                  <span
+                    v-if="v$.paymentForm.service_date.required.$invalid"
+                    class="text-left fs-14"
+                  >
+                    Date is required
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -280,6 +444,7 @@
                 :placeholder="
                   $t('payments.form.placeholder.Enter_discount_code')
                 "
+                v-model="paymentForm.discount_code"
               />
               <button type="button" class="btn-light btn apply_code btn-set">
                 {{ $t("payments.buttons.Apply_Code") }}
@@ -293,7 +458,7 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-primary m-l-auto btn-set">
+        <button type="submit" class="btn btn-primary m-l-auto btn-set">
           {{ $t("payments.buttons.submit") }}
         </button>
       </form>
@@ -302,31 +467,37 @@
 </template>
 
 <script>
-// const countryList = [
-//   {
-//     value: "usa",
-//     name: "USA",
-//     icon: "K_Icons/flag1.svg",
-//   },
-//   {
-//     value: "india",
-//     name: "India",
-//     icon: "K_Icons/flag1.svg",
-//   },
-//   {
-//     value: "germany",
-//     name: "Germany",
-//     icon: "K_Icons/flag1.svg",
-//   },
-// ];
-// import Multiselect from "@vueform/multiselect";
+import { required, email } from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
 import Datepicker from "vue3-date-time-picker";
 import Dropdown from "primevue/dropdown";
 import "vue3-date-time-picker/dist/main.css";
+import { mapGetters } from "vuex";
+import CommonService from "../../Services/CommonService";
 export default {
   data() {
     return {
       date: new Date(),
+      numberPattern: /[0-9]/,
+      country_code: "",
+      country_flag: "",
+      paymentForm: {
+        company_name: "",
+        department_name: "",
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone_number: "",
+        address1: "",
+        address2: "",
+        state: "",
+        country: "",
+        zipcode: "",
+        currency: "",
+        service_type: "",
+        service_date: "",
+        discount_code: "",
+      },
       countries: [
         {
           value: "usa",
@@ -344,20 +515,6 @@ export default {
           icon: "K_Icons/flag1.svg",
         },
       ],
-      countryCodes: [
-        {
-          value: "+923",
-          icon: "K_Icons/flag1.svg",
-        },
-        {
-          value: "+91",
-          icon: "K_Icons/flag1.svg",
-        },
-        {
-          value: "+532",
-          icon: "K_Icons/flag1.svg",
-        },
-      ],
       selectedCountry: null,
       services: [
         { value: 0, label: "Service 1" },
@@ -371,17 +528,103 @@ export default {
     Datepicker,
     Dropdown,
   },
+  setup() {
+    return {
+      v$: useVuelidate(),
+    };
+  },
+  validations() {
+    return {
+      paymentForm: {
+        company_name: { required },
+        first_name: { required },
+        last_name: { required },
+        email: { required, email },
+        phone_number: { required },
+        address1: { required },
+        address2: { required },
+        state: { required },
+        country: { required },
+        zipcode: { required },
+        currency: { required },
+        service_type: { required },
+        service_date: { required },
+      },
+    };
+  },
+  computed: {
+    ...mapGetters({
+      countryLists: "allCountries",
+    }),
+  },
+  created() {
+    this.$store.dispatch("GET_COUNTRIES");
+  },
   methods: {
-    saveInvoiceInfo() {},
+    saveInvoiceInfo() {
+      this.v$.$touch();
+      if (!this.v$.$invalid) {
+        console.log("form is still valid", this.paymentForm);
+        this.formReset();
+      }
+    },
+    onChangeCountry() {
+      console.log("Detail CountryCode", this.paymentForm.country);
+      this.selectedCountryCode(+this.paymentForm.country);
+    },
+    selectedCountryCode(id) {
+      CommonService.getCountryCode({ country_id: id }).then((resp) => {
+        if (resp.data.status) {
+          this.country_flag = resp.data.data.image;
+          this.country_code = resp.data.data.code;
+          console.log(
+            "country codes and flags",
+            this.country_flag,
+            this.country_code
+          );
+        }
+      });
+    },
+
+    // enter only number
+    isNumber(event) {
+      let char = String.fromCharCode(event.keyCode);
+      if (this.numberPattern.test(char)) return true;
+      else event.preventDefault();
+    },
+
+    formReset() {
+      this.v$.$reset();
+      this.defaultImg = "icons/cloud-upload.svg";
+      this.country_flag = "";
+      this.country_code = "";
+      this.paymentForm = {
+        company_name: "",
+        department_name: "",
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone_number: "",
+        address1: "",
+        address2: "",
+        state: "",
+        country: "",
+        zipcode: "",
+        currency: "",
+        service_type: "",
+        service_date: "",
+        discount_code: "",
+      };
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-// .country_flag {
-//   width: 26px;
-//   height: 17px;
-// }
+.cust_err {
+  position: absolute;
+  top: 100%;
+}
 .dist_inp {
   padding-right: 150px !important;
   margin-right: 1px;

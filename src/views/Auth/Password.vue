@@ -112,8 +112,6 @@ import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import errorhandler from "../../utils/Error";
 import LoginService from "../../Services/LoginService";
-// import loginService from "../../Services/LoginService";
-// import errorhandler from "../../utils/Error";
 export default {
   data() {
     return {

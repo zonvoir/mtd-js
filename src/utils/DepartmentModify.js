@@ -1,13 +1,22 @@
 export const departmentModify = (deptsArr) => {
-  let departments1 = [];
-  for (var k = 0; k < deptsArr.length; k++) {
-    let dept = {
-      value: deptsArr[k].departmentid,
-      label: deptsArr[k].name,
+  if (!deptsArr.length) return;
+  let departments1 = deptsArr.map((item) => {
+    return {
+      value: item.departmentid,
+      label: item.name,
     };
-    departments1.push(dept);
-  }
+  });
+  console.log("transformed department ", deptsArr);
   return departments1;
+  // let departments1 = [];
+  // for (var k = 0; k < deptsArr.length; k++) {
+  //   let dept = {
+  //     value: deptsArr[k].departmentid,
+  //     label: deptsArr[k].name,
+  //   };
+  //   departments1.push(dept);
+  // }
+  // return departments1;
 };
 export const getDepartemntsValue = (deptsArr) => {
   let departments2 = [];

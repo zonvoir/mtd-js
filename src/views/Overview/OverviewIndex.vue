@@ -73,8 +73,6 @@
 <script>
 import { mapGetters } from "vuex";
 import Card from "../../components/Shared/Card.vue";
-import CommonService from "../../Services/CommonService";
-import errorhandler from "../../utils/Error";
 export default {
   data() {
     return {
@@ -94,6 +92,7 @@ export default {
       categoryList: "categoryArrayItems",
       currentYear: "activeYear",
       currentCompany: "activeCompany",
+      defaultDepartment: "defaultCompanyDeptId",
     }),
   },
   watch: {
@@ -121,39 +120,28 @@ export default {
   methods: {
     getdDepartmentList() {
       let data = { auth_token: this.authToken };
-      // console.log("get departments", data);
-      CommonService.getExtendedDepartments(data).then((res) => {
-        if (res.data.status) {
-          this.$store.dispatch("GET_STAFFS_DEPARTMENT", res.data.data);
-          this.departmentLists = res.data.data.filter(function (depts) {
-            return depts.departmentid === "5"; //5 is default company department id
-          });
-          let department_Id = this.departmentLists[0].departmentid;
-          let data = {
-            department_id: department_Id,
-            auth_token: this.authToken,
-          };
-          this.getDefaultDeptCategories(data);
-          this.defaultDeptId = { did: this.departmentLists[0].departmentid };
-        } else {
-          errorhandler(res, this);
-        }
-      });
+      this.$store
+        .dispatch("GET_STAFFS_QUESTIONNIRE_DEPARTMENT", data)
+        .then((res) => {
+          let $th = this;
+          if (res.data.status) {
+            this.departmentLists = res.data.data.filter(function (depts) {
+              return depts.departmentid == $th.defaultDepartment; //5 is default company department id
+            });
+            // let department_Id = this.departmentLists[0].departmentid;
+            console.log("default department", $th.defaultDepartment);
+            let data = {
+              department_id: $th.defaultDepartment,
+              auth_token: this.authToken,
+            };
+            this.getDefaultDeptCategories(data);
+            this.defaultDeptId = { did: $th.defaultDepartment };
+          }
+        });
     },
     // get categories lists
     getDefaultDeptCategories(data) {
-      CommonService.getAllCategories(data)
-        .then((res) => {
-          if (res.data.status) {
-            this.$store.dispatch("GET_CATEGORY_ARRAY", res.data.data);
-          } else {
-            errorhandler(res, this);
-            this.$store.dispatch("GET_CATEGORY_ARRAY", []);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      this.$store.dispatch("GET_QUESTIONNAIRE_CATEGORY_ARRAY", data);
     },
     filterCategory(val) {
       this.isFiltered = val;

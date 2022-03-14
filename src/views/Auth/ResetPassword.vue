@@ -4,9 +4,6 @@
       <div class="">
         <div class="main-heading-wrap text-center">
           <h2 class="main-heading">Update your password</h2>
-          <!-- <h2 class="main-heading">
-            An email has been sent to your email! Click the link to reset it.
-          </h2> -->
         </div>
       </div>
       <div class="form-wrapper">
@@ -179,7 +176,7 @@
 import { required, sameAs } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import LoginService from "../../Services/LoginService";
-import errorhandler from "../../utils/Error";
+import errorhandler, { successhandler } from "../../utils/Error";
 // import errorhandler from "../../utils/Error";
 
 // MINIMUM 8 CHARCTER
@@ -196,11 +193,6 @@ const specialCharCalc = (val) => {
 };
 
 export default {
-  components: {
-    // MicrosoftWindows,
-    // Check,
-  },
-
   data() {
     return {
       visibilityIcon1: "icons/eye-off.svg",
@@ -219,7 +211,6 @@ export default {
   },
   mounted() {
     this.$refs.refPass.focus();
-    // if (!this.$route.query.token) return;
     this.$route.query.token
       ? (this.token = this.$route.query.token)
       : (this.token = "");
@@ -263,6 +254,7 @@ export default {
       LoginService.resetPassword(data).then((res) => {
         if (res.data.status) {
           console.log("res from forgot password", res.data.data);
+          successhandler(res);
           this.$router.push({ name: "signup-signin" });
         } else {
           errorhandler(res, this);

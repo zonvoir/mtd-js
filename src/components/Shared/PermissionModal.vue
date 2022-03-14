@@ -1,14 +1,7 @@
 <template>
   <div class="">
-    <!-- <button
-      @click="setPermission(id)"
-      type="button"
-      class="btn-light fs-14 btn-set fw-700 btn"
-    >
-    </button> -->
     <slot name="permission-button" :openPermissionModal="setPermission"></slot>
   </div>
-  <!-- Permission Invite People Modal -->
   <div class="modal fade" ref="invitationModal">
     <div class="modal-dialog modal-xl invitation_dialog">
       <div class="modal-content invitaion_content">
@@ -43,50 +36,6 @@
               </AccordionTab>
             </Accordion>
           </div>
-          <!-- <div class="accordion custom_acc">
-            <div class="">
-              <div
-                class="body_wrap"
-                v-for="(department, index) in permissonList"
-                :key="index"
-              >
-                <div class="sub_acc_body">
-                  <div class="team_wrapper">
-                    <div class="">
-                      <div @click="toggleAccordion(index)" class="section_wrap">
-                        <h4 class="m-b-0 title-dark">
-                          {{ department.name }}
-                        </h4>
-
-                        <div class="m-l-auto">
-                          <img
-                            :src="
-                              isAccordionArr[index]
-                                ? 'K_Icons/chevron-up.svg'
-                                : 'K_Icons/chevron-down.svg'
-                            "
-                            alt=""
-                            class=""
-                          />
-                        </div>
-                      </div>
-                      <div
-                        :class="{ collapse: isAccordionArr[index] }"
-                        class="description_body_wrap"
-                      >
-                        <div class="m-t-20">
-                          <PermissionTable
-                            @getUpdatedPermission="getLatestPermission"
-                            :categoryList="department.categories"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
         </div>
         <div class="modal-footer invite_modal_footer">
           <button
@@ -143,9 +92,7 @@ export default {
   mounted() {
     this.modal = new Modal(this.$refs.invitationModal);
   },
-  // updated(){
-  //   this.isAccordionArr.fill
-  // },
+
   computed: {
     ...mapGetters({
       staffInfo: "staffData",
@@ -187,9 +134,6 @@ export default {
             };
             this.departmentArr.push(data);
           }
-          // this.permissionArr.push(this.departmentArr);
-          // this.permissionArr.departments = this.departmentArr;
-          console.log("show all departments of staff", this.permissionArr);
           this.$store.dispatch("GET_ALOCATED_DEPARTMENTS", this.departmentArr);
           this.$store.dispatch("GET_PERMISSION_ARRAY", this.permissionArr);
           this.modal.show();

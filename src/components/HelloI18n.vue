@@ -13,9 +13,6 @@ export default defineComponent({
       inheritLocale: true,
       useScope: "local",
     });
-
-    // Something todo ..
-
     return { t };
   },
 });

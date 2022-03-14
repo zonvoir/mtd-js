@@ -101,6 +101,7 @@ export default {
 
   data() {
     return {
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       myValue: "",
       staffRoles: [
         {
@@ -370,14 +371,6 @@ export default {
       myOptions: [],
     };
   },
-  computed: {
-    // ...mapGetters({
-    //   staffRoles: "invitationStaffRoleList",
-    //   // companyLists: "staffsCompanies",
-    //   // ownRole: "roleInCompany",
-    // }),
-  },
-
   created() {
     this.settings = {
       tags: true,
@@ -390,18 +383,22 @@ export default {
         data.push(tag);
       },
     };
-    // this.settings = {
-    //   tags: true,
-    //   allowClear: true,
-    //   multiple: true,
-    //   insertTag: function (data, tag) {
-    //     // Insert the tag at the end of the results
-    //     console.log("data", data, "tag", tag);
-    //     data.push(tag);
-    //   },
-    // };
   },
   methods: {
+    getInvitedTeam() {
+      let data = {
+        auth_token: this.staffData.auth_token,
+        questionnaire_id: "17",
+      };
+      this.$store
+        .dispatch("GET_INVITATIONS_FOR_QUESTIONNAIRE_TEAM", data)
+        .then((res) => {
+          if (res.data.status) {
+            console.log("team response", res.data.data);
+          }
+        });
+    },
+
     chooseRoleStaff(data, id, isYes = false) {
       if (isYes) {
         return data.filter((val) => val.roleid == id);
@@ -412,7 +409,6 @@ export default {
 
     // upload csv File
     sendInvitationByFile(file, staffrole) {
-      // this.is_uploaded = false;
       this.is_FileUploaded = true;
       let data = {
         auth_token: this.staffInfo.auth_token,

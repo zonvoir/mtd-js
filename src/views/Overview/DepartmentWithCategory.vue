@@ -74,9 +74,6 @@
 <script>
 import { mapGetters } from "vuex";
 import Card from "../../components/Shared/Card.vue";
-import CommonService from "../../Services/CommonService";
-import errorhandler from "../../utils/Error";
-
 export default {
   components: {
     Card,
@@ -100,14 +97,6 @@ export default {
   created() {
     this.component_params = { did: this.$route.params.id };
     this.departmentId = this.$route.params.id;
-    console.log("department id", this.departmentId);
-    // if (
-    //   localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-    //   localStorage.getItem("bWFpbCI6Inpvb") == null ||
-    //   localStorage.getItem("bWFpbCI6Inpvb") == ""
-    // ) {
-    //   this.$router.push({ name: "signup-signin" });
-    // }
     this.authToken = this.staffData.auth_token;
     let data = {
       department_id: this.departmentId,
@@ -119,16 +108,7 @@ export default {
   methods: {
     // get categories lists
     getDefaultDeptCategories(data) {
-      CommonService.getAllCategories(data).then((res) => {
-        if (res.data.status) {
-          // this.$store.dispatch("getCategoryArray", res.data.data);
-          this.$store.dispatch("GET_CATEGORY_ARRAY", res.data.data);
-        } else {
-          errorhandler(res, this);
-          // this.$store.dispatch("getCategoryArray", []);
-          this.$store.dispatch("GET_CATEGORY_ARRAY", []);
-        }
-      });
+      this.$store.dispatch("GET_QUESTIONNAIRE_CATEGORY_ARRAY", data);
     },
     filterCategory(val) {
       this.isFiltered = val;

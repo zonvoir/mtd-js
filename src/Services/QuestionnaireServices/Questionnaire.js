@@ -9,6 +9,15 @@ class QuestionnaireService {
       },
     });
   }
+  // get questionnaire categories
+  getAllQuestionnireCategories(data) {
+    return http.post("questionnaire_api/questionnaire_list", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
   // submit AnsWer
   submitAnswer(data) {
     return http.post("questionnaire_api/submit_answer", data, {

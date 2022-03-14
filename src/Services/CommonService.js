@@ -20,41 +20,7 @@ class CommonService {
   addNewDepartment(data) {
     return http.post("staffs/add_new_department", data);
   }
-  //get All deparartments
-  getExtendedDepartments(token) {
-    return http.post("lists/extended_departments", token, {
-      headers: {
-        "X-Company": localStorage.getItem("selected_company"),
-        "X-Year": localStorage.getItem("selected_year"),
-      },
-    });
-  }
-  // getAllDepartments(data) {
-  //   return http.post("lists/department", data, {
-  //     headers: {
-  //       "X-Company": localStorage.getItem("selected_company"),
-  //       "X-Year": localStorage.getItem("selected_year"),
-  //     },
-  //   });
-  // }
-  //get deparartment by ID
-  // getOneDepartment(id) {
-  //   return http.get(`lists/department/${id}`, {
-  //     headers: {
-  //       "X-Company": localStorage.getItem("selected_company"),
-  //       "X-Year": localStorage.getItem("selected_year"),
-  //     },
-  //   });
-  // }
 
-  getAllCategories(data) {
-    return http.post("questionnaire_api/questionnaire_list", data, {
-      headers: {
-        "X-Company": localStorage.getItem("selected_company"),
-        "X-Year": localStorage.getItem("selected_year"),
-      },
-    });
-  }
   // get Seniority Leveles
   getAllSeniorityLevels() {
     return http.get("lists/seniority_level");
@@ -85,10 +51,7 @@ class CommonService {
   getAllRegion() {
     return http.get("lists/region");
   }
-  // get all country by region
-  // getAllCountry(id) {
-  //   return http.get(`lists/region_countries/${id}`);
-  // }
+
   // get all country by region
   getAllCountry() {
     return http.get(`lists/region_countries`);
@@ -96,6 +59,16 @@ class CommonService {
   // get all country code by country id
   getCountryCode(countryId) {
     return http.post("userlogin/country_codes", countryId);
+  }
+
+  // Personal Details update
+  getPersonalDetails(data) {
+    return http.post("staffs/staff_by_token", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
   }
 }
 

@@ -17,9 +17,7 @@ export default {
     return {
       editor: ClassicEditor,
       editorData: "<p>Content of the editor.</p>",
-      editorConfig: {
-        // The configuration of the editor.
-      },
+      editorConfig: {},
     };
   },
 };

@@ -20,10 +20,8 @@
 </template>
 
 <script>
-import CommonService from "../../Services/CommonService";
-import Card from "../../components/Shared/Card.vue";
 import { mapGetters } from "vuex";
-import errorhandler from "../../utils/Error";
+import Card from "../../components/Shared/Card.vue";
 
 export default {
   components: {
@@ -40,7 +38,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      mydepartments: "staffDepartments",
+      defaultDepartment: "defaultCompanyDeptId",
     }),
   },
   created() {
@@ -51,19 +49,16 @@ export default {
   methods: {
     getdDepartmentList() {
       let data = { auth_token: this.authToken };
-      console.log("get departments", data);
-      CommonService.getExtendedDepartments(data).then((res) => {
-        if (res.data.status) {
-          this.$store.dispatch("GET_STAFFS_DEPARTMENT", res.data.data);
-
-          this.departmentLists = res.data.data.filter(function (depts) {
-            return depts.departmentid != "5"; //5 is default company department id
-          });
-          console.log("dept_list", this.departmentLists);
-        } else {
-          errorhandler(res, this);
-        }
-      });
+      this.$store
+        .dispatch("GET_STAFFS_QUESTIONNIRE_DEPARTMENT", data)
+        .then((res) => {
+          let $th = this;
+          if (res.data.status) {
+            this.departmentLists = res.data.data.filter(function (depts) {
+              return depts.departmentid != $th.defaultDepartment; //5 is default company department id
+            });
+          }
+        });
     },
   },
 };

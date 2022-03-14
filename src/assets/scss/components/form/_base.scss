@@ -268,14 +268,35 @@
     }
   }
 }
-
+//////////////////////DatePicker////////////////@at-root
+.invalid_error {
+  .dp__input {
+    outline: 2px solid #db2c66 !important;
+    outline-offset: 0px;
+    border-radius: 0;
+    box-shadow: none;
+    &:focus {
+      outline: 2px solid #db2c66 !important;
+      outline-offset: 0px;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+  // .dp__input
+}
+.invalid_feedback {
+  padding-top: 2px;
+  color: #db2c66;
+  font-size: 14px;
+  font-weight: 400;
+}
 //////////////////phone number /////////////////@at-root
 .phone_main_wrap {
   width: 90%;
   float: right;
 }
 .cus_ph_inp {
-  padding-left: 60px !important;
+  padding-left: 5rem !important;
   border-radius: 0 4px 4px 0 !important;
   padding-left: 5rem;
 }

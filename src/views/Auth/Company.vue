@@ -91,17 +91,6 @@
                       'is-invalid': v$.companyForm.company_role.$error,
                     }"
                   />
-                  <!-- <Multiselect
-                    placeholder="Own Role in Company"
-                    class="form-control k_inp_field"
-                    rules="required"
-                    :options="ownRoleLists"
-                    @blur="v$.companyForm.company_role.$touch"
-                    v-model="companyForm.company_role"
-                    :class="{
-                      'is-invalid': v$.companyForm.company_role.$error,
-                    }"
-                  /> -->
                   <div
                     v-if="v$.companyForm.company_role.$error"
                     class="invalid-feedback text-left"
@@ -130,18 +119,7 @@
                         v$.companyForm.corporation_legal_form.$error,
                     }"
                   />
-                  <!-- <Multiselect
-                    placeholder="Legal from of corporation"
-                    class="form-control k_inp_field"
-                    rules="required"
-                    :options="legalCorpLists"
-                    @blur="v$.companyForm.corporation_legal_form.$touch"
-                    v-model="companyForm.corporation_legal_form"
-                    :class="{
-                      'is-invalid':
-                        v$.companyForm.corporation_legal_form.$error,
-                    }"
-                  /> -->
+
                   <div
                     v-if="v$.companyForm.corporation_legal_form.$error"
                     class="invalid-feedback text-left"
@@ -174,27 +152,6 @@
                       'is-invalid': v$.companyForm.main_industry.$error,
                     }"
                   />
-                  <!-- <select
-                    class="form-control k_inp_field"
-                    @change="onChangeMainIndustry"
-                    @blur="v$.companyForm.main_industry.$touch"
-                    v-model="companyForm.main_industry"
-                    :class="{
-                      'is-invalid': v$.companyForm.main_industry.$error,
-                    }"
-                  >
-                    <option :value="null" disabled selected>
-                      Select Main Industry
-                    </option>
-                    <option
-                      v-for="mainInd in industryLists"
-                      :key="'mainInd' + mainInd.value"
-                      :value="mainInd.value"
-                      :disabled="mainInd.disabled"
-                    >
-                      {{ mainInd.label }}
-                    </option>
-                  </select> -->
 
                   <div
                     v-if="v$.companyForm.main_industry.$error"
@@ -226,27 +183,6 @@
                       'is-invalid': v$.companyForm.sub_industry.$error,
                     }"
                   />
-                  <!-- <select
-                    class="form-control k_inp_field"
-                    @change="onChangeSubIndustry"
-                    @blur="v$.companyForm.sub_industry.$touch"
-                    v-model="companyForm.sub_industry"
-                    :class="{
-                      'is-invalid': v$.companyForm.sub_industry.$error,
-                    }"
-                  >
-                    <option :value="null" disabled selected>
-                      Select sub Industry
-                    </option>
-                    <option
-                      v-for="subInd in subIndustryLists"
-                      :key="'subINd' + subInd.value"
-                      :value="subInd.value"
-                      :disabled="subInd.disabled"
-                    >
-                      {{ subInd.label }}
-                    </option>
-                  </select> -->
 
                   <div
                     v-if="v$.companyForm.sub_industry.$error"
@@ -277,27 +213,6 @@
                       'is-invalid': v$.companyForm.detailed_industry.$error,
                     }"
                   />
-                  <!-- <select
-                    class="form-control k_inp_field"
-                    @blur="v$.companyForm.detailed_industry.$touch"
-                    v-model="companyForm.detailed_industry"
-                    :class="{
-                      'is-invalid': v$.companyForm.detailed_industry.$error,
-                    }"
-                  >
-                    <option :value="null" disabled selected>
-                      Select Detailed Industry
-                    </option>
-                    <option
-                      v-for="detailInd in detailedIndustryLists"
-                      :key="'subINd' + detailInd.value"
-                      :value="detailInd.value"
-                      :disabled="detailInd.disabled"
-                    >
-                      {{ detailInd.label }}
-                    </option>
-                  </select> -->
-
                   <div
                     v-if="v$.companyForm.detailed_industry.$error"
                     class="invalid-feedback text-left"
@@ -324,27 +239,7 @@
                     @change="onChangeRegion"
                     v-model="companyForm.region"
                   />
-                  <!-- <select
-                    class="form-control k_inp_field"
-                    @change="onChangeRegion"
-                    @blur="v$.companyForm.region.$touch"
-                    v-model="companyForm.region"
-                    :class="{
-                      'is-invalid': v$.companyForm.region.$error,
-                    }"
-                  >
-                    <option :value="null" disabled selected>
-                      Select Region
-                    </option>
-                    <option
-                      v-for="region in regionLists"
-                      :key="'region' + region.value"
-                      :value="region.value"
-                      :disabled="region.disabled"
-                    >
-                      {{ region.label }}
-                    </option>
-                  </select> -->
+
                   <div
                     v-if="v$.companyForm.region.$error"
                     class="invalid-feedback text-left"
@@ -375,27 +270,6 @@
                       'is-invalid': v$.companyForm.country.$error,
                     }"
                   />
-                  <!-- <select
-                    class="form-control k_inp_field"
-                    @blur="v$.companyForm.country.$touch"
-                    @change="onChangeCountry"
-                    v-model="companyForm.country"
-                    :class="{
-                      'is-invalid': v$.companyForm.country.$error,
-                    }"
-                  >
-                    <option :value="null" disabled selected>
-                      Select Country
-                    </option>
-                    <option
-                      v-for="country in countryLists"
-                      :key="'country' + country.value"
-                      :value="country.value"
-                      :disabled="country.disabled"
-                    >
-                      {{ country.label }}
-                    </option>
-                  </select> -->
 
                   <div
                     v-if="v$.companyForm.country.$error"
@@ -489,14 +363,6 @@
                         >
                           Phone Number must be 15 digit
                         </span>
-                        <!-- <span
-                          v-if="
-                            v$.companyForm.phonenumber.minLengthValue.$invalid
-                          "
-                          class="text-left fs-14"
-                        >
-                          Phone Number at lest 6 digit
-                        </span> -->
                       </div>
                     </div>
                   </div>
@@ -557,7 +423,6 @@
               <h5 class="m-b-0 terms_title">confidential information!</h5>
             </div>
           </div>
-          <!-- <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5> -->
         </div>
         <div class="modal-body confidencil_msg_body">
           <div class="terms_wrapper">
@@ -708,7 +573,6 @@
               </button>
             </div>
           </form>
-          <!-- <button type="button" class="btn btn-primary">Understood</button> -->
         </div>
       </div>
     </div>
@@ -718,17 +582,15 @@
 <script>
 import { required, numeric, maxLength } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-// import Multiselect from "@vueform/multiselect";
 import CommonService from "../../Services/CommonService";
-// import Toast from "../../components/Shared/Toast.vue";
 import SignupService from "../../Services/SignupService";
 import { Modal } from "bootstrap";
 import errorhandler from "../../utils/Error";
 import Dropdown from "primevue/dropdown";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
-    // Multiselect,
     Dropdown,
   },
   data() {
@@ -743,23 +605,8 @@ export default {
       staffData:
         JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
         JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      industryLists: [],
-      legalCorpLists: [],
-      regionLists: [],
-      ownRoleLists: [],
-      subIndustryLists: [],
-      detailedIndustryLists: [],
-      // InCorpYearLists: ["2021"],
-      countryLists: [],
       value: null,
       modal: null,
-      // options: ["Batman", "Robin", "Joker"],
-      countryCodes: [
-        // {
-        //   name: "german",
-        //   icon: "K_Icons/flag1.svg",
-        // },
-      ],
       termsCondtionForm: {
         privacy_policy: false,
         terms_service: false,
@@ -781,6 +628,18 @@ export default {
         detailed_industry: null,
       },
     };
+  },
+
+  computed: {
+    ...mapGetters({
+      industryLists: "mainIndustries",
+      subIndustryLists: "subIndustries",
+      detailedIndustryLists: "detailIndustries",
+      countryLists: "allCountries",
+      regionLists: "allRegion",
+      ownRoleLists: "allRoles",
+      legalCorpLists: "allLegalFormCorporation",
+    }),
   },
 
   mounted() {
@@ -813,6 +672,7 @@ export default {
     this.getLegalCoporation();
     this.getRoleInCompany();
     this.getRegions();
+    this.getCountries();
   },
   setup() {
     return {
@@ -888,7 +748,6 @@ export default {
                 sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null ||
                 sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != ""
               ) {
-                console.log("session deleted !");
                 sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
               }
 
@@ -924,6 +783,7 @@ export default {
       };
       if (localStorage.getItem("bWFpbCI6Inpvb") != null) {
         this.staffData.is_company_setup = true;
+        this.staffData.is_career_information_setup = true;
         localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
         this.$router.push({ name: "Dashboard" });
       } else {
@@ -948,7 +808,6 @@ export default {
     onFilePicked(event) {
       this.valiImage = true;
       const files = event.target.files;
-      // let file = files[0];
       let $th = this;
       console.log("seelcted Files", files);
       if (files != "undefined" && files.length > 0) {
@@ -957,9 +816,7 @@ export default {
         reader.onload = function (e) {
           var image = new Image(); //Set the Base64 string return from FileReader as source.
           image.src = e.target.result;
-          // console.log(image.height, image.width);
           image.onload = function () {
-            //Determine the Height and Width.
             $th.uploadCompanyLogo(files[0]);
           };
         };
@@ -988,135 +845,44 @@ export default {
     },
     // get Industry lists
     getIndustryList() {
-      CommonService.getAllIndustries().then((resp) => {
-        if (resp.data.status) {
-          for (var i = 0; i < resp.data.data.length; i++) {
-            let industry = {
-              value: resp.data.data[i].id,
-              label: resp.data.data[i].name,
-            };
-            this.industryLists.push(industry);
-          }
-        } else {
-          this.industryLists = [
-            { value: 0, label: "No record found", disabled: true },
-          ];
-        }
-      });
+      this.$store.dispatch("GET_MAIN_INDUSTRIES");
     },
-    // get detailed Industry lists
-    getDetailedIndustryList() {
-      CommonService.getAllDetailedIndustries(
-        this.companyForm.sub_industry
-      ).then((resp) => {
-        if (resp.data.status) {
-          for (var i = 0; i < resp.data.data.length; i++) {
-            let detailIndus = {
-              value: resp.data.data[i].id,
-              label: resp.data.data[i].name,
-            };
-            this.detailedIndustryLists.push(detailIndus);
-          }
-          // this.detailedIndustryLists = resp.data.data;
-          console.log("detailed industry", this.detailedIndustryLists);
-        } else {
-          this.detailedIndustryLists = [
-            { value: 0, label: "No record found", disabled: true },
-          ];
-        }
-      });
-    },
-
     onChangeMainIndustry() {
-      console.log("sub Industry", this.companyForm.main_industry);
-      this.getSubIndustryList(this.companyForm.main_industry);
+      this.$store.dispatch(
+        "GET_SUB_INDUSTRIES",
+        this.companyForm.main_industry
+      );
     },
     onChangeSubIndustry() {
-      console.log("Detail Industry", this.companyForm.sub_industry);
-      this.getDetailedIndustryList(this.companyForm.sub_industry);
+      this.$store.dispatch(
+        "GET_DEATAIL_INDUSTRIES",
+        this.companyForm.sub_industry
+      );
     },
     onChangeRegion() {
-      console.log("Detail Industry", this.companyForm.region);
       this.getCountries(this.companyForm.region);
     },
-    // get Sub Industry lists
-    getSubIndustryList(id) {
-      // console.log("sub Industry", this.companyForm.main_industry);
-      CommonService.getAllSubIndustries(id).then((resp) => {
-        if (resp.data.status) {
-          this.subIndustryLists = [];
-          for (var i = 0; i < resp.data.data.length; i++) {
-            let subIndustery = {
-              value: resp.data.data[i].id,
-              label: resp.data.data[i].name,
-            };
-            this.subIndustryLists.push(subIndustery);
-          }
-          // this.subIndustryLists = resp.data.data;
-          console.log("sub industry", this.subIndustryLists);
-        } else {
-          this.subIndustryLists = [
-            // { value: 0, label: "No record found", disabled: true },
-          ];
-        }
-      });
+    onChangeCountry() {
+      console.log("Detail Industry", this.companyForm.country);
+      this.selectedCountryCode(+this.companyForm.country);
     },
 
     // get legal Corporation lists
     getLegalCoporation() {
-      CommonService.getAllLegalFormCorporation().then((resp) => {
-        if (resp.data.status) {
-          for (var i = 0; i < resp.data.data.length; i++) {
-            let legalcorp = {
-              value: resp.data.data[i].id,
-              label: resp.data.data[i].name,
-            };
-            this.legalCorpLists.push(legalcorp);
-          }
-        } else {
-          this.legalCorpLists = [
-            { value: 0, label: "No record found", disabled: true },
-          ];
-        }
-      });
+      this.$store.dispatch("GET_ALL_LEGAL_FORM_CORPORATION");
     },
     // get role in company lists
     getRoleInCompany() {
-      CommonService.getAllOwnRoleInCompany().then((resp) => {
-        if (resp.data.status) {
-          for (var i = 0; i < resp.data.data.length; i++) {
-            let roles = {
-              value: resp.data.data[i].id,
-              label: resp.data.data[i].name,
-            };
-            this.ownRoleLists.push(roles);
-          }
-        } else {
-          this.ownRoleLists = [
-            { value: 0, label: "No record found", disabled: true },
-          ];
-        }
-      });
+      this.$store.dispatch("GET_ROLES");
     },
     // get regions lists
     getRegions() {
-      CommonService.getAllRegion().then((resp) => {
-        if (resp.data.status) {
-          for (var i = 0; i < resp.data.data.length; i++) {
-            let regions = {
-              value: resp.data.data[i].id,
-              label: resp.data.data[i].region_name,
-            };
-            this.regionLists.push(regions);
-          }
-        } else {
-          this.regionLists = [
-            { value: 0, label: "No record found", disabled: true },
-          ];
-        }
-      });
+      this.$store.dispatch("GET_ALL_REGION");
     },
-
+    // get country lists
+    getCountries(id) {
+      this.$store.dispatch("GET_COUNTRIES", id);
+    },
     checkCompany() {
       if (this.staffData != null) {
         SignupService.checkCompany({
@@ -1129,29 +895,7 @@ export default {
         });
       }
     },
-    // get country lists
-    getCountries(id) {
-      CommonService.getAllCountry(id).then((resp) => {
-        if (resp.data.status) {
-          for (var i = 0; i < resp.data.data.length; i++) {
-            let countries = {
-              value: resp.data.data[i].country_id,
-              label: resp.data.data[i].short_name,
-            };
-            this.countryLists.push(countries);
-          }
-          // this.countryLists = resp.data.data;
-          console.log("country industry", this.countryLists);
-        } else {
-          this.countryLists = [
-            { value: 0, label: "No record found", disabled: true },
-          ];
-        }
-      });
-    },
-    onChangeCountry() {
-      this.selectedCountryCode(+this.companyForm.country);
-    },
+
     selectedCountryCode(id) {
       CommonService.getCountryCode({ country_id: id }).then((resp) => {
         if (resp.data.status) {
@@ -1165,11 +909,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.cus_ph_inp {
-  padding-left: 60px;
-  border-radius: 0 4px 4px 0 !important;
-  padding-left: 5rem;
-}
 .phone_main_wrap {
   width: 82%;
   float: right;

@@ -90,7 +90,6 @@ import useVuelidate from "@vuelidate/core";
 import loginService from "../../Services/LoginService";
 import { mapGetters } from "vuex";
 import errorhandler from "../../utils/Error";
-// import CommonService from "../../Services/CommonService";
 export default {
   data() {
     return {
@@ -113,7 +112,7 @@ export default {
     );
     if (this.invitedUserData && Object.keys(this.invitedUserData).length != 0) {
       this.emailVerify.email = this.invitedUserData.email;
-      // this.emailVerify.invitation_id = this.invitedUserData.invitation_id;
+
       console.log(
         "let there is invitaation id",
         this.invitedUserData.invitation_id
@@ -123,44 +122,19 @@ export default {
         console.log("let there is invitaation id", this.invitedId);
       }
     }
-    // console.log("user is email ", invitedStaff.email);
+  },
+  beforeCreate() {
+    localStorage.removeItem("bWFInpvitedbpbUser");
   },
   created() {
     let invitedStaffData = this.$route.query;
-    console.log(invitedStaffData);
-    //localStorage.removeItem("bWFpbCI6Inpvb"); //new 9f
-    // if (
-    //   invitedStaffData != null ||
-    //   invitedStaffData != undefined ||
-    //   invitedStaffData != ""
-    // )
+
     if (invitedStaffData && Object.keys(invitedStaffData).length != 0) {
-      // console.log("invited user is awailble", invitedStaffData);
       localStorage.setItem(
         "bWFInpvitedbpbUser",
         JSON.stringify(invitedStaffData)
       );
     }
-    // if (
-    //   this.staffInfo === null ||
-    //   this.staffInfo === undefined ||
-    //   this.staffInfo === ""
-    // ) {
-    //   this.$router.push({ name: "signup-signin" });
-    //   console.log("staff information is null");
-    // } else {
-    //   CommonService.getTokenValidation({
-    //     auth_token: this.staffInfo.auth_token,
-    //   }).then((res) => {
-    //     if (res.data.status) {
-    //       console.log("response", res);
-    //       // this.$router.push({ name: "Dashboard" });
-    //     } else {
-    //       // this.$router.push({ name: "signup-signin" });
-    //       console.log("staff information is", this.staffInfo.auth_token);
-    //     }
-    //   });
-    // }
   },
   setup() {
     return {
@@ -195,34 +169,10 @@ export default {
                 "OiJKV1QiLCJhbGciOiJIUzI1",
                 JSON.stringify(data)
               );
-              // sessionStorage.setItem(
-              //   "OiJKV1QiLCJhbGciOiJIUzI1",
-              //   JSON.stringify(response.data.email)
-              // );
+
               this.formReset();
             } else {
               errorhandler(response, this);
-              // let $th = this;
-              // if ("error" in response.data) {
-              //   if ("error" in response.data) {
-              //     Object.keys(response.data.error).map(function (key) {
-              //       $th.$toast.error(response.data.error[key], {
-              //         position: "bottom-left",
-              //         duration: 3712,
-              //       });
-              //     });
-              //   } else {
-              //     $th.$toast.error(response.data.message, {
-              //       position: "bottom-left",
-              //       duration: 3712,
-              //     });
-              //   }
-              // } else {
-              //   $th.$toast.error(response.data.message, {
-              //     position: "bottom-left",
-              //     duration: 3712,
-              //   });
-              // }
             }
           })
           .catch((error) => {
@@ -233,23 +183,7 @@ export default {
           });
       }
     },
-    // invitaionAccepted() {
-    //   CompanyService.acceptInvitation({
-    //     auth_token: this.staffInfo.auth_token,
-    //     invitation_id: this.invitedId,
-    //   }).then((res) => {
-    //     if (res.data.status) {
-    //       this.$router.push({ name: "Dashboard" });
-    //       console.log("invitainon accepted successfully");
-    //     } else {
-    //       console.log("there is some error in in invitaion acceptance");
-    //       this.$router.push({ name: "signup-signin" });
-    //     }
-    //   });
-    // },
-    closeModal() {
-      // this.modal.hide();
-    },
+
     formReset() {
       this.v$.$reset();
       this.emailVerify = {

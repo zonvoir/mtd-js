@@ -82,29 +82,6 @@ function guardMyroute(to, from, next) {
           localStorage.removeItem("bWFpbCI6Inpvb");
           next("/signup/signin");
         }
-        // else if (
-        //   invitedUserData != null &&
-        //   invitedUserData != undefined &&
-        //   Object.keys(invitedUserData).length != 0 &&
-        //   invitedUserData != "" &&
-        //   invitedUserData.invitation_id != null &&
-        //   invitedUserData.invitation_id != undefined &&
-        //   invitedUserData.invitation_id != ""
-        // ) {
-        //   CompanyService.acceptInvitation({
-        //     auth_token: user.auth_token,
-        //     invitation_id: invitedUserData.invitation_id,
-        //   }).then((res) => {
-        //     if (res.data.status) {
-        //       console.log("invitainon ", res.data);
-        //       // localStorage.removeItem("bWFInpvitedbpbUser");
-        //       next({ name: "Dashboard" });
-        //     } else {
-        //       console.log("there is some error in in invitaion acceptance");
-        //       next({ name: "signup-signin" });
-        //     }
-        //   });
-        // }
       }
     );
     isAuthenticated = false;
@@ -288,19 +265,7 @@ const routes = [
           },
         ],
       },
-      // {
-      //   path: "department/:did/",
-      //   component: DepartmentLayout,
-      //   name: "departments",
-      //   redirect: "/department/",
-      //   children: [
-      //     {
-      //       path: "categories/:id?",
-      //       component: DepartmentsCategory,
-      //       name: "department-category",
-      //     },
-      //   ],
-      // },
+
       // departments routes
       {
         path: "departments",

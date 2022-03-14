@@ -42,7 +42,7 @@
 
 <script>
 import signupService from "../../Services/SignupService";
-import errorhandler from "../../utils/Error";
+import errorhandler, { successhandler } from "../../utils/Error";
 // import { useRouter } from 'vue-router';
 export default {
   data() {
@@ -65,10 +65,11 @@ export default {
               JSON.stringify(response.data.data)
             );
             this.verificationMessage = response.data.message;
-            this.$toast.success(response.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
+            successhandler(response);
+            // this.$toast.success(response.data.message, {
+            //   position: "bottom-left",
+            //   duration: 3712,
+            // });
             console.log(response);
           } else {
             this.verificationMessage = response.data.message;

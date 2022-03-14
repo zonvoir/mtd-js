@@ -35,7 +35,6 @@
                   <tr>
                     <td class="member_name_td">
                       <div class="k_select_single member_filter m-r-8">
-                        <!-- :closeOnSelect="false" -->
                         <Dropdown
                           class="k_prime_inp_select"
                           optionLabel="label"
@@ -50,24 +49,10 @@
                           @select="memberFilterbyRole(myRole)"
                           :options="ownRoleLists"
                         />
-                        <!-- <Multiselect
-                          :placeholder="
-                            $t(
-                              'company_profile.members_tab.members_table.placeholder.role'
-                            )
-                          "
-                          v-model="myRole"
-                          @deselect="memberListDeafault()"
-                          @select="memberFilterbyRole(myRole)"
-                          :options="ownRoleLists"
-                          class="form-control k_inp_field"
-                          rules="required"
-                        /> -->
                       </div>
                     </td>
                     <td class="member_name_td">
                       <div class="k_select_single member_filter m-r-8">
-                        <!-- :options="categoriesList" -->
                         <MultiSelect
                           class="prime_multiselect"
                           optionLabel="label"
@@ -76,18 +61,6 @@
                           :options="categoriesList"
                           v-model="categy_list"
                         />
-                        <!-- <Multiselect
-                          :placeholder="
-                            $t(
-                              'company_profile.members_tab.members_table.placeholder.category'
-                            )
-                          "
-                          class="form-control k_inp_field"
-                          rules="required"
-                          :options="categoriesList"
-                        /> -->
-                        <!-- @deselect="memberListDeafault()"
-                          @select="memberFilterbyRole(myRole)" -->
                       </div>
                     </td>
                     <td class="member_name_td">
@@ -100,17 +73,6 @@
                           placeholder="Departemnts"
                           v-model="dept_list"
                         />
-                        <!-- <Multiselect
-                          :searchable="true"
-                          mode="tags"
-                          :close-on-select="false"
-                          placeholder="Department List"
-                          class="form-control k_inp_field"
-                          rules="required"
-                          @select="memberFilterbyDepartment()"
-                          v-model="dept_list"
-                          :options="departmentLists"
-                        /> -->
                       </div>
                     </td>
                   </tr>
@@ -122,7 +84,6 @@
                   <tr>
                     <td class="member_name_td">
                       <div class="psw_visibilty">
-                        <!-- v-model="SearchKeyword" -->
                         <input
                           type="text"
                           @input="SearchByKeyword"
@@ -262,25 +223,16 @@
 </template>
 
 <script>
-// import TabsHr from "../../components/Shared/TabsHr.vue";
-// import Multiselect from "@vueform/multiselect";
 import searchIcon from "../../../public/icons/search.svg";
-// import UserPic from "../../assets/users/Avatar.png";
 import Dropdown from "primevue/dropdown";
 import MultiSelect from "primevue/multiselect";
 
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
 import { mapGetters } from "vuex";
-import CommonService from "../../Services/CommonService";
 import PermissionModal from "../../components/Shared/PermissionModal.vue";
 import CompanyService from "../../Services/Company/CompanyService";
-import {
-  getCategoryModified,
-  getFirstLetter,
-  getRolesModified,
-} from "../../utils/commonHelperFuntions";
-import errorhandler from "../../utils/Error";
-import { departmentModify } from "../../utils/DepartmentModify";
+import { getFirstLetter } from "../../utils/commonHelperFuntions";
+
 const tablist = [
   {
     tabId: 0,
@@ -297,7 +249,6 @@ export default {
   components: {
     Dropdown,
     PermissionModal,
-    // Multiselect,
     MultiSelect,
   },
   data() {
@@ -306,14 +257,11 @@ export default {
       myRole: "",
       userKeyword: undefined,
       filterRole: "",
-      ownRoleLists: [],
-      departmentLists: [],
-      // UserPic,
+
       tablist,
       dept_list: [],
       categy_list: [],
       allMembersList: [],
-      categoriesList: [],
     };
   },
   computed: {
@@ -321,6 +269,9 @@ export default {
       staffInfo: "staffData",
       membersList: "companyMembers",
       ownRole: "roleInCompany",
+      departmentLists: "allCompanyDepartment",
+      categoriesList: "allCategories",
+      ownRoleLists: "allRoles",
     }),
   },
   watch: {
@@ -370,7 +321,6 @@ export default {
       this.allMembersList = this.membersList;
     },
     // filter by Department
-
     memberFilterbyDepartment() {
       console.log("all department by v-modal", this.dept_list);
       let data = {
@@ -405,53 +355,16 @@ export default {
     },
     // get role in company lists
     getRoleInCompany() {
-      CommonService.getAllOwnRoleInCompany().then((resp) => {
-        if (resp.data.status) {
-          this.ownRoleLists = getRolesModified(resp.data.data);
-        } else {
-          this.ownRoleLists = [];
-          errorhandler(resp, this);
-        }
-      });
+      this.$store.dispatch("GET_ROLES");
     },
+
     // get All Category lists
     getCategoryList() {
-      CommonService.allCategories().then((resp) => {
-        if (resp.data.status) {
-          this.$store.dispatch("GET_ALL_CATEGORIES", resp.data.data);
-          console.log("all category ", resp.data.data);
-          this.categoriesList = getCategoryModified(resp.data.data);
-
-          // for (var i = 0; i < resp.data.data.length; i++) {
-          //   let categy = {
-          //     value: resp.data.data[i].id,
-          //     label: resp.data.data[i].name,
-          //   };
-          //   this.categoriesList.push(categy);
-          // }
-        } else {
-          this.categoriesList = [];
-          errorhandler(resp, this);
-        }
-      });
+      this.$store.dispatch("GET_ALL_CATEGORIES");
     },
+
     getdDepartmentList() {
-      CommonService.getAllDepartments().then((resp) => {
-        if (resp.data.status) {
-          this.departmentLists = departmentModify(resp.data.data);
-          // for (var i = 0; i < resp.data.data.length; i++) {
-          //   let dept = {
-          //     value: resp.data.data[i].departmentid,
-          //     label: resp.data.data[i].name,
-          //   };
-          //   this.departmentLists.push(dept);
-          // }
-          console.log("department lsit", this.departmentLists);
-        } else {
-          this.departmentLists = [];
-          errorhandler(resp, this);
-        }
-      });
+      this.$store.dispatch("GET_ALL_COMPANY_DEPARTMENT");
     },
   },
 };
@@ -604,15 +517,9 @@ export default {
     }
   }
 }
-// .table > :not(caption) > * > * {
-//   padding: 0.1rem 0.1rem !important;
-// }
+
 .table {
   padding: 0 !important;
-  // &.table > :not(caption) > * > * {
-  //   padding: 0;
-  //   border: 0;
-  // }
 }
 .filter_name_td {
   padding: 0;

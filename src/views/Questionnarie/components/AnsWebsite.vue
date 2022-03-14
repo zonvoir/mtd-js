@@ -68,13 +68,6 @@ export default {
         this.isFieldValid = true;
       }
       this.emitData(val);
-      // if (this.v$.$invalid) {
-      //   return;
-      // } else {
-      //   this.isFieldValid = true;
-      // }
-      // this.tempVal = event.target.value;
-      // this.emitData(this.tempVal);
     },
     emitData(val) {
       this.$emit("getUserSelected", {

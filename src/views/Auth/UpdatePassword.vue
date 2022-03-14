@@ -1,7 +1,7 @@
 <template>
   <div class="register_auth_wrapper">
     <div v-if="reserLinkStatus" class="main-heading-wrap text-center">
-      <h2 class="main-heading">
+      <h2 class="main-heading success_heading">
         An email has been sent to your email! Click the link to reset it.
       </h2>
     </div>
@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="form-wrapper">
-        <form action="">
+        <form action="" @submit.prevent="onSubmit">
           <div class="k_form_group">
             <input
               type="email"
@@ -47,8 +47,7 @@
             <button
               :disabled="isSubmitted"
               class="btn k_btn_block btn-primary"
-              type="button"
-              @click="onSubmit"
+              type="submit"
             >
               RESET PASSWORD
             </button>
@@ -110,7 +109,6 @@ export default {
       LoginService.forgotPassword(this.forgetPasswordForm)
         .then((res) => {
           if (res.data.status) {
-            // console.log("res from forgot password", res.data.data);
             this.reserLinkStatus = true;
           } else {
             errorhandler(res, this);
@@ -127,4 +125,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.success_heading {
+  padding: 0 5rem;
+}
+</style>

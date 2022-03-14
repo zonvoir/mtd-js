@@ -49,7 +49,7 @@
             optionLabel="label"
             optionValue="value"
             v-model="myDepartmensList"
-            :options="departmentModifyComp(departments)"
+            :options="departments"
             @blur="v$.myDepartmensList.$touch"
             :class="{
               'is-invalid': v$.myDepartmensList.$error,
@@ -70,7 +70,7 @@
         <div class="k_date_picker k_inp_half m-l-10">
           <Datepicker
             ref="selected_date"
-            class="invalid_error"
+            class=""
             @open="clearDate"
             :enableTimePicker="false"
             v-model="expiryDate"
@@ -235,13 +235,12 @@
 import Datepicker from "vue3-date-time-picker";
 import "vue3-date-time-picker/dist/main.css";
 import Select2 from "vue3-select2-component";
-// import Multiselect from "@vueform/multiselect";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import MultiSelect from "primevue/multiselect";
 
 import { mapGetters } from "vuex";
-import errorhandler from "../../utils/Error";
+import errorhandler, { successhandler } from "../../utils/Error";
 import CompanyService from "../../Services/Company/CompanyService";
 import InvitationEmail from "../Shared/InvitationEmail.vue";
 import Accordion from "primevue/accordion";
@@ -253,10 +252,6 @@ export default {
       type: Array,
       required: true,
     },
-    // staffRoles: {
-    //   type: Array,
-    //   required: true,
-    // },
   },
   components: {
     Select2,
@@ -273,8 +268,8 @@ export default {
       myValue: "",
       expiryDate: "",
       validity_date: "",
-      consultantId: 4,
-      ownerId: 5,
+      // consulatant_roleId: 4,
+      // ownerId: 5,
       myDepartmensList: [],
       settings: {},
       emailPattern:
@@ -297,6 +292,7 @@ export default {
       companyLists: "staffsCompanies",
       ownRole: "roleInCompany",
     }),
+    ...mapGetters(["owner_roleId", "consulatant_roleId"]),
   },
   setup() {
     return {
@@ -336,7 +332,7 @@ export default {
       return departmentModify(val);
     },
     checkRoles() {
-      if (this.ownRole.roleId == this.consultantId) {
+      if (this.ownRole.roleId == this.consulatant_roleId) {
         return true;
       } else return false;
     },
@@ -459,10 +455,11 @@ export default {
       CompanyService.invitationByFile(data).then((res) => {
         if (res.data.status) {
           this.is_FileUploaded = false;
-          this.$toast.success(" file Uploaded !! update list after some time", {
-            position: "bottom-left",
-            duration: 3712,
-          });
+          successhandler(" file Uploaded !! update list after some time");
+          // this.$toast.success(" file Uploaded !! update list after some time", {
+          //   position: "bottom-left",
+          //   duration: 3712,
+          // });
           this.$store.dispatch(
             "getInvitationList",
             res.data.data.invitation_list
@@ -475,8 +472,12 @@ export default {
     },
     // send Invitation by Emails
     SendEmailsList(roleId) {
-      console.log("checking for consulant", roleId);
-      if (this.ownerId == roleId) {
+      console.log(
+        "checking for consulant",
+        this.owner_roleId,
+        this.consulatant_roleId
+      );
+      if (this.owner_roleId == roleId) {
         console.log("this is Owner", roleId);
         let data = {
           auth_token: this.staffInfo.auth_token,
@@ -513,12 +514,13 @@ export default {
           this.$store.dispatch("GET_INVITATION_STAFFROLE_LIST", res.data.data);
 
           this.disbaleInvited = true;
-          this.$toast.success("Invitations have been sent ", {
-            position: "bottom-left",
-            duration: 3712,
-          });
+          successhandler("Invitations have been sent ");
+          // this.$toast.success(, {
+          //   position: "bottom-left",
+          //   duration: 3712,
+          // });
         } else {
-          errorhandler(res, this);
+          errorhandler(res);
         }
       });
     },
@@ -559,16 +561,16 @@ export default {
   text-align: center;
 }
 // dropdown
-.invalid_error {
-  &:focus {
-    outline: 2px solid #db2c66 !important;
-    outline-offset: 0px;
-  }
-  .dp__input {
-    outline: 2px solid #db2c66 !important;
-    outline-offset: 0px;
-  }
-}
+// .invalid_error {
+//   &:focus {
+//     outline: 2px solid #db2c66 !important;
+//     outline-offset: 0px;
+//   }
+//   .dp__input {
+//     outline: 2px solid #db2c66 !important;
+//     outline-offset: 0px;
+//   }
+// }
 .btn_primary_transparent {
   font-weight: 600;
   font-size: 14px;

@@ -37,27 +37,15 @@
         </AccordionTab>
       </Accordion>
     </div>
-    <!-- <div v-for="(list, idx) in lists" :key="list.id" class="">
-      <Accordion2 :items="list.tag_list">
-        <template v-slot:accordionbody1>
-          <div class="desc_wrap">
-            <p class="m-b-0 desc_cont">{{ list.tag_list[idx].description }}</p>
-          </div>
-        </template>
-      </Accordion2>
-    </div> -->
-
     <!-- list_wrap -->
   </div>
 </template>
 
 <script>
-// import Accordion2 from "../../components/Shared/Accordion2.vue";
 import Accordion from "primevue/accordion";
 import AccordionTab from "primevue/accordiontab";
 export default {
   components: {
-    // Accordion2,
     Accordion,
     AccordionTab,
   },

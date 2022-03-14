@@ -47,7 +47,6 @@
 </template>
 
 <script>
-// import Accordion from "../../components/Shared/Accordion.vue";
 import Accordion from "primevue/accordion";
 import AccordionTab from "primevue/accordiontab";
 export default {

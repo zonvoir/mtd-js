@@ -4,7 +4,6 @@
       <label id="toggle-label" class="toggle_label m-r-12">No</label>
       <Toggle v-model="answer" @change="updateAnswer" />
       <label id="toggle-label" class="toggle_label m-l-12">Yes</label>
-      <!-- <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quidem, officiis.</p> -->
     </div>
   </div>
 </template>
@@ -32,12 +31,6 @@ export default {
   },
   beforeUnmount() {
     console.log("i am from before unmunted");
-    // this.isFieldValid = false;
-    // if (this.tempAns != "") {
-    //   this.emitData(this.tempAns);
-    // } else {
-    //   this.emitData(this.tempAns);
-    // }
   },
   unmounted() {
     console.log("i am from un mounted");
@@ -75,10 +68,7 @@ export default {
     updateAnswer() {
       this.v$.$touch();
       this.isFieldValid = true;
-      // console.log(this.v$.$invalid);
-      // if (!this.v$.$invalid) {
-      //   this.isFieldValid = true;
-      // }
+
       this.changeAns(this.answer.toString());
       this.tempAns = this.changeAns(this.answer);
       console.log("ans", this.tempAns);

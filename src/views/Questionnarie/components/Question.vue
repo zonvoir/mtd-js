@@ -1,7 +1,8 @@
 <template>
   <div>
     <div v-if="questions.length">
-      <!-- question Section Start {{ questionIdex }} -->
+      <!-- question Section Start  -->
+
       <div>
         <h4 class="m-b-0 question_title m-b-14" :data-index="questionIdex">
           {{ questions[currentIdx].name }}
@@ -245,11 +246,8 @@ export default {
     ...mapGetters({
       questions: "getQuestionList",
     }),
-    // ...mapState({
-    //   questions: (state) => state.questionList,
-    // }),
+
     questionIdex() {
-      // this.isValidated = false;
       console.log(this.$store.getters.randomQuizIndex);
       return this.$store.getters.randomQuizIndex;
     },
@@ -335,10 +333,6 @@ export default {
         this.questions[this.currentIdx].is_answered = true;
         if (res.data.status) {
           if (this.currentIdx >= this.questions.length - 1) {
-            this.$toast.success("Thanks for participating", {
-              position: "bottom-left",
-              duration: 3712,
-            });
             let ro = this.$route.params;
             this.$router.push({
               name: "category-results",
@@ -372,7 +366,6 @@ export default {
         perValue = 0;
       }
       perValue = parseInt(perValue);
-      // this.$store.dispatch("getIncrementProgressValue", perValue);
       this.$store.dispatch("GET_INCREMENT_PROGRESS_VALUE", perValue);
     },
   },

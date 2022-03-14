@@ -373,13 +373,12 @@
   </div>
 </template>
 <script>
-// import {OK} from "mdue";
 import { ref } from "vue";
 import { required, email, sameAs } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import { Modal } from "bootstrap";
 import signupService from "../../Services/SignupService";
-import errorhandler from "../../utils/Error";
+import errorhandler, { successhandler } from "../../utils/Error";
 
 // MINIMUM 8 CHARCTER
 const minimum8CharCalc = (val) => val.length >= 8;
@@ -395,10 +394,7 @@ const specialCharCalc = (val) => {
 };
 
 export default {
-  components: {
-    // MicrosoftWindows,
-    // Check,
-  },
+  components: {},
 
   data() {
     return {
@@ -427,7 +423,6 @@ export default {
   },
   validations() {
     return {
-      // $th = this,
       registerForm: {
         privacy_policy: {
           required(val) {
@@ -468,28 +463,17 @@ export default {
       this.registerForm.email = this.invitedUserData.email;
       this.registerForm.invitation_id = this.invitedUserData.invitation_id;
     }
-    // console.log("user is email ", invitedStaff.email);
   },
   created() {
     let invitedStaffData = this.$route.query;
-    console.log("invited data", invitedStaffData);
     if (invitedStaffData && Object.keys(invitedStaffData).length != 0) {
       console.log("invited user is awailble");
       invitedStaffData.departments = invitedStaffData.departments.split(",");
-      console.log("user is Invited data", invitedStaffData);
       localStorage.setItem(
         "bWFInpvitedbpbUser",
         JSON.stringify(invitedStaffData)
       );
     }
-    // let deparments = this.$route.query.departments;
-    // console.log("data in route", deparments, this.$route.query.departments);
-    // let Arr = deparments.split(",");
-    // getTokenFromUrl() {
-    // if ( != null) {
-    //   this.verifyEmail(this.$route.query.token);
-    // }
-    // this.getTokenFromUrl();
   },
   setup() {
     return {
@@ -504,18 +488,13 @@ export default {
         return;
       } else {
         this.isSubmitted = true;
-        console.log(this.registerForm);
         signupService
           .create(this.registerForm)
           .then((response) => {
             if (response.data.status) {
               console.log("regitration respponse", response.data.data);
               this.registeredEmail = response.data.data.email;
-              this.$toast.success(response.data.message, {
-                position: "bottom-left",
-                duration: 3712,
-              });
-
+              successhandler(response);
               if (this.invitedUserData === null) {
                 this.modal.show();
               } else {

@@ -31,7 +31,7 @@ export default {
       invitedId: undefined,
     };
   },
-  created() {},
+
   methods: {
     onLogout() {
       localStorage.removeItem("bWFpbCI6Inpvb");

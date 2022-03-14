@@ -162,9 +162,6 @@ export default {
       ];
       this.modal.hide();
     },
-    // checkFormValidation(value) {
-    //   this.emitedValidation = value;
-    // },
     addMultipleCareer() {
       this.newAddedCareer = [];
       this.modal.show();
@@ -192,7 +189,6 @@ export default {
         dataResp[indx] = this.$refs["childCareer" + indx].validateForm();
 
         console.log(dataResp);
-        // console.log(this.$refs["childCareer" + indx], val, indx);
         data.push(val);
       });
 
@@ -203,8 +199,6 @@ export default {
         this.multifrom = false;
         this.modal.hide();
       }
-      // if (!this.v$.$invalid) {
-      // }
     },
     addMoreCareerInformation() {
       this.carreerForm.push({
@@ -221,22 +215,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// modal start
-// .custom_label {
-//   &::placeholder {
-//     color: red;
-//     opacity: 1; /* Firefox */
-//   }
-
-//   &:-ms-input-placeholder {
-//     /* Internet Explorer 10-11 */
-//     color: red;
-//   }
-
-//   &::-ms-input-placeholder {
-//     color: red;
-//   }
-// }
 .date_label {
   position: absolute;
   padding: 8px;

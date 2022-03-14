@@ -71,7 +71,6 @@ export default {
 
   methods: {
     getQuestionById(id) {
-      // this.$store.dispatch("getRandomQuestionIndex", id);
       this.$store.dispatch("GET_RANDOM_QUESTION_INDEX", id);
     },
   },

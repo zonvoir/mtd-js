@@ -57,7 +57,15 @@ class CompanyService {
   companySuggestions() {
     return http.get("customers/data_suggestion");
   }
-
+  //get All Extended deparartments
+  getExtendedDepartments(token) {
+    return http.post("lists/extended_departments", token, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
   // staff company list
   companiesList(data) {
     return http.post("customers/staff_company", data, {
@@ -146,6 +154,28 @@ class CompanyService {
   }
   getYears() {
     return http.get("lists/years");
+  }
+  setUpCompany(data) {
+    return http.post("customers/data/", data);
+  }
+
+  // get All roles that are available in comapny
+  allSlugRoles() {
+    return http.get("lists/roles_slug", {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+  // inivite team List
+  getInvitedTeamManagenet(data) {
+    return http.post("roles/get_team_management", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
   }
 }
 export default new CompanyService();

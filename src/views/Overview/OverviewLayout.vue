@@ -33,7 +33,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-// import { mapGetters } from "vuex";
 const tablist = [
   {
     tabId: 0,
@@ -69,20 +68,7 @@ export default {
       ownRole: "roleInCompany",
     }),
   },
-  // created() {
-  //   let invitedStaffData = this.$route.query;
-  //   console.log("invited data", invitedStaffData);
-  //   if (invitedStaffData && Object.keys(invitedStaffData).length != 0) {
-  //     localStorage.setItem(
-  //       "bWFInpvitedbpbUser",
-  //       JSON.stringify(invitedStaffData)
-  //     );
-  //     console.log("invited user is awailble");
-  //     if (this.invitedUserData.invitation_id) {
-  //       this.$router.push({ name: "link-company-account" });
-  //     }
-  //   }
-  // },
+
   methods: {
     ChangeT(title) {
       this.title = title;

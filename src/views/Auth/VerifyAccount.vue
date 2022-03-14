@@ -141,9 +141,6 @@ export default {
   },
   mounted() {
     this.modal = new Modal(this.$refs.exampleModal);
-    // if (this.invitedUserData && Object.keys(this.invitedUserData).length != 0) {
-    //   this.isInvitedUser();
-    // }
     if (
       this.invitedUserData &&
       Object.keys(this.invitedUserData).length != 0 &&
@@ -163,7 +160,6 @@ export default {
     }
     this.otpForm.email = this.logData.email;
     this.otpForm.stay_signed_in = this.logData.stay_signIn;
-    // this.OTPInput();
   },
 
   setup() {
@@ -198,7 +194,6 @@ export default {
               JSON.stringify(res.data.data)
             );
             let user = JSON.parse(localStorage.getItem("bWFpbCI6Inpvb"));
-            // this.$store.dispatch("GET_STAFFS_DEPARTMENT", user);
             if (
               this.invitedUserData &&
               Object.keys(this.invitedUserData).length != 0 &&
@@ -208,18 +203,7 @@ export default {
             } else {
               this.isCareer = res.data.data.is_career_information_setup;
               this.isCompany = res.data.data.is_company_setup;
-              console.log(
-                "is career",
-                this.isCareer,
-                "is Company",
-                this.isCompany
-              );
-              // this.$router.push({ name: "Dashboard" }); //for now temporrary basis
-              //    if (res.data.data.is_career_information_setup == false) {
-              //   this.modal.show();
-              // } else if (res.data.data.is_company_setup == false) {
-              //   this.modal.show();
-              // } else
+
               if (
                 res.data.data.is_career_information_setup &&
                 res.data.data.is_company_setup
@@ -248,9 +232,7 @@ export default {
       this.isSubmitted = !ev.valiated;
       this.otpForm.otp = ev.asString;
       this.otpForm.code = ev.lists;
-      // if (!this.isSubmitted) {
-      //   this.OTPInput();
-      // }
+
       console.log("completed", ev, this.isSubmitted);
     },
 

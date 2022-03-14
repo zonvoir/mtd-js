@@ -25,34 +25,6 @@
             v-model="dept_list"
             :options="allDepartments"
           />
-          <!-- <Multiselect
-            :placeholder="$t('personal_account.form.placeholder.department')"
-            mode="tags"
-            :closeOnSelect="false"
-            :searchable="true"
-            :createTag="true"
-            v-model="dept_list"
-            class="form-control k_inp_field"
-            rules="required"
-            @deselect="permissionFilter"
-            @select="permissionFilter"
-            :options="allDepartments"
-          /> -->
-          <!-- @blur="v$.myDepartmensList.$touch"
-            :class="{
-              'is-invalid': v$.myDepartmensList.$error,
-            }"
-          <div
-            v-if="v$.myDepartmensList.$error"
-            class="invalid-feedback text-left"
-          >
-            <span
-              v-if="v$.myDepartmensList.required.$invalid"
-              class="text-left fs-14"
-            >
-              Department is Required
-            </span>
-          </div> -->
         </div>
         <div class="k_form_group dept_selct_wrap k_lang k_select_single">
           <MultiSelect
@@ -66,40 +38,8 @@
             optionLabel="label"
             optionValue="value"
             v-model="catgry_list"
-            :options="modifyCategories(categoriesArr)"
+            :options="categoriesArr"
           />
-          <!-- <Multiselect
-            :placeholder="
-              $t(
-                'company_profile.members_tab.members_table.placeholder.category'
-              )
-            "
-            mode="tags"
-            :closeOnSelect="false"
-            :searchable="true"
-            :createTag="true"
-            v-model="catgry_list"
-            @deselect="permissionFilter"
-            @select="permissionFilter"
-            class="form-control k_inp_field"
-            rules="required"
-            :options="modifyCategories(categoriesArr)"
-          /> -->
-          <!-- @blur="v$.categoriesList.$touch"
-            :class="{
-              'is-invalid': v$.categoriesList.$error,
-            }"
-          <div
-            v-if="v$.categoriesList.$error"
-            class="invalid-feedback text-left"
-          >
-            <span
-              v-if="v$.categoriesList.required.$invalid"
-              class="text-left fs-14"
-            >
-              Department is Required
-            </span>
-          </div> -->
         </div>
       </div>
     </div>
@@ -108,12 +48,8 @@
 
 <script>
 import "vue3-date-time-picker/dist/main.css";
-// import Multiselect from "@vueform/multiselect";
 import MultiSelect from "primevue/multiselect";
-// import useVuelidate from "@vuelidate/core";
-// import { required } from "@vuelidate/validators";
 import { mapGetters } from "vuex";
-// import CommonService from "../../Services/CommonService";
 import { departmentModify } from "../../utils/DepartmentModify";
 import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
@@ -146,14 +82,10 @@ export default {
       staffInfo: "staffData",
       categoriesArr: "allCategories",
       permissonList: "memberPermissions",
-
       allDepartments: "alocatedDepartments",
     }),
   },
-  // created() {
-  //   this.permissonsArr = this.permissonList;
-  //   console.log("permission alter", this.permissonsArr);
-  // },
+
   watch: {
     permissonList: {
       handler(val) {
@@ -161,7 +93,6 @@ export default {
         if (this.count == 1) {
           this.permissonsArr = val;
         }
-        // this.getAllMemberList(this.example8.value);
       },
       deep: true,
     },
@@ -172,7 +103,6 @@ export default {
       return departmentModify(data);
     },
     modifyCategories(data) {
-      // return getCategoryModified(data);
       return data;
     },
 

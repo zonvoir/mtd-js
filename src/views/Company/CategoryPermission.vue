@@ -65,18 +65,6 @@
             )
           "
         />
-        <!-- <BaseCheckBox v-if="categoryPermit.permissions!=null"
-          :checkval="categoryPermit.permissions.ans"
-          :key="`${categoryPermit.company_id}${categoryPermit.category_id}`"
-          :checkval="categoryPermit.permissions.ans"
-          @getCheckboxValue="
-            getPermissionValue(
-              $event,
-              categoryPermit.company_id,
-              categoryPermit.category_id
-            )
-          "
-        /> -->
       </div>
     </td>
     <td>
@@ -186,7 +174,6 @@
     </td>
     <td class="border_right_primary">
       <div class="perms_td">
-        <!-- change here  -->
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.gr_globle_peer"
@@ -272,14 +259,10 @@ export default {
     BaseCheckBox,
   },
 
-  // created() {
-  //   console.log("permission page ", this.categoryPermit.permissions);
-  // },
   methods: {
     getPermissionValue(ev, keyname, departmentId, categoryId) {
       console.log(ev.checkedData, keyname, departmentId, categoryId);
-      // this.currentId = companyId + categoryId;
-      // this.isAllowed = ev.checkedData;
+
       this.$emit("getPermitData", {
         dept_id: departmentId,
         cat_id: categoryId,
@@ -287,9 +270,6 @@ export default {
         isAllowed: ev.checkedData,
       });
     },
-    // currentPermissson(id) {
-    //   this.currentId = id;
-    // },
   },
 };
 </script>
@@ -312,7 +292,6 @@ tr {
     }
     .perms_td {
       font-weight: 500;
-      // font-size: 12px;
       padding: 14px;
       text-align: center;
       vertical-align: center;
@@ -320,11 +299,6 @@ tr {
       line-height: 24px;
       color: #000000;
     }
-    // &.cell_width {
-
-    //   text-align: left;
-    //   vertical-align: center;
-    // }
   }
 }
 </style>

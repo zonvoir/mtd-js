@@ -2,14 +2,12 @@ import axios from "axios";
 import nProgress from "nprogress";
 
 const languages = { en: "english", de: "german" };
-// const apiToken = process.env.VUE_API_KEY;
 const instance = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
   headers: {
     authtoken: process.env.VUE_APP_API_KEY,
     "Content-type": "application/json",
-    // company: localStorage.getItem("selected_company"),
-    // year: localStorage.getItem("selected_year"),
+
     "Accept-Language": localStorage.getItem("language")
       ? languages[localStorage.getItem("language")]
       : "english",

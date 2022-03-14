@@ -33,9 +33,7 @@ export default {
   methods: {
     updateAnswer() {
       this.isChecked = !this.isChecked;
-      // console.log("hello checked", this.val);
       this.$emit("getCheckboxValue", {
-        // checkedData: this.isChecked,
         checkedData: this.val,
       });
     },

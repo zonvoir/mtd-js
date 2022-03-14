@@ -27,11 +27,6 @@
             <!-- Fill all the KPI questions -->
           </p>
           <div class="m-l-auto">
-            <!--  :disabled="
-                !questionnaireDetails.is_accessible ||
-                !(questionnaireDetails.number_of_questions > 0) ||
-                questionnaireDetails.is_expired
-              " -->
             <button
               :disabled="
                 !questionnaireDetails.is_accessible ||
@@ -115,7 +110,6 @@
               "
             >
               {{ $t("category_details.overiewTab.Completed_Surveys") }}
-              <!-- <span class="text-green">22/22</span>completed_servey -->
               <span class="text-green"
                 >{{ questionnaireDetails.completed_servey }}/{{
                   questionnaireDetails.invited_people
@@ -135,10 +129,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-// import moment from ''
-// import { mapState } from "vuex";
+
 import DonutChart from "../../components/Shared/DonutChart.vue";
-import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
 export default {
   components: {
     DonutChart,
@@ -155,10 +147,6 @@ export default {
   },
 
   computed: {
-    // ...mapState({
-    //   category: (state) => state.questionnaire,
-    //   questionnaireDetails: (state) => state.questionnaireDetails,
-    // }),
     ...mapGetters({
       questionnaireDetails: "questionnaireDetails",
       category: "questionnaire",
@@ -168,47 +156,8 @@ export default {
     console.log("kuldip  Details", this.questionnaireDetails);
     this.departmentId = this.$route.params.did;
     this.categoryID = this.$route.params.id;
-    this.authToken = this.staffData.auth_token;
-    let data = {
-      auth_token: this.authToken,
-      department_id: this.departmentId,
-      category_id: this.categoryID,
-    };
-    this.getDeptAndCategoryDetails(data);
-    // this.checkExpiration(this.questionnaireDetails.expiration_date);
   },
   methods: {
-    getDeptAndCategoryDetails(data) {
-      QuestionnaireService.getOneCategory(data).then((res) => {
-        if (res.data.status) {
-          this.$store.dispatch(
-            "getQuestionnaire",
-            res.data.data.category_details
-          );
-          console.log("details", res.data.data.questionnaire.detail);
-          this.$store.dispatch(
-            "questionnaireDetails",
-            res.data.data.questionnaire.detail
-          );
-          // this.checkValiditonToStart();
-        } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          }
-        }
-      });
-    },
     startQuestionnarie() {
       this.$router.push({
         name: "questionnarie-test",
@@ -218,33 +167,6 @@ export default {
         },
       });
     },
-    // checkValiditonToStart() {
-    //   console.log(
-    //     this.questionnaireDetails.is_accessible,
-    //     (this.questionnaireDetails.number_of_questions = !0),
-    //     this.isQuestionnireExpired
-    //   );
-    //   if (
-    //     this.questionnaireDetails.is_accessible &&
-    //     this.questionnaireDetails.number_of_questions != 0 &&
-    //     this.isQuestionnireExpired
-    //   ) {
-    //     console.log("user is allowed");
-    //     this.isInvalidUser = false;
-    //   }
-
-    // },
-    // checkExpiration(date) {
-    //   console.log(date);
-    //   let today = new Date();
-    //   if (today >= date) {
-    //     this.isQuestionnireExpired = false;
-    //     console.log("time is expired", this.isQuestionnireExpired);
-    //   } else {
-    //     this.isQuestionnireExpired = true;
-    //     console.log("time is not expired", this.isQuestionnireExpired);
-    //   }
-    // },
   },
 };
 </script>

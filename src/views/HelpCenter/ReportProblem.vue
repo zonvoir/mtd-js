@@ -10,18 +10,12 @@
         <Dropdown
           optionLabel="label"
           optionValue="value"
-          placeholder="Select a problem"
-          class="k_prime_inp_select"
-          :options="issues"
-        />
-        <!-- <Multiselect
           :placeholder="
             $t('help_center.Report_a_problem_tab.form.placeholder.role')
           "
-          class="form-control k_inp_field"
-          rules="required"
+          class="k_prime_inp_select"
           :options="issues"
-        /> -->
+        />
       </div>
       <div class="k_form_group p-b-49">
         <textarea
@@ -42,7 +36,6 @@
 </template>
 
 <script>
-// import Multiselect from "@vueform/multiselect";
 import Dropdown from "primevue/dropdown";
 export default {
   components: {

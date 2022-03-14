@@ -297,31 +297,6 @@ export default {
   border-radius: 50%;
   border: 2px solid #fdfdfd;
 }
-// .search_btn {
-//   position: absolute;
-//   top: 8px;
-//   right: 8px;
-// }
-
-// .icon_bg {
-//   width: 36px;
-//   height: 36px;
-//   border-radius: 36px;
-// }
-
-// .icon_name {
-//   top: 50%;
-//   left: 50%;
-//   position: absolute;
-//   transform: translate(-50%, -50%);
-// }
-// ._search_filter {
-//   height: 40px;
-//   width: 340px;
-// }
-.cp_none {
-  // cursor: default;
-}
 .tabs_wrap {
   display: flex;
   justify-content: space-between;
@@ -460,11 +435,5 @@ export default {
 }
 .border-0 {
   border: 0;
-}
-.table_container {
-  //   background-color: #ffffff;
-  //   padding: 20px 24px 0 24px;
-  //   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
-  //   border-radius: 4px;
 }
 </style>

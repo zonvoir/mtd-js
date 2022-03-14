@@ -2,51 +2,57 @@
   <div class="header-wrappper">
     <div class="left-header">
       <div class="comp_select">
-        <Multiselect
-          v-model="example8.value"
-          v-bind="example8"
-          @select="changeCompany"
-          class="header_select"
+        <Dropdown
+          v-model="myCurrentCompany"
+          :options="companyListArr"
+          optionLabel="label"
+          class="company_select_header"
+          placeholder="Select a company"
+          @change="changeCompany"
         >
-          <template v-slot:singlelabel="{ value }">
-            <div class="multiselect-single-label">
+          <template #value="slotProps">
+            <div class="company-item company-item-value" v-if="slotProps.value">
               <img
-                v-if="value.icon"
-                class="character-label-icon"
-                :src="value.icon ? value.icon : 'K_Icons/company_no_logo.svg'"
+                v-if="slotProps.value.icon"
+                class="img_logo"
+                :src="slotProps.value.icon"
               />
               <span v-else class="default_logo m-r-10">
-                <b>{{ getFirstCharacter(value.name) }}</b>
+                <b>{{ getFirstCharacter(slotProps.value.label) }}</b>
               </span>
-              {{ value.name }}
+              <span class="company_item_name">{{ slotProps.value.label }}</span>
             </div>
           </template>
-
-          <template v-slot:option="{ option }">
-            <img
-              v-if="option.icon"
-              class="character-option-icon"
-              :src="option.icon ? option.icon : 'K_Icons/company_no_logo.svg'"
-            />
-            <span v-else class="default_logo m-r-10">
-              <b> {{ getFirstCharacter(option.name) }}</b>
-            </span>
-            {{ option.name }}
+          <template #option="slotProps">
+            <div class="company-item">
+              <img
+                v-if="slotProps.option.icon"
+                class="img_logo"
+                :src="slotProps.option.icon"
+              />
+              <span v-else class="default_logo m-r-10">
+                <b>{{ getFirstCharacter(slotProps.option.label) }}</b>
+              </span>
+              <span class="company_item_name">{{
+                slotProps.option.label
+              }}</span>
+            </div>
           </template>
-        </Multiselect>
+        </Dropdown>
       </div>
       <!-- select year- -->
       <div class="comp_year_select">
-        <Multiselect
-          v-model="currentYear"
+        <Dropdown
+          class="header_year"
+          optionLabel="label"
+          optionValue="value"
           :placeholder="$t('header.placeholder.select_year')"
-          class="header_select"
-          @select="changeYear"
-          :options="yearOptions"
+          :options="modifyYear(yearOptions)"
+          @change="changeYear"
+          rules="required"
+          v-model="currentYear"
         />
       </div>
-      <!-- {{ currentYear }}
-      {{ yearOptions }} -->
     </div>
     <div class="right-header">
       <!-- profile section -->
@@ -73,32 +79,6 @@
             "
             class="profile-pic"
           />
-          <!-- <TieredMenu
-            id="prime_profile_dropdown"
-            ref="menu"
-            :model="items"
-            :popup="true"
-          >
-            <template #item="{ item }">
-              <div class="d-flex align-items-center" @click="removeInvitaion">
-                <Button
-                  type="button"
-                  :icon="item.icon"
-                  class="
-                    p-button-rounded
-                    kp_icon_btn
-                    p-button-text p-button-plain
-                  "
-                  aria-haspopup="true"
-                  aria-controls="prime_profile_dropdown"
-                />
-                <span icon="item"></span>
-                <a :href="item.url" class="cusdropdown">{{ item.label }}</a>
-              </div>
-            </template>
-          </TieredMenu> -->
-          <!-- 'default-user.png' -->
-          <!-- <img src="../../assets/users/100_3.jpg" class="profile-pic" /> -->
         </a>
       </div>
     </div>
@@ -123,21 +103,16 @@
 </template>
 
 <script>
-import Multiselect from "@vueform/multiselect";
-import signupService from "../../Services/SignupService";
 import companyService from "../../Services/Company/CompanyService";
 import { mapGetters } from "vuex";
 import errorhandler from "../../utils/Error";
 import { getFirstLetter } from "../../utils/commonHelperFuntions";
-// import TieredMenu from "primevue/tieredmenu";
-// import Button from "primevue/button";
+import Dropdown from "primevue/dropdown";
 export default {
   name: "Header",
 
   components: {
-    Multiselect,
-    // TieredMenu,
-    // Button,
+    Dropdown,
   },
   data() {
     return {
@@ -148,6 +123,7 @@ export default {
         : +new Date().getFullYear(),
       yearOptions: [],
       isprofile: false,
+      companyListArr: undefined,
       companies: [],
       staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
 
@@ -157,17 +133,16 @@ export default {
           icon: "pi pi-trash",
         },
       ],
-      example8: {
+      myCurrentCompany: {
         value: "0",
-        placeholder: "header.placeholder.select_your_company",
-        label: "name",
-        options: [],
+        label: "",
+        icon: "",
       },
+      // placeholder: "header.placeholder.select_your_company",
     };
   },
   computed: {
     ...mapGetters({
-      // staffInfo: "staffData",
       getProfileData: "personalInfo",
       getMembers: "companyMembers",
       companyLists: "staffsCompanies",
@@ -178,27 +153,22 @@ export default {
   watch: {
     currentCompany: {
       handler(val) {
-        this.example8.value = val;
-        this.getAllMemberList(this.example8.value);
+        this.myCurrentCompany = this.getCurrentActiveCompany(val);
+        this.getAllMemberList(this.myCurrentCompany.value);
       },
       deep: true,
     },
     companyLists: function (val) {
-      console.log("get  hit company pai again", val);
-      this.example8.options = [];
-      for (const company of val) {
-        let d1 = {
-          value: company.company_id,
-          name: company.company,
-          icon: company.company_logo,
+      this.companyListArr = val.map((item) => {
+        return {
+          value: item.company_id,
+          label: item.company,
+          icon: item.company_logo,
         };
-        this.example8.options.push(d1);
-      }
+      });
     },
   },
   mounted() {
-    this.example8.value = localStorage.getItem("selected_company");
-    console.log("mounted at", this.example8.value);
     if (this.$route.path === "/personal-account") {
       this.isprofile = true;
     } else {
@@ -207,7 +177,6 @@ export default {
     document.addEventListener("click", this.close);
   },
   created() {
-    console.log("created at");
     this.changeYear();
     if (
       this.staffInfo != null &&
@@ -220,63 +189,69 @@ export default {
   },
 
   methods: {
+    modifyYear(years) {
+      let data = years.map((val) => {
+        return {
+          value: val,
+          label: val,
+        };
+      });
+      return data;
+    },
     getStaffDetails() {
-      signupService
-        .getPersonalDetails({ auth_token: this.staffInfo.auth_token })
-        .then((res) => {
-          if (res.data.status) {
-            this.$store.dispatch("getPersonalInfo", res.data.data);
-          } else {
-            errorhandler(res, this);
-            this.$router.push({ name: "signup-signin" });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      this.$store.dispatch("getPersonalInfo", {
+        auth_token: this.staffInfo.auth_token,
+      });
     },
     getFirstCharacter(str) {
       return getFirstLetter(str);
     },
     getAllCompanies() {
-      companyService
-        .companiesList({ auth_token: this.staffInfo.auth_token })
+      this.$store
+        .dispatch("getStaffsCompanies", {
+          auth_token: this.staffInfo.auth_token,
+        })
         .then((res) => {
           if (res.data.status) {
-            console.log("get All Companies", res.data.data);
-            this.$store.dispatch("getStaffsCompanies", res.data.data);
             let defCompany = 0;
-            for (const company of res.data.data) {
-              let d1 = {
-                value: company.company_id,
-                name: company.company,
-                icon: company.company_logo,
-              };
-              if (company.created_by_me == "1") {
-                defCompany = company.company_id;
+            this.companies = res.data.data;
+            this.companyListArr = this.companies.map((item) => {
+              if (item.created_by_me == "1") {
+                defCompany = item.company_id;
               }
-              this.example8.options.push(d1);
-              this.companies.push(d1);
-            }
+              return {
+                value: item.company_id,
+                label: item.company,
+                icon: item.company_logo,
+              };
+            });
+
             localStorage.getItem("selected_company")
-              ? (this.example8.value = localStorage.getItem("selected_company"))
-              : (this.example8.value = +defCompany);
-            // this.example8.value = +defCompany;
+              ? (this.myCurrentCompany = this.getCurrentActiveCompany(
+                  localStorage.getItem("selected_company")
+                ))
+              : (this.myCurrentCompany =
+                  this.getCurrentActiveCompany(defCompany));
             this.changeCompany();
           } else {
-            errorhandler(res, this);
+            errorhandler(res);
           }
         });
     },
     changeCompany() {
-      localStorage.setItem("selected_company", this.example8.value);
-      this.$store.dispatch("getActiveCompany", this.example8.value);
+      localStorage.setItem("selected_company", this.myCurrentCompany.value);
+      this.$store.dispatch("getActiveCompany", this.myCurrentCompany.value);
       this.$router.push({ name: "Dashboard" });
-      this.getAllMemberList(this.example8.value);
+      this.getAllMemberList(this.myCurrentCompany.value);
     },
+
+    getCurrentActiveCompany(value) {
+      return this.companyListArr.find((x) => x.value == value);
+    },
+
     getAllMemberList(companyId) {
       let memberArr = [];
-      let deprtmentArr = [];
+      let deprtmentArr;
       let roleId;
       this.tempCompnies = this.companyLists;
       this.tempCompnies.forEach((item) => {
@@ -287,8 +262,9 @@ export default {
             can_invite: item.can_invite,
           };
           // departments that realted to staff in a perticular company
+
           item.member.forEach((memItem) => {
-            if (roleId == memItem.role_id) {
+            if (roleId.roleId == memItem.role_id) {
               deprtmentArr = memItem.departments;
             }
           });
@@ -298,17 +274,8 @@ export default {
       this.$store.dispatch("getCompanyMembers", memberArr);
       // set the role id in company
       this.$store.dispatch("getRoleInCompany", roleId);
-      // modify Accroding to multi select
-      let departmentAssignedToStaff = [];
-      departmentAssignedToStaff = deprtmentArr;
-      // deprtmentArr.forEach((item) => {
-      //   let dept = {
-      //     value: item.departmentid,
-      //     label: item.name,
-      //   };
-      //   departmentAssignedToStaff.push(dept);
-      // });
-      this.$store.dispatch("GET_STAFFS_DEPARTMENT", departmentAssignedToStaff);
+      // staff departments
+      this.$store.dispatch("GET_STAFFS_DEPARTMENT", deprtmentArr);
     },
     changeYear() {
       companyService.getYears().then((res) => {
@@ -342,7 +309,6 @@ export default {
     },
     toggleDropdown() {
       this.state = !this.state;
-      // this.$refs.menu.toggle(event);
     },
     close(e) {
       if (!this.$el.contains(e.target)) {
@@ -427,6 +393,18 @@ li {
     text-align: center;
     text-transform: uppercase;
     color: #ffffff;
+  }
+  .p-dropdown-item {
+    .company-item {
+      display: flex;
+      align-items: center;
+      .img_logo {
+        width: 36px !important;
+      }
+      .company_item_name {
+        margin-left: 5px;
+      }
+    }
   }
 }
 </style>

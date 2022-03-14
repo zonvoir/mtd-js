@@ -18,6 +18,9 @@ import "bootstrap/scss/bootstrap.scss";
 import "@vueform/multiselect/themes/default.scss";
 import "@vueform/toggle/themes/default.scss";
 import "./assets/scss/vue_mainStyle.scss";
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
 import { loadLocaleMessages, setupI18n } from "./i18n";
 
 const i18n = setupI18n({
@@ -33,6 +36,11 @@ app
   .use(i18n)
   .use(Toaster)
   .use(CKEditor)
+  .use(Toast, {
+    transition: "Vue-Toastification__bounce",
+    maxToasts: 20,
+    newestOnTop: true,
+  })
   // .use(quest)
   .use(store)
   // .use(commonModule)

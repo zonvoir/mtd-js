@@ -28,17 +28,9 @@ export const getRolesModified = (rolesArr) => {
       label: item.name,
     };
   });
-  // for (var k = 0; k < seniorityArr.length; k++) {
-  //   let level = {
-  //     value: seniorityArr[k].id,
-  //     label: seniorityArr[k].level,
-  //   };
-  //   seniorityLevelArr.push(level);
-  // }
   return rolesList;
 };
 export const getCategoryModified = (categoryArr) => {
-  console.log("type of object", typeof categoryArr);
   if (!categoryArr.length) return;
   let categoryArray = categoryArr.map((item) => {
     return {
@@ -48,15 +40,6 @@ export const getCategoryModified = (categoryArr) => {
   });
   console.log("transformed Category ", categoryArr);
   return categoryArray;
-
-  // for (var k = 0; k < categoryArr.length; k++) {
-  //   let level = {
-  //     value: categoryArr[k].id,
-  //     label: categoryArr[k].name,
-  //   };
-  //   categoryArray.push(level);
-  // }
-  // return categoryArray;
 };
 
 //  get first letter of string

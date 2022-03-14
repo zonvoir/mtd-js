@@ -55,9 +55,6 @@
                     Departament
                   </span>
                 </p>
-                <!-- <p v-if="!company.invited" class="company_desc invited">
-                  Invitation sent
-                </p> -->
               </div>
             </div>
             <div v-if="company.invited" class="select_check">
@@ -68,23 +65,8 @@
               />
             </div>
           </div>
-          <!-- <div class="compnay_tile">
-            <div class="d-inline-flex">
-              <div class="com_logo_wrap">
-                <img src="brandlogo.PNG" class="com_logo" alt="" />
-              </div>
-              <div class="comp_basic_info">
-                <h5 class="company_title">MTD</h5>
-                <p class="company_desc invited">Invitation sent</p>
-              </div>
-            </div>
-            <div  class="select_check">
-              <BaseCheckbox />
-            </div>
-          </div> -->
         </div>
         <div class="">
-          <!--  -->
           <div class="d-grid space_btn3">
             <button
               :disabled="!invitaionStatus || isSubmitted"
@@ -276,10 +258,7 @@ export default {
   border-radius: 4px;
   padding: 15px 25px 15px 17px;
   margin-bottom: 20px;
-  .select_check {
-    // margin-left: auto;
-    // display: inline;
-  }
+
   .com_logo {
     width: 40px;
     height: 40px;

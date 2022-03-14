@@ -40,10 +40,6 @@ export default {
   components: {
     Question,
   },
-  // computed: mapState({
-  //   questionnaire: (state) => state.questionnaire,
-  //   questionnaireDetails: (state) => state.questionnaireDetails,
-  // }),
   computed: {
     ...mapGetters({
       questionnaireDetails: "questionnaireDetails",

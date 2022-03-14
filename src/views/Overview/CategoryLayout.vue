@@ -32,11 +32,11 @@
           </div>
         </div>
         <div class="invite_btn_wrap m-l-auto">
-          <!-- <button class="btn-primary btn k_btn_people">INVITE PEOPLE</button> -->
           <InvitePeopleModal>
-            <template v-slot:invite-button> INVITE PEOPLE </template>
+            <template v-slot:invite-button>
+              {{ $t("company_profile.buttons.invite_members") }}
+            </template>
           </InvitePeopleModal>
-          <!-- {{ $t("company_profile.buttons.invite_members") }} -->
         </div>
       </div>
       <!-- tabs start -->
@@ -77,13 +77,6 @@ export default {
     InvitePeopleModal,
   },
   computed: {
-    // ...mapState({
-    //   category: (state) => {
-    //     console.log(state.questionnaire);
-    //     return state.questionnaire;
-    //   },
-    //   questionnaireDetails: (state) => state.questionnaireDetails,
-    // }),
     ...mapGetters({
       questionnaireDetails: "questionnaireDetails",
       category: "questionnaire",

@@ -24,15 +24,6 @@
               @change="onChangeLanguage"
               :options="laguage"
             />
-            <!-- <Multiselect
-              placeholder="English"
-              :searchable="true"
-              class="form-control k_inp_field"
-              rules="required"
-              v-model="selectedLanguage"
-              @select="onChangeLanguage"
-              :options="laguage"
-            /> -->
           </div>
         </div>
       </div>
@@ -88,9 +79,6 @@
                   <p class="text-secodary m-t-10">
                     {{ $t("personal_account.form.invalid_msgs.image_hint") }}
                   </p>
-                  <!-- <p v-else class="text-danger m-t-10">
-                    {{ $t("personal_account.form.invalid_msgs.image_hint") }}
-                  </p> -->
                 </div>
               </div>
             </div>
@@ -383,6 +371,7 @@
                 </a>
               </div>
             </div>
+            <!-- password section start -->
             <div class="border-top-1"></div>
             <div class="d-flex align-items-center">
               <h4 class="form_title">
@@ -526,7 +515,10 @@
             </h4>
             <!-- list of careers start -->
             <div v-if="careersArr.length > 0" class="careers_wrap">
-              <div v-for="(career, index) in careersArr" :key="index">
+              <div
+                v-for="(career, index) in careersArr.slice().reverse()"
+                :key="index"
+              >
                 <div class="career_info_container">
                   <div class="career_wrap">
                     <div class="img_wrap">
@@ -549,7 +541,9 @@
                         </h5>
                         <span class="in_durartion att_val">
                           <span> {{ formatMyDate(career.from) }}</span> -
-                          <span>{{ formatMyDate(career.to) }}</span>
+                          <span>{{
+                            career.to ? formatMyDate(career.to) : "Present"
+                          }}</span>
                         </span>
                       </div>
                       <div class="in_department_wrap">
@@ -601,7 +595,7 @@
                       @addNewCareer="isCareerUpdated"
                       :className="'col-lg-6'"
                       :myCareer="career"
-                      :departments="modifyDepartment(departmentLists)"
+                      :departments="departmentLists.slice().reverse()"
                       :industries="industryLists"
                       :seniority="seniorityLevels"
                       :authToken="staffData.auth_token"
@@ -617,7 +611,7 @@
                   @addNewCareer="isCareerFilled"
                   :className="'col-lg-6'"
                   :myCareer="careerV"
-                  :departments="modifyDepartment(departmentLists)"
+                  :departments="departmentLists.slice().reverse()"
                   :industries="industryLists"
                   :seniority="seniorityLevels"
                   :authToken="staffData.auth_token"
@@ -673,6 +667,7 @@ import {
 } from "../../utils/DepartmentModify";
 import Dropdown from "primevue/dropdown";
 import { mapGetters } from "vuex";
+// import moment from "moment";
 // MINIMUM 8 CHARCTER
 const minimum8CharCalc = (val) => val.length >= 8;
 // for upper case calculation
@@ -727,9 +722,9 @@ export default {
         { value: "en", label: "English", selected: true },
         { value: "de", label: "German" },
       ],
-      industryLists: [],
+      // industryLists: [],
       // departmentLists: [],
-      seniorityLevels: [],
+      // seniorityLevels: [],
       profileData: {},
       personalAccount: {
         auth_token: "",
@@ -754,6 +749,8 @@ export default {
   computed: {
     ...mapGetters({
       departmentLists: "allCompanyDepartment",
+      industryLists: "mainIndustries",
+      seniorityLevels: "allSenoirityLevels",
     }),
     careerLength() {
       return this.careersArr.length;
@@ -793,6 +790,9 @@ export default {
     this.selectedLanguage = localStorage.getItem("language") || "en";
     this.authToken = this.staffData.auth_token;
     this.getStaffDetails();
+    this.$store.dispatch("GET_ALL_SENOIRITY_LEVELS");
+    this.$store.dispatch("GET_MAIN_INDUSTRIES");
+    this.$store.dispatch("GET_ALL_COMPANY_DEPARTMENT");
   },
 
   validations() {
@@ -901,26 +901,34 @@ export default {
     },
     addMoreCareer() {
       this.addCareer = true;
-      this.v$.$touch();
-      if (!this.v$.$invalid) {
-        this.careerInfo = [];
-        console.log(
-          `this component is mounted  on add more ${this.addCareer} and toggle Career ${this.toggleUpdate}`
-        );
-        this.$refs.childCareer.validateForm();
-        this.careersList.push({
-          company: "",
-          industry: "",
-          seniority_level: "",
-          department: [],
-          from: "",
-          to: "",
-        });
+      if (this.clickCount) {
+        this.v$.$touch();
+        if (!this.v$.$invalid) {
+          this.careerInfo = [];
+          if (this.$refs.childCareer.validateForm()) {
+            console.log(
+              "check validations",
+              this.$refs.childCareer.validateForm()
+            );
+          }
+          this.careersList.push({
+            company: "",
+            industry: "",
+            seniority_level: "",
+            department: [],
+            from: "",
+            to: "",
+          });
+        }
       }
+      this.clickCount++;
+
+      console.log("length", this.careersList.length);
     },
     formatMyDate(value) {
       return formatDate(value, "ll");
     },
+
     formatDepartments(deptArr) {
       return getDepartemntsLables(deptArr).toString();
     },
@@ -928,8 +936,10 @@ export default {
     getStaffDetails() {
       this.auth_token = this.staffData.auth_token;
       this.token.auth_token = this.staffData.auth_token;
-      signupService
-        .getPersonalDetails(this.token)
+      // signupService
+      //   .getPersonalDetails(this.token)
+      this.$store
+        .dispatch("getPersonalInfo", { auth_token: this.staffData.auth_token })
         .then((res) => {
           if (res.data.status) {
             this.profileData = res.data.data;
@@ -939,30 +949,7 @@ export default {
             this.personalAccount["profile_image"] = null;
             console.log("pesonal data", res.data.data);
             this.careersArr = this.personalAccount.career_info;
-
             console.log("career info", this.personalAccount.career_info);
-            this.$store.dispatch("getPersonalInfo", res.data.data);
-
-            // Industry list
-            for (var i = 0; i < res.data.industry_list.length; i++) {
-              let industry = {
-                value: res.data.industry_list[i].id,
-                label: res.data.industry_list[i].name,
-              };
-              this.industryLists.push(industry);
-            }
-            // Seniority list
-            for (var j = 0; j < res.data.seniority_list.length; j++) {
-              let seniorLevel = {
-                value: res.data.seniority_list[j].id,
-                label: res.data.seniority_list[j].level,
-              };
-              this.seniorityLevels.push(seniorLevel);
-            }
-            this.$store.dispatch(
-              "GET_ALL_COMPANY_DEPARTMENT",
-              res.data.departments_list
-            );
           } else {
             errorhandler(res, this);
           }
@@ -1073,13 +1060,10 @@ export default {
         $th.defaultImg = reader.result.toString();
         $th.personalAccount.profile_image = $th.defaultImg;
         $th.personalAccount.profile = $th.defaultImg;
-
-        console.log($th.defaultImg);
       };
       reader.onerror = function (error) {
         console.log("Error: ", error);
       };
-      console.log("selected file", file);
     },
   },
 };

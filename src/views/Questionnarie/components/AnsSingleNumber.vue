@@ -72,10 +72,6 @@ export default {
       }
 
       this.emitData(val);
-      // this.$emit("getUserSelected", {
-      //   ansData: val,
-      //   isFieldValid: this.isFieldValid,
-      // });
     },
     emitData(val) {
       this.$emit("getUserSelected", {

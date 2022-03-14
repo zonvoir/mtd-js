@@ -31,7 +31,6 @@
           aria-haspopup="true"
           aria-controls="overlay_tmenu"
         />
-        <!-- {{ ownRole.roleId != consultantId && member.status != "accepted" }} -->
         <TieredMenu id="overlay_tmenu" ref="menu" :model="items" :popup="true">
           <template #item="{ item }">
             <div
@@ -60,7 +59,6 @@
 </template>
 
 <script>
-// import SplitButton from "primevue/splitbutton";
 import TieredMenu from "primevue/tieredmenu";
 import Button from "primevue/button";
 import CompanyService from "../../Services/Company/CompanyService";

@@ -9,7 +9,6 @@
             </div>
           </div>
         </div>
-        <!-- This button is available on project list is available -->
         <div class="m-l-auto"></div>
         <div class="invite_btn_wrap m-r-20">
           <button @click="openCustomModal" class="btn-primary btn k_btn_people">

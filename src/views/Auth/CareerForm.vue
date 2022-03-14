@@ -26,32 +26,6 @@
         </span>
       </div>
     </div>
-    <!-- <div class="k_form_group">
-      <div class="">
-        <input
-          type="text"
-          class="form-control k_inp_field"
-          placeholder="Company name"
-          @blur="v$.careerForm.company.$touch"
-          v-model.trim="careerForm.company"
-          :class="{
-            'is-invalid': v$.careerForm.company.$error,
-          }"
-        />
-        <div
-          v-if="v$.careerForm.company.$error"
-          class="invalid-feedback text-left"
-        >
-          <span
-            v-if="v$.careerForm.company.required.$invalid"
-            class="text-left fs-14"
-          >
-            Company is required
-          </span>
-        </div>
-      </div>
-   
-    </div> -->
   </div>
   <div :class="className">
     <div class="k_form_group">
@@ -79,50 +53,9 @@
         </span>
       </div>
     </div>
-    <!-- <div class="k_form_group k_select_single">
-      <Multiselect
-        placeholder="Industry"
-        class="form-control k_inp_field"
-        rules="required"
-        :close-on-select="false"
-        :filter-results="false"
-        :min-chars="1"
-        :resolve-on-load="false"
-        :delay="0"
-        :searchable="true"
-        :options="industries"
-        @blur="v$.careerForm.industry.$touch"
-        v-model="careerForm.industry"
-        :class="{
-          'is-invalid': v$.careerForm.industry.$error,
-        }"
-      />
-      <div
-        v-if="v$.careerForm.industry.$error"
-        class="invalid-feedback text-left"
-      >
-        <span
-          v-if="v$.careerForm.industry.required.$invalid"
-          class="text-left fs-14"
-        >
-          Industry is required
-        </span>
-      </div>
-    </div> -->
   </div>
-  <!-- {{ careerForm.department }} -->
-  <!-- :options="myOptions" -->
+
   <div :class="className">
-    <!-- <div class="btn_wrap">
-      <button
-        :disabled="disbaleInvited"
-        @click="SendEmailsList(staffrole.roleid)"
-        type="button"
-        class="btn-primary inv_button btn btn-set text-uppercase"
-      >
-        {{ $t("category_details.team_mangementTab.buttons.invite") }}
-      </button>
-    </div> -->
     <div class="k_form_group">
       <div v-if="addNewDept" class="">
         <div class="add_dept">
@@ -151,14 +84,6 @@
             Back
           </button>
         </div>
-        <!-- v-model.trim="depts" -->
-        <!-- <Select2
-          v-model="myValue"
-          class="select_to"
-          :settings="settings"
-          @select="mySelectEvent($event)"
-        /> -->
-        <!-- <div class="text_right"></div> -->
       </div>
       <div class="" v-else>
         <MultiSelect
@@ -197,34 +122,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="k_form_group k_select_single">
-      <Multiselect
-        placeholder="department"
-        :closeOnSelect="false"
-        :searchable="true"
-        mode="tags"
-        :createTag="true"
-        class="form-control k_inp_field"
-        rules="required"
-        :options="departments"
-        v-model="careerForm.department"
-        :class="{
-          'is-invalid': v$.careerForm.department.$error,
-        }"
-      />
-
-      <div
-        v-if="v$.careerForm.department.$error"
-        class="invalid-feedback text-left"
-      >
-        <span
-          v-if="v$.careerForm.department.required.$invalid"
-          class="text-left fs-14"
-        >
-          {{ $t("personal_account.form.invalid_msgs.Department_is_required") }}
-        </span>
-      </div>
-    </div> -->
   </div>
   <div :class="className">
     <div class="k_form_group">
@@ -265,17 +162,7 @@
           'is-invalid': v$.careerForm.seniority_level.$error,
         }"
       />
-      <!-- <Multiselect
-        :placeholder="$t('personal_account.form.placeholder.seniority_level')"
-        class="form-control k_inp_field"
-        rules="required"
-        :options="seniority"
-        @blur="v$.careerForm.seniority_level.$touch"
-        v-model="careerForm.seniority_level"
-        :class="{
-          'is-invalid': v$.careerForm.seniority_level.$error,
-        }"
-      /> -->
+
       <div
         v-if="v$.careerForm.seniority_level.$error"
         class="invalid-feedback text-left"
@@ -307,7 +194,6 @@
               invalid_error: v$.careerForm.from.$error,
             }"
           />
-          <!-- {{ v$.careerForm.from.required.$invalid }} -->
           <div
             v-if="v$.careerForm.from.$error"
             class="invalid_feedback text-left"
@@ -329,12 +215,12 @@
             :enableTimePicker="false"
             v-model="careerForm.to"
             @open="clearToDate"
-            @blur="v$.careerForm.to.$touch"
             placeholder="dd/mm/yyyy"
+          />
+          <!-- @blur="v$.careerForm.to.$touch"
             :class="{
               invalid_error: v$.careerForm.to.$error,
             }"
-          />
           <div
             v-if="v$.careerForm.to.$error"
             class="invalid_feedback text-left"
@@ -345,17 +231,15 @@
             >
               To date is required
             </span>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
   </div>
-  <!-- <slot name="add-form" :validateForm="validateForm"></slot> -->
 </template>
 
 <script>
 import Datepicker from "vue3-date-time-picker";
-// import Multiselect from "@vueform/multiselect";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import { formatDate } from "../../utils/FormatDate";
@@ -364,11 +248,6 @@ import Dropdown from "primevue/dropdown";
 import MultiSelect from "primevue/multiselect";
 import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
-import CommonService from "../../Services/CommonService";
-// import Select2 from "vue3-select2-component";
-
-// import { selectedDepartemntsValue } from "../../utils/DepartmentModify";
-
 export default {
   emits: ["addNewCareer"],
   props: {
@@ -409,7 +288,7 @@ export default {
       myOptions: ["India", "France"],
       myValue: "uservalue",
       date: new Date(),
-      careerForm: this.myCareer, //{ ...this.myCareer },
+      careerForm: this.myCareer,
       filteredCompanies: null,
       companies: [],
     };
@@ -421,7 +300,7 @@ export default {
       industry: { required },
       department: { required },
       from: { required },
-      to: { required },
+      // to: { required },
       seniority_level: { required },
     },
   },
@@ -433,8 +312,6 @@ export default {
   },
   components: {
     Datepicker,
-    // Multiselect,
-    // Select2,
     MultiSelect,
     AutoComplete,
     Dropdown,
@@ -453,7 +330,6 @@ export default {
       allowClear: true,
       multiple: true,
       insertTag: function (data, tag) {
-        // Insert the tag at the end of the results
         this.emailTag = tag;
         console.log("data", data, "tag", tag);
         data.push(tag);
@@ -468,11 +344,9 @@ export default {
   methods: {
     clearFromDate() {
       this.careerForm.from = "";
-      console.log("date", this.careerForm.from);
     },
     clearToDate() {
       this.careerForm.to = "";
-      console.log("date", this.careerForm.to);
     },
     extrernalDepartment() {
       this.addNewDept = true;
@@ -488,24 +362,15 @@ export default {
         auth_token: this.staffData,
         name: this.newDepartment,
       };
-      CommonService.addNewDepartment(deptData).then((res) => {
-        if (res.data.status) {
-          this.addNewDept = false;
-          this.$store.dispatch("GET_ALL_COMPANY_DEPARTMENT", res.data.data);
-          console.log("new department added successfully", res.data.data);
-        } else {
-          errorhandler(res, this);
-        }
-      });
-      console.log("update department value", this.newDepartment);
+      this.$store
+        .dispatch("ADD_NEW_COMPANY_DEPARTMENT", deptData)
+        .then((res) => {
+          if (res.data.status) {
+            this.addNewDept = false;
+          }
+        });
     },
-    // getDefaulDepartment(options, dept) {
-    //   let filterdArr = options.filter((item) => {
-    //     return dept.includes(item.value);
-    //   });
-    //   console.log("filter arr", filterdArr);
-    //   return filterdArr;
-    // },
+
     searchCompany(event) {
       setTimeout(() => {
         if (!event.query.trim().length) {
@@ -582,19 +447,7 @@ export default {
   left: 0;
   right: 0;
 }
-.invalid_error {
-  outline: 3px solid #db2c66 !important;
-  &:focus {
-    outline: 2px solid #db2c66 !important;
-    outline-offset: 0px;
-  }
-}
-.invalid_feedback {
-  padding-top: 2px;
-  color: #db2c66;
-  font-size: 14px;
-  font-weight: 400;
-}
+
 .btn_adds {
   font-style: normal;
   font-weight: 600;

@@ -32,8 +32,6 @@
                 <div class="">
                   <p class="m-b-0 ques_title">
                     {{ question.name }}
-                    <!-- The earliest moment that the critical event and
-                    measurability -->
                   </p>
                   <p v-if="question.is_answered" class="m-b-0 ques_ans">
                     {{ getValueOfAns(question) }}
@@ -67,12 +65,10 @@
 <script>
 import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
 import errorhandler from "../../utils/Error";
-// import { bus } from "../../main";
 export default {
   data() {
     return {
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      // answered: true,
       optionsArr: [],
       questionnaire: {},
       questionList: [],
@@ -90,7 +86,6 @@ export default {
         category_id: this.categoryID,
       };
       this.getDeptAndCategoryDetails(data);
-      // this.optionsArr= this.questionList.
     }
   },
   methods: {
@@ -101,21 +96,7 @@ export default {
           this.questionList = res.data.data.questionnaire.questions;
           console.log("questionlist", res.data.data);
         } else {
-          errorhandler(res, this);
-          // let $th = this;
-          // if ("error" in res.data) {
-          //   Object.keys(res.data.error).map(function (key) {
-          //     $th.$toast.error(res.data.error[key], {
-          //       position: "bottom-left",
-          //       duration: 3712,
-          //     });
-          //   });
-          // } else {
-          //   $th.$toast.error(res.data.message, {
-          //     position: "bottom-left",
-          //     duration: 3712,
-          //   });
-          // }
+          errorhandler(res);
         }
       });
     },

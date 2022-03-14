@@ -47,7 +47,6 @@
 <script>
 import ScatterdChart from "../../components/Shared/ScatterdChart.vue";
 import DonutChart from "../../components/Shared/DonutChart.vue";
-import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
 
 export default {
   components: {
@@ -59,30 +58,8 @@ export default {
   },
   mounted() {
     this.url_dataID = this.$route.params.id;
-    if (this.url_dataID) {
-      this.getDeptAndCategoryDetails(this.url_dataID);
-    }
   },
-  methods: {
-    getDeptAndCategoryDetails() {
-      // departmemntID, categoryID, staffID
-
-      QuestionnaireService.getOneCategory(5, 3, 37).then((res) => {
-        if (res.data.status) {
-          console.log(res.data.data);
-        } else {
-          console.log("no department list found");
-          // let $th = this;
-          // Object.keys(res.data.error).map(function (key) {
-          //   $th.$toast.error(res.data.error[key], {
-          //     position: "bottom-left",
-          //     duration: 3712,
-          //   });
-          // });
-        }
-      });
-    },
-  },
+  methods: {},
 };
 </script>
 

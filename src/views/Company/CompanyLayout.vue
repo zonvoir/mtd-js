@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!-- {{ $store.state.staffsDepartment }} -->
-    <!-- {{ allDepartments }} -->
     <div class="member_container">
       <div class="d-flex align-items-center">
         <div class="view_title_wrap pb-15">
@@ -57,10 +55,7 @@ const tablist = [
 import TabsHr from "../../components/Shared/TabsHr.vue";
 import searchIcon from "../../../public/icons/search.svg";
 import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
-// import CareerInformationModal from "../../components/Shared/CareerInformationModal.vue";
 import { mapGetters } from "vuex";
-import companyService from "../../Services/Company/CompanyService";
-import errorhandler from "../../utils/Error";
 
 export default {
   data() {
@@ -75,7 +70,6 @@ export default {
   components: {
     TabsHr,
     InvitePeopleModal,
-    // CareerInformationModal,
   },
   computed: {
     ...mapGetters({
@@ -84,16 +78,12 @@ export default {
       ownRole: "roleInCompany",
     }),
   },
-  // watch: {
-  //   allDepartments: function () {
-  //     this.departmentLists = this.allDepartments;
-  //   },
-  // },
+
   created() {
+    // this.departmentByStaffId();
     this.departmentLists = this.allDepartments;
     if (this.staffInfo != null) {
       this.departmentLists = this.allDepartments;
-      // this.departmentByStaffId();
     }
   },
   methods: {
@@ -101,38 +91,12 @@ export default {
       this.title = title;
     },
     departmentByStaffId() {
-      companyService
-        .departmentsByToken({ auth_token: this.staffInfo.auth_token })
+      this.$store
+        .dispatch("GET_STAFFS_DEPARTMENT", {
+          auth_token: this.staffInfo.auth_token,
+        })
         .then((res) => {
-          if (res.data.status) {
-            this.departmentLists = [];
-            this.departmentLists = res.data.data;
-            // for (let k = 0; k < res.data.data.length; k++) {
-            //   let dept = {
-            //     value: res.data.data[k].departmentid,
-            //     label: res.data.data[k].name,
-            //   };
-            //   this.departmentLists.push(dept);
-            // }
-            // console.log("all departments of role id", this.departmentLists);
-            this.$store.dispatch("GET_STAFFS_DEPARTMENT", this.departmentLists);
-          } else {
-            errorhandler(res, this);
-            // let $th = this;
-            // if ("error" in res.data) {
-            //   Object.keys(res.data.error).map(function (key) {
-            //     $th.$toast.error(res.data.error[key], {
-            //       position: "bottom-left",
-            //       duration: 3712,
-            //     });
-            //   });
-            // } else {
-            //   $th.$toast.error(res.data.message, {
-            //     position: "bottom-left",
-            //     duration: 3712,
-            //   });
-            // }
-          }
+          console.log("res from vuex", res);
         });
     },
   },

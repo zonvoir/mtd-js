@@ -146,9 +146,124 @@
     color: #222b45;
   }
 }
+// borderless dropdown in header
+.header_year {
+  width: 100%;
+  font-weight: 400;
+  line-height: 26px;
+  font-size: 15px;
+  text-decoration: inherit;
+  text-transform: inherit;
+  border: none;
+  border-radius: 5px;
+  background: none;
+  color: $secondary;
+  border: 0;
+  &.p-dropdown {
+    border: 0;
+    .p-dropdown-label {
+      color: #222b45;
+      font-weight: 500;
+      font-size: 16px;
+    }
+    &:not(.p-disabled) {
+      &:hover {
+        outline: 1px solid $white;
+        outline-offset: 0px;
+      }
+      &.p-focus {
+        outline: 2px solid $white;
+        outline-offset: 0px;
+        border-radius: 0;
+        box-shadow: inherit;
+        border: 0;
+        color: #222b45;
+      }
+    }
+  }
+  .p-dropdown:not(.p-disabled).p-focus .p-dropdown-panel {
+    outline: 2px solid $primary;
+    outline-offset: 0px;
+    border-radius: 0;
+    box-shadow: none;
+    color: #222b45;
+  }
+}
+// borderless company select
+.company_select_header {
+  width: 100%;
+  font-weight: 400;
+  line-height: 26px;
+  font-size: 15px;
+  text-decoration: inherit;
+  text-transform: inherit;
+  border: none;
+  border-radius: 5px;
+  background: none;
+  color: $secondary;
+  border: 0;
+  &.p-dropdown {
+    border: 0;
+    .p-dropdown-label {
+      color: #222b45;
+
+      .company-item {
+        display: flex;
+        align-items: center;
+        .img_logo {
+          width: 26px !important;
+          margin-right: 8px;
+        }
+        .company_item_name {
+          margin-left: 5px;
+          color: #222b45;
+          font-weight: 500;
+          font-size: 16px;
+        }
+      }
+    }
+    &:not(.p-disabled) {
+      &:hover {
+        outline: 1px solid $white;
+        outline-offset: 0px;
+      }
+      &.p-focus {
+        outline: 2px solid $white;
+        outline-offset: 0px;
+        border-radius: 0;
+        box-shadow: inherit;
+        border: 0;
+        color: #222b45;
+      }
+    }
+  }
+  .p-dropdown:not(.p-disabled).p-focus .p-dropdown-panel {
+    outline: 2px solid $primary;
+    outline-offset: 0px;
+    border-radius: 0;
+    box-shadow: none;
+    color: #222b45;
+  }
+}
+.p-dropdown-items-wrapper {
+  .p-dropdown-item {
+    .company-item {
+      display: flex;
+      align-items: center;
+      .img_logo {
+        width: 26px !important;
+        margin-right: 12px;
+      }
+      .company_item_name {
+        margin-left: 5px;
+      }
+    }
+  }
+}
 // dropdown panel style
 .p-dropdown-panel {
   z-index: 9999 !important;
+
   .p-dropdown-items .p-dropdown-item {
     padding: 0.5rem 0.5rem;
     &:not(.p-highlight):not(.p-disabled):hover {
@@ -157,6 +272,7 @@
       color: $primary;
     }
   }
+
   .p-highlight {
     color: $white !important;
     background-color: #7900d8 !important;
@@ -420,7 +536,7 @@
     }
   }
 }
-// sub accordion ////////////////@at-root
+// sub accordion ////////////////
 .sub_helpC_accordion {
   &.p-accordion {
     .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
