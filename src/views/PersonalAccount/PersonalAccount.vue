@@ -861,7 +861,9 @@ export default {
               this.personalAccount["profile"] =
                 this.personalAccount.profile_image;
               this.personalAccount["profile_image"] = null;
-              this.$store.dispatch("getPersonalInfo", res.data.data);
+              this.$store.dispatch("getPersonalInfo", {
+                auth_token: this.staffData.auth_token,
+              });
             } else {
               errorhandler(res, this);
             }

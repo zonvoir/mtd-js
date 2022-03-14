@@ -18,6 +18,7 @@ export default {
   mutations: {
     // personal Account
     setPersonalInfo(state, per_data) {
+      state.personalInfo = [];
       state.personalInfo = per_data;
     },
     setMainIndustry(state, industry) {
