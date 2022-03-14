@@ -857,7 +857,7 @@ export default {
               this.careersArr = this.personalAccount.career_info;
               console.log("upadated data", this.careersArr);
               this.careerInfo = [];
-              // this.careersList = [];
+              this.formReset();
               this.personalAccount["profile"] =
                 this.personalAccount.profile_image;
               this.personalAccount["profile_image"] = null;
@@ -1066,6 +1066,20 @@ export default {
       reader.onerror = function (error) {
         console.log("Error: ", error);
       };
+    },
+
+    formReset() {
+      this.v$.$reset();
+      this.careersList = [
+        {
+          company: "",
+          industry: "",
+          seniority_level: "",
+          department: [],
+          to: "",
+          from: "",
+        },
+      ];
     },
   },
 };
