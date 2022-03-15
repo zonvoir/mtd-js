@@ -239,18 +239,6 @@
                     @change="onChangeRegion"
                     v-model="companyForm.region"
                   />
-
-                  <div
-                    v-if="v$.companyForm.region.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.companyForm.region.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Region is required
-                    </span>
-                  </div>
                 </div>
               </div>
               <div class="col-lg-6">

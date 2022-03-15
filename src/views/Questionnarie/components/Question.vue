@@ -288,15 +288,11 @@ export default {
     },
     enterClicked(ev) {
       if (ev.keyCode === 13) {
-        console.log(
-          "let enter",
-          this.currentIdx,
-          this.questions.length,
-          this.currentIdx >= this.questions.length - 1
-        );
-        if (this.currentIdx >= this.questions.length - 1) {
-          let id = this.questions[this.currentIdx].id;
-          this.finishQuestion(id);
+        console.log("let enter", this.currentIdx, this.questions.length - 1);
+        if (this.currentIdx == this.questions.length) {
+          console.log("finsh question");
+          // let id = this.questions[this.currentIdx].id;
+          // this.finishQuestion(id);
         } else {
           let id = this.questions[this.currentIdx + 1].id;
           this.nextQuestion(id);
