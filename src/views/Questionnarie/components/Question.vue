@@ -250,7 +250,6 @@ export default {
     }),
 
     questionIdex() {
-      console.log(this.$store.getters.randomQuizIndex);
       return this.$store.getters.randomQuizIndex;
     },
   },
@@ -279,7 +278,6 @@ export default {
   },
   methods: {
     userGivenAnswer(value) {
-      console.log("value date", value);
       this.answerValue = value.ansData;
       this.isValidated = value.isFieldValid;
     },
@@ -288,14 +286,18 @@ export default {
     },
     enterClicked(ev) {
       if (ev.keyCode === 13) {
-        console.log("let enter", this.currentIdx, this.questions.length - 1);
-        if (this.currentIdx == this.questions.length) {
-          console.log("finsh question");
-          // let id = this.questions[this.currentIdx].id;
-          // this.finishQuestion(id);
+        if (this.isValidated) {
+          console.log("let enter", this.currentIdx, this.questions.length - 1);
+          if (this.currentIdx === this.questions.length - 1) {
+            console.log("finsh question");
+            let id = this.questions[this.currentIdx].id;
+            this.finishQuestion(id);
+          } else {
+            let id = this.questions[this.currentIdx].id;
+            this.nextQuestion(id);
+          }
         } else {
-          let id = this.questions[this.currentIdx + 1].id;
-          this.nextQuestion(id);
+          errorhandler("Please answer the question");
         }
       }
     },
@@ -359,7 +361,7 @@ export default {
           }
           this.calculateAnserdQuestion();
         } else {
-          errorhandler(res, this);
+          errorhandler(res);
         }
       });
     },

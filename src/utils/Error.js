@@ -18,25 +18,26 @@ const toastOptions = {
 const toast = useToast();
 
 const errorhandler = (res) => {
-  if ("error" in res.data) {
-    Object.keys(res.data.error).map(function (key) {
-      toast.error(res.data.error[key], toastOptions);
-    });
-  } else {
-    toast.error(res.data.message, toastOptions);
-  }
   if (typeof res === "string") {
     toast.error(res, toastOptions);
-  }
-  if (
-    res.data.message == "Authentication token expired" ||
-    res.data.message == "Authentication Token Mismatch"
-  ) {
-    localStorage.removeItem("bWFpbCI6Inpvb");
-    localStorage.removeItem("selected_company");
-    localStorage.removeItem("language");
-    localStorage.removeItem("selected_year");
-    router.push({ name: "signup-signin" });
+  } else {
+    if ("error" in res.data) {
+      Object.keys(res.data.error).map(function (key) {
+        toast.error(res.data.error[key], toastOptions);
+      });
+    } else {
+      toast.error(res.data.message, toastOptions);
+    }
+    if (
+      res.data.message == "Authentication token expired" ||
+      res.data.message == "Authentication Token Mismatch"
+    ) {
+      localStorage.removeItem("bWFpbCI6Inpvb");
+      localStorage.removeItem("selected_company");
+      localStorage.removeItem("language");
+      localStorage.removeItem("selected_year");
+      router.push({ name: "signup-signin" });
+    }
   }
 };
 export const successhandler = (res) => {

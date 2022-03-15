@@ -215,8 +215,10 @@ export default {
           if (res.data.status) {
             let defCompany = 0;
             this.companies = res.data.data;
-            this.companyListArr = this.companies.map((item) => {
+            this.companyListArr = this.companies.map((item, indx, itemsArr) => {
               if (item.created_by_me == "1") {
+                defCompany = item.company_id;
+              } else if (itemsArr.length - 1 === indx) {
                 defCompany = item.company_id;
               }
               return {
