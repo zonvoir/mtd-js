@@ -309,10 +309,11 @@ export default {
         this.answerValue == ""
       ) {
         this.isValidated = false;
-        this.$toast.error("Please answer the question", {
-          position: "bottom-left",
-          duration: 3712,
-        });
+        errorhandler("Please answer the question");
+        // this.$toast.error("Please answer the question", {
+        //   position: "bottom-left",
+        //   duration: 3712,
+        // });
         return;
       }
       let data = {
