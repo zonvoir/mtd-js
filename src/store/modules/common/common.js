@@ -136,9 +136,10 @@ export default {
           (res) => {
             if (res.data.status) {
               if (!res.data.data.length) return;
+              console.log("all region");
               let regionArray = res.data.data.map((item) => {
                 return {
-                  value: item.country_id,
+                  value: item.id,
                   label: item.region_name,
                 };
               });

@@ -53,8 +53,13 @@ class CommonService {
   }
 
   // get all country by region
-  getAllCountry() {
-    return http.get(`lists/region_countries`);
+  getAllCountry(regionId) {
+    console.log(regionId);
+    if (regionId) {
+      return http.get(`lists/region_countries/${regionId}`);
+    } else {
+      return http.get(`lists/region_countries`);
+    }
   }
   // get all country code by country id
   getCountryCode(countryId) {

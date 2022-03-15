@@ -137,6 +137,14 @@ export default {
       height: 42px;
       line-height: 42px;
     }
+    .logo_wrap {
+      img {
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        border-radius: 50%;
+      }
+    }
     .dept_name {
       font-size: 18px;
       font-weight: 600;

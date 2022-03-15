@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @keyup="enterClicked">
     <div v-if="questions.length">
       <!-- question Section Start  -->
 
@@ -137,22 +137,24 @@
       </div>
       <!-- Answer Section Ends -->
       <!-- explanation Section Start -->
-      <div class="d-flex align-items-center m-b-15">
-        <!-- <QuestionExpalnaion /> -->
-        <div class="info_icon_wrap m-r-10">
-          <img src="K_Icons/info_gray_24dp.svg" alt="" class="svg_icon" />
+      <div v-if="questions[currentIdx].hint" class="">
+        <div class="d-flex align-items-center m-b-15">
+          <!-- <QuestionExpalnaion /> -->
+          <div class="info_icon_wrap m-r-10">
+            <img src="K_Icons/info_gray_24dp.svg" alt="" class="svg_icon" />
+          </div>
+          <h6 class="question_expaltion">
+            Question explanation
+            <a class="custom-link" @click="updateIsHint()">see here</a>
+          </h6>
+          <br />
         </div>
-        <h6 class="question_expaltion">
-          Question explanation
-          <a class="custom-link" @click="updateIsHint()">see here</a>
-        </h6>
-        <br />
+        <QuestionHint
+          v-if="isHint"
+          :hint="questions[currentIdx].hint"
+          :hint-type="questions[currentIdx].hint_type"
+        />
       </div>
-      <QuestionHint
-        v-if="isHint"
-        :hint="questions[currentIdx].hint"
-        :hint-type="questions[currentIdx].hint_type"
-      />
       <!-- explanation Section Ends -->
       <!-- bottom section start -->
       <div class="btns_wrap">
@@ -284,12 +286,25 @@ export default {
     updateIsHint() {
       this.isHint = !this.isHint;
     },
+    enterClicked(ev) {
+      if (ev.keyCode === 13) {
+        console.log(
+          "let enter",
+          this.currentIdx,
+          this.questions.length,
+          this.currentIdx >= this.questions.length - 1
+        );
+        if (this.currentIdx >= this.questions.length - 1) {
+          let id = this.questions[this.currentIdx].id;
+          this.finishQuestion(id);
+        } else {
+          let id = this.questions[this.currentIdx + 1].id;
+          this.nextQuestion(id);
+        }
+      }
+    },
     nextQuestion(id) {
       this.isHint = false;
-      console.log(
-        this.answerValue == "" ||
-          this.questions[this.currentIdx].staff_anwser == ""
-      );
       if (
         this.answerValue == undefined ||
         this.answerValue == null ||

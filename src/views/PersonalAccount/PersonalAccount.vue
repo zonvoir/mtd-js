@@ -748,7 +748,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      departmentLists: "allCompanyDepartment",
+      departmentLists: "allCareerDepartment",
       industryLists: "mainIndustries",
       seniorityLevels: "allSenoirityLevels",
     }),
@@ -792,7 +792,7 @@ export default {
     this.getStaffDetails();
     this.$store.dispatch("GET_ALL_SENOIRITY_LEVELS");
     this.$store.dispatch("GET_MAIN_INDUSTRIES");
-    this.$store.dispatch("GET_ALL_COMPANY_DEPARTMENT");
+    this.$store.dispatch("GET_ALL_CAREER_DEPARTMENT");
   },
 
   validations() {

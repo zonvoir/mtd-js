@@ -139,7 +139,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      departmentLists: "allCompanyDepartment",
+      departmentLists: "allCareerDepartment",
       industryLists: "mainIndustries",
       seniorityLevels: "allSenoirityLevels",
     }),
@@ -310,7 +310,7 @@ export default {
 
     // get departmens lists
     getdDepartmentList() {
-      this.$store.dispatch("GET_ALL_COMPANY_DEPARTMENT");
+      this.$store.dispatch("GET_ALL_CAREER_DEPARTMENT");
     },
 
     isCareerFilled(value) {

@@ -695,7 +695,7 @@ export default {
         detailed_industry: { required },
         company_role: { required },
         incorporation_year: { required },
-        region: { required },
+        // region: { required },
         corporation_legal_form: { required },
       },
     };

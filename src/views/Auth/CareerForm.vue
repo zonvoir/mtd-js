@@ -217,21 +217,6 @@
             @open="clearToDate"
             placeholder="dd/mm/yyyy"
           />
-          <!-- @blur="v$.careerForm.to.$touch"
-            :class="{
-              invalid_error: v$.careerForm.to.$error,
-            }"
-          <div
-            v-if="v$.careerForm.to.$error"
-            class="invalid_feedback text-left"
-          >
-            <span
-              v-if="v$.careerForm.to.required.$invalid"
-              class="text-left fs-14"
-            >
-              To date is required
-            </span>
-          </div> -->
         </div>
       </div>
     </div>
@@ -363,7 +348,7 @@ export default {
         name: this.newDepartment,
       };
       this.$store
-        .dispatch("ADD_NEW_COMPANY_DEPARTMENT", deptData)
+        .dispatch("ADD_NEW_CAREER_DEPARTMENT", deptData)
         .then((res) => {
           if (res.data.status) {
             this.addNewDept = false;

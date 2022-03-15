@@ -21,9 +21,9 @@ const state = {
   alocatedDepartments: [], // departments allocated to perticular member
   staffsDepartment: [], // department of a member that is logIn
   staffsQuestionnireDepartments: [], // questionnire departments allocated to perticular member in Company
-  //allCategories: [], // departments allocated to perticular member
-  allCompanyDepartment: [], // All department of Company
+  allCareerDepartment: [], // All department of Career
   invitationsForQuestionnaireTeam: undefined,
+  inviteTeamMember: undefined,
 };
 const mutations = {
   // company profile
@@ -92,8 +92,67 @@ const mutations = {
   setInvitationsForQuestionnaireTeam(state, values) {
     state.invitationsForQuestionnaireTeam = values;
   },
+  // set team member for
+  setInviteTeamMember(state, val) {
+    state.inviteTeamMember = val;
+  },
+  // set team member for
+  setAllCareerDepartment(state, val) {
+    state.allCareerDepartment = val;
+  },
 };
 const actions = {
+  GET_ALL_CAREER_DEPARTMENT: ({ commit }) => {
+    return new Promise((resolve, reject) => {
+      CompanyService.careerInfoDepartment().then(
+        (res) => {
+          if (res.data.status) {
+            console.log("res", res.data.data);
+            if (!res.data.data.length) return;
+            let deptArr = res.data.data.map((item) => {
+              return {
+                value: item.departmentid,
+                label: item.name,
+              };
+            });
+            commit("setAllCareerDepartment", deptArr);
+          } else {
+            commit("setAllCareerDepartment", []);
+            errorhandler(res);
+          }
+          resolve(res);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  },
+  ADD_NEW_CAREER_DEPARTMENT: ({ commit }, data) => {
+    return new Promise((resolve, reject) => {
+      CompanyService.addCareerDepartment(data).then(
+        (res) => {
+          if (res.data.status) {
+            if (!res.data.data.length) return;
+            let deptArr = res.data.data.map((item) => {
+              return {
+                value: item.departmentid,
+                label: item.name,
+              };
+            });
+            commit("setAllCareerDepartment", deptArr);
+          } else {
+            commit("setAllCareerDepartment", []);
+            errorhandler(res);
+          }
+          resolve(res);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  },
   GET_ALOCATED_DEPARTMENTS(context, val) {
     context.commit("setAlocatedDepartments", val);
   },
@@ -184,6 +243,43 @@ const actions = {
       );
     });
   },
+
+  GET_INVITE_TEAM_MEMBER: ({ commit }, data) => {
+    return new Promise((resolve, reject) => {
+      CompanyService.inviteNewTeamMember(data).then(
+        (res) => {
+          if (res.data.staus) {
+            console.log("res to add new member", res.data.data);
+            commit("setInviteTeamMember", res.data.data);
+          } else {
+            errorhandler(res);
+          }
+          resolve(res);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  },
+  GET_REMOVE_TEAM_MEMBER: ({ commit }, data) => {
+    return new Promise((resolve, reject) => {
+      CompanyService.removeTeamMember(data).then(
+        (res) => {
+          if (res.data.status) {
+            console.log("remve member ", res.data.data);
+            commit("setInviteTeamMember", res.data.data);
+          } else {
+            errorhandler(res);
+          }
+          resolve(res);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  },
   // async getStaffsCompanies(context, val) {
   //   context.commit("setStaffsCompanies", val);
   // },
@@ -218,8 +314,12 @@ const getters = {
   owner_roleId: (state) => state.owner_roleId,
   manager_roleId: (state) => state.manager_roleId,
   employee_roleId: (state) => state.employee_roleId,
+  // team mangement getters
   invitationsForQuestionnaireTeam: (state) =>
     state.invitationsForQuestionnaireTeam,
+  inviteTeamMember: (state) => state.inviteTeamMember,
+  // team managemnt getters close
+  allCareerDepartment: (state) => state.allCareerDepartment,
   alocatedDepartments: (state) => state.alocatedDepartments,
   staffsQuestionnireDepartments: (state) => state.staffsQuestionnireDepartments,
   staffsDepartment: (state) => state.staffsDepartment,

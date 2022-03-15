@@ -398,6 +398,14 @@ export default {
     this.getInvitedTeam();
   },
   methods: {
+    addTeamMember() {
+      this.$store.dispatch("");
+    },
+
+    removeTeamMember() {
+      this.$store.dispatch("");
+    },
+
     getInvitedTeam() {
       let data = {
         auth_token: this.staffData.auth_token,

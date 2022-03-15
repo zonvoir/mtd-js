@@ -177,5 +177,32 @@ class CompanyService {
       },
     });
   }
+  // inivite a new  team member
+  inviteNewTeamMember(data) {
+    return http.post("roles/get_team_management", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+
+  // Remove a team member
+  removeTeamMember(data) {
+    return http.post("roles/get_team_management", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+  // Career Info Departments
+  careerInfoDepartment() {
+    return http.get("lists/career_info_department");
+  }
+  //add one deparartment
+  addCareerDepartment(data) {
+    return http.post("staffs/add_new_department", data);
+  }
 }
 export default new CompanyService();
