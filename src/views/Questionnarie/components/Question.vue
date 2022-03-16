@@ -287,9 +287,7 @@ export default {
     enterClicked(ev) {
       if (ev.keyCode === 13) {
         if (this.isValidated) {
-          console.log("let enter", this.currentIdx, this.questions.length - 1);
           if (this.currentIdx === this.questions.length - 1) {
-            console.log("finsh question");
             let id = this.questions[this.currentIdx].id;
             this.finishQuestion(id);
           } else {

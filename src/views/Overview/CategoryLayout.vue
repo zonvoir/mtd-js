@@ -31,7 +31,7 @@
             </div>
           </div>
         </div>
-        <div class="invite_btn_wrap m-l-auto">
+        <div class="invite_btn_wrap m-l-auto" v-if="ownRole.can_invite">
           <InvitePeopleModal>
             <template v-slot:invite-button>
               {{ $t("company_profile.buttons.invite_members") }}

@@ -361,7 +361,6 @@ export default {
       });
 
       console.log("all conpany dettails", companyArr);
-      // this.$store.dispatch("getCompanyMembers", memberArr);
     },
 
     importFile(fileNameIndex = 0) {
@@ -456,10 +455,7 @@ export default {
         if (res.data.status) {
           this.is_FileUploaded = false;
           successhandler(" file Uploaded !! update list after some time");
-          // this.$toast.success(" file Uploaded !! update list after some time", {
-          //   position: "bottom-left",
-          //   duration: 3712,
-          // });
+
           this.$store.dispatch(
             "getInvitationList",
             res.data.data.invitation_list
@@ -468,7 +464,6 @@ export default {
           errorhandler(res, this);
         }
       });
-      // this.is_uploaded = false;
     },
     // send Invitation by Emails
     SendEmailsList(roleId) {

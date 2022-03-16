@@ -22,8 +22,13 @@
             {{ member.status }}
           </p>
         </div>
-        <!-- <img src="K_Icons/more-vertical.svg" alt="" class="" /> -->
-        <Button
+        <!-- <div class="dropdown"> -->
+        <button class="btn btn-transaprent" type="button" @click="toggle">
+          <img src="K_Icons/more-vertical.svg" alt="" class="" />
+        </button>
+        <!-- </div> -->
+        <!--  -->
+        <!-- <Button
           type="button"
           icon="pi pi-ellipsis-v"
           class="kp_icon_btn p-button-text p-button-plain"
@@ -52,18 +57,28 @@
               <a :href="item.url" class="cusdropdown">{{ item.label }}</a>
             </div>
           </template>
-        </TieredMenu>
+        </TieredMenu> -->
       </div>
     </div>
   </div>
+  <ul
+    :class="openDropdown ? 'active_dropdown' : ''"
+    class="dropdown-menu custom_dropdown"
+    ref="invitationModal"
+  >
+    <li @click="removeInvitaion(member.id)">
+      <a class="dropdown-item">Delete</a>
+    </li>
+  </ul>
 </template>
 
 <script>
-import TieredMenu from "primevue/tieredmenu";
-import Button from "primevue/button";
+// import TieredMenu from "primevue/tieredmenu";
+// import Button from "primevue/button";
 import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
 import { mapGetters } from "vuex";
+// import { Dropdown } from "bootstrap";
 
 export default {
   props: {
@@ -80,13 +95,17 @@ export default {
   },
 
   components: {
-    TieredMenu,
-    Button,
+    // TieredMenu,
+    // Button,
+  },
+  mounted() {
+    // document.addEventListener("click", this.closeDropDrown);
   },
   data() {
     return {
       staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      consultantId: 4,
+      dropdown: null,
+      openDropdown: false,
       items: [
         {
           label: "Delete",
@@ -95,11 +114,24 @@ export default {
       ],
     };
   },
+  beforeUnmount() {
+    document.removeEventListener("click", this.closeDropDrown);
+  },
   methods: {
-    toggle(event) {
-      this.$refs.menu.toggle(event);
+    toggle() {
+      // console.log(this.dropdown);
+      this.openDropdown = !this.openDropdown;
+      // this.$refs.menu.toggle(event);
+    },
+
+    closeDropDrown(e) {
+      console.log(e);
+      if (!this.$el.contains(e.target)) {
+        this.openDropdown = false;
+      }
     },
     removeInvitaion(inv_Id) {
+      this.openDropdown = false;
       let data = {
         auth_token: this.staffInfo.auth_token,
         invitation_id: inv_Id,
@@ -131,16 +163,47 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.cusdropdown {
-  cursor: pointer;
-  text-decoration: none;
+.custom_dropdown {
+  &.active_dropdown {
+    display: block;
+  }
+  top: 44px;
+  right: 0;
+  position: absolute;
+  z-index: 1000;
+
+  min-width: 10rem;
+  padding: 0.3rem 0;
+  margin: 0;
+  font-size: 1rem;
   color: #222b45;
-  &:hover {
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  .dropdown-item {
     cursor: pointer;
+    padding: 8px 12px;
     text-decoration: none;
     color: #222b45;
+    &:active {
+      background-color: #7900d8;
+      color: #ffffff;
+    }
   }
 }
+// .cusdropdown {
+//   cursor: pointer;
+//   text-decoration: none;
+//   color: #222b45;
+//   &:hover {
+//     cursor: pointer;
+//     text-decoration: none;
+//     color: #222b45;
+//   }
+// }
 .list_wrapper {
   display: flex;
   align-items: center;
