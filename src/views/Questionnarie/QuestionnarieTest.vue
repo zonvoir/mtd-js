@@ -96,6 +96,7 @@ export default {
 .catLogo {
   width: 60px;
   height: 60px;
+  border-radius: 50%;
 }
 .page_title_wrap {
   display: flex;

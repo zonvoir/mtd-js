@@ -28,6 +28,8 @@
 import { required, email } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 export default {
+  emits: ["emitData"],
+
   props: {
     currentAns: {
       required: true,

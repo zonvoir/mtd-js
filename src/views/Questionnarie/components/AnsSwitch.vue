@@ -13,6 +13,8 @@ import Toggle from "@vueform/toggle";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 export default {
+  emits: ["getUserSelected"],
+
   props: {
     currentAns: {
       type: Array,

@@ -31,6 +31,8 @@ import { required, numeric } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 
 export default {
+  emits: ["getUserSelected"],
+
   props: {
     currentAns: {
       required: true,

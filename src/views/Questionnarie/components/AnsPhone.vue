@@ -41,6 +41,8 @@ import { required, numeric, minLength, maxLength } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 
 export default {
+  emits: ["getUserSelected"],
+
   props: {
     currentAns: {
       required: true,
@@ -87,13 +89,6 @@ export default {
       }
 
       this.emitData(val);
-      // if (!this.v$.$invalid) {
-      //   this.isFieldValid = true;
-      // }
-      // this.$emit("getUserSelected", {
-      //   ansData: event.target.value,
-      //   isFieldValid: this.isFieldValid,
-      // });
     },
     emitData(val) {
       this.$emit("getUserSelected", {

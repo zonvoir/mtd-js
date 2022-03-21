@@ -25,6 +25,8 @@ import Multiselect from "@vueform/multiselect";
 import { required } from "@vuelidate/validators";
 import useValidator from "@vuelidate/core";
 export default {
+  emits: ["getUserSelected"],
+
   props: {
     data: {
       type: Array,

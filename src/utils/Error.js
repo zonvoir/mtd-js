@@ -19,6 +19,7 @@ const toast = useToast();
 
 const errorhandler = (res) => {
   if (typeof res === "string") {
+    console.log("error message", res);
     toast.error(res, toastOptions);
   } else {
     if ("error" in res.data) {
@@ -40,6 +41,7 @@ const errorhandler = (res) => {
     }
   }
 };
+export default errorhandler;
 export const successhandler = (res) => {
   if (typeof res === "string") {
     toast.success(res, toastOptions);
@@ -47,4 +49,3 @@ export const successhandler = (res) => {
     toast.success(res.data.message, toastOptions);
   }
 };
-export default errorhandler;

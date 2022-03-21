@@ -5,6 +5,7 @@
         {{ $t("category_details.questionTab.Questions") }}
       </h4>
     </div>
+
     <div class="question_list_wrapper">
       <div class="list_wrap m-b-20">
         <ul class="list-group">
@@ -127,6 +128,12 @@ export default {
           ansArr.push(element["sub_ans"]);
         });
         return ansArr.toString();
+      } else if (value.type === "percent") {
+        let ansArr = [];
+        value.staff_anwser.forEach((element) => {
+          ansArr.push(element["sub_ans"]);
+        });
+        return ansArr.toString();
       } else if (value.type === "number") {
         return value.staff_anwser;
       } else if (value.type === "phone_number") {
@@ -147,7 +154,7 @@ export default {
       }
     },
     editQuetion(id) {
-      this.$store.dispatch("getRandomQuestionIndex", id);
+      this.$store.dispatch("GET_RANDOM_QUESTION_INDEX", id);
       this.$router.push({
         name: "questionnarie-test",
         params: {

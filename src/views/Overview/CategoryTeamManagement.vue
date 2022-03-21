@@ -1,6 +1,6 @@
 <template>
   <div
-    v-for="staffrole in staffRoles"
+    v-for="(staffrole, index) in staffRoles"
     :key="staffrole.roleid"
     class="team_wrapper m-b-20"
   >
@@ -92,8 +92,8 @@
 import Select2 from "vue3-select2-component";
 import { mapGetters } from "vuex";
 import InvitationEmail from "../../components/Shared/InvitationEmail.vue";
-import CompanyService from "../../Services/Company/CompanyService";
-import errorhandler from "../../utils/Error";
+
+import { successhandler } from "../../utils/Error";
 export default {
   components: {
     Select2,
@@ -106,270 +106,9 @@ export default {
       departmentId: "",
       categoryId: "",
       myValue: "",
-      // staffRoles: [
-      //   {
-      //     roleid: "1",
-      //     name: "Employee",
-      //     permissions:
-      //       'a:1:{s:9:"contracts";a:4:{i:0;s:8:"view_own";i:1;s:6:"create";i:2;s:4:"edit";i:3;s:6:"delete";}}',
-      //     invitation_list: [
-      //       {
-      //         id: "55",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "shivdev576@gmail.com",
-      //         role_id: "1",
-      //         sent_at: "2022-02-17 16:15:18",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "accepted",
-      //         accepted_at: "2022-02-17 16:18:58",
-      //       },
-      //       {
-      //         id: "84",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "dikshatripathi172@gmail.com",
-      //         role_id: "1",
-      //         sent_at: "2022-02-24 17:20:07",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "85",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "zonvoirkuldip@gmail.com",
-      //         role_id: "1",
-      //         sent_at: "2022-02-24 17:20:07",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "86",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "kuldip@zonvoir.com",
-      //         role_id: "1",
-      //         sent_at: "2022-02-24 17:20:07",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "87",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "designerdeepak19@gmail.com",
-      //         role_id: "1",
-      //         sent_at: "2022-02-24 17:20:07",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "88",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "devdiksha172@gmail.com",
-      //         role_id: "1",
-      //         sent_at: "2022-02-24 17:20:07",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "89",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "sushant@zonvoir.com",
-      //         role_id: "1",
-      //         sent_at: "2022-02-24 17:20:07",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "90",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "devsushanttiwari@gmail.com",
-      //         role_id: "1",
-      //         sent_at: "2022-02-24 17:20:07",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "91",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "devsadiyakhan@gmail.com",
-      //         role_id: "1",
-      //         sent_at: "2022-02-24 17:20:07",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "92",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "deepak.codeable@gmail.com",
-      //         role_id: "1",
-      //         sent_at: "2022-02-24 17:20:07",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "93",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "diks.tripathi1401@gmail.com",
-      //         role_id: "1",
-      //         sent_at: "2022-02-24 17:20:07",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //     ],
-      //     is_creator: true,
-      //   },
-      //   {
-      //     roleid: "4",
-      //     name: "Consultant",
-      //     permissions:
-      //       'a:3:{s:9:"contracts";a:4:{i:0;s:8:"view_own";i:1;s:6:"create";i:2;s:4:"edit";i:3;s:6:"delete";}s:9:"marketing";a:3:{i:0;s:4:"view";i:1;s:6:"create";i:2;s:4:"edit";}s:15:"sourcing_supply";a:3:{i:0;s:4:"view";i:1;s:6:"create";i:2;s:4:"edit";}}',
-      //     invitation_list: [
-      //       {
-      //         id: "81",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "devkuldip836@gmail.com",
-      //         role_id: "4",
-      //         sent_at: "2022-02-24 14:59:55",
-      //         is_sent: "1",
-      //         invitation_validity: "2022-02-25 00:00:00",
-      //         status: "expired",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "82",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "deepak@zonvoir.com",
-      //         role_id: "4",
-      //         sent_at: "2022-02-24 15:03:24",
-      //         is_sent: "1",
-      //         invitation_validity: "2022-02-25 00:00:00",
-      //         status: "expired",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "83",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "sadiya@zonvoirdemo.in",
-      //         role_id: "4",
-      //         sent_at: "2022-02-24 15:13:47",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "accepted",
-      //         accepted_at: "2022-02-24 16:09:33",
-      //       },
-      //     ],
-      //     is_creator: true,
-      //   },
-      //   {
-      //     roleid: "5",
-      //     name: "Owner",
-      //     permissions: null,
-      //     invitation_list: [],
-      //     is_creator: true,
-      //   },
-      //   {
-      //     roleid: "9",
-      //     name: "Manager",
-      //     permissions:
-      //       'a:1:{s:9:"marketing";a:3:{i:0;s:4:"view";i:1;s:6:"create";i:2;s:4:"edit";}}',
-      //     invitation_list: [
-      //       {
-      //         id: "54",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "devsadiyakhan@gmail.com",
-      //         role_id: "9",
-      //         sent_at: "2022-02-17 16:14:32",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "accepted",
-      //         accepted_at: "2022-02-17 16:19:31",
-      //       },
-      //       {
-      //         id: "57",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "zonvoirkuldip@gmail.com",
-      //         role_id: "9",
-      //         sent_at: "2022-02-21 11:29:52",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "70",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "kuldip@zonvoir.com",
-      //         role_id: "9",
-      //         sent_at: "2022-02-21 17:27:35",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "accepted",
-      //         accepted_at: "2022-02-21 17:32:53",
-      //       },
-      //       {
-      //         id: "77",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "zonvoirkuldip@gmail.com",
-      //         role_id: "9",
-      //         sent_at: "2022-02-24 12:07:40",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //       {
-      //         id: "80",
-      //         sender_id: "72",
-      //         inviting_company_id: "38",
-      //         recipient_email: "vishal@zonvoir.com",
-      //         role_id: "9",
-      //         sent_at: "2022-02-24 12:10:27",
-      //         is_sent: "1",
-      //         invitation_validity: "0000-00-00 00:00:00",
-      //         status: "pending",
-      //         accepted_at: null,
-      //       },
-      //     ],
-      //     is_creator: true,
-      //   },
-      // ],
+      is_FileUploaded: false,
+      emailPattern:
+        /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/,
       settings: {},
       myOptions: [],
     };
@@ -379,11 +118,17 @@ export default {
     ...mapGetters({
       staffRoles: "invitationsForQuestionnaireTeam",
     }),
+    ...mapGetters(["owner_roleId", "consulatant_roleId"]),
   },
 
   created() {
     this.departmentId = this.$route.params.did;
     this.categoryId = this.$route.params.id;
+    console.log(
+      "get department id,category Id",
+      this.departmentId,
+      this.categoryId
+    );
     this.settings = {
       tags: true,
       allowClear: true,
@@ -409,8 +154,8 @@ export default {
     getInvitedTeam() {
       let data = {
         auth_token: this.staffData.auth_token,
-        category_id: this.departmentId,
-        department_id: this.categoryId,
+        category_id: this.categoryId,
+        department_id: this.departmentId,
       };
       this.$store
         .dispatch("GET_INVITATIONS_FOR_QUESTIONNAIRE_TEAM", data)
@@ -429,34 +174,114 @@ export default {
       }
     },
 
-    // upload csv File
-    sendInvitationByFile(file, staffrole) {
-      this.is_FileUploaded = true;
-      let data = {
-        auth_token: this.staffInfo.auth_token,
-        role_id: +staffrole,
-        departments: this.myDepartmensList.map(Number),
-        excel_file: file,
-        invitation_validity: this.validity_date,
-      };
-      console.log("fileData ", data);
-      CompanyService.invitationByFile(data).then((res) => {
-        if (res.data.status) {
-          this.is_FileUploaded = false;
-          this.$toast.success(" file Uploaded !! update list after some time", {
+    importFile(fileNameIndex = 0) {
+      // this.v$.$touch();
+      // if (this.v$.$invalid) {
+      //   return;
+      // } else {
+      //   }
+      this.$refs["fileInput-" + fileNameIndex].click();
+    },
+
+    onFilePicked(event, roleId) {
+      console.log("role is k", roleId, event);
+      this.valiImage = true;
+      const allowedExtensions = ["csv"];
+      const files = event.target.files;
+      let $th = this;
+      if (files != "undefined" && files.length > 0) {
+        var filename = files[0].name;
+        var fileType = files[0].type;
+        console.log("file extention type", fileType);
+        const fileExtension = filename.split(".").pop();
+        if (!allowedExtensions.includes(fileExtension)) {
+          // this.is_uploaded = false;
+          this.$toast.error(" File type must be (.csv) only.", {
             position: "bottom-left",
             duration: 3712,
           });
-          this.$store.dispatch(
-            "getInvitationList",
-            res.data.data.invitation_list
-          );
+          this.value = null; // Null the Value  here
         } else {
-          errorhandler(res, this);
+          var reader = new FileReader();
+          reader.readAsDataURL(files[0]);
+          reader.onload = function (e) {
+            let filebase64 = e.target.result;
+            let fileData = filebase64.replace(
+              "data:" + fileType + ";base64,",
+              ""
+            );
+            $th.sendInvitationByFile(fileData, roleId);
+          };
+        }
+      } else {
+        return true;
+      }
+    },
+
+    // upload excel File
+    sendInvitationByFile(file, staffrole) {
+      this.is_FileUploaded = true;
+      let data = {
+        auth_token: this.staffData.auth_token,
+        role_id: +staffrole,
+        excel_file: file,
+        category_id: this.categoryId,
+        department_id: this.departmentId,
+      };
+      console.log("fileData ", data);
+      //  CompanyService.invitationByFile
+      this.$store
+        .dispatch("GET_INVITE_TEAM_MEMBER_BY_FILELIST", data)
+        .then((res) => {
+          if (res.data.status) {
+            this.is_FileUploaded = false;
+            successhandler(" file Uploaded !! update list after some time");
+          }
+        });
+    },
+    // send Invitation by Emails
+    SendEmailsList(roleId) {
+      console.log(
+        "checking for consulant",
+        this.owner_roleId,
+        this.consulatant_roleId
+      );
+      if (this.owner_roleId == roleId) {
+        console.log("this is Owner", roleId);
+        let data = {
+          auth_token: this.staffData.auth_token,
+          role_id: +roleId,
+          recipient_emails: this.myValue,
+          category_id: this.categoryId,
+          department_id: this.departmentId,
+        };
+        this.invitePeople(data);
+      } else {
+        console.log("this is regular employee", roleId);
+        let data = {
+          auth_token: this.staffData.auth_token,
+          role_id: +roleId,
+          recipient_emails: this.myValue,
+          category_id: this.categoryId,
+          department_id: this.departmentId,
+        };
+        this.invitePeople(data);
+      }
+    },
+
+    // invite team
+    invitePeople(data) {
+      // CompanyService.invitationByEmails(data)
+      this.$store.dispatch("GET_INVITE_TEAM_MEMBER", data).then((res) => {
+        if (res.data.status) {
+          this.myValue.length = 0;
+          console.log("data emails", res.data.data);
+          this.disbaleInvited = true;
+          successhandler("Invitations have been sent ");
         }
       });
-      // this.is_uploaded = false;
     },
+
     mySelectEvent({ id, text }) {
       console.log("id", { id, text });
 
@@ -543,10 +368,15 @@ li {
   }
 }
 .list_group_item {
+  position: relative;
   border: 1px solid #e4e9f2;
   box-sizing: border-box;
   border-radius: 4px;
   padding: 6px 8px 6px 14px;
+  background-color: #ffffff;
+  &:last-child() {
+    position: absolute !important;
+  }
 }
 .border-bottom-1 {
   border-bottom: 1px solid #e4e9f2;

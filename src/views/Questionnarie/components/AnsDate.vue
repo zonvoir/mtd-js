@@ -25,6 +25,8 @@ import "vue3-date-time-picker/dist/main.css";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 export default {
+  emits: ["getUserSelected"],
+
   props: {
     currentAns: {
       required: true,

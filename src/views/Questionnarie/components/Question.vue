@@ -44,9 +44,9 @@
             :currentAns="questions[currentIdx].staff_anwser"
           />
         </div>
-        <div v-if="questions[currentIdx].type == 'richText'">
+        <!-- <div v-if="questions[currentIdx].type == 'richText'">
           <AnsTextArea :data="questions[currentIdx].choices" />
-        </div>
+        </div> -->
         <div v-if="questions[currentIdx].type == 'text'">
           <!-- @getUserSelected="userGivenAnswer" -->
           <AnsInput
@@ -76,14 +76,14 @@
             :data="questions[currentIdx].choices"
           />
         </div>
-        <div v-if="questions[currentIdx].type == 'manySelect'">
+        <!-- <div v-if="questions[currentIdx].type == 'manySelect'">
           <AnsMultiSelect
             :key="currentIdx"
             v-model="answerValue"
             @getUserSelected="userGivenAnswer"
             :currentAns="questions[currentIdx].staff_anwser"
           />
-        </div>
+        </div> -->
         <div v-if="questions[currentIdx].type == 'email'">
           <AnsEmail
             ref="ans_email"
@@ -121,9 +121,19 @@
             :currentAns="questions[currentIdx].staff_anwser"
           />
         </div>
-        <div v-if="questions[currentIdx].type == 'editor'">
-          <AnsTextEditor :data="questions[currentIdx].choices" />
+        <!--  -->
+        <div v-if="questions[currentIdx].type == 'percent'">
+          <AnsPercent
+            :key="currentIdx"
+            v-model="answerValue"
+            :data="questions[currentIdx].subquestions"
+            @getUserSelected="userGivenAnswer"
+            :currentAns="questions[currentIdx].staff_anwser"
+          />
         </div>
+        <!-- <div v-if="questions[currentIdx].type == 'editor'">
+          <AnsTextEditor :data="questions[currentIdx].choices" />
+        </div> -->
 
         <div v-if="questions[currentIdx].type == 'date'">
           <AnsDate
@@ -137,6 +147,7 @@
       </div>
       <!-- Answer Section Ends -->
       <!-- explanation Section Start -->
+
       <div v-if="questions[currentIdx].hint" class="">
         <div class="d-flex align-items-center m-b-15">
           <!-- <QuestionExpalnaion /> -->
@@ -197,16 +208,17 @@
 import AnsCheckbox from "./AnsCheckbox.vue";
 import AnsRadio from "./AnsRadio.vue";
 import AnsSwitch from "./AnsSwitch.vue";
-import AnsTextArea from "./AnsTextArea.vue";
+// import AnsTextArea from "./AnsTextArea.vue";
 import AnsInput from "./AnsInput.vue";
 import AnsMultipleNumber from "./AnsMultipleNumber.vue";
 import AnsSingleNumber from "./AnsSingleNumber.vue";
 import AnsPhone from "./AnsPhone.vue";
 import AnsEmail from "./AnsEmail.vue";
-import AnsMultiSelect from "./AnsMultiSelect.vue";
+// import AnsMultiSelect from "./AnsMultiSelect.vue";
 import AnsWebsite from "./AnsWebsite.vue";
 import AnsSelect from "./AnsSelect.vue";
-import AnsTextEditor from "./AnsTextEditor.vue";
+import AnsPercent from "./AnsPercent.vue";
+// import AnsTextEditor from "./AnsTextEditor.vue";
 import AnsDate from "./AnsDate.vue";
 import QuestionnaireService from "../../../Services/QuestionnaireServices/Questionnaire";
 import { mapGetters } from "vuex";
@@ -216,20 +228,21 @@ import errorhandler from "../../../utils/Error";
 export default {
   props: {},
   components: {
-    AnsTextEditor,
+    // AnsTextEditor,
     AnsCheckbox,
     AnsRadio,
     AnsDate,
-    AnsTextArea,
+    // AnsTextArea,
     AnsSwitch,
     AnsInput,
     AnsMultipleNumber,
     AnsSingleNumber,
     AnsPhone,
     AnsEmail,
-    AnsMultiSelect,
+    // AnsMultiSelect,
     AnsWebsite,
     QuestionHint,
+    AnsPercent,
     AnsSelect,
   },
   data() {
@@ -308,10 +321,6 @@ export default {
       ) {
         this.isValidated = false;
         errorhandler("Please answer the question");
-        // this.$toast.error("Please answer the question", {
-        //   position: "bottom-left",
-        //   duration: 3712,
-        // });
         return;
       }
       let data = {

@@ -248,7 +248,26 @@ const actions = {
     return new Promise((resolve, reject) => {
       CompanyService.inviteNewTeamMember(data).then(
         (res) => {
-          if (res.data.staus) {
+          if (res.data.status) {
+            console.log("res to add new member", res.data.data);
+            // commit("setInviteTeamMember", res.data.data);
+            commit("setInvitationsForQuestionnaireTeam", res.data.data);
+          } else {
+            errorhandler(res);
+          }
+          resolve(res);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  },
+  GET_INVITE_TEAM_MEMBER_BY_FILELIST: ({ commit }, data) => {
+    return new Promise((resolve, reject) => {
+      CompanyService.inviteTeamMemberByList(data).then(
+        (res) => {
+          if (res.data.status) {
             console.log("res to add new member", res.data.data);
             commit("setInviteTeamMember", res.data.data);
           } else {

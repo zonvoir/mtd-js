@@ -179,6 +179,15 @@ class CompanyService {
   }
   // inivite a new  team member
   inviteNewTeamMember(data) {
+    return http.post("invitation/send_invitation_team", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+  // inivite bulk list of new  team member
+  inviteTeamMemberByList(data) {
     return http.post("roles/get_team_management", data, {
       headers: {
         "X-Company": localStorage.getItem("selected_company"),

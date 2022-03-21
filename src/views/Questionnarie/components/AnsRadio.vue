@@ -20,6 +20,8 @@
 
 <script>
 export default {
+  emits: ["getUserSelected"],
+
   props: {
     data: {
       type: Array,

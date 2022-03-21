@@ -297,7 +297,6 @@ export default {
       ) {
         this.$router.push({ name: "link-company-account" });
       } else {
-        console.log("kk299");
         this.$router.push({ name: "signup-company" });
       }
     },
