@@ -1,17 +1,18 @@
 <template>
-  <div class="k_date_picker k_inp_half">
+  <div class="k_date_picker m-b-15 k_inp_half">
     <Datepicker
-      ref="selected_date"
-      class="invalid_error"
+      class="ans_date_picker"
       :enableTimePicker="false"
       v-model="ansValue"
+      @open="clearDate"
       @closed="updateDate"
+      placeholder="mm/dd/yyyy"
       @blur="v$.ansValue.$touch"
       :class="{
-        'is-invalid': v$.ansValue.$error,
+        invalid_error: v$.ansValue.$error,
       }"
     />
-    <div v-if="v$.ansValue.$error" class="invalid-feedback text-left">
+    <div v-if="v$.ansValue.$error" class="invalid_feedback text-left">
       <span v-if="v$.ansValue.required.$invalid" class="text-left fs-14">
         Answer is required
       </span>
@@ -46,13 +47,11 @@ export default {
   created() {
     console.log(this.currentAns);
     if (this.currentAns != "") {
-      console.log("updated Date from staff", this.currentAns);
       this.isFieldValid = true;
       let parts = this.currentAns.split("/");
       let date = new Date(parts[2], parts[1] - 1, parts[0]);
       this.ansValue = date;
       this.emitData(this.currentAns);
-      // this.formatMyDate(this.currentAns);
     }
   },
   validations() {
@@ -67,6 +66,9 @@ export default {
   },
 
   methods: {
+    clearDate() {
+      this.ansValue = "";
+    },
     updateDate() {
       this.checkValidation();
       this.formatMyDate(this.ansValue);
@@ -104,6 +106,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.ans_date_picker {
+  .dp__input {
+    text-align: left !important;
+    padding: auto !important;
+  }
+}
 .invalid_error {
   &:focus {
     outline: 2px solid #db2c66 !important;

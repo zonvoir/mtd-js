@@ -768,6 +768,7 @@ import {
   getFirstLetter,
   setRandomBackground,
 } from "../../utils/commonHelperFuntions";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -791,6 +792,11 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapGetters({
+      companyProfileData: "companyData",
+    }),
+  },
   methods: {
     // get member name format
     formatMemberName(str) {
@@ -808,7 +814,7 @@ export default {
       this.$router.push({ name: "company-profile-edit" });
     },
     getCompanyInformation() {
-      companyService.companyDetails().then((res) => {
+      companyService.companyProfileDetails().then((res) => {
         if (res.data.status) {
           this.companyAllInformation = res.data.data;
           console.log("all company details", this.companyAllInformation);

@@ -1,5 +1,25 @@
 <template>
   <div class="k_form_group k_inp_half k_select_single">
+    <Dropdown
+      class="k_prime_inp_select"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Select option"
+      @change="updateAnswer"
+      :options="dropdownArray"
+      @blur="v$.ansValue.$touch"
+      v-model="ansValue"
+      :class="{
+        'is-invalid': v$.ansValue.$error,
+      }"
+    />
+    <div v-if="v$.ansValue.$error" class="invalid-feedback text-left">
+      <span v-if="v$.ansValue.required.$invalid" class="text-left fs-14">
+        Answer is required
+      </span>
+    </div>
+  </div>
+  <!-- <div class="k_form_group k_inp_half k_select_single">
     <Multiselect
       placeholder="Please select"
       class="form-control k_inp_field"
@@ -17,13 +37,14 @@
         Answer is required
       </span>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
-import Multiselect from "@vueform/multiselect";
+// import Multiselect from "@vueform/multiselect";
 import { required } from "@vuelidate/validators";
 import useValidator from "@vuelidate/core";
+import Dropdown from "primevue/dropdown";
 export default {
   emits: ["getUserSelected"],
 
@@ -46,7 +67,8 @@ export default {
     };
   },
   components: {
-    Multiselect,
+    // Multiselect,
+    Dropdown,
   },
   setup() {
     return {
@@ -69,7 +91,7 @@ export default {
     });
     if (this.currentAns != "") {
       this.isFieldValid = true;
-      this.ansValue = this.currentAns;
+      this.ansValue = this.currentAns[0];
       this.emitData(this.ansValue);
     }
     // if (this.currentAns != "") {
@@ -82,7 +104,7 @@ export default {
       this.v$.$touch();
       this.isFieldValid = false;
       if (!this.v$.$invalid) {
-        this.isFieldValid = true;
+        (this.tempAns = []), (this.isFieldValid = true);
         this.tempAns.push(this.ansValue);
       }
       this.emitData(this.tempAns);

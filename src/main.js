@@ -1,11 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-// import commonModule from "./store/Modules/CommonModule";
-// import questModule from "./store/Modules/QuestionnaireModule";
-// import companyModule from "./store/Modules/CompanyModule";
+
 import store from "./store/index";
-// import quest from "./store/questionnaire";
 import Toaster from "@meforma/vue-toaster";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import PrimeVue from "primevue/config";
@@ -20,6 +17,7 @@ import "@vueform/toggle/themes/default.scss";
 import "./assets/scss/vue_mainStyle.scss";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import Tooltip from "primevue/tooltip";
 
 import { loadLocaleMessages, setupI18n } from "./i18n";
 
@@ -41,11 +39,8 @@ app
     maxToasts: 20,
     newestOnTop: true,
   })
-  // .use(quest)
   .use(store)
-  // .use(commonModule)
-  // .use(companyModule)
-  // .use(questModule)
   .use(PrimeVue)
   .use(router)
+  .directive("tooltip", Tooltip)
   .mount("#app");

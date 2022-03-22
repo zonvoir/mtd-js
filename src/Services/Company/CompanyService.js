@@ -76,15 +76,6 @@ class CompanyService {
     });
   }
 
-  // company list
-  companyDetails() {
-    return http.get("customers/company_detail", {
-      headers: {
-        "X-Company": localStorage.getItem("selected_company"),
-        "X-Year": localStorage.getItem("selected_year"),
-      },
-    });
-  }
   departmentsByToken(data) {
     return http.post("customers/staff_department_by_company", data, {
       headers: {
@@ -157,6 +148,26 @@ class CompanyService {
   }
   setUpCompany(data) {
     return http.post("customers/data/", data);
+  }
+
+  // company profile details
+  companyProfileDetails() {
+    return http.get("customers/company_detail", {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+
+  // update Company
+  updateCompany(data) {
+    return http.post("customers/update_company", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
   }
 
   // get All roles that are available in comapny

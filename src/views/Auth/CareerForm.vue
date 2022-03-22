@@ -189,7 +189,7 @@
             :enableTimePicker="false"
             @open="clearFromDate"
             @blur="v$.careerForm.from.$touch"
-            placeholder="dd/mm/yyyy"
+            placeholder="mm/dd/yyyy"
             :class="{
               invalid_error: v$.careerForm.from.$error,
             }"
@@ -215,7 +215,7 @@
             :enableTimePicker="false"
             v-model="careerForm.to"
             @open="clearToDate"
-            placeholder="dd/mm/yyyy"
+            placeholder="mm/dd/yyyy"
           />
         </div>
       </div>

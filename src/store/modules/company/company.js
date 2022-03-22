@@ -24,6 +24,7 @@ const state = {
   allCareerDepartment: [], // All department of Career
   invitationsForQuestionnaireTeam: undefined,
   inviteTeamMember: undefined,
+  companyData: undefined,
 };
 const mutations = {
   // company profile
@@ -80,9 +81,10 @@ const mutations = {
   setAlocatedDepartments(state, values) {
     state.alocatedDepartments = values;
   },
-  // setAllCategories(state, values) {
-  //   state.allCategories = values;
-  // },
+  // update Company data
+  setUpdateCompnay(state, values) {
+    state.companyData = values;
+  },
   setStaffsDepartment(state, values) {
     state.staffsDepartment = values;
   },
@@ -102,6 +104,46 @@ const mutations = {
   },
 };
 const actions = {
+  CAMPNAY_PROFILE_DATA: ({ commit }, data) => {
+    return new Promise((resolve, reject) => {
+      CompanyService.companyProfileDetails(data).then(
+        (res) => {
+          if (res.data.status) {
+            console.log("res", res.data.data);
+            commit("setUpdateCompnay", res.data.data);
+          } else {
+            commit("setUpdateCompnay", []);
+            errorhandler(res);
+          }
+          resolve(res);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  },
+
+  UPDATE_CAMPNAY_DATA: ({ commit }, data) => {
+    return new Promise((resolve, reject) => {
+      CompanyService.updateCompany(data).then(
+        (res) => {
+          if (res.data.status) {
+            console.log("res", res.data.data);
+            commit("setUpdateCompnay", res.data.data);
+          } else {
+            commit("setUpdateCompnay", []);
+            errorhandler(res);
+          }
+          resolve(res);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  },
+
   GET_ALL_CAREER_DEPARTMENT: ({ commit }) => {
     return new Promise((resolve, reject) => {
       CompanyService.careerInfoDepartment().then(
@@ -128,6 +170,7 @@ const actions = {
       );
     });
   },
+
   ADD_NEW_CAREER_DEPARTMENT: ({ commit }, data) => {
     return new Promise((resolve, reject) => {
       CompanyService.addCareerDepartment(data).then(
@@ -329,6 +372,7 @@ const actions = {
   },
 };
 const getters = {
+  companyData: (state) => state.companyData,
   consulatant_roleId: (state) => state.consulatant_roleId,
   owner_roleId: (state) => state.owner_roleId,
   manager_roleId: (state) => state.manager_roleId,

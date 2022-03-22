@@ -197,6 +197,41 @@
     color: #8f9bb3;
   }
 }
+.ans_date_picker {
+  .dp__input_wrap {
+    .dp__clear_icon {
+      display: none !important;
+    }
+  }
+  .dp__input {
+    text-align: left;
+    padding: 8px 20px;
+
+    &::placeholder {
+      color: #222b45;
+      opacity: 1; /* Firefox */
+    }
+
+    &:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #222b45;
+    }
+
+    &::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: #222b45;
+    }
+  }
+
+  .dp__input_icon {
+    position: absolute;
+    top: 50%;
+    left: inherit;
+    right: 0 !important;
+    transform: translateY(-50%);
+    color: #8f9bb3;
+  }
+}
 .dp__select {
   color: #7900d8;
 }

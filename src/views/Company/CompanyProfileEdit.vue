@@ -1,143 +1,8 @@
 <template>
   <div>
+    {{ companyProfileData }}
     <div class="company_profile">
-      <div class="comapny_profile_header d-flex m-b-32">
-        <div class="company_prof_info">
-          <div class="img_wrapper">
-            <img
-              src="K_icons/company_logo_64.svg"
-              class="c_logo_wrapper"
-              alt=""
-            />
-          </div>
-          <div class="c_details_wrapper">
-            <h4 class="text_heading fs-22 fw-700 m-b-9">
-              MoreThanDigital,2009
-            </h4>
-            <div class="d-inline-flex">
-              <p class="m-b-0 text_light fs-16 fw-500">New York</p>
-              <span class="ph_no"
-                ><span class="text_light">(+11)</span> 415 554 1679</span
-              >
-            </div>
-          </div>
-        </div>
-        <div class="c_actions m-l-auto">
-          <button class="btn btn-primary btn_size">
-            <span class="fs-14 fw-700">{{
-              $t("company_profile.company_tab.company_edit.buttons.save")
-            }}</span>
-          </button>
-        </div>
-      </div>
-      <!-- compnay details sec start -->
-      <div class="c_page_title m-b-21">
-        <h4 class="m-b-0 fs-18 fw-700 text-heading">
-          {{
-            $t(
-              "company_profile.company_tab.company_details.main_headings.About_Company"
-            )
-          }}
-        </h4>
-      </div>
-      <div class="company_basic_info m-b-15">
-        <div class="row">
-          <div class="col-lg-3 m-b-26">
-            <h4 class="c_base_head">
-              {{
-                $t(
-                  "company_profile.company_tab.company_details.About_Company_lables.Main_Industry"
-                )
-              }}
-              <span class="m-l-9">
-                <img src="icons/info.svg" alt="" class="kw-15" />
-              </span>
-            </h4>
-            <h6 class="c_base_value">Services</h6>
-          </div>
-          <div class="col-lg-3 m-b-26">
-            <h6 class="c_base_head">
-              {{
-                $t(
-                  "company_profile.company_tab.company_details.About_Company_lables.Sub_Industry"
-                )
-              }}
-              <span class="m-l-9">
-                <img src="icons/info.svg" alt="" class="kw-15" />
-              </span>
-            </h6>
-            <h6 class="c_base_value">Department</h6>
-          </div>
-          <div class="col-lg-3 m-b-26">
-            <h6 class="c_base_head">
-              {{
-                $t(
-                  "company_profile.company_tab.company_details.About_Company_lables.Detailed_Industry"
-                )
-              }}
-              <span class="m-l-9">
-                <img src="icons/info.svg" alt="" class="kw-15" />
-              </span>
-            </h6>
-            <h6 class="c_base_value">Development Web Services</h6>
-          </div>
-          <div class="col-lg-3 m-b-26">
-            <h6 class="c_base_head">
-              {{
-                $t(
-                  "company_profile.company_tab.company_details.About_Company_lables.Legal_Form_of_Corporation"
-                )
-              }}
-            </h6>
-            <h6 class="c_base_value">Public Limited Company</h6>
-          </div>
-          <div class="col-lg-3 m-b-26">
-            <h6 class="c_base_head">
-              {{
-                $t(
-                  "company_profile.company_tab.company_details.About_Company_lables.Region"
-                )
-              }}
-            </h6>
-            <h6 class="c_base_value">Regional</h6>
-          </div>
-          <div class="col-lg-3 m-b-26">
-            <h6 class="c_base_head">
-              {{
-                $t(
-                  "company_profile.company_tab.company_details.About_Company_lables.Revenu_Total"
-                )
-              }}
-            </h6>
-            <h6 class="c_base_value"><span>$ </span> 25 000</h6>
-          </div>
-          <div class="col-lg-3 m-b-26">
-            <h4 class="c_base_head">
-              {{
-                $t(
-                  "company_profile.company_tab.company_details.About_Company_lables.Currency"
-                )
-              }}
-              <span class="m-l-9">
-                <img src="icons/info.svg" alt="" class="kw-15" />
-              </span>
-            </h4>
-            <h6 class="c_base_value">EUR</h6>
-          </div>
-          <div class="col-lg-3 m-b-26">
-            <h6 class="c_base_head" @click="openCustomModal">
-              {{
-                $t(
-                  "company_profile.company_tab.company_details.About_Company_lables.custom_rate"
-                )
-              }}
-              <a class="primary-link link_edit">{{
-                $t("company_profile.company_tab.company_details.buttons.edit")
-              }}</a>
-            </h6>
-          </div>
-        </div>
-      </div>
+      <CompanyUpdate :companyProfile="companyProfileData" />
       <!-- company_detail ends -->
       <div class="form_wrapper">
         <form action="">
@@ -645,7 +510,7 @@
             <button
               :disabled="isSubmitted"
               type="submit"
-              class="btn btn-primary btn-set"
+              class="btn btn-primary btn-set text-uppercase"
             >
               <div
                 v-if="isSubmitted"
@@ -902,14 +767,9 @@ import Multiselect from "@vueform/multiselect";
 
 import { Modal } from "bootstrap";
 
+import CompanyUpdate from "./components/CompanyUpdate.vue";
+import { mapGetters } from "vuex";
 export default {
-  components: {
-    // TabsHr,
-    Multiselect,
-  },
-  mounted() {
-    this.modal = new Modal(this.$refs.exampleModal);
-  },
   data() {
     return {
       tablist,
@@ -919,6 +779,20 @@ export default {
         { value: 3, label: "USD" },
       ],
     };
+  },
+  computed: {
+    ...mapGetters({
+      companyProfileData: "companyData",
+    }),
+  },
+  components: {
+    // TabsHr,
+    CompanyUpdate,
+    Multiselect,
+  },
+
+  mounted() {
+    this.modal = new Modal(this.$refs.exampleModal);
   },
   methods: {
     openCustomModal() {
