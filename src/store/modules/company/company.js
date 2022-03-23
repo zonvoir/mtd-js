@@ -1,4 +1,5 @@
 import errorhandler from "../../../utils/Error";
+// import renameKeys from "../../../utils/commonHelperFuntions";
 import CompanyService from "../../../Services/Company/CompanyService";
 const state = {
   staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
@@ -83,7 +84,13 @@ const mutations = {
   },
   // update Company data
   setUpdateCompnay(state, values) {
+    // let data = values;
     state.companyData = values;
+    // let keysMap = {
+    //   company_logo: "client_logo",
+    //   calling_code: "country_code",
+    // };
+    // console.log("kk", renameKeys(keysMap, data));
   },
   setStaffsDepartment(state, values) {
     state.staffsDepartment = values;
@@ -109,7 +116,6 @@ const actions = {
       CompanyService.companyProfileDetails(data).then(
         (res) => {
           if (res.data.status) {
-            console.log("res", res.data.data);
             commit("setUpdateCompnay", res.data.data);
           } else {
             commit("setUpdateCompnay", []);
@@ -129,7 +135,6 @@ const actions = {
       CompanyService.updateCompany(data).then(
         (res) => {
           if (res.data.status) {
-            console.log("res", res.data.data);
             commit("setUpdateCompnay", res.data.data);
           } else {
             commit("setUpdateCompnay", []);

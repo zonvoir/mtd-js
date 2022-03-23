@@ -324,6 +324,11 @@
           color: #222b45;
           font-weight: 500;
           font-size: 16px;
+          display: inline-block;
+          width: 180px;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
         }
       }
     }
@@ -371,6 +376,7 @@
 
   .p-dropdown-items .p-dropdown-item {
     padding: 0.5rem 0.5rem;
+
     &:not(.p-highlight):not(.p-disabled):hover {
       background: $primary-light;
       background-color: $primary-light;

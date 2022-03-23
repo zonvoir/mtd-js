@@ -51,6 +51,10 @@ class CommonService {
   getAllRegion() {
     return http.get("lists/region");
   }
+  // get all Region
+  getAllCurrency() {
+    return http.get("lists/currencies");
+  }
 
   // get all country by region
   getAllCountry(regionId) {

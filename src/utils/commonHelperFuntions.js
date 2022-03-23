@@ -30,6 +30,49 @@ export const getRolesModified = (rolesArr) => {
   });
   return rolesList;
 };
+export const getlabelValue = (legalFormsArr, id) => {
+  if (!legalFormsArr.length) return;
+
+  let legalForm = legalFormsArr.find((element) => element.value === id);
+
+  return (legalForm && legalForm.label) || undefined;
+};
+// export const getCountryName = (countryArr, id) => {
+//   if (!countryArr.length) return;
+
+//   let country = countryArr.find((element) => element.value === id);
+
+//   return (country && country.label) || undefined;
+// };
+// export const getmainIndustryName = (mainIndustryArr, id) => {
+//   if (!mainIndustryArr.length) return;
+
+//   let mainIndustry = mainIndustryArr.find((element) => element.value === id);
+
+//   return (mainIndustry && mainIndustry.label) || undefined;
+// };
+// export const getSubIndustryName = (subIndustryArr, id) => {
+//   if (!subIndustryArr.length) return;
+
+//   let subIndustry = subIndustryArr.find((element) => element.value === id);
+
+//   return (subIndustry && subIndustry.label) || undefined;
+// };
+// export const getDetailedIndustryName = (detailedIndstry, id) => {
+//   if (!detailedIndstry.length) return;
+
+//   let detailIndustry = detailedIndstry.find((element) => element.value === id);
+
+//   return (detailIndustry && detailIndustry.label) || undefined;
+// };
+// export const getRegionName = (regionsArr, id) => {
+//   if (!regionsArr.length) return;
+
+//   let region = regionsArr.find((element) => element.value === id);
+
+//   return (region && region.label) || undefined;
+// };
+
 export const getCategoryModified = (categoryArr) => {
   if (!categoryArr.length) return;
   let categoryArray = categoryArr.map((item) => {
@@ -62,3 +105,12 @@ export const setRandomBackground = () => {
   let background = backgrounds[Math.floor(Math.random() * backgrounds.length)];
   return background;
 };
+
+export const renameKeys = (keysMap, obj) =>
+  Object.keys(obj).reduce(
+    (acc, key) => ({
+      ...acc,
+      ...{ [keysMap[key] || key]: obj[key] },
+    }),
+    {}
+  );

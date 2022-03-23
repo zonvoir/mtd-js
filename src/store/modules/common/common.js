@@ -8,6 +8,7 @@ export default {
     detailIndustries: [],
     allCountries: [],
     allRegion: [],
+    allCurrency: [],
     allRoles: [],
     personalInfo: [],
     allLegalFormCorporation: [],
@@ -33,6 +34,9 @@ export default {
     },
     setAllRegion(state, region) {
       state.allRegion = region;
+    },
+    setAllCurrency(state, val) {
+      state.allCurrency = val;
     },
     setAllCountries(state, country) {
       state.allCountries = country;
@@ -146,6 +150,32 @@ export default {
               commit("setAllRegion", regionArray);
             } else {
               commit("setAllRegion", []);
+              errorhandler(res);
+            }
+            resolve(res);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      });
+    },
+    GET_ALL_CURRENCY: ({ commit }) => {
+      return new Promise((resolve, reject) => {
+        CommonService.getAllCurrency().then(
+          (res) => {
+            if (res.data.status) {
+              if (!res.data.data.length) return;
+              console.log("all cuurency", res.data.data);
+              let currencyArr = res.data.data.map((item) => {
+                return {
+                  value: item.id,
+                  label: item.name,
+                };
+              });
+              commit("setAllCurrency", currencyArr);
+            } else {
+              commit("setAllCurrency", []);
               errorhandler(res);
             }
             resolve(res);
@@ -366,6 +396,7 @@ export default {
     detailIndustries: (state) => state.detailIndustries,
     allCountries: (state) => state.allCountries,
     allRegion: (state) => state.allRegion,
+    allCurrency: (state) => state.allCurrency,
     allRoles: (state) => state.allRoles,
     allLegalFormCorporation: (state) => state.allLegalFormCorporation,
     allSenoirityLevels: (state) => state.allSenoirityLevels,

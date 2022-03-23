@@ -151,8 +151,8 @@ class CompanyService {
   }
 
   // company profile details
-  companyProfileDetails() {
-    return http.get("customers/company_detail", {
+  companyProfileDetails(data) {
+    return http.post("customers/company_detail", data, {
       headers: {
         "X-Company": localStorage.getItem("selected_company"),
         "X-Year": localStorage.getItem("selected_year"),

@@ -1,15 +1,14 @@
 <template>
-  <!-- {{ companyAllInformation }} -->
   <div>
     <div class="company_profile">
       <div class="comapny_profile_header d-flex m-b-32">
         <div class="company_prof_info">
           <div class="img_wrapper">
             <img
-              v-if="companyAllInformation.company_logo"
+              v-if="companyAllInformation.client_logo"
               :src="
-                companyAllInformation.company_logo
-                  ? companyAllInformation.company_logo
+                companyAllInformation.client_logo
+                  ? companyAllInformation.client_logo
                   : ''
               "
               class="c_logo_wrapper"
@@ -31,11 +30,11 @@
             </h4>
             <div class="d-inline-flex">
               <p class="m-b-0 text_light fs-16 fw-500">
-                {{ companyAllInformation.country }}
+                {{ getTitleById(countryLists, companyAllInformation.country) }}
               </p>
               <span class="ph_no"
                 ><span class="text_light_code m-r-2">
-                  <span>(+</span>{{ companyAllInformation.calling_code }}
+                  <span>(+</span>{{ companyAllInformation.country_code }}
                   <span>)</span> </span
                 >{{ companyAllInformation.phonenumber }}</span
               >
@@ -100,6 +99,10 @@
               </span>
             </h4>
             <h6 class="c_base_value">
+              <!-- {{
+                getTitleById(industryLists, companyAllInformation.main_industry)
+              }} -->
+
               {{ companyAllInformation.main_industry_name }}
             </h6>
           </div>
@@ -142,7 +145,12 @@
               }}
             </h6>
             <h6 class="c_base_value">
-              {{ companyAllInformation.corporation_legal_form }}
+              {{
+                getTitleById(
+                  legalCorpLists,
+                  companyAllInformation.corporation_legal_form
+                )
+              }}
             </h6>
           </div>
           <div class="col-lg-3 m-b-26">
@@ -154,7 +162,7 @@
               }}
             </h6>
             <h6 class="c_base_value">
-              {{ companyAllInformation.region }}
+              {{ getTitleById(regionLists, companyAllInformation.region) }}
             </h6>
           </div>
           <div class="col-lg-3 m-b-26">
@@ -196,7 +204,7 @@
             </h6>
           </div>
           <div class="col-lg-3 m-b-26">
-            <h6 class="c_base_head" @click="openCustomModal">
+            <!-- <h6 class="c_base_head" @click="openCustomModal">
               {{
                 $t(
                   "company_profile.company_tab.company_details.About_Company_lables.custom_rate"
@@ -205,7 +213,7 @@
               <a class="primary-link link_edit">{{
                 $t("company_profile.company_tab.company_details.buttons.edit")
               }}</a>
-            </h6>
+            </h6> -->
           </div>
         </div>
       </div>
@@ -657,10 +665,16 @@
                 <label for="" class="m-b-10 fs-20 text_heading fw-700">
                   Currency & Exchange Rates, 2020</label
                 >
-                <Multiselect
-                  class="form-control k_inp_field m-b-16"
-                  rules="required"
+                <Dropdown
+                  class="k_prime_inp_select"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="
+                   Currency
+                  "
                   :options="currencyLists"
+                  @change="onChangeCurrency"
+                  v-model="currency"
                 />
               </div>
               <div class="k_form_groups">
@@ -696,7 +710,6 @@
                     <p class="custom_exchange">USD</p>
                   </div>
                 </div>
-                <!-- alert -->
                 <div class="alert_wrapper d-flex m-b-40">
                   <div class="icon_wrapper">
                     <div class="bg_alert_circle"></div>
@@ -760,47 +773,60 @@ const tablist = [
     pageUrl: "company-member",
   },
 ];
-import Multiselect from "@vueform/multiselect";
 import CompanyInfo from "./components/CompanyInfoTile.vue";
 import { Modal } from "bootstrap";
-import companyService from "../../Services/Company/CompanyService";
+import Dropdown from "primevue/dropdown";
 import {
   getFirstLetter,
+  getlabelValue,
   setRandomBackground,
 } from "../../utils/commonHelperFuntions";
 import { mapGetters } from "vuex";
 
 export default {
+  data() {
+    return {
+      tablist,
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      currency: undefined,
+    };
+  },
+
   components: {
     CompanyInfo,
-    Multiselect,
+    Dropdown,
   },
   mounted() {
     this.modal = new Modal(this.$refs.exampleModal);
   },
   created() {
     this.getCompanyInformation();
+    this.getCountries();
+    this.$store.dispatch("GET_ALL_CURRENCY");
+    this.$store.dispatch("GET_MAIN_INDUSTRIES");
+    this.$store.dispatch("GET_ALL_LEGAL_FORM_CORPORATION");
+    this.$store.dispatch("GET_ALL_REGION");
   },
-  data() {
-    return {
-      tablist,
-      companyAllInformation: undefined,
-      currencyLists: [
-        { value: 1, label: "BGN" },
-        { value: 2, label: "EUR" },
-        { value: 3, label: "USD" },
-      ],
-    };
-  },
+
   computed: {
     ...mapGetters({
-      companyProfileData: "companyData",
+      companyAllInformation: "companyData",
+      industryLists: "mainIndustries",
+      subIndustryLists: "subIndustries",
+      detailedIndustryLists: "detailIndustries",
+      legalCorpLists: "allLegalFormCorporation",
+      countryLists: "allCountries",
+      regionLists: "allRegion",
+      currencyLists: "allCurrency",
     }),
   },
   methods: {
     // get member name format
     formatMemberName(str) {
       return getFirstLetter(str);
+    },
+    getTitleById(givenArr, id) {
+      return getlabelValue(givenArr, id);
     },
     // get member name format
     getBgColor() {
@@ -814,28 +840,22 @@ export default {
       this.$router.push({ name: "company-profile-edit" });
     },
     getCompanyInformation() {
-      companyService.companyProfileDetails().then((res) => {
-        if (res.data.status) {
-          this.companyAllInformation = res.data.data;
-          console.log("all company details", this.companyAllInformation);
-        } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          }
-        }
+      this.$store.dispatch("CAMPNAY_PROFILE_DATA", {
+        auth_token: this.staffData.auth_token,
       });
     },
+    onChangeMainIndustry(id) {
+      this.$store.dispatch("GET_SUB_INDUSTRIES", id);
+    },
+
+    onChangeSubIndustry(id) {
+      this.$store.dispatch("GET_DEATAIL_INDUSTRIES", id);
+    },
+    getCountries(id) {
+      this.$store.dispatch("GET_COUNTRIES", id);
+    },
+
+    onChangeCurrency() {},
   },
 };
 </script>
@@ -890,39 +910,39 @@ export default {
   position: absolute;
   transform: translate(-50%, -50%);
 }
-.exchange_wrap {
-  display: flex;
-  align-items: center;
-  .currency_amount {
-    margin-right: 20px;
-  }
-  .currency_from {
-    width: 10%;
-    margin-right: 20px;
-    margin-right: 20px;
-  }
-  .currency_to {
-    width: 10%;
-    margin-right: 20px;
-    margin-right: 20px;
-  }
-}
-.custom_exchange {
-  font-size: 15px;
-  font-weight: 400;
-  color: #8f9bb3;
-  margin-bottom: 0;
-}
-.modal_body {
-  background: #ffffff;
-  box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
-  border-radius: 4px;
-  width: 400px;
-  height: 600px;
-}
-.modal-body {
-  padding: 28px 24px;
-}
+// .exchange_wrap {
+//   display: flex;
+//   align-items: center;
+//   .currency_amount {
+//     margin-right: 20px;
+//   }
+//   .currency_from {
+//     width: 10%;
+//     margin-right: 20px;
+//     margin-right: 20px;
+//   }
+//   .currency_to {
+//     width: 10%;
+//     margin-right: 20px;
+//     margin-right: 20px;
+//   }
+// }
+// .custom_exchange {
+//   font-size: 15px;
+//   font-weight: 400;
+//   color: #8f9bb3;
+//   margin-bottom: 0;
+// }
+// .modal_body {
+//   background: #ffffff;
+//   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
+//   border-radius: 4px;
+//   width: 400px;
+//   height: 600px;
+// }
+// .modal-body {
+//   padding: 28px 24px;
+// }
 .bg_light {
   background-color: #f7f9fc;
 }

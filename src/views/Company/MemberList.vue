@@ -69,7 +69,7 @@
                           class="prime_multiselect"
                           optionLabel="label"
                           optionValue="value"
-                          placeholder="Departemnts"
+                          placeholder="Departments"
                           @change="memberFilterbyDepartment"
                           v-model="dept_list"
                         />

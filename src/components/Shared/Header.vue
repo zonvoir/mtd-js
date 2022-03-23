@@ -405,6 +405,11 @@ li {
       }
       .company_item_name {
         margin-left: 5px;
+        display: inline-block !important;
+        width: 180px !important;
+        white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
       }
     }
   }

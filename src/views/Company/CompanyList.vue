@@ -154,8 +154,9 @@ export default {
     return {
       UserPic,
       tablist,
-      roles: ["Consultant", "Employee", "Owner"],
-      categories: ["category 1", "category 2", "category 3"],
+      // roles: ["Consultant", "Employee", "Owner"],
+      // categories: ["category 1", "category 2", "category 3"],
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
     };
   },
   computed: {
@@ -178,7 +179,9 @@ export default {
     },
 
     companyDetails(id) {
-      console.log("cliked company", id);
+      this.$store.dispatch("CAMPNAY_PROFILE_DATA", {
+        auth_token: this.staffData.auth_token,
+      });
       localStorage.setItem("selected_company", id);
       this.$store.dispatch("getActiveCompany", id);
       this.$router.push({ name: "company-profile" });
@@ -385,8 +388,12 @@ export default {
     margin-bottom: 0;
     font-size: 18px;
     font-weight: 700;
-    display: inline;
     color: #222b45;
+    display: inline-block;
+    width: 220px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
   }
   .member_email {
     margin-bottom: 0;

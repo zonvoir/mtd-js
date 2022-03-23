@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{ companyProfile }} -->
     <div class="comapny_profile_header d-flex m-b-32">
       <div class="company_prof_info">
         <div class="img_wrapper" @click="onPickFile">
@@ -142,8 +143,8 @@
               <div class="input-group">
                 <div class="phone_main_wrap">
                   <div class="w-100">
-                    <span v-if="country_code" class="country_code">
-                      (+{{ country_code }})
+                    <span v-if="companyForm.country_code" class="country_code">
+                      (+{{ companyForm.country_code }})
                     </span>
                     <span v-else class="country_code"> (+91) </span>
                     <input
@@ -442,10 +443,28 @@
               <img src="icons/info.svg" alt="" class="kw-15" />
             </span>
           </h4>
-          <h6 class="c_base_value">EUR</h6>
+          <!-- <h6 class="c_base_value">EUR</h6> -->
+          <Dropdown
+            class="borderless_select"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="
+                   Currency
+                  "
+            :options="currencyLists"
+            @change="onChangeCurrency"
+            v-model="companyForm.currency"
+          />
         </div>
         <div class="col-lg-3 m-b-26">
-          <h6 class="c_base_head" @click="openCustomModal">
+          <CustomRateModal>
+            <template v-slot:exchange-rate-button>
+              <a class="primary-link link_edit">{{
+                $t("company_profile.company_tab.company_details.buttons.edit")
+              }}</a>
+            </template>
+          </CustomRateModal>
+          <!-- <h6 class="c_base_head" @click="openCustomModal">
             {{
               $t(
                 "company_profile.company_tab.company_details.About_Company_lables.custom_rate"
@@ -454,7 +473,7 @@
             <a class="primary-link link_edit">{{
               $t("company_profile.company_tab.company_details.buttons.edit")
             }}</a>
-          </h6>
+          </h6> -->
         </div>
       </div>
     </div>
@@ -467,7 +486,7 @@ import useVuelidate from "@vuelidate/core";
 import Dropdown from "primevue/dropdown";
 import { mapGetters } from "vuex";
 import CommonService from "../../../Services/CommonService";
-// import CompanyService from "../../../Services/Company/CompanyService";
+import CustomRateModal from "./CustomRateModal.vue";
 import errorhandler from "../../../utils/Error";
 export default {
   props: {
@@ -478,11 +497,11 @@ export default {
   },
   data() {
     return {
-      country_code: undefined,
+      defaultImg: "",
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       numberPattern: /[0-9]/,
+      // auth_token: "",
       companyForm: {
-        auth_token: "",
         company: "",
         country_code: "",
         company_id: null,
@@ -496,16 +515,12 @@ export default {
         client_logo: "",
         detailed_industry: null,
       },
-      currencyLists: [
-        { value: 1, label: "BGN" },
-        { value: 2, label: "EUR" },
-        { value: 3, label: "USD" },
-      ],
     };
   },
 
   components: {
     Dropdown,
+    CustomRateModal,
   },
 
   computed: {
@@ -517,16 +532,24 @@ export default {
       countryLists: "allCountries",
       regionLists: "allRegion",
       companyId: "activeCompany",
+      currencyLists: "allCurrency",
     }),
   },
 
   created() {
-    this.getIndustryList();
+    this.companyForm = this.companyProfile;
+    this.$store.dispatch("GET_ALL_CURRENCY");
+    this.onChangeSubIndustry();
+    this.onChangeMainIndustry();
     this.getLegalCoporation();
     this.getRoleInCompany();
     this.getRegions();
     this.getCountries();
+    this.getIndustryList();
   },
+  // mounted() {
+
+  // },
   setup() {
     return {
       v$: useVuelidate(),
@@ -560,6 +583,15 @@ export default {
     openCustomModal() {
       this.modal.show();
     },
+    isValidUrl(urlString) {
+      if (urlString.startsWith("https://") || urlString.startsWith("http://")) {
+        console.log("valid", this.companyForm.client_logo, this.defaultImg);
+        this.companyForm.client_logo = this.companyProfile.client_logo;
+      } else {
+        console.log("unvalid", this.companyForm.client_logo, this.defaultImg);
+        this.companyForm.client_logo = this.defaultImg;
+      }
+    },
     saveCompanyInfo() {
       this.v$.$touch();
       if (this.v$.$invalid) {
@@ -567,7 +599,8 @@ export default {
       } else {
         this.companyForm.auth_token = this.staffData.auth_token;
         this.companyForm.country_code = this.country_code;
-        this.companyForm.company_id = this.companyId;
+        this.isValidUrl(this.companyForm.client_logo);
+        // this.companyForm.company_id = this.companyId;
         this.isSubmitted = true;
         // CompanyService.updateCompany(this.companyForm)
         this.$store
@@ -683,11 +716,13 @@ export default {
     selectedCountryCode(id) {
       CommonService.getCountryCode({ country_id: id }).then((resp) => {
         if (resp.data.status) {
-          this.country_code = resp.data.data.code;
-          console.log("country codes", this.country_code);
+          this.companyForm.country_code = resp.data.data.code;
+          console.log("country codes", this.companyForm.country_code);
         }
       });
     },
+
+    onChangeCurrency() {},
   },
 };
 </script>

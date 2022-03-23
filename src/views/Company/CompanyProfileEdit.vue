@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ companyProfileData }}
     <div class="company_profile">
       <CompanyUpdate :companyProfile="companyProfileData" />
       <!-- company_detail ends -->
@@ -533,220 +532,6 @@
       </div>
     </div>
   </div>
-  <!-- Modal -->
-  <div
-    class="modal fade"
-    id="exampleModal"
-    ref="exampleModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content modal_body">
-        <div class="modal-body">
-          <div class="from_wrapper">
-            <form action="">
-              <div class="k_form_group k_select_single">
-                <label for="" class="m-b-10 fs-20 text_heading fw-700">
-                  {{
-                    $t(
-                      "company_profile.company_tab.company_details.custom_rate_modal.lables.Currency_Exchange_Rates"
-                    )
-                  }}, 2020</label
-                >
-                <Multiselect
-                  class="form-control k_inp_field m-b-16"
-                  rules="required"
-                  :options="currencyLists"
-                />
-              </div>
-              <div class="k_form_groups">
-                <label for="" class="m-b-10 fs-20 text_heading fw-700">
-                  {{
-                    $t(
-                      "company_profile.company_tab.company_details.custom_rate_modal.lables.Standard_Exchange_Rates"
-                    )
-                  }}</label
-                >
-                <p class="custom_exchange p-b-30">
-                  1
-                  {{
-                    $t(
-                      "company_profile.company_tab.company_details.custom_rate_modal.currency.BGN"
-                    )
-                  }}
-                  = 0.5100
-                  {{
-                    $t(
-                      "company_profile.company_tab.company_details.custom_rate_modal.currency.EUR"
-                    )
-                  }}
-                </p>
-                <p class="custom_exchange p-b-26">
-                  1
-                  {{
-                    $t(
-                      "company_profile.company_tab.company_details.custom_rate_modal.currency.BGN"
-                    )
-                  }}
-                  = 0.6000
-                  {{
-                    $t(
-                      "company_profile.company_tab.company_details.custom_rate_modal.currency.USD"
-                    )
-                  }}
-                </p>
-              </div>
-              <div class="k_form_groups">
-                <label for="" class="m-b-10 fs-20 text_heading fw-700">
-                  {{
-                    $t(
-                      "company_profile.company_tab.company_details.custom_rate_modal.lables.Custom_Exchange_Rates"
-                    )
-                  }}</label
-                >
-                <div class="exchange_wrap m-b-20">
-                  <div class="currecy_from m-r-20">
-                    <p class="custom_exchange">
-                      1
-                      {{
-                        $t(
-                          "company_profile.company_tab.company_details.custom_rate_modal.currency.BGN"
-                        )
-                      }}
-                      =
-                    </p>
-                  </div>
-                  <div class="currency_amount m-r-20">
-                    <input type="text" class="form-control kk_input_field" />
-                  </div>
-                  <div class="currency_to">
-                    <p class="custom_exchange">
-                      {{
-                        $t(
-                          "company_profile.company_tab.company_details.custom_rate_modal.currency.EUR"
-                        )
-                      }}
-                    </p>
-                  </div>
-                </div>
-                <div class="exchange_wrap p-b-20">
-                  <div class="currecy_from m-r-20">
-                    <p class="custom_exchange">
-                      1
-                      {{
-                        $t(
-                          "company_profile.company_tab.company_details.custom_rate_modal.currency.BGN"
-                        )
-                      }}
-                      =
-                    </p>
-                  </div>
-                  <div class="currency_amount m-r-20">
-                    <input type="text" class="form-control kk_input_field" />
-                  </div>
-                  <div class="currency_to">
-                    <p class="custom_exchange">
-                      {{
-                        $t(
-                          "company_profile.company_tab.company_details.custom_rate_modal.currency.USD"
-                        )
-                      }}
-                    </p>
-                  </div>
-                </div>
-                <!-- alert -->
-                <div class="alert_wrapper d-flex m-b-40">
-                  <div class="icon_wrapper">
-                    <div class="bg_alert_circle"></div>
-                    <div class="bg_alert_icon bg_light_yellow">
-                      <img
-                        src="K_Icons/alert_yellow.svg"
-                        class="icon_name"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                  <div class="alert_message">
-                    <p class="custom_exchange">
-                      {{
-                        $t(
-                          "company_profile.company_tab.company_details.custom_rate_modal.With_the_values_above"
-                        )
-                      }}
-                    </p>
-                    <p class="custom_exchange">
-                      1000
-                      {{
-                        $t(
-                          "company_profile.company_tab.company_details.custom_rate_modal.currency.BGN"
-                        )
-                      }}
-                      = 510
-                      {{
-                        $t(
-                          "company_profile.company_tab.company_details.custom_rate_modal.currency.EUR"
-                        )
-                      }}
-                    </p>
-                    <p class="custom_exchange">
-                      1000
-                      {{
-                        $t(
-                          "company_profile.company_tab.company_details.custom_rate_modal.currency.BGN"
-                        )
-                      }}
-                      = 620
-                      {{
-                        $t(
-                          "company_profile.company_tab.company_details.custom_rate_modal.currency.USD"
-                        )
-                      }}
-                    </p>
-                  </div>
-                </div>
-                <div class="modal_action_btn">
-                  <div class="btns_wrap">
-                    <button
-                      class="btn btn-light btn-set m-r-10"
-                      data-bs-dismiss="modal"
-                    >
-                      {{
-                        $t(
-                          "company_profile.company_tab.company_details.custom_rate_modal.buttons.Cancel"
-                        )
-                      }}
-                    </button>
-                    <button
-                      :disabled="isSubmitted"
-                      type="submit"
-                      class="btn btn-primary btn-set"
-                    >
-                      <div
-                        v-if="isSubmitted"
-                        class="spinner-border text-light"
-                        role="status"
-                      >
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
-                      <span v-else data-bs-dismiss="modal">
-                        {{
-                          $t(
-                            "company_profile.company_tab.company_details.custom_rate_modal.buttons.save"
-                          )
-                        }}
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -762,10 +547,6 @@ const tablist = [
     pageUrl: "company-member",
   },
 ];
-// import TabsHr from "../../components/Shared/TabsHr.vue";
-import Multiselect from "@vueform/multiselect";
-
-import { Modal } from "bootstrap";
 
 import CompanyUpdate from "./components/CompanyUpdate.vue";
 import { mapGetters } from "vuex";
@@ -773,11 +554,6 @@ export default {
   data() {
     return {
       tablist,
-      currencyLists: [
-        { value: 1, label: "BGN" },
-        { value: 2, label: "EUR" },
-        { value: 3, label: "USD" },
-      ],
     };
   },
   computed: {
@@ -786,77 +562,68 @@ export default {
     }),
   },
   components: {
-    // TabsHr,
     CompanyUpdate,
-    Multiselect,
   },
 
-  mounted() {
-    this.modal = new Modal(this.$refs.exampleModal);
-  },
-  methods: {
-    openCustomModal() {
-      this.modal.show();
-    },
-  },
+  methods: {},
 };
 </script>
 
 <style lang="scss" scoped>
-// modal start
-.ph_no {
-  margin-left: 20px;
-  font-size: 18px;
-  line-height: 22px;
-  color: #000000;
-}
-.icon_wrapper {
-  margin-right: 11px;
-}
-.bg_light_yellow {
-  background-color: #fff4e5;
-  position: relative;
-}
-.icon_name {
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-}
-.exchange_wrap {
-  display: flex;
-  align-items: center;
-  .currency_amount {
-    margin-right: 20px;
-  }
-  .currency_from {
-    width: 10%;
-    margin-right: 20px;
-    margin-right: 20px;
-  }
-  .currency_to {
-    width: 10%;
-    margin-right: 20px;
-    margin-right: 20px;
-  }
-}
-.custom_exchange {
-  font-size: 15px;
-  font-weight: 400;
-  color: #8f9bb3;
-  margin-bottom: 0;
-}
-.modal_body {
-  background: #ffffff;
-  box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
-  border-radius: 4px;
-  width: 400px;
-  height: 600px;
-}
-.modal-body {
-  padding: 28px 24px;
-}
-// modal close
+// // modal start
+// .ph_no {
+//   margin-left: 20px;
+//   font-size: 18px;
+//   line-height: 22px;
+//   color: #000000;
+// }
+// .icon_wrapper {
+//   margin-right: 11px;
+// }
+// .bg_light_yellow {
+//   background-color: #fff4e5;
+//   position: relative;
+// }
+// .icon_name {
+//   top: 50%;
+//   left: 50%;
+//   position: absolute;
+//   transform: translate(-50%, -50%);
+// }
+// .exchange_wrap {
+//   display: flex;
+//   align-items: center;
+//   .currency_amount {
+//     margin-right: 20px;
+//   }
+//   .currency_from {
+//     width: 10%;
+//     margin-right: 20px;
+//     margin-right: 20px;
+//   }
+//   .currency_to {
+//     width: 10%;
+//     margin-right: 20px;
+//     margin-right: 20px;
+//   }
+// }
+// .custom_exchange {
+//   font-size: 15px;
+//   font-weight: 400;
+//   color: #8f9bb3;
+//   margin-bottom: 0;
+// }
+// .modal_body {
+//   background: #ffffff;
+//   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
+//   border-radius: 4px;
+//   width: 400px;
+//   height: 600px;
+// }
+// .modal-body {
+//   padding: 28px 24px;
+// }
+// // modal close
 .info_title {
   font-size: 12px;
   font-weight: 700;
