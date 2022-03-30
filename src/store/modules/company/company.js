@@ -2,6 +2,7 @@ import errorhandler from "../../../utils/Error";
 // import renameKeys from "../../../utils/commonHelperFuntions";
 import CompanyService from "../../../Services/Company/CompanyService";
 const state = {
+  loadingStatus: false,
   staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
   allDeafultRoles: undefined,
   consulatant_roleId: undefined,
@@ -18,6 +19,7 @@ const state = {
   staffsCompanies: [],
   memberPermissions: [], //member permission array
   activeYear: "" + new Date().getFullYear(),
+
   // new
   alocatedDepartments: [], // departments allocated to perticular member
   staffsDepartment: [], // department of a member that is logIn
@@ -27,13 +29,7 @@ const state = {
   inviteTeamMember: undefined,
   companyData: undefined,
   currencyExRates: undefined,
-  // currencyExRates: {
-  //   currency_id: "3",
-  //   usd: "",
-  //   euro: "",
-  //   standard_rate_euro: "",
-  //   standard_rate_usd: "",
-  // },
+
   allCurrency: [],
 
   defualtCurrency: undefined,
@@ -125,6 +121,9 @@ const mutations = {
   setDefualtCurrency(state, val) {
     state.defualtCurrency = val;
   },
+  setLoadingStatus(state, val) {
+    state.loadingStatus = val;
+  },
 };
 const actions = {
   GET_ALL_CURRENCY: ({ commit }) => {
@@ -195,6 +194,7 @@ const actions = {
   },
   CAMPNAY_PROFILE_DATA: ({ commit }, data) => {
     return new Promise((resolve, reject) => {
+      commit("setLoadingStatus", true);
       CompanyService.companyProfileDetails(data).then(
         (res) => {
           if (res.data.status) {
@@ -203,9 +203,11 @@ const actions = {
             commit("setUpdateCompnay", []);
             errorhandler(res);
           }
+          commit("setLoadingStatus", false);
           resolve(res);
         },
         (error) => {
+          commit("setLoadingStatus", false);
           reject(error);
         }
       );
@@ -459,6 +461,7 @@ const actions = {
   },
 };
 const getters = {
+  loadingStatus: (state) => state.loadingStatus,
   companyData: (state) => state.companyData,
   defualtCurrency: (state) => state.defualtCurrency,
   currencyExRates: (state) => state.currencyExRates,

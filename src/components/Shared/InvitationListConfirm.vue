@@ -42,11 +42,7 @@
               <img src="K_Icons/cancel.svg" alt="" class="cancel_icon" />
             </button>
           </div>
-          <!-- @dragenter.prevent="toggleActive"
-            @dragleave.prevent="toggleActive"
-            @dragover.prevent
-            @drop.prevent="onFilePicked"
-            :class="{ 'active-dropzone': active }" -->
+
           <div
             v-if="!members.length"
             @dragenter.prevent="toggleActive"
@@ -54,6 +50,7 @@
             @dragover.prevent
             @drop.prevent="onFilePicked"
             :class="{ 'active-dropzone': active }"
+            ref="dropbox"
             class="dropbox_area"
           >
             <div class="upload_area">
@@ -211,12 +208,10 @@ export default {
     },
 
     sendInvitationByFile(file) {
-      // this.is_uploaded = false;
       this.is_FileUploaded = true;
       let data = {
         auth_token: this.staffInfo.auth_token,
         role_id: this.staffRole,
-        // departments: this.departmentsArr,
         excel_file: file,
       };
       CompanyService.invitationByFile(data).then((res) => {
@@ -224,15 +219,13 @@ export default {
           this.members = [];
           this.is_FileUploaded = false;
           this.members = res.data.data;
-          // this.$store.dispatch(
-          //   "getInvitationList",
-          //   res.data.data.invitation_list
-          // );
         }
       });
     },
 
     closeModal() {
+      this.dropFilename = undefined;
+      this.active = false;
       this.members = [];
       this.modal.hide();
     },
@@ -250,6 +243,7 @@ export default {
           this.$store.dispatch("GET_INVITATION_STAFFROLE_LIST", res.data.data);
           this.closeModal();
         } else {
+          this.closeModal();
           errorhandler(res);
         }
       });

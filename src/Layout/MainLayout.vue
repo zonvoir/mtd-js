@@ -8,6 +8,9 @@
         </div>
       </div>
       <div class="main_layout_body">
+        <!-- <div v-if="isLoading" class=""> -->
+        <!-- <Loader :isLoading="isLoading" /> -->
+        <!-- </div> -->
         <div class="pages_view_container">
           <router-view />
         </div>
@@ -19,10 +22,13 @@
 <script>
 import Header from "../components/Shared/Header.vue";
 import Sidebar from "../components/Shared/Sidebar.vue";
+// import Loader from "../components/Shared/Loadder.vue";
+import { mapGetters } from "vuex";
 export default {
   components: {
     Header,
     Sidebar,
+    // Loader,
   },
   data() {
     return {
@@ -32,11 +38,10 @@ export default {
     };
   },
 
-  methods: {
-    onLogout() {
-      localStorage.removeItem("bWFpbCI6Inpvb");
-      this.$router.push({ name: "signup-signin" });
-    },
+  computed: {
+    ...mapGetters({
+      isLoading: "loadingStatus",
+    }),
   },
 };
 </script>

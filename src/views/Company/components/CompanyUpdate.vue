@@ -551,7 +551,6 @@ export default {
     this.getRoleInCompany();
     this.getRegions();
   },
-  watch: {},
   setup() {
     return {
       v$: useVuelidate(),
