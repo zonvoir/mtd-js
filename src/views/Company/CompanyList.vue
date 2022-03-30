@@ -40,7 +40,10 @@
             <tr
               v-for="(_company, index) in companyLists.slice().reverse()"
               :key="index"
-              @click="companyDetails(_company.company_id)"
+              @click="
+                _company.view_company_detail &&
+                  companyDetails(_company.company_id)
+              "
               class="company_tr"
             >
               <td class="company_td">
@@ -114,7 +117,10 @@
                 </div>
               </td>
               <td class="company_td">
-                <div class="right_arrow text-center">
+                <div
+                  v-if="_company.view_company_detail"
+                  class="right_arrow text-center"
+                >
                   <img src="K_Icons/arrow-right-fill.svg" alt="" />
                 </div>
               </td>
@@ -154,8 +160,6 @@ export default {
     return {
       UserPic,
       tablist,
-      // roles: ["Consultant", "Employee", "Owner"],
-      // categories: ["category 1", "category 2", "category 3"],
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
     };
   },

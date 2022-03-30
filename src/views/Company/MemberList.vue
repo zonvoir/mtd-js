@@ -35,8 +35,8 @@
                   <tr>
                     <td class="member_name_td">
                       <div class="k_select_single member_filter m-r-8">
-                        <Dropdown
-                          class="k_prime_inp_select"
+                        <MultiSelect
+                          class="prime_multiselect"
                           optionLabel="label"
                           optionValue="value"
                           :placeholder="
@@ -44,8 +44,8 @@
                               'company_profile.members_tab.members_table.placeholder.role'
                             )
                           "
+                          @change="memberFilterbyDepartment"
                           v-model="myRole"
-                          @change="memberFilterbyRole(myRole)"
                           :options="ownRoleLists"
                         />
                       </div>
@@ -59,6 +59,7 @@
                           placeholder="Category"
                           :options="categoriesList"
                           v-model="categy_list"
+                          @change="memberFilterbyDepartment"
                         />
                       </div>
                     </td>
@@ -189,7 +190,11 @@
                       </a>
                     </li>
                   </ul>
-                  <div v-if="ownRole.roleId == 5" class="permission_btns">
+                  <!-- v-if="ownRole.roleId == 5" -->
+                  <div
+                    v-if="people.view_company_detail"
+                    class="permission_btns"
+                  >
                     <PermissionModal>
                       <template
                         v-slot:permission-button="{ openPermissionModal }"
@@ -224,7 +229,6 @@
 
 <script>
 import searchIcon from "../../../public/icons/search.svg";
-import Dropdown from "primevue/dropdown";
 import MultiSelect from "primevue/multiselect";
 
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
@@ -247,14 +251,16 @@ const tablist = [
 ];
 export default {
   components: {
-    Dropdown,
     PermissionModal,
     MultiSelect,
   },
   data() {
     return {
       searchIcon,
-      myRole: "",
+      // myRole: "",
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+
+      myRole: [],
       userKeyword: undefined,
       filterRole: "",
 
@@ -269,9 +275,9 @@ export default {
       staffInfo: "staffData",
       membersList: "companyMembers",
       ownRole: "roleInCompany",
-      departmentLists: "allCompanyDepartment",
       categoriesList: "allCategories",
       ownRoleLists: "allRoles",
+      departmentLists: "staffsDepartment",
     }),
   },
   watch: {
@@ -288,6 +294,9 @@ export default {
   },
   created() {
     this.allMembersList = this.membersList;
+    this.$store.dispatch("GET_STAFFS_DEPARTMENT", {
+      auth_token: this.staffData.auth_token,
+    });
     this.getRoleInCompany();
     this.getdDepartmentList();
     this.getCategoryList();
@@ -310,9 +319,7 @@ export default {
           auth_token: this.staffInfo.auth_token,
         };
         this.filterMemberList(data);
-        console.log("search is not empty");
       } else {
-        console.log("search is empty");
         this.memberListDeafault();
       }
     },
@@ -322,37 +329,28 @@ export default {
     },
     // filter by Department
     memberFilterbyDepartment() {
-      console.log("all department by v-modal", this.dept_list);
+      // role_id: this.filterRole,
       let data = {
-        role_id: this.filterRole,
+        role_id: this.myRole.map(Number),
         department_id: this.dept_list.map(Number),
+        category_id: this.categy_list.map(Number),
         search: this.userKeyword,
         auth_token: this.staffInfo.auth_token,
       };
       this.filterMemberList(data);
     },
-    // filter by role
-    memberFilterbyRole(id) {
-      this.filterRole = id;
-      let data = {
-        role_id: this.filterRole,
-        department_id: this.dept_list,
-        search: this.userKeyword,
-        auth_token: this.staffInfo.auth_token,
-      };
-      this.filterMemberList(data);
-    },
+
     filterMemberList(filterParams) {
       CompanyService.memberByRoleId(filterParams).then((res) => {
         if (res.data.status) {
           let filterdMemberList = res.data.data;
           this.allMembersList = filterdMemberList;
-          console.log("data by response", this.allMembersList);
         } else {
           this.allMembersList = [];
         }
       });
     },
+
     // get role in company lists
     getRoleInCompany() {
       this.$store.dispatch("GET_ROLES");

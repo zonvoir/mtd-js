@@ -177,27 +177,36 @@
                   </div>
                 </div>
               </form>
-              <div class="text-center">
+              <InvitationConfirmModal
+                @uploadCSVFile="importFile(index)"
+                ref="confirmFile"
+                :department_List="myDepartmensList"
+                :key="staffrole.roleid"
+                :staffRole="staffrole.roleid"
+                :indexValue="index"
+              />
+              <!-- <div class="text-center">
                 <p class="import_file_text">
                   or you can
+
                   <button
                     :disabled="is_FileUploaded"
-                    @click="importFile(index)"
                     :key="staffrole.roleid"
+                    @click="confirmModal(index)"
                     class="btn btn_primary_transparent"
                   >
                     Import
                   </button>
                   a file with employee emails
                 </p>
-                <input
-                  type="file"
-                  style="display: none"
-                  :ref="`fileInput-${index}`"
-                  accept=".csv"
-                  @change="onFilePicked($event, staffrole.roleid)"
-                />
-              </div>
+              </div> -->
+              <input
+                type="file"
+                style="display: none"
+                :ref="`fileInput-${index}`"
+                accept=".csv"
+                @change="onFilePicked($event, staffrole.roleid)"
+              />
             </div>
             <div
               v-if="staffrole.invitation_list.length > 0"
@@ -238,7 +247,7 @@ import Select2 from "vue3-select2-component";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import MultiSelect from "primevue/multiselect";
-
+import InvitationConfirmModal from "./InvitationListConfirm.vue";
 import { mapGetters } from "vuex";
 import errorhandler, { successhandler } from "../../utils/Error";
 import CompanyService from "../../Services/Company/CompanyService";
@@ -260,6 +269,7 @@ export default {
     InvitationEmail,
     Accordion,
     AccordionTab,
+    InvitationConfirmModal,
   },
 
   data() {
@@ -268,8 +278,6 @@ export default {
       myValue: "",
       expiryDate: "",
       validity_date: "",
-      // consulatant_roleId: 4,
-      // ownerId: 5,
       myDepartmensList: [],
       settings: {},
       emailPattern:
@@ -307,7 +315,7 @@ export default {
   },
 
   created() {
-    this.getCompanyDetails(this.companyData);
+    // this.getCompanyDetails(this.companyData);
     this.settings = {
       tags: true,
       allowClear: true,
@@ -350,30 +358,30 @@ export default {
       console.log("date", this.validity_date);
     },
 
-    getCompanyDetails(companyId) {
-      let companyArr;
-      this.tempCompnies = this.companyLists;
-      console.log(this.tempCompnies);
-      this.tempCompnies.forEach((item) => {
-        if (item.company_id == companyId) {
-          companyArr = item;
-        }
-      });
+    // getCompanyDetails(companyId) {
+    //   let companyArr;
+    //   this.tempCompnies = this.companyLists;
+    //   console.log(this.tempCompnies);
+    //   this.tempCompnies.forEach((item) => {
+    //     if (item.company_id == companyId) {
+    //       companyArr = item;
+    //     }
+    //   });
 
-      console.log("all conpany dettails", companyArr);
-    },
-
+    //   console.log("all conpany dettails", companyArr);
+    // },
     importFile(fileNameIndex = 0) {
+      console.log(this.v$);
       this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
-      } else {
+      if (!this.v$.$invalid) {
         this.$refs["fileInput-" + fileNameIndex].click();
       }
+      // this.$refs["fileInput-" + fileNameIndex].click();
     },
 
     onFilePicked(event, roleId) {
-      console.log("role is k", roleId, event);
+      this.$refs.confirmFile.openModal;
+      console.log(this.$refs.confirmFile.openModal);
       this.valiImage = true;
       const allowedExtensions = ["csv"];
       const files = event.target.files;
@@ -439,31 +447,33 @@ export default {
       }
     },
 
-    // upload excel File
+    // upload csv File
     sendInvitationByFile(file, staffrole) {
       // this.is_uploaded = false;
       this.is_FileUploaded = true;
-      let data = {
-        auth_token: this.staffInfo.auth_token,
-        role_id: +staffrole,
-        departments: this.myDepartmensList.map(Number),
-        excel_file: file,
-        invitation_validity: this.validity_date,
-      };
-      console.log("fileData ", data);
-      CompanyService.invitationByFile(data).then((res) => {
-        if (res.data.status) {
-          this.is_FileUploaded = false;
-          successhandler(" file Uploaded !! update list after some time");
+      // let data = {
+      //   auth_token: this.staffInfo.auth_token,
+      //   role_id: +staffrole,
+      //   departments: this.myDepartmensList.map(Number),
+      //   excel_file: file,
+      //   invitation_validity: this.validity_date,
+      // };
+      console.log("fileData ", file, staffrole);
+      // this.$refs.confirmFile;
+      // CompanyService.invitationByFile(data).then((res) => {
+      //   if (res.data.status) {
+      //     this.is_FileUploaded = false;
+      //     console.log("all data", res.data.data);
 
-          this.$store.dispatch(
-            "getInvitationList",
-            res.data.data.invitation_list
-          );
-        } else {
-          errorhandler(res, this);
-        }
-      });
+      //     successhandler(" file Uploaded !! update list after some time");
+      //     this.$store.dispatch(
+      //       "getInvitationList",
+      //       res.data.data.invitation_list
+      //     );
+      //   } else {
+      //     errorhandler(res, this);
+      //   }
+      // });
     },
     // send Invitation by Emails
     SendEmailsList(roleId) {
@@ -676,6 +686,7 @@ li {
 }
 
 .list_group_item {
+  position: relative;
   border: 1px solid #e4e9f2;
   box-sizing: border-box;
   border-radius: 4px;

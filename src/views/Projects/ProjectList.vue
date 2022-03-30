@@ -283,7 +283,7 @@ export default {
   },
   data() {
     return {
-      isData: false,
+      isData: true,
     };
   },
   methods: {

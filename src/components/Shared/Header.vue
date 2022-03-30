@@ -377,17 +377,20 @@ li {
   align-items: center;
 }
 .default_logo {
-  justify-content: center;
-  align-content: center;
-  display: inline-flex;
-  padding-top: 4px;
+  // justify-content: center;
+  // align-content: center;
+  // display: inline-flex;
+  // font-weight: bold;
   // font-size: 18px;
+  padding-top: 4px;
   line-height: 1.7rem;
   width: 1.7rem;
   height: 1.7rem;
-  // font-weight: bold;
   background-color: #42aaff;
   border-radius: 4px;
+  text-align: center;
+  line-height: 0;
+  display: inline-block;
   b {
     font-weight: bold;
     font-size: 16px;

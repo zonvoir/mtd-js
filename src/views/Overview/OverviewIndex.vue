@@ -162,6 +162,13 @@ export default {
   outline: none;
   color: #ffffff !important;
   border-color: #7900d8;
+  &:hover {
+    background-color: #7900d8;
+    box-shadow: none !important;
+    outline: none;
+    color: #ffffff !important;
+    border-color: #7900d8;
+  }
 }
 .empty_list_warning {
   font-weight: normal;

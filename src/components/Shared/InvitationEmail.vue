@@ -10,20 +10,18 @@
     </div>
     <div class="icon_wrap">
       <div class="d-inline-flex">
-        <div
-          :class="{
-            pending: member.status == 'pending',
-            accepted: member.status == 'accepted',
-            expired: member.status == 'expired',
-          }"
-          class="email_status_wrap"
-        >
+        <div :class="getClass(member.status)" class="email_status_wrap">
           <p class="email_status">
             {{ member.status }}
           </p>
         </div>
         <!-- <div class="dropdown"> -->
-        <button class="btn btn-transaprent" type="button" @click="toggle">
+        <button
+          v-if="member.sender_id"
+          class="btn btn-transaprent"
+          type="button"
+          @click="toggle"
+        >
           <img src="K_Icons/more-vertical.svg" alt="" class="" />
         </button>
         <!-- </div> -->
@@ -79,6 +77,7 @@ import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
 import { mapGetters } from "vuex";
 // import { Dropdown } from "bootstrap";
+// import Menu from 'primevue/menu';
 
 export default {
   props: {
@@ -95,6 +94,7 @@ export default {
   },
 
   components: {
+    // Menu
     // TieredMenu,
     // Button,
   },
@@ -123,7 +123,15 @@ export default {
       this.openDropdown = !this.openDropdown;
       // this.$refs.menu.toggle(event);
     },
-
+    getClass(value) {
+      return {
+        expired: "expired",
+        accepted: "accepted",
+        pending: "pending",
+        valid: "accepted",
+        invalid: "expired",
+      }[value];
+    },
     closeDropDrown(e) {
       console.log(e);
       if (!this.$el.contains(e.target)) {
@@ -163,6 +171,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.list_wrapper {
+  position: relative;
+}
 .custom_dropdown {
   &.active_dropdown {
     display: block;

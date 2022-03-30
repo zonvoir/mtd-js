@@ -169,6 +169,24 @@ class CompanyService {
       },
     });
   }
+  // Company update exchange rates
+  currencyExchnageRate(data) {
+    return http.post("customers/currency_exchange_rate", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+  // Company get exchange rates
+  getCurrencyExchnageRate(data) {
+    return http.post("customers/currency_exchange_list", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
 
   // get All roles that are available in comapny
   allSlugRoles() {
@@ -216,6 +234,10 @@ class CompanyService {
       },
     });
   }
+  // get all currency
+  getAllCurrency() {
+    return http.get("lists/currencies");
+  }
   // Career Info Departments
   careerInfoDepartment() {
     return http.get("lists/career_info_department");
@@ -223,6 +245,15 @@ class CompanyService {
   //add one deparartment
   addCareerDepartment(data) {
     return http.post("staffs/add_new_department", data);
+  }
+  //get Invitation list file
+  confirmedInvitationFile(data) {
+    return http.post("invitation/send_invitation_file_confirm", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
   }
 }
 export default new CompanyService();

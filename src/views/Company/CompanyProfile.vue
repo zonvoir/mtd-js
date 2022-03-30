@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="companyAllInformation">
     <div class="company_profile">
       <div class="comapny_profile_header d-flex m-b-32">
         <div class="company_prof_info">
@@ -14,11 +14,7 @@
               class="c_logo_wrapper"
               :alt="companyAllInformation.company"
             />
-            <span
-              v-else
-              class="default_logo"
-              :style="{ background: getBgColor() }"
-            >
+            <span v-else class="default_logo" style="background: #42aaff">
               <b>{{ formatMemberName(companyAllInformation.company) }}</b>
             </span>
           </div>
@@ -41,7 +37,10 @@
             </div>
           </div>
         </div>
-        <div class="c_actions">
+        <div
+          class="c_actions"
+          v-if="companyAllInformation.edit_company_details"
+        >
           <div class="">
             <button
               class="
@@ -58,6 +57,7 @@
             </button>
           </div>
           <div class="">
+            <!--  -->
             <button
               type="button"
               @click="editCompany(companyAllInformation.company_id)"
@@ -68,9 +68,11 @@
                 class="print_icon kw-20 m-r-8"
                 alt=""
               />
-              <span class="fs-14 fw-700">{{
-                $t("company_profile.company_tab.company_details.buttons.edit")
-              }}</span>
+              <span class="fs-14 fw-700"
+                >{{
+                  $t("company_profile.company_tab.company_details.buttons.edit")
+                }}
+              </span>
             </button>
           </div>
         </div>
@@ -99,10 +101,6 @@
               </span>
             </h4>
             <h6 class="c_base_value">
-              <!-- {{
-                getTitleById(industryLists, companyAllInformation.main_industry)
-              }} -->
-
               {{ companyAllInformation.main_industry_name }}
             </h6>
           </div>
@@ -647,117 +645,6 @@
       <!-- Spending ON sec ends  -->
     </div>
   </div>
-  <!-- Modal -->
-  <div
-    class="modal fade"
-    id="exampleModal"
-    ref="exampleModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content modal_body">
-        <div class="modal-body">
-          <div class="from_wrapper">
-            <form action="">
-              <div class="k_form_group k_select_single">
-                <label for="" class="m-b-10 fs-20 text_heading fw-700">
-                  Currency & Exchange Rates, 2020</label
-                >
-                <Dropdown
-                  class="k_prime_inp_select"
-                  optionLabel="label"
-                  optionValue="value"
-                  placeholder="
-                   Currency
-                  "
-                  :options="currencyLists"
-                  @change="onChangeCurrency"
-                  v-model="currency"
-                />
-              </div>
-              <div class="k_form_groups">
-                <label for="" class="m-b-10 fs-20 text_heading fw-700">
-                  Standard Exchange Rates</label
-                >
-                <p class="custom_exchange p-b-30">1 BGN = 0.5100 EUR</p>
-                <p class="custom_exchange p-b-26">1 BGN = 0.6000 USD</p>
-              </div>
-              <div class="k_form_groups">
-                <label for="" class="m-b-10 fs-20 text_heading fw-700">
-                  Custom Exchange Rates</label
-                >
-                <div class="exchange_wrap m-b-20">
-                  <div class="currecy_from m-r-20">
-                    <p class="custom_exchange">1 BGN =</p>
-                  </div>
-                  <div class="currency_amount m-r-20">
-                    <input type="text" class="form-control kk_input_field" />
-                  </div>
-                  <div class="currency_to">
-                    <p class="custom_exchange">EUR</p>
-                  </div>
-                </div>
-                <div class="exchange_wrap p-b-20">
-                  <div class="currecy_from m-r-20">
-                    <p class="custom_exchange">1 BGN =</p>
-                  </div>
-                  <div class="currency_amount m-r-20">
-                    <input type="text" class="form-control kk_input_field" />
-                  </div>
-                  <div class="currency_to">
-                    <p class="custom_exchange">USD</p>
-                  </div>
-                </div>
-                <div class="alert_wrapper d-flex m-b-40">
-                  <div class="icon_wrapper">
-                    <div class="bg_alert_circle"></div>
-                    <div class="bg_alert_icon bg_light_yellow">
-                      <img
-                        src="K_Icons/alert_yellow.svg"
-                        class="icon_name"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                  <div class="alert_message">
-                    <p class="custom_exchange">With the values above</p>
-                    <p class="custom_exchange">1000 BGN = 510 EUR</p>
-                    <p class="custom_exchange">1000 BGN = 620 USD</p>
-                  </div>
-                </div>
-                <div class="modal_action_btn">
-                  <div class="btns_wrap">
-                    <button
-                      class="btn btn-light btn-set m-r-20"
-                      data-bs-dismiss="modal"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      :disabled="isSubmitted"
-                      type="submit"
-                      class="btn btn-primary btn-set"
-                    >
-                      <div
-                        v-if="isSubmitted"
-                        class="spinner-border text-light"
-                        role="status"
-                      >
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
-                      <span v-else data-bs-dismiss="modal"> Save </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -774,8 +661,7 @@ const tablist = [
   },
 ];
 import CompanyInfo from "./components/CompanyInfoTile.vue";
-import { Modal } from "bootstrap";
-import Dropdown from "primevue/dropdown";
+
 import {
   getFirstLetter,
   getlabelValue,
@@ -794,18 +680,18 @@ export default {
 
   components: {
     CompanyInfo,
-    Dropdown,
   },
-  mounted() {
-    this.modal = new Modal(this.$refs.exampleModal);
-  },
+
   created() {
-    this.getCompanyInformation();
-    this.getCountries();
     this.$store.dispatch("GET_ALL_CURRENCY");
     this.$store.dispatch("GET_MAIN_INDUSTRIES");
     this.$store.dispatch("GET_ALL_LEGAL_FORM_CORPORATION");
     this.$store.dispatch("GET_ALL_REGION");
+    this.getCountries();
+    this.getCompanyInformation();
+  },
+  mounted() {
+    this.getCompanyInformation();
   },
 
   computed: {
@@ -820,21 +706,20 @@ export default {
       currencyLists: "allCurrency",
     }),
   },
+
   methods: {
     // get member name format
     formatMemberName(str) {
       return getFirstLetter(str);
     },
-    getTitleById(givenArr, id) {
-      return getlabelValue(givenArr, id);
-    },
-    // get member name format
+    // get background Color
     getBgColor() {
       return setRandomBackground();
     },
-    openCustomModal() {
-      this.modal.show();
+    getTitleById(givenArr, id) {
+      return getlabelValue(givenArr, id);
     },
+
     editCompany(id) {
       console.log("cliked company", id);
       this.$router.push({ name: "company-profile-edit" });
@@ -865,14 +750,14 @@ export default {
   justify-content: center;
   align-content: center;
   display: inline-flex;
-  line-height: 2.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
+  line-height: 4rem;
+  width: 4rem;
+  height: 4rem;
   border-radius: 4px;
   b {
     font-weight: bold;
-    font-size: 16px;
-    line-height: 2.5rem;
+    font-size: 22px;
+    line-height: 4rem;
     text-align: center;
     text-transform: uppercase;
     color: #ffffff;

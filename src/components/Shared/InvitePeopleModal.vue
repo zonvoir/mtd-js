@@ -88,7 +88,6 @@ export default {
         auth_token: this.staffInfo.auth_token,
       }).then((res) => {
         if (res.data.status) {
-          console.log("all invitaion list of people", res.data.data);
           this.rolesOfStaff = res.data.data;
           this.$store.dispatch("GET_INVITATION_STAFFROLE_LIST", res.data.data);
         } else {

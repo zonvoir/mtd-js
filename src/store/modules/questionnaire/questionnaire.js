@@ -4,7 +4,6 @@ export default {
   state: {
     staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
     tokenStatus: undefined, // auth token status
-    // company States end
     questionnaire: {},
     questionnaireDetails: {},
     quizProgressValue: 0.0,
@@ -12,7 +11,6 @@ export default {
     questionList: [],
     getAnsweredQuestion: 0,
     questionnaireCategoryArray: [],
-    // personalInfo: [],
   },
   mutations: {
     setTokenStatus(state, status) {
@@ -61,9 +59,7 @@ export default {
     async GET_QUESTIONLIST(context, val) {
       context.commit("SET_QUESTION_LIST", val);
     },
-    // async GET_QUESTIONNAIRE_CATEGORY_ARRAY(context, val) {
-    //   context.commit("SET_QUESTIONNAIRE_CATEGORY_ARRAY", val);
-    // },
+
     GET_QUESTIONNAIRE_CATEGORY_ARRAY: ({ commit }, data) => {
       return new Promise((resolve, reject) => {
         QuestionnaireService.getAllQuestionnireCategories(data).then(
@@ -98,7 +94,6 @@ export default {
     questionnaireDetails: (state) => state.questionnaireDetails,
     questionnaire: (state) => state.questionnaire,
     categoryArrayItems: (state) => state.questionnaireCategoryArray,
-    allCategories: (state) => state.allCategories,
     getQuestionList: (state) => state.questionList,
     filterdCategoryList: (state) => (status) => {
       return state.questionnaireCategoryArray.filter(

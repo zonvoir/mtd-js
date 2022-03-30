@@ -19,7 +19,6 @@ const toast = useToast();
 
 const errorhandler = (res) => {
   if (typeof res === "string") {
-    console.log("error message", res);
     toast.error(res, toastOptions);
   } else {
     if ("error" in res.data) {

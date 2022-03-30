@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div class="company_profile">
-      <CompanyUpdate :companyProfile="companyProfileData" />
+    <div v-if="isAuthenticUser" class="company_profile">
+      <div class="" v-if="companyProfileData">
+        <CompanyUpdate :companyProfile="companyProfileData" />
+      </div>
       <!-- company_detail ends -->
       <div class="form_wrapper">
         <form action="">
@@ -508,7 +510,7 @@
             </button>
             <button
               :disabled="isSubmitted"
-              type="submit"
+              type="button"
               class="btn btn-primary btn-set text-uppercase"
             >
               <div
@@ -554,6 +556,7 @@ export default {
   data() {
     return {
       tablist,
+      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
     };
   },
   computed: {
@@ -561,69 +564,37 @@ export default {
       companyProfileData: "companyData",
     }),
   },
+  created() {
+    this.$store.dispatch("GET_CUSTOM_CURRENCY_EXCHANGE_RATES", {
+      auth_token: this.staffData.auth_token,
+    });
+    this.getCompanyInformation();
+  },
   components: {
     CompanyUpdate,
   },
 
-  methods: {},
+  methods: {
+    getCompanyInformation() {
+      this.$store.dispatch("CAMPNAY_PROFILE_DATA", {
+        auth_token: this.staffData.auth_token,
+      });
+    },
+    isAuthenticUser() {
+      if (
+        this.companyProfileData &&
+        this.companyProfileData.edit_company_details
+      ) {
+        return true;
+      } else {
+        this.$router.push({ name: "company-profile" });
+      }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-// // modal start
-// .ph_no {
-//   margin-left: 20px;
-//   font-size: 18px;
-//   line-height: 22px;
-//   color: #000000;
-// }
-// .icon_wrapper {
-//   margin-right: 11px;
-// }
-// .bg_light_yellow {
-//   background-color: #fff4e5;
-//   position: relative;
-// }
-// .icon_name {
-//   top: 50%;
-//   left: 50%;
-//   position: absolute;
-//   transform: translate(-50%, -50%);
-// }
-// .exchange_wrap {
-//   display: flex;
-//   align-items: center;
-//   .currency_amount {
-//     margin-right: 20px;
-//   }
-//   .currency_from {
-//     width: 10%;
-//     margin-right: 20px;
-//     margin-right: 20px;
-//   }
-//   .currency_to {
-//     width: 10%;
-//     margin-right: 20px;
-//     margin-right: 20px;
-//   }
-// }
-// .custom_exchange {
-//   font-size: 15px;
-//   font-weight: 400;
-//   color: #8f9bb3;
-//   margin-bottom: 0;
-// }
-// .modal_body {
-//   background: #ffffff;
-//   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
-//   border-radius: 4px;
-//   width: 400px;
-//   height: 600px;
-// }
-// .modal-body {
-//   padding: 28px 24px;
-// }
-// // modal close
 .info_title {
   font-size: 12px;
   font-weight: 700;

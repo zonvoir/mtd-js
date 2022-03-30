@@ -4,7 +4,15 @@
     <div class="comapny_profile_header d-flex m-b-32">
       <div class="company_prof_info">
         <div class="img_wrapper" @click="onPickFile">
-          <img :src="companyForm.client_logo" class="c_logo_wrapper" alt="" />
+          <img
+            v-if="companyForm.client_logo"
+            :src="companyForm.client_logo"
+            class="c_logo_wrapper"
+            alt=""
+          />
+          <span v-else class="default_logo" style="background: #0aca8a">
+            <b>{{ formatMemberName(companyForm.company) }}</b>
+          </span>
           <input
             type="file"
             style="display: none"
@@ -106,6 +114,7 @@
             </div>
           </div>
           <div class="d-inline-flex">
+            <!-- {{ companyForm.country }} -->
             <div class="d-block m-r-10">
               <Dropdown
                 class="borderless_select country"
@@ -187,10 +196,6 @@
                 </div>
               </div>
             </div>
-            <!-- <p class="m-b-0 text_light fs-16 fw-500">New York</p>
-            <span class="ph_no"
-              ><span class="text_light">(+11)</span> 415 554 1679</span
-            > -->
           </div>
         </div>
       </div>
@@ -430,7 +435,14 @@
               )
             }}
           </h6>
-          <h6 class="c_base_value"><span>$ </span> 25 000</h6>
+          <h6 class="c_base_value">
+            <span>
+              {{
+                companyForm.currency_symbol ? companyForm.currency_symbol : "$"
+              }}
+            </span>
+            {{ companyForm.total_revenue }}
+          </h6>
         </div>
         <div class="col-lg-3 m-b-26">
           <h4 class="c_base_head">
@@ -443,7 +455,6 @@
               <img src="icons/info.svg" alt="" class="kw-15" />
             </span>
           </h4>
-          <!-- <h6 class="c_base_value">EUR</h6> -->
           <Dropdown
             class="borderless_select"
             optionLabel="label"
@@ -464,16 +475,6 @@
               }}</a>
             </template>
           </CustomRateModal>
-          <!-- <h6 class="c_base_head" @click="openCustomModal">
-            {{
-              $t(
-                "company_profile.company_tab.company_details.About_Company_lables.custom_rate"
-              )
-            }}
-            <a class="primary-link link_edit">{{
-              $t("company_profile.company_tab.company_details.buttons.edit")
-            }}</a>
-          </h6> -->
         </div>
       </div>
     </div>
@@ -488,6 +489,10 @@ import { mapGetters } from "vuex";
 import CommonService from "../../../Services/CommonService";
 import CustomRateModal from "./CustomRateModal.vue";
 import errorhandler from "../../../utils/Error";
+import {
+  getFirstLetter,
+  setRandomBackground,
+} from "../../../utils/commonHelperFuntions";
 export default {
   props: {
     companyProfile: {
@@ -500,10 +505,10 @@ export default {
       defaultImg: "",
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       numberPattern: /[0-9]/,
-      // auth_token: "",
       companyForm: {
         company: "",
         country_code: "",
+        currency: "",
         company_id: null,
         country: null,
         main_industry: null,
@@ -535,21 +540,18 @@ export default {
       currencyLists: "allCurrency",
     }),
   },
-
+  updated() {
+    this.companyForm = this.companyProfile;
+  },
   created() {
     this.companyForm = this.companyProfile;
     this.$store.dispatch("GET_ALL_CURRENCY");
-    this.onChangeSubIndustry();
-    this.onChangeMainIndustry();
+    this.getIndustryList();
     this.getLegalCoporation();
     this.getRoleInCompany();
     this.getRegions();
-    this.getCountries();
-    this.getIndustryList();
   },
-  // mounted() {
-
-  // },
+  watch: {},
   setup() {
     return {
       v$: useVuelidate(),
@@ -583,31 +585,39 @@ export default {
     openCustomModal() {
       this.modal.show();
     },
+    // get member name format
+    formatMemberName(str) {
+      return getFirstLetter(str);
+    },
+    // get member name format
+    getBgColor() {
+      return setRandomBackground();
+    },
     isValidUrl(urlString) {
       if (urlString.startsWith("https://") || urlString.startsWith("http://")) {
-        console.log("valid", this.companyForm.client_logo, this.defaultImg);
-        this.companyForm.client_logo = this.companyProfile.client_logo;
+        this.companyForm.client_logo = null;
       } else {
-        console.log("unvalid", this.companyForm.client_logo, this.defaultImg);
+        console.log("unvalid", this.defaultImg);
         this.companyForm.client_logo = this.defaultImg;
       }
     },
     saveCompanyInfo() {
-      this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
-      } else {
+      this.v$.companyForm.$touch();
+      if (!this.v$.companyForm.$invalid) {
         this.companyForm.auth_token = this.staffData.auth_token;
-        this.companyForm.country_code = this.country_code;
-        this.isValidUrl(this.companyForm.client_logo);
-        // this.companyForm.company_id = this.companyId;
+        if (this.companyForm.client_logo != null) {
+          this.isValidUrl(this.companyForm.client_logo);
+        }
         this.isSubmitted = true;
-        // CompanyService.updateCompany(this.companyForm)
         this.$store
           .dispatch("UPDATE_CAMPNAY_DATA", this.companyForm)
           .then((res) => {
             if (res.data.status) {
-              console.log("company_data 11 res added", res.data.data);
+              localStorage.removeItem("selected_company");
+              localStorage.setItem(
+                "selected_company",
+                res.data.data.company_id
+              );
               this.getAllCompanies();
             } else {
               errorhandler(res);
@@ -627,6 +637,7 @@ export default {
       });
     },
     isNumber(event) {
+      // console.log(event);
       let char = String.fromCharCode(event.keyCode);
       if (this.numberPattern.test(char)) return true;
       else event.preventDefault();
@@ -667,14 +678,21 @@ export default {
     },
     // get Industry lists
     getIndustryList() {
-      this.$store.dispatch("GET_MAIN_INDUSTRIES");
+      this.$store.dispatch("GET_MAIN_INDUSTRIES").then((res) => {
+        if (res.data.status) {
+          this.onChangeMainIndustry();
+        }
+      });
     },
 
     onChangeMainIndustry() {
-      this.$store.dispatch(
-        "GET_SUB_INDUSTRIES",
-        this.companyForm.main_industry
-      );
+      this.$store
+        .dispatch("GET_SUB_INDUSTRIES", this.companyForm.main_industry)
+        .then((res) => {
+          if (res.data.status) {
+            this.onChangeSubIndustry();
+          }
+        });
     },
 
     onChangeSubIndustry() {
@@ -686,6 +704,8 @@ export default {
 
     onChangeRegion() {
       this.getCountries(this.companyForm.region);
+      // this.companyForm.country_code = "";
+      this.companyForm.country = "";
     },
 
     onChangeCountry() {
@@ -704,7 +724,11 @@ export default {
 
     // get regions lists
     getRegions() {
-      this.$store.dispatch("GET_ALL_REGION");
+      this.$store.dispatch("GET_ALL_REGION").then((res) => {
+        if (res.data.status) {
+          this.getCountries(this.companyForm.region);
+        }
+      });
     },
 
     // get country lists
@@ -728,6 +752,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.default_logo {
+  justify-content: center;
+  align-content: center;
+  display: inline-flex;
+  line-height: 4rem;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 4px;
+  b {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 4rem;
+    text-align: center;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+}
+
 .place_holder {
   &::placeholder {
     font-size: 14px;

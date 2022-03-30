@@ -26,6 +26,17 @@ const state = {
   invitationsForQuestionnaireTeam: undefined,
   inviteTeamMember: undefined,
   companyData: undefined,
+  currencyExRates: undefined,
+  // currencyExRates: {
+  //   currency_id: "3",
+  //   usd: "",
+  //   euro: "",
+  //   standard_rate_euro: "",
+  //   standard_rate_usd: "",
+  // },
+  allCurrency: [],
+
+  defualtCurrency: undefined,
 };
 const mutations = {
   // company profile
@@ -84,13 +95,11 @@ const mutations = {
   },
   // update Company data
   setUpdateCompnay(state, values) {
-    // let data = values;
     state.companyData = values;
-    // let keysMap = {
-    //   company_logo: "client_logo",
-    //   calling_code: "country_code",
-    // };
-    // console.log("kk", renameKeys(keysMap, data));
+  },
+  // update Company data
+  setCurrencyExRates(state, values) {
+    state.currencyExRates = values;
   },
   setStaffsDepartment(state, values) {
     state.staffsDepartment = values;
@@ -109,8 +118,81 @@ const mutations = {
   setAllCareerDepartment(state, val) {
     state.allCareerDepartment = val;
   },
+  setAllCurrency(state, val) {
+    state.allCurrency = val;
+    // let data = val;
+  },
+  setDefualtCurrency(state, val) {
+    state.defualtCurrency = val;
+  },
 };
 const actions = {
+  GET_ALL_CURRENCY: ({ commit }) => {
+    return new Promise((resolve, reject) => {
+      CompanyService.getAllCurrency().then(
+        (res) => {
+          if (res.data.status) {
+            if (!res.data.data.length) return;
+            let curr = res.data.data.find(
+              (element) => element.isdefault === "0"
+            );
+            let curId = curr.id;
+            let currencyArr = res.data.data.map((item) => {
+              return {
+                value: item.id,
+                label: item.name,
+              };
+            });
+            commit("setDefualtCurrency", curId);
+            commit("setAllCurrency", currencyArr);
+          } else {
+            commit("setAllCurrency", []);
+            errorhandler(res);
+          }
+          resolve(res);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  },
+  UPDATE_CUSTOM_CURRENCY_EXCHANGE_RATES: ({ commit }, data) => {
+    return new Promise((resolve, reject) => {
+      CompanyService.currencyExchnageRate(data).then(
+        (res) => {
+          if (res.data.status) {
+            commit("setCurrencyExRates", res.data.data);
+          } else {
+            commit("setCurrencyExRates", {});
+            errorhandler(res);
+          }
+          resolve(res);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  },
+  GET_CUSTOM_CURRENCY_EXCHANGE_RATES: ({ commit }, data) => {
+    return new Promise((resolve, reject) => {
+      CompanyService.getCurrencyExchnageRate(data).then(
+        (res) => {
+          if (res.data.status) {
+            commit("setCurrencyExRates", res.data.data);
+          } else {
+            commit("setCurrencyExRates", {});
+            errorhandler(res);
+          }
+          resolve(res);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  },
   CAMPNAY_PROFILE_DATA: ({ commit }, data) => {
     return new Promise((resolve, reject) => {
       CompanyService.companyProfileDetails(data).then(
@@ -378,6 +460,9 @@ const actions = {
 };
 const getters = {
   companyData: (state) => state.companyData,
+  defualtCurrency: (state) => state.defualtCurrency,
+  currencyExRates: (state) => state.currencyExRates,
+  allCurrency: (state) => state.allCurrency,
   consulatant_roleId: (state) => state.consulatant_roleId,
   owner_roleId: (state) => state.owner_roleId,
   manager_roleId: (state) => state.manager_roleId,
