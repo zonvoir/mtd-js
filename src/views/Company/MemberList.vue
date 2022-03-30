@@ -191,8 +191,10 @@
                     </li>
                   </ul>
                   <!-- v-if="ownRole.roleId == 5" -->
+                  <!-- {{ ownRole.view_company_detail }}
+                  {{ validRoleToSetPermission(people.role_id) }} -->
                   <div
-                    v-if="people.view_company_detail"
+                    v-if="ownRole.view_company_detail && people.set_permissions"
                     class="permission_btns"
                   >
                     <PermissionModal>
@@ -324,6 +326,14 @@ export default {
       }
     },
 
+    validRoleToSetPermission(role) {
+      console.log(role);
+      if (role == "5") {
+        return false;
+      } else {
+        return true;
+      }
+    },
     memberListDeafault() {
       this.allMembersList = this.membersList;
     },

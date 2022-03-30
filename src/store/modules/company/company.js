@@ -10,7 +10,7 @@ const state = {
   employee_roleId: undefined,
   defaultCompanyDeptId: undefined, //5 is default company department id
   role_id: undefined,
-  roleInCompany: { roleId: 0, can_invite: false },
+  roleInCompany: { roleId: 0, can_invite: false, view_company_detail: false },
   invitationStaffRoleList: [], // invitation list of members
   activeCompany: undefined,
   companyInfoDetails: [],

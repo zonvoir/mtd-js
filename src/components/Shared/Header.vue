@@ -259,9 +259,11 @@ export default {
       this.tempCompnies.forEach((item) => {
         if (item.company_id == companyId) {
           memberArr = item.member;
+          console.log("item", item);
           roleId = {
             roleId: item.company_role_id,
             can_invite: item.can_invite,
+            view_company_detail: item.view_company_detail,
           };
           // departments that realted to staff in a perticular company
 
