@@ -62,9 +62,7 @@
               <h5 v-if="dropFilename" class="m-b-0 box_title">
                 {{ dropFilename }}
               </h5>
-              <h5 v-else class="m-b-0 box_title">
-                Select Your File or Drop here
-              </h5>
+              <h5 class="m-b-0 box_title">Select Your File or Drop here</h5>
               <input
                 :ref="`fileInput-${indexValue}`"
                 type="file"
@@ -224,7 +222,7 @@ export default {
     },
 
     closeModal() {
-      this.dropFilename = undefined;
+      this.dropFilename = "";
       this.active = false;
       this.members = [];
       this.modal.hide();

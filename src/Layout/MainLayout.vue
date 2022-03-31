@@ -8,9 +8,8 @@
         </div>
       </div>
       <div class="main_layout_body">
-        <!-- <div v-if="isLoading" class=""> -->
-        <!-- <Loader :isLoading="isLoading" /> -->
-        <!-- </div> -->
+        {{ isLoading }}
+
         <div class="pages_view_container">
           <router-view />
         </div>
@@ -35,6 +34,7 @@ export default {
       invitedUserData: JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")),
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       invitedId: undefined,
+      kLoading: false,
     };
   },
 
@@ -42,6 +42,12 @@ export default {
     ...mapGetters({
       isLoading: "loadingStatus",
     }),
+  },
+  watch: {
+    isLoading: function (pre, next) {
+      console.log(pre, next);
+      return this.isLoading;
+    },
   },
 };
 </script>

@@ -60,7 +60,6 @@ export default {
   },
   mounted() {
     this.modal = new Modal(this.$refs.invitationModal);
-    console.log("ss", this.modal);
   },
   computed: {
     ...mapGetters({
