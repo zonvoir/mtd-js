@@ -1,22 +1,15 @@
 <template>
   <div class="register_auth_wrapper">
+    <!-- <RegistrationHeader /> -->
     <div class="">
       <div class="">
         <div class="main-heading-wrap text-center">
           <h2 class="main-heading">Create an account</h2>
-          <div class="im-user flex justify-center">
-            <span class="para14"> Already have an account?</span>
-            <router-link
-              target="_blank"
-              class="custom-link"
-              :to="{ name: 'signup-signin' }"
-              >Sign In</router-link
-            >
-          </div>
         </div>
       </div>
-      <div class="form-wrapper">
+      <div class="">
         <form @submit.prevent="onSubmit" action="">
+          <h5 class="section_heading">Personal Information</h5>
           <div class="k_form_group">
             <input
               type="text"
@@ -55,6 +48,7 @@
               Last Name is required
             </span>
           </div>
+          <h5 class="section_heading">Account Information</h5>
           <div class="k_form_group">
             <input
               type="text"
@@ -325,58 +319,28 @@
               <span v-else> Create Account </span>
             </button>
           </div>
+          <div class="im-user flex justify-center">
+            <span class="para14"> Already have an account?</span>
+            <router-link
+              target="_blank"
+              class="custom-link"
+              :to="{ name: 'signup-signin' }"
+              >Sign In</router-link
+            >
+          </div>
         </form>
       </div>
     </div>
   </div>
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="exampleModal"
-    ref="exampleModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="verify_email">
-            <h2 class="verify_title">
-              <strong>Verify your email</strong>
-            </h2>
-          </div>
-          <div class="verify-subtitle q-pb-none">
-            <h6 class="">
-              We've sent you an email verification link to
-              <strong>{{ registeredEmail }}</strong
-              ><br />
-              Please click that link to verify your email address.
-              <br />
-              If you don't see it please check it in your
-              <strong>spam</strong> folder
-            </h6>
-          </div>
-        </div>
-        <div class="modal_action_btn">
-          <button
-            type="button"
-            data-bs-dismiss="modal"
-            @click="closeModal"
-            class="btn k_btnfs14_w700 btn-primary"
-          >
-            Ok
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- <EmailNotificationModal ref="notifyEmail" :userEmail="registeredEmail" /> -->
 </template>
 <script>
 import { ref } from "vue";
 import { required, email, sameAs } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-import { Modal } from "bootstrap";
+// import { Modal } from "bootstrap";
+// import EmailNotificationModal from "./Components/EmailNotificationModal.vue";
 import signupService from "../../Services/SignupService";
 import errorhandler, { successhandler } from "../../utils/Error";
 
@@ -392,9 +356,11 @@ const numberCalc = (val) => /[0-9]/.test(val);
 const specialCharCalc = (val) => {
   return /[ `!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?~]/.test(val);
 };
-
+// import RegistrationHeader from "../../Layout/RegisterLayout/RegisterationHeader.vue";
 export default {
-  components: {},
+  // components: {
+  //   EmailNotificationModal,
+  // },
 
   data() {
     return {
@@ -402,11 +368,12 @@ export default {
       visibilityIcon2: "icons/eye-off.svg",
       passwordFieldType1: "password",
       passwordFieldType2: "password",
-      registeredEmail: undefined,
+      // registeredEmail: undefined, no modal required
       visibilityPswd: false,
       visibilityConfirmPswd: false,
       isSubmitted: false,
       invitedUserData: undefined,
+      // openModal:false,
       registerForm: {
         privacy_policy: false,
         terms_service: false,
@@ -418,9 +385,10 @@ export default {
         password: "",
         confirm_password: "",
       },
-      modal: null,
+      // modal: null,
     };
   },
+
   validations() {
     return {
       registerForm: {
@@ -453,9 +421,10 @@ export default {
       },
     };
   },
+
   mounted() {
     this.$refs.focusInp.focus();
-    this.modal = new Modal(this.$refs.exampleModal);
+    // this.modal = new Modal(this.$refs.exampleModal);
     this.invitedUserData = JSON.parse(
       localStorage.getItem("bWFInpvitedbpbUser")
     );
@@ -464,7 +433,11 @@ export default {
       this.registerForm.invitation_id = this.invitedUserData.invitation_id;
     }
   },
+
   created() {
+    //   let url = this.$route.path;
+    let activePage = this.$route.path.split("/")[2];
+    this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
     let invitedStaffData = this.$route.query;
     if (invitedStaffData && Object.keys(invitedStaffData).length != 0) {
       console.log("invited user is awailble");
@@ -475,6 +448,7 @@ export default {
       );
     }
   },
+
   setup() {
     return {
       isPwd: ref(true),
@@ -483,6 +457,8 @@ export default {
   },
   methods: {
     onSubmit() {
+      // console.log("all data ia filled", this.$refs.notifyEmail.modal.show());
+
       this.v$.$touch();
       if (this.v$.$invalid) {
         return;
@@ -493,19 +469,28 @@ export default {
           .then((response) => {
             if (response.data.status) {
               console.log("regitration respponse", response.data.data);
-              this.registeredEmail = response.data.data.email;
+              // this.registeredEmail = response.data.data.email; no maodal required
               successhandler(response);
-              if (this.invitedUserData === null) {
-                this.modal.show();
-              } else {
-                sessionStorage.setItem(
-                  "OiJKV1QiLCJhbGciOiJIUzI1",
-                  JSON.stringify(response.data.data)
-                );
-                this.$router.push({ name: "signup-career" });
-                console.log("userSata");
-              }
+              // new flow
+              sessionStorage.setItem(
+                "OiJKV1QiLCJhbGciOiJIUzI1",
+                JSON.stringify(response.data.data)
+              );
+              this.$router.push({ name: "signup-career" });
               this.formReset();
+              // new flow
+              // if (this.invitedUserData === null) {
+              //   this.$refs.notifyEmail.modal.show();
+              //   // this.modal.show(); no need here........
+              // } else {
+              //   sessionStorage.setItem(
+              //     "OiJKV1QiLCJhbGciOiJIUzI1",
+              //     JSON.stringify(response.data.data)
+              //   );
+              //   this.$router.push({ name: "signup-career" });
+              //   console.log("userSata");
+              // }
+              // this.formReset();
             } else {
               errorhandler(response, this);
             }
@@ -532,9 +517,9 @@ export default {
         invitation_id: "",
       };
     },
-    closeModal() {
-      this.modal.hide();
-    },
+    // closeModal() {
+    //   this.modal.hide();
+    // },
     switchVisibilityPswd() {
       this.visibilityPswd = !this.visibilityPswd;
       this.passwordFieldType1 = this.visibilityPswd ? "text" : "password";

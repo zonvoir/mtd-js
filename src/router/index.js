@@ -9,12 +9,14 @@ import Authentication from "../Layout/Authentication.vue";
 import Register from "../views/Auth/Register.vue";
 import Career from "../views/Auth/Career.vue";
 import Company from "../views/Auth/Company.vue";
+import CompanyStep1 from "../views/Auth/Components/CompanyStep1.vue";
+import CompanyStep2 from "../views/Auth/Components/CompanyStep2.vue";
 import Signin from "../views/Auth/Signin.vue";
 import Password from "../views/Auth/Password.vue";
 import UpdatePassword from "../views/Auth/UpdatePassword.vue";
 import ResetPassword from "../views/Auth/ResetPassword.vue";
 // import InvitedUser from "../views/Auth/InvitedUser.vue";
-import InvitedCareer from "../views/Auth/InvitedCareer.vue";
+// import InvitedCareer from "../views/Auth/InvitedCareer.vue";
 import VerifyAccount from "../views/Auth/VerifyAccount.vue";
 import VerifyEmail from "../views/Auth/EmailConfirmation.vue";
 import Dashboard from "../Layout/MainLayout.vue";
@@ -80,14 +82,16 @@ function guardMyroute(to, from, next) {
       ({ data }) => {
         if (!data.status) {
           localStorage.removeItem("bWFpbCI6Inpvb");
-          next("/signup/signin");
+          next("/user/signin");
+          // next("/signup/signin");
         }
       }
     );
     isAuthenticated = false;
   }
   if (isAuthenticated) {
-    next("/signup/signin"); // go to '/login';
+    next("/user/signin"); // go to '/login';
+    //next("/signup/signin"); // go to '/login';
   } else {
     if (user.is_career_information_setup && user.is_company_setup) {
       next(); // go to '/login';
@@ -368,10 +372,75 @@ const routes = [
       {
         path: "company",
         name: "signup-company",
+        redirect: "/signup/company/step_one",
         component: Company,
+        children: [
+          {
+            path: "step_one",
+            name: "company-step-one",
+            component: CompanyStep1,
+          },
+          {
+            path: "step_two",
+            name: "company-step-two",
+            component: CompanyStep2,
+          },
+        ],
       },
+
+      // {
+      //   path: "signin",
+      //   name: "signup-signin",
+      //   beforeEnter: loginGaurd,
+      //   component: Signin,
+      // },
+      // {
+      //   path: "password",
+      //   name: "signin-password",
+
+      //   beforeEnter: loginGaurd,
+      //   component: Password,
+      // },
+      // {
+      //   path: "update-password",
+      //   name: "signin-update-password",
+      //   component: UpdatePassword,
+      // },
+      // {
+      //   path: "reset-password",
+      //   name: "reset-forget-password",
+      //   component: ResetPassword,
+      // },
+      // {
+      // {
+      //   path: "verify-account",
+      //   name: "signin-verify-account",
+
+      //   beforeEnter: loginGaurd,
+      //   component: VerifyAccount,
+      // },
+      // {
+      //   path: "link-company",
+      //   name: "link-company-account",
+      //   component: LinkCompany,
+      // },
+      // {
+      //   path: "email-verified",
+
+      //   beforeEnter: loginGaurd,
+      //   component: VerifyEmail,
+      // },
+    ],
+  },
+  // signIn  pages
+  {
+    path: "/user",
+    redirect: "/user/login",
+    component: Authentication,
+
+    children: [
       {
-        path: "signin",
+        path: "login",
         name: "signup-signin",
         beforeEnter: loginGaurd,
         component: Signin,
@@ -392,11 +461,6 @@ const routes = [
         path: "reset-password",
         name: "reset-forget-password",
         component: ResetPassword,
-      },
-      {
-        path: "invited-career",
-        name: "signup-invited-career",
-        component: InvitedCareer,
       },
       {
         path: "verify-account",
@@ -483,6 +547,13 @@ router.beforeEach(async (to, from, next) => {
 router.afterEach((to, from) => {
   // Complete the animation of the route progress bar.
   console.log(to, from);
+  const el = document.body;
+  let activePage = to.path.split("/")[1];
+  if (activePage === "signup" || activePage === "user") {
+    el.classList.add("auth_pages");
+  } else {
+    el.classList.remove("auth_pages");
+  }
   nProgress.done();
 });
 

@@ -7,7 +7,7 @@
             <h2 class="main-heading">Career Information</h2>
           </div>
         </div>
-        <div class="form-wrapper">
+        <div class="">
           <form action="">
             <div class="k_form_group">
               <input

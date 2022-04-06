@@ -9,7 +9,7 @@
           </div>
         </div>
       </div>
-      <div class="form-wrapper">
+      <div class="">
         <form action="">
           <div class="d-grid space_btn3">
             <button

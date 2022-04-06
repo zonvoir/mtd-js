@@ -6,7 +6,7 @@
           <h2 class="main-heading">Update your password</h2>
         </div>
       </div>
-      <div class="form-wrapper">
+      <div class="">
         <form action="" @submit.prevent="onSubmit">
           <div class="k_form_group psw_visibilty">
             <input

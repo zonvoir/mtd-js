@@ -8,7 +8,7 @@
           </h2>
         </div>
       </div>
-      <div class="form-wrapper">
+      <div class="">
         <form @submit.prevent="onSubmit" action="">
           <div class="k_form_group">
             <input
@@ -126,9 +126,11 @@ export default {
   beforeCreate() {
     localStorage.removeItem("bWFInpvitedbpbUser");
   },
-  created() {
-    let invitedStaffData = this.$route.query;
 
+  created() {
+    let activePage = this.$route.path.split("/")[2];
+    this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
+    let invitedStaffData = this.$route.query;
     if (invitedStaffData && Object.keys(invitedStaffData).length != 0) {
       localStorage.setItem(
         "bWFInpvitedbpbUser",

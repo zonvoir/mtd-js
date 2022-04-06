@@ -7,7 +7,7 @@
             <h2 class="main-heading">Career Information</h2>
           </div>
         </div>
-        <div class="form-wrapper">
+        <div class="">
           <form action="">
             <div class="row">
               <CareerForm
@@ -18,8 +18,8 @@
                 :departments="departmentLists.slice().reverse()"
                 :industries="industryLists"
                 :seniority="seniorityLevels"
-                :authToken="staffData.auth_token"
               />
+              <!-- :authToken="staffData.auth_token" -->
             </div>
           </form>
           <div class="add_multiple_career">
@@ -97,6 +97,8 @@ export default {
     return {
       value: null,
       openModal: false,
+      // isConsultant: false,
+
       staffCareeArr1: [],
       staffCareeArr2: [],
       careersList: [
@@ -129,6 +131,8 @@ export default {
           industry: null,
           to: "",
           from: "",
+          workingAtPresent: true,
+          division: "",
           seniority_level: null,
           department: [],
         },
@@ -146,6 +150,8 @@ export default {
   },
 
   created() {
+    let activePage = this.$route.path.split("/")[2];
+    this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
     if (
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == null ||
@@ -200,9 +206,9 @@ export default {
     this.getSeniorityLevel();
   },
 
-  validations: {
-    staffCareerForm: {},
-  },
+  // validations: {
+  //   staffCareerForm: {},
+  // },
   setup() {
     return {
       v$: useVuelidate(),
@@ -221,6 +227,8 @@ export default {
     },
     //save carreer details
     saveCarreerInfo() {
+      console.log("check vali career", this.v$);
+
       this.v$.$touch();
       this.$refs.moreCareer.validateForm();
       let newMerge;
@@ -241,6 +249,7 @@ export default {
         data["career_info"].length > 0
       ) {
         this.isSubmitted = true;
+        console.log("data career", data);
         SignupService.updateCareerInformation(data)
           .then((response) => {
             if (response.data.status) {
@@ -278,7 +287,7 @@ export default {
         sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null
       ) {
         this.staffData.is_career_information_setup = true;
-        console.log("kk", this.staffData);
+        // console.log("kk", this.staffData);
         // this code add also run for save email on login
         if (sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null) {
           sessionStorage.setItem(
@@ -348,5 +357,6 @@ export default {
   font-weight: 600;
   font-size: 16px;
   line-height: 16px;
+  margin-bottom: 20px;
 }
 </style>

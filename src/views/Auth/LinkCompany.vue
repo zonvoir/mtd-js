@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="register_auth_wrapper">
-      <div class="form-wrapper">
+      <div class="">
         <div class="">
           <div class="main-heading-wrap text-center">
             <h2 class="main-heading p-b-30">Add a new company</h2>

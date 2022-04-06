@@ -42,8 +42,10 @@ export default {
 .right-banner-wrapper {
   .right-banner-img {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    // height: 100%;
+    // object-fit: contain;
+    height: 100vh !important;
+    // object-fit: revert;
   }
 }
 </style>

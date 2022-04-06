@@ -14,8 +14,16 @@ export default {
     allSenoirityLevels: [],
     allCompanyDepartment: [], // All department of Company
     allCategories: [], // All department of Company
+    actviePage: undefined, // page name witch is active
+    userType: "regular", // page name witch is active
   },
   mutations: {
+    setActivePage(state, page) {
+      state.actviePage = page;
+    },
+    setUserType(state, type) {
+      state.userType = type;
+    },
     // personal Account
     setPersonalInfo(state, per_data) {
       state.personalInfo = [];
@@ -55,6 +63,12 @@ export default {
     },
   },
   actions: {
+    GET_ACTIVE_PAGE: ({ commit }, pageName) => {
+      commit("setActivePage", pageName);
+    },
+    GET_USER_TYPE: ({ commit }, type) => {
+      commit("setUserType", type);
+    },
     GET_MAIN_INDUSTRIES: ({ commit }) => {
       return new Promise((resolve, reject) => {
         CommonService.getAllIndustries().then(
@@ -362,6 +376,8 @@ export default {
     },
   },
   getters: {
+    actviePage: (state) => state.actviePage,
+    userType: (state) => state.userType,
     personalInfo: (state) => state.personalInfo,
     mainIndustries: (state) => state.mainIndustries,
     subIndustries: (state) => state.subIndustries,

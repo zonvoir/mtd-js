@@ -192,7 +192,8 @@ const actions = {
       );
     });
   },
-  CAMPNAY_PROFILE_DATA: ({ commit }, data) => {
+  CAMPNAY_PROFILE_DATA: ({ commit, state }, data) => {
+    state.companyData = {};
     return new Promise((resolve, reject) => {
       commit("setLoadingStatus", true);
       CompanyService.companyProfileDetails(data).then(
@@ -214,7 +215,8 @@ const actions = {
     });
   },
 
-  UPDATE_CAMPNAY_DATA: ({ commit }, data) => {
+  UPDATE_CAMPNAY_DATA: ({ commit, state }, data) => {
+    state.companyData = {};
     return new Promise((resolve, reject) => {
       CompanyService.updateCompany(data).then(
         (res) => {
@@ -238,7 +240,6 @@ const actions = {
       CompanyService.careerInfoDepartment().then(
         (res) => {
           if (res.data.status) {
-            console.log("res", res.data.data);
             if (!res.data.data.length) return;
             let deptArr = res.data.data.map((item) => {
               return {

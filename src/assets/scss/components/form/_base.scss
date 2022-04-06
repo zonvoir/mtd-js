@@ -2,7 +2,8 @@
   padding: 1rem 92px;
 }
 .space_btn {
-  padding-top: 100px;
+  // padding-top: 100px;
+  padding-top: 30px;
   padding-bottom: 30px;
 }
 .space_btn2 {
@@ -153,14 +154,37 @@
     border: 1px solid $primary !important;
   }
 }
-// date Picker {
+////////////////////////////// date Picker /////////////////////////////
+.dp__calendar_wrap {
+  font-family: Inter;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .dp__calendar_header_item {
+    text-align: center;
+    flex-grow: 1;
+    height: 26px;
+    padding: 5px;
+    width: 35px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+}
+.dp__cell_inner {
+  height: 24px;
+  font-size: 15px;
+}
 .date_label {
   position: absolute;
   padding: 8px;
   font-size: 15px;
   font-weight: 500;
   line-height: 24px;
-  color: #8f9bb3;
+  color: #717b89;
 }
 .project_date_picker {
   .dp__input_wrap {
@@ -246,6 +270,9 @@
 .dp__action_row {
   // display: none;
 }
+.dp__action {
+  font-size: 15px;
+}
 .dp__today {
   background-color: transparent !important;
   border: 1px solid #7900d8 !important;
@@ -264,6 +291,16 @@
 .dp__active_date {
   background-color: $primary;
   color: $white;
+}
+.dp__disabled {
+  &.dp__input {
+    &:hover {
+      outline: 1px solid $borderColor !important;
+      // outline: 1px solid $primary;
+      outline-offset: 0px;
+      cursor: not-allowed;
+    }
+  }
 }
 .dp__input {
   font-weight: 600;
@@ -365,4 +402,7 @@
   float: left;
   background-color: #ced4da;
   text-align: center;
+  // outline-width: 2px 0 2px 2px !important;
+  // outline-style: solid;
+  // outline-color: #ced4da;
 }

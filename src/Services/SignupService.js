@@ -12,8 +12,14 @@ class SignupService {
   verifyEmailToken(data) {
     return http.post("staffs/verify_email", data);
   }
-  setUpCompany(data) {
+  // setUpCompany(data) {
+  //   return http.post("customers/data/", data);
+  // }
+  companyBasicInfo(data) {
     return http.post("customers/data/", data);
+  }
+  companyClassificationInfo(data) {
+    return http.post("customers/company_setup_second", data);
   }
 
   updateCareerInformation(data) {

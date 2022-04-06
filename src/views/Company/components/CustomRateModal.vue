@@ -9,220 +9,6 @@
       <slot name="exchange-rate-button"></slot>
     </h6>
     <!-- Modal -->
-    <!-- <Dialog
-      class="custom_rate_modal"
-      :modal="true"
-      header="null"
-      v-model:visible="display"
-    >
-      <div class="modal_body">
-        <div class="from_wrapper">
-          <form action="">
-            <div class="k_form_group k_select_single">
-              <label for="" class="m-b-10 fs-20 text_heading fw-700">
-                Currency & Exchange Rates, 2020</label
-              >
-              <Dropdown
-                class="k_prime_inp_select"
-                optionLabel="label"
-                optionValue="value"
-                placeholder="
-                   Currency
-                  "
-                :options="currencyLists"
-                @change="onChangeCurrency"
-                v-model="standardCurrency.currency_id"
-                @blur="v$.standardCurrency.currency_id.$touch"
-                :class="{
-                  'is-invalid': v$.standardCurrency.currency_id.$error,
-                }"
-              />
-
-              <div
-                v-if="v$.standardCurrency.currency_id.$error"
-                class="invalid-feedback text-left"
-              >
-                <span
-                  v-if="v$.standardCurrency.currency_id.required.$invalid"
-                  class="text-left fs-14"
-                >
-                  Currency is required
-                </span>
-              </div>
-            </div>
-            <div v-if="exchangeRates" class="k_form_groups">
-              <label for="" class="m-b-10 fs-20 text_heading fw-700">
-                Standard Exchange Rates</label
-              >
-              <p class="custom_exchange p-b-30">
-                1
-                {{ getNameById(currencyLists, standardCurrency.currency_id) }}
-                = {{ exchangeRates.standard_rate_euro }} EUR
-              </p>
-              <p class="custom_exchange p-b-26">
-                1
-                {{ getNameById(currencyLists, standardCurrency.currency_id) }}
-                = {{ exchangeRates.standard_rate_usd }} USD
-              </p>
-            </div>
-            <div class="k_form_groups">
-              <label for="" class="m-b-10 fs-20 text_heading fw-700">
-                Custom Exchange Rates</label
-              >
-              <div class="exchange_wrap">
-                <div class="currecy_from m-r-20">
-                  <p class="custom_exchange">
-                    1
-                    {{
-                      getNameById(currencyLists, standardCurrency.currency_id)
-                    }}
-                    =
-                  </p>
-                </div>
-                <div class="currency_amount m-r-20">
-                  <input
-                    type="text"
-                    @keydown="isNumber"
-                    v-model="standardCurrency.euro"
-                    class="form-control kk_input_field"
-                    @blur="v$.standardCurrency.euro.$touch"
-                    :class="{
-                      'is-invalid': v$.standardCurrency.euro.$error,
-                    }"
-                  />
-
-                  <div
-                    v-if="v$.standardCurrency.euro.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.standardCurrency.euro.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Value is Required
-                    </span>
-                    <span
-                      v-if="v$.standardCurrency.euro.numeric.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Enter numeric number
-                    </span>
-                  </div>
-                </div>
-                <div class="currency_to">
-                  <p class="custom_exchange">EUR</p>
-                </div>
-              </div>
-              <div class="exchange_wrap">
-                <div class="currecy_from m-r-20">
-                  <p class="custom_exchange">
-                    1
-                    {{
-                      getNameById(currencyLists, standardCurrency.currency_id)
-                    }}
-                    =
-                  </p>
-                </div>
-                <div class="currency_amount m-r-20">
-                  <input
-                    type="text"
-                    @keydown="isNumber"
-                    v-model="standardCurrency.usd"
-                    class="form-control kk_input_field"
-                    @blur="v$.standardCurrency.usd.$touch"
-                    :class="{
-                      'is-invalid': v$.standardCurrency.usd.$error,
-                    }"
-                  />
-
-                  <div
-                    v-if="v$.standardCurrency.usd.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.standardCurrency.usd.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Value is Required
-                    </span>
-                    <span
-                      v-if="v$.standardCurrency.usd.numeric.$invalid"
-                      class="text-left fs-14"
-                    >
-                      Enter numeric number
-                    </span>
-                  </div>
-                </div>
-                <div class="currency_to">
-                  <p class="custom_exchange">USD</p>
-                </div>
-              </div>
-              <div class="alert_wrapper d-flex m-b-10">
-                <div class="icon_wrapper">
-                  <div class="bg_alert_circle"></div>
-                  <div class="bg_alert_icon bg_light_yellow">
-                    <img
-                      src="K_Icons/alert_yellow.svg"
-                      class="icon_name"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div class="alert_message">
-                  <p class="custom_exchange">With the values above</p>
-                  <p class="custom_exchange">
-                    1000
-                    {{
-                      getNameById(currencyLists, standardCurrency.currency_id)
-                    }}
-                    =
-                    {{ customExchangeValues(standardCurrency.euro) }}
-                    EUR
-                  </p>
-                  <p class="custom_exchange">
-                    1000
-                    {{
-                      getNameById(currencyLists, standardCurrency.currency_id)
-                    }}
-                    =
-
-                    {{ customExchangeValues(standardCurrency.usd) }}
-                    USD
-                  </p>
-                </div>
-              </div>
-              <div class="modal_action_btn">
-                <div class="btns_wrap">
-                  <button
-                    type="button"
-                    @click="onCancel()"
-                    class="btn btn-light btn-set m-r-20"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    :disabled="isSubmitted"
-                    type="button"
-                    @click="saveCustomRates()"
-                    class="btn btn-primary btn-set"
-                  >
-                    <div
-                      v-if="isSubmitted"
-                      class="spinner-border text-light"
-                      role="status"
-                    >
-                      <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <span v-else> Save </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </Dialog> -->
-
     <div
       class="modal fade"
       id="exampleModal"
@@ -445,8 +231,6 @@
 </template>
 
 <script>
-// import Dialog from "primevue/dialog";
-
 import { Modal } from "bootstrap";
 import Dropdown from "primevue/dropdown";
 import { mapGetters } from "vuex";
@@ -460,7 +244,6 @@ export default {
       display: false,
       isSubmitted: false,
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      // numberPattern: /^\d{0,3}(?:\.\d{1,2})?$/,
       numberPattern: /^\d{0,}(?:\.\d{0,3}){0,1}$/,
       standardCurrency: {
         currency_id: "",
@@ -489,7 +272,6 @@ export default {
 
   components: {
     Dropdown,
-    // Dialog,
   },
 
   mounted() {

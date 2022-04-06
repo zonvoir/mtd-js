@@ -9,14 +9,29 @@
           <div class="verify-subtitle">
             <h6 class="email_verify_message">
               {{ $t("login.otp_step.verify_acc_para1") }}
-              <strong>{{ otpForm.email }}</strong
+              <!-- You can change your registration email here -->
+              <strong class="m-l-4">{{ otpForm.email }}</strong
               ><br />
-              {{ $t("login.otp_step.verify_acc_para2") }}
             </h6>
+            <div class="">
+              <UpdateEmail ref="change_email">
+                <template v-slot:change-email>
+                  <h5 class="email_update_para">
+                    You can change your registration email
+                    <a @click="updateEmailHere" class="custom-link"> here </a>
+                  </h5>
+                </template>
+              </UpdateEmail>
+            </div>
           </div>
         </div>
       </div>
-      <div class="form-wrapper">
+      <div class="text-center">
+        <h6 class="email_verify_message">
+          {{ $t("login.otp_step.verify_acc_para2") }}
+        </h6>
+      </div>
+      <div class="">
         <form @submit.prevent="OTPInput" action="">
           <div class="k_form_group">
             <div class="text_center">
@@ -62,6 +77,7 @@
       </div>
     </div>
   </div>
+
   <!-- Modal To check Company Info -->
   <div
     class="modal fade"
@@ -109,12 +125,14 @@
 import { Modal } from "bootstrap";
 import loginService from "../../Services/LoginService";
 import CustomOtp from "../../components/Shared/CustomOtp.vue";
+import UpdateEmail from "./Components/UpdateEmail.vue";
 // import CompanyService from "../../Services/Company/CompanyService";
 import { mapGetters } from "vuex";
 import errorhandler from "../../utils/Error";
 export default {
   components: {
     CustomOtp,
+    UpdateEmail,
   },
   data() {
     return {
@@ -152,6 +170,8 @@ export default {
   },
 
   created() {
+    let activePage = this.$route.path.split("/")[2];
+    this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
     if (
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == null
@@ -177,8 +197,12 @@ export default {
     handleOnPaste(ev) {
       console.log(ev);
     },
+    updateEmailHere() {
+      this.$refs.change_email.modal.show();
+    },
     OTPInput() {
-      console.log("opt form", this.otpForm);
+      // console.log("opt form", this.$refs.change_email);
+      // this.$refs.change_email.modal.show();
       if (this.isSubmitted) {
         return false;
       }
@@ -318,5 +342,17 @@ export default {
 .otp-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+.email_update_para {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+  color: #222b45;
+  margin-bottom: 0;
+  .custom-link {
+    font-size: inherit;
+  }
+}
+.main-heading-wrap {
 }
 </style>

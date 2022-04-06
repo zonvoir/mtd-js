@@ -54,7 +54,7 @@ class CommonService {
 
   // get all country by region
   getAllCountry(regionId) {
-    console.log(regionId);
+    // console.log(regionId);
     if (regionId) {
       return http.get(`lists/region_countries/${regionId}`);
     } else {

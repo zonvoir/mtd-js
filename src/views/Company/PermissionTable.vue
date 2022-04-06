@@ -12,7 +12,7 @@
             <div class="perms_th_top">View results</div>
           </th>
           <th colspan="4" class="border_right_primary">
-            <div class="perms_th_top">Genrate reports</div>
+            <div class="perms_th_top">Generate reports</div>
           </th>
           <th colspan="2" class="">
             <div class="perms_th_top">Invite</div>

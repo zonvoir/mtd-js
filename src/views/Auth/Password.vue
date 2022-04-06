@@ -8,7 +8,7 @@
           </h2>
         </div>
       </div>
-      <div class="form-wrapper">
+      <div class="">
         <form @submit.prevent="onLogin" action="">
           <div class="k_form_group psw_visibilty">
             <input
