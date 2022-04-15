@@ -66,12 +66,8 @@
           </div>
           <div class="im-user flex justify-center">
             <span class="para14"> Already have an account?</span>
-            <router-link
-              target="_blank"
-              class="custom-link"
-              :to="{ name: 'signup-signin' }"
-              >Sign In</router-link
-            >
+            <a @click="goTo" target="_blank" class="custom-link">Sign In</a>
+            <!-- :to="{ name: 'signup-signin' }" -->
           </div>
         </div>
       </div>
@@ -137,7 +133,7 @@ export default {
           industry: null,
           to: "",
           from: "",
-          workingAtPresent: true,
+          // workingAtPresent: true,
           division: "",
           seniority_level: null,
           department: [],
@@ -224,6 +220,15 @@ export default {
   },
 
   methods: {
+    goTo() {
+      localStorage.removeItem("bWFpbCI6Inpvb");
+      localStorage.removeItem("selected_company");
+      localStorage.removeItem("language");
+      localStorage.removeItem("selected_year");
+      sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
+      this.$store.dispatch("GET_STAFF_DATA", null);
+      this.$router.push({ name: "signup-signin" });
+    },
     saveModalData(val) {
       console.log("modal career data", val.newCareer);
       if (val.newCareer.length > 0) {

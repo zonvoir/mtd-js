@@ -117,6 +117,8 @@ export default {
           company: "",
           position: "",
           industry: "",
+          to: "",
+          from: "",
           seniority_level: "",
           department: [],
         },

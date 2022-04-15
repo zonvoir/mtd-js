@@ -228,12 +228,13 @@
             </div>
             <div class="im-user flex justify-center">
               <span class="para14"> Already have an account?</span>
-              <router-link
+              <a @click="goTo" target="_blank" class="custom-link">Sign In</a>
+              <!-- <router-link
                 target="_blank"
                 class="custom-link"
                 :to="{ name: 'signup-signin' }"
                 >Sign In</router-link
-              >
+              > -->
             </div>
           </form>
         </div>
@@ -361,6 +362,15 @@ export default {
   },
 
   methods: {
+    goTo() {
+      localStorage.removeItem("bWFpbCI6Inpvb");
+      localStorage.removeItem("selected_company");
+      localStorage.removeItem("language");
+      localStorage.removeItem("selected_year");
+      sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
+      this.$store.dispatch("GET_STAFF_DATA", null);
+      this.$router.push({ name: "signup-signin" });
+    },
     visRedirect() {
       this.$router.push({ name: "signup-signin" });
     },

@@ -365,20 +365,20 @@ export default {
     Dropdown,
   },
   watch: {
-    "careerForm.workingAtPresent": function () {
-      // this.careerForm.workingAtPresent = this.workingAtPresent;
-      // console.log(oldVal, newVal);
+    "careerForm.workingAtPresent": function (oldVal, newVal) {
+      // this.careerForm.workingAtPresent = val;
+      console.log(oldVal, newVal);
       this.clearToDate();
     },
   },
 
   updated() {
-    this.careerForm = this.myCareer;
-    this.careerForm.workingAtPresent = this.workingAtPresent;
+    // this.careerForm = this.myCareer;
+    // this.careerForm.workingAtPresent = this.workingAtPresent;
   },
 
   mounted() {
-    this.careerForm = this.myCareer;
+    // this.careerForm = this.myCareer;
     this.careerForm.workingAtPresent = this.workingAtPresent;
     this.getAllCompany();
   },
@@ -468,7 +468,7 @@ export default {
           this.careerForm.company,
           "label"
         );
-        this.careerForm.workingAtPresent = this.workingAtPresent;
+        // this.careerForm.workingAtPresent = this.workingAtPresent;
         this.careerForm.to = formatDate(this.careerForm["to"], "L");
         this.careerForm.from = formatDate(this.careerForm["from"], "L");
         console.log("check vali", this.careerForm);
