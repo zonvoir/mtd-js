@@ -373,12 +373,12 @@ export default {
   },
 
   updated() {
-    // this.careerForm = this.myCareer;
+    this.careerForm = this.myCareer;
     // this.careerForm.workingAtPresent = this.workingAtPresent;
   },
 
   mounted() {
-    // this.careerForm = this.myCareer;
+    this.careerForm = this.myCareer;
     this.careerForm.workingAtPresent = this.workingAtPresent;
     this.getAllCompany();
   },
