@@ -100,10 +100,30 @@ export const setRandomBG = () => {
   for (var i = 0; i < 6; i++) color += letters[Math.floor(Math.random() * 16)];
   return color;
 };
+
 export const setRandomBackground = () => {
   let backgrounds = ["#0ACA8A", "#FFC94D", "#2E3A59"];
   let background = backgrounds[Math.floor(Math.random() * backgrounds.length)];
   return background;
+};
+// to Update the local storage Object
+//single
+//updateStorage("company", [{name:"ACME"}])
+
+//multiple
+//updateLocalStorage("company", [{name:"ACME"},{location:"USA"}])
+
+export const updateLocalStorage = (keyName, newkeypairs = []) => {
+  const obj = JSON.parse(localStorage.getItem(keyName));
+  newkeypairs.map((n) => (obj[Object.keys(n)] = Object.values(n)[0]));
+  localStorage.setItem(keyName, JSON.stringify(obj));
+};
+
+// to Update the session storage Object
+export const updateSessionStorage = (keyName, newkeypairs = []) => {
+  const obj = JSON.parse(sessionStorage.getItem(keyName));
+  newkeypairs.map((n) => (obj[Object.keys(n)] = Object.values(n)[0]));
+  sessionStorage.setItem(keyName, JSON.stringify(obj));
 };
 
 export const renameKeys = (keysMap, obj) =>
@@ -114,3 +134,35 @@ export const renameKeys = (keysMap, obj) =>
     }),
     {}
   );
+
+export const phoneNumberMask = (number, seprator = ",") => {
+  // number = number.split(seprator);
+  // console.info(number, "vis");
+  // number = number.join("");
+  // console.info(number);
+  // number = +number;
+
+  var numberString = new Intl.NumberFormat()
+    .formatToParts(number)
+    .map(({ type, value }) => {
+      console.info("visDefault", value, type);
+      switch (type) {
+        case "currency":
+          return `<strong>${value}</strong>`;
+        default:
+          return value;
+      }
+    })
+    .reduce((string, part) => {
+      if (part == ",") {
+        console.info("vishu", string + seprator);
+        return string + seprator;
+      } else {
+        console.info("vish", string + part);
+        return string + part;
+      }
+    });
+  console.info("kk", numberString);
+  return numberString;
+};
+// export default phoneNumberMask;

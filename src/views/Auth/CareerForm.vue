@@ -374,6 +374,7 @@ export default {
 
   updated() {
     this.careerForm = this.myCareer;
+    this.careerForm.workingAtPresent = this.workingAtPresent;
   },
 
   mounted() {
@@ -467,7 +468,7 @@ export default {
           this.careerForm.company,
           "label"
         );
-
+        this.careerForm.workingAtPresent = this.workingAtPresent;
         this.careerForm.to = formatDate(this.careerForm["to"], "L");
         this.careerForm.from = formatDate(this.careerForm["from"], "L");
         console.log("check vali", this.careerForm);

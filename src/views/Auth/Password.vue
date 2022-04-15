@@ -1,92 +1,99 @@
 <template>
-  <div class="register_auth_wrapper">
-    <div class="">
+  <div class="">
+    <div class="custom_brand_logo">
+      <MainLogo />
+    </div>
+    <div class="register_auth_wrapper">
       <div class="">
-        <div class="main-heading-wrap text-center">
-          <h2 class="main-heading">
-            {{ $t("login.password_step.enter_password") }}
-          </h2>
+        <div class="">
+          <div class="main-heading-wrap text-center">
+            <h2 class="main-heading">
+              {{ $t("login.password_step.enter_password") }}
+            </h2>
+          </div>
         </div>
-      </div>
-      <div class="">
-        <form @submit.prevent="onLogin" action="">
-          <div class="k_form_group psw_visibilty">
-            <input
-              ref="focusInp"
-              :type="passwordFieldType"
-              @blur="v$.loginForm.password.$touch"
-              v-model.trim="loginForm.password"
-              class="form-control k_inp_field"
-              :placeholder="$t('login.password_step.form.placeholder.password')"
-              :class="{
-                'is-invalid': v$.loginForm.password.$error,
-              }"
-            />
-            <div
-              v-if="v$.loginForm.password.$error"
-              class="invalid-feedback text-left"
-            >
+        <div class="">
+          <form @submit.prevent="onLogin" action="">
+            <div class="k_form_group psw_visibilty">
+              <input
+                ref="focusInp"
+                :type="passwordFieldType"
+                @blur="v$.loginForm.password.$touch"
+                v-model.trim="loginForm.password"
+                class="form-control k_inp_field"
+                :placeholder="
+                  $t('login.password_step.form.placeholder.password')
+                "
+                :class="{
+                  'is-invalid': v$.loginForm.password.$error,
+                }"
+              />
               <div
-                v-if="v$.loginForm.password.required.$invalid"
-                class="text-left fs-14"
+                v-if="v$.loginForm.password.$error"
+                class="invalid-feedback text-left"
               >
-                {{
-                  $t(
-                    "login.password_step.form.invalid_msgs.password_is_required"
-                  )
-                }}
+                <div
+                  v-if="v$.loginForm.password.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  {{
+                    $t(
+                      "login.password_step.form.invalid_msgs.password_is_required"
+                    )
+                  }}
+                </div>
               </div>
-            </div>
-            <span class="visibilty_btn">
-              <button
-                @click="switchVisibility"
-                type="button"
-                class="btn eye_btn btn-white"
-              >
-                <img :src="visibilityIcon" class="eye_icon" />
-              </button>
-            </span>
-          </div>
-          <div class="k_form_group k_toggle">
-            <Toggle v-model="stay_signIn" />
-            <label id="toggle-label" class="toggle_label m-l-12">{{
-              $t("login.password_step.stay_signed")
-            }}</label>
-          </div>
-
-          <div class="d-grid space_btn_psw">
-            <button
-              :disabled="isSubmitted"
-              type="submit"
-              class="btn k_btn_block btn-primary text-uppercase"
-            >
-              <div
-                v-if="isSubmitted"
-                class="spinner-border text-light"
-                role="status"
-              >
-                <span class="visually-hidden">{{
-                  $t("login.password_step.loading")
-                }}</span>
-              </div>
-              <span v-else>
-                {{ $t("login.password_step.buttons.sign_in") }}
+              <span class="visibilty_btn">
+                <button
+                  @click="switchVisibility"
+                  type="button"
+                  class="btn eye_btn btn-white"
+                >
+                  <img :src="visibilityIcon" class="eye_icon" />
+                </button>
               </span>
-            </button>
-          </div>
+            </div>
+            <div class="k_form_group k_toggle">
+              <Toggle v-model="stay_signIn" />
+              <label id="toggle-label" class="toggle_label m-l-12">{{
+                $t("login.password_step.stay_signed")
+              }}</label>
+            </div>
 
-          <div class="im-user flex justify-center">
-            <span class="para14">{{
-              $t("login.password_step.no_account")
-            }}</span>
-            <router-link
-              target="_blank"
-              class="custom-link"
-              :to="{ name: 'signup-register' }"
-              >{{ $t("login.password_step.buttons.sign_up") }}</router-link
-            >
-          </div>
-        </form>
+            <div class="d-grid space_btn_psw">
+              <button
+                :disabled="isSubmitted"
+                type="submit"
+                class="btn k_btn_block btn-primary text-uppercase"
+              >
+                <div
+                  v-if="isSubmitted"
+                  class="spinner-border text-light"
+                  role="status"
+                >
+                  <span class="visually-hidden">{{
+                    $t("login.password_step.loading")
+                  }}</span>
+                </div>
+                <span v-else>
+                  {{ $t("login.password_step.buttons.sign_in") }}
+                </span>
+              </button>
+            </div>
+
+            <div class="im-user flex justify-center">
+              <span class="para14">{{
+                $t("login.password_step.no_account")
+              }}</span>
+              <router-link
+                target="_blank"
+                class="custom-link"
+                :to="{ name: 'signup-register' }"
+                >{{ $t("login.password_step.buttons.sign_up") }}</router-link
+              >
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -96,6 +103,8 @@
 import Toggle from "@vueform/toggle";
 import EyeIcon from "../../assets/images/icons/eye.svg";
 import EyeOffIcon from "../../assets/images/icons/eye-off.svg";
+import MainLogo from "../../components/Shared/MainLogo.vue";
+
 // MINIMUM 8 CHARCTER
 const minimum8CharCalc = (val) => val.length >= 8;
 // for upper case calculation
@@ -113,6 +122,8 @@ import useVuelidate from "@vuelidate/core";
 import errorhandler from "../../utils/Error";
 import LoginService from "../../Services/LoginService";
 export default {
+  // changed this OiJKV1QiLCJhbGciOiJIUzI1 to QiLC1IUzI1JhbGciOiKV
+
   data() {
     return {
       visibilityIcon: EyeIcon,
@@ -120,7 +131,7 @@ export default {
       visibility: false,
       isSubmitted: false,
       stay_signIn: false,
-      logData: JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")),
+      logData: JSON.parse(sessionStorage.getItem("QiLC1IUzI1JhbGciOiKV")),
       loginForm: {
         email: "",
         password: "",
@@ -129,11 +140,12 @@ export default {
   },
   components: {
     Toggle,
+    MainLogo,
   },
   created() {
     if (
-      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
-      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == null
+      sessionStorage.getItem("QiLC1IUzI1JhbGciOiKV") == undefined ||
+      sessionStorage.getItem("QiLC1IUzI1JhbGciOiKV") == null
     ) {
       this.$router.push({ name: "signup-signin" });
     }
@@ -170,7 +182,7 @@ export default {
         this.logData.stay_signIn = this.stay_signIn;
 
         sessionStorage.setItem(
-          "OiJKV1QiLCJhbGciOiJIUzI1",
+          "QiLC1IUzI1JhbGciOiKV",
           JSON.stringify(this.logData)
         );
         console.log("lginform", this.logData);

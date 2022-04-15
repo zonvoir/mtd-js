@@ -1,6 +1,4 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-// createWebHashHistory
-// error pages
 import PageNotFound from "../Layout/Error/404Error.vue";
 import ServerError from "../Layout/Error/500Error.vue";
 import InternetError from "../Layout/Error/NoInternet.vue";
@@ -15,8 +13,6 @@ import Signin from "../views/Auth/Signin.vue";
 import Password from "../views/Auth/Password.vue";
 import UpdatePassword from "../views/Auth/UpdatePassword.vue";
 import ResetPassword from "../views/Auth/ResetPassword.vue";
-// import InvitedUser from "../views/Auth/InvitedUser.vue";
-// import InvitedCareer from "../views/Auth/InvitedCareer.vue";
 import VerifyAccount from "../views/Auth/VerifyAccount.vue";
 import VerifyEmail from "../views/Auth/EmailConfirmation.vue";
 import Dashboard from "../Layout/MainLayout.vue";
@@ -64,9 +60,10 @@ const i18n = setupI18n({
   fallbackLocale: locale, // set fallback locale
 });
 loadLocaleMessages(i18n, locale);
-// check if user not login then Dashboard related page not showsrc\views\Results\ResultLocked.vue
-function guardMyroute(to, from, next) {
+// check if user not login then Dashboard related page not show
+function guardMyroute(_to, _from, next) {
   var isAuthenticated = false;
+  // let user = localStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1");
   let user = localStorage.getItem("bWFpbCI6Inpvb");
   user = JSON.parse(user);
   if (
@@ -82,23 +79,73 @@ function guardMyroute(to, from, next) {
       ({ data }) => {
         if (!data.status) {
           localStorage.removeItem("bWFpbCI6Inpvb");
-          next("/user/signin");
-          // next("/signup/signin");
+          // next("/user/login");
+          next("/signup/signin");
         }
       }
     );
     isAuthenticated = false;
   }
   if (isAuthenticated) {
-    next("/user/signin"); // go to '/login';
-    //next("/signup/signin"); // go to '/login';
+    // next("/user/login"); // go to '/login';
+    next("/signup/signin"); // go to '/login';
   } else {
-    if (user.is_career_information_setup && user.is_company_setup) {
+    if (
+      user.is_career_information_setup &&
+      user.is_first_step_complete &&
+      user.is_second_step_complete
+    ) {
       next(); // go to '/login';
-    } else {
+    } else if (!user.is_career_information_setup && user.invitation_id) {
       next({ name: "signup-career" });
+    } else if (!user.is_first_step_complete) {
+      console.log("I kk1 company first step");
+      next({ name: "company-step-one" });
+    } else if (!user.is_second_step_complete) {
+      console.log("I kk2 company second step");
+      next({ name: "company-step-two" });
+    } else {
+      console.log("no one will run");
+      // next({ name: "signup-signin" });
     }
+    // && user.invitation_id
+    // if (!user.is_career_information_setup) {
+    //   next({ name: "signup-career" });
+    // } else if (!user.is_first_step_complete) {
+    //   next({ name: "company-step-one" });
+    // } else if (!user.is_second_step_complete) {
+    //   next({ name: "company-step-two" });
+    // } else {
+    //   next({ name: "signin-verify-account" });
+    // }
     // next();
+  }
+}
+
+function subRouting(_to, _from, next) {
+  let staffData =
+    JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
+    JSON.parse(localStorage.getItem("bWFpbCI6Inpvb"));
+  console.log(_to, _from, staffData);
+
+  if (staffData && Object.keys(staffData).length === 0) {
+    next({ name: "signup-signin" });
+  } else if (!staffData.is_first_step_complete) {
+    console.log("I am in company first step");
+    if (_from.name != "company-step-one") {
+      next();
+    } else {
+      next({ name: "company-step-one" });
+    }
+  } else if (!staffData.is_second_step_complete) {
+    if (_from.name != "company-step-two") {
+      next();
+    } else {
+      next({ name: "company-step-two" });
+    }
+    console.log("I am in company step second");
+  } else {
+    next();
   }
 }
 
@@ -378,69 +425,20 @@ const routes = [
           {
             path: "step_one",
             name: "company-step-one",
+            beforeEnter: subRouting,
             component: CompanyStep1,
           },
           {
             path: "step_two",
             name: "company-step-two",
+            beforeEnter: subRouting,
             component: CompanyStep2,
           },
         ],
       },
 
-      // {
-      //   path: "signin",
-      //   name: "signup-signin",
-      //   beforeEnter: loginGaurd,
-      //   component: Signin,
-      // },
-      // {
-      //   path: "password",
-      //   name: "signin-password",
-
-      //   beforeEnter: loginGaurd,
-      //   component: Password,
-      // },
-      // {
-      //   path: "update-password",
-      //   name: "signin-update-password",
-      //   component: UpdatePassword,
-      // },
-      // {
-      //   path: "reset-password",
-      //   name: "reset-forget-password",
-      //   component: ResetPassword,
-      // },
-      // {
-      // {
-      //   path: "verify-account",
-      //   name: "signin-verify-account",
-
-      //   beforeEnter: loginGaurd,
-      //   component: VerifyAccount,
-      // },
-      // {
-      //   path: "link-company",
-      //   name: "link-company-account",
-      //   component: LinkCompany,
-      // },
-      // {
-      //   path: "email-verified",
-
-      //   beforeEnter: loginGaurd,
-      //   component: VerifyEmail,
-      // },
-    ],
-  },
-  // signIn  pages
-  {
-    path: "/user",
-    redirect: "/user/login",
-    component: Authentication,
-
-    children: [
       {
-        path: "login",
+        path: "signin",
         name: "signup-signin",
         beforeEnter: loginGaurd,
         component: Signin,
@@ -455,11 +453,13 @@ const routes = [
       {
         path: "update-password",
         name: "signin-update-password",
+        beforeEnter: loginGaurd,
         component: UpdatePassword,
       },
       {
         path: "reset-password",
         name: "reset-forget-password",
+        beforeEnter: loginGaurd,
         component: ResetPassword,
       },
       {
@@ -482,6 +482,56 @@ const routes = [
       },
     ],
   },
+  // signIn  pages
+  // {
+  //   path: "/user",
+  //   redirect: "/user/login",
+  //   component: Authentication,
+
+  //   children: [
+  //     {
+  //       path: "login",
+  //       name: "signup-signin",
+  //       beforeEnter: loginGaurd,
+  //       component: Signin,
+  //     },
+  //     {
+  //       path: "password",
+  //       name: "signin-password",
+
+  //       beforeEnter: loginGaurd,
+  //       component: Password,
+  //     },
+  //     {
+  //       path: "update-password",
+  //       name: "signin-update-password",
+  //       component: UpdatePassword,
+  //     },
+  //     {
+  //       path: "reset-password",
+  //       name: "reset-forget-password",
+  //       component: ResetPassword,
+  //     },
+  //     {
+  //       path: "verify-account",
+  //       name: "signin-verify-account",
+
+  //       beforeEnter: loginGaurd,
+  //       component: VerifyAccount,
+  //     },
+  //     {
+  //       path: "link-company",
+  //       name: "link-company-account",
+  //       component: LinkCompany,
+  //     },
+  //     {
+  //       path: "email-verified",
+
+  //       beforeEnter: loginGaurd,
+  //       component: VerifyEmail,
+  //     },
+  //   ],
+  // },
   {
     path: "/404",
     name: "page-not-found",
@@ -549,7 +599,15 @@ router.afterEach((to, from) => {
   console.log(to, from);
   const el = document.body;
   let activePage = to.path.split("/")[1];
-  if (activePage === "signup" || activePage === "user") {
+  // if (activePage === "signup" || activePage === "user") {
+  if (activePage === "signup") {
+    let activeSubPage = to.path.split("/")[2];
+    // console.log("current path", to.path.split("/")[2]);
+    if (activeSubPage === "verify-account") {
+      el.classList.add("auth_verify_account");
+    } else {
+      el.classList.remove("auth_verify_account");
+    }
     el.classList.add("auth_pages");
   } else {
     el.classList.remove("auth_pages");

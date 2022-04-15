@@ -1,6 +1,6 @@
 import http from "@/http-common";
 class CompanyService {
-  // invitaion list
+  // invitaion list default
   // send invitaion by csv file
   invitationByFile(data) {
     return http.post("invitation/send_invitation_file", data, {
@@ -46,6 +46,56 @@ class CompanyService {
     });
   }
 
+  // inivite team List
+  getInvitedTeamManagenet(data) {
+    return http.post("roles/get_team_management", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+
+  // inivite a new  team member
+  inviteNewTeamMember(data) {
+    return http.post("invitation/send_invitation_team", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+
+  // invite bulk list of new  team member import file
+  inviteTeamMemberByList(data) {
+    return http.post("invitation/send_invitation_team_file", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+
+  // inivite bulk list of confirmed  team member
+  confirmedTeamMemberByList(data) {
+    return http.post("invitation/send_invitation_team_file_confirm", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+
+  // Remove a team member
+  removeTeamMember(data) {
+    return http.post("invitation/delete_invitation_team", data, {
+      headers: {
+        "X-Company": localStorage.getItem("selected_company"),
+        "X-Year": localStorage.getItem("selected_year"),
+      },
+    });
+  }
+
   // invitation ends
 
   // list of companies in system
@@ -57,6 +107,7 @@ class CompanyService {
   companySuggestions() {
     return http.get("customers/data_suggestion");
   }
+
   //get All Extended deparartments
   getExtendedDepartments(token) {
     return http.post("lists/extended_departments", token, {
@@ -66,6 +117,7 @@ class CompanyService {
       },
     });
   }
+
   // staff company list
   companiesList(data) {
     return http.post("customers/staff_company", data, {
@@ -84,7 +136,10 @@ class CompanyService {
       },
     });
   }
-  // members service
+
+  // members filter service
+
+  // member filter by roleId
   memberByRoleId(data) {
     console.log("all words", data);
     return http.post("customers/filter_member", data, {
@@ -94,6 +149,9 @@ class CompanyService {
       },
     });
   }
+
+  // member filter by departments
+
   memberByDepartments(data) {
     return http.post("customers/filter_member", data, {
       headers: {
@@ -102,6 +160,9 @@ class CompanyService {
       },
     });
   }
+
+  // member filrer by categories
+
   memberByCategories(data) {
     return http.post("customers/filter_member", data, {
       headers: {
@@ -110,6 +171,9 @@ class CompanyService {
       },
     });
   }
+
+  // member filter by search keyword
+
   memberByWord(data) {
     return http.post("customers/filter_member", data, {
       headers: {
@@ -118,6 +182,7 @@ class CompanyService {
       },
     });
   }
+
   // permission
   setMemberPermission(data) {
     return http.post("staffs/member_permissions", data, {
@@ -135,6 +200,9 @@ class CompanyService {
       },
     });
   }
+
+  // filter permissions
+
   filterMemberPermission(data) {
     return http.post("staffs/member_permissions_filter", data, {
       headers: {
@@ -143,9 +211,13 @@ class CompanyService {
       },
     });
   }
+
+  // get years list
   getYears() {
     return http.get("lists/years");
   }
+
+  // setup new company
   setUpCompany(data) {
     return http.post("customers/data/", data);
   }
@@ -169,6 +241,7 @@ class CompanyService {
       },
     });
   }
+
   // Company update exchange rates
   currencyExchnageRate(data) {
     return http.post("customers/currency_exchange_rate", data, {
@@ -178,6 +251,7 @@ class CompanyService {
       },
     });
   }
+
   // Company get exchange rates
   getCurrencyExchnageRate(data) {
     return http.post("customers/currency_exchange_list", data, {
@@ -197,55 +271,22 @@ class CompanyService {
       },
     });
   }
-  // inivite team List
-  getInvitedTeamManagenet(data) {
-    return http.post("roles/get_team_management", data, {
-      headers: {
-        "X-Company": localStorage.getItem("selected_company"),
-        "X-Year": localStorage.getItem("selected_year"),
-      },
-    });
-  }
-  // inivite a new  team member
-  inviteNewTeamMember(data) {
-    return http.post("invitation/send_invitation_team", data, {
-      headers: {
-        "X-Company": localStorage.getItem("selected_company"),
-        "X-Year": localStorage.getItem("selected_year"),
-      },
-    });
-  }
-  // inivite bulk list of new  team member
-  inviteTeamMemberByList(data) {
-    return http.post("roles/get_team_management", data, {
-      headers: {
-        "X-Company": localStorage.getItem("selected_company"),
-        "X-Year": localStorage.getItem("selected_year"),
-      },
-    });
-  }
 
-  // Remove a team member
-  removeTeamMember(data) {
-    return http.post("roles/get_team_management", data, {
-      headers: {
-        "X-Company": localStorage.getItem("selected_company"),
-        "X-Year": localStorage.getItem("selected_year"),
-      },
-    });
-  }
   // get all currency
   getAllCurrency() {
     return http.get("lists/currencies");
   }
+
   // Career Info Departments
   careerInfoDepartment() {
     return http.get("lists/career_info_department");
   }
+
   //add one deparartment
   addCareerDepartment(data) {
     return http.post("staffs/add_new_department", data);
   }
+
   //get Invitation list file
   confirmedInvitationFile(data) {
     return http.post("invitation/send_invitation_file_confirm", data, {
@@ -256,4 +297,5 @@ class CompanyService {
     });
   }
 }
+
 export default new CompanyService();

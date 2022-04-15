@@ -35,9 +35,9 @@
                     Remove
                   </button>
                 </div>
+                <!-- @isFormValid="checkFormValidation" -->
                 <career-form
                   :ref="'childCareer' + idx"
-                  @isFormValid="checkFormValidation"
                   @addNewCareer="isCareerFilled"
                   :className="'col-lg-12'"
                   :myCareer="career"

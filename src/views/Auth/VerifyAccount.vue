@@ -1,86 +1,112 @@
 <template>
-  <div class="register_auth_wrapper">
-    <div class="">
+  <div class="">
+    <div class="custom_brand_logo">
+      <MainLogo />
+    </div>
+    <div class="register_auth_wrapper">
       <div class="">
-        <div class="main-heading-wrap text-center">
-          <h2 class="main-heading p-b-20">
-            {{ $t("login.otp_step.verify_account") }}
-          </h2>
-          <div class="verify-subtitle">
-            <h6 class="email_verify_message">
-              {{ $t("login.otp_step.verify_acc_para1") }}
-              <!-- You can change your registration email here -->
-              <strong class="m-l-4">{{ otpForm.email }}</strong
-              ><br />
-            </h6>
-            <div class="">
-              <UpdateEmail ref="change_email">
-                <template v-slot:change-email>
-                  <h5 class="email_update_para">
-                    You can change your registration email
-                    <a @click="updateEmailHere" class="custom-link"> here </a>
-                  </h5>
-                </template>
-              </UpdateEmail>
+        <div class="">
+          <div class="main-heading-wrap text-center">
+            <h2 class="main-heading p-b-20">
+              {{ $t("login.otp_step.verify_account") }}
+            </h2>
+            <div class="verify-subtitle">
+              <h6 class="email_verify_message">
+                {{ $t("login.otp_step.verify_acc_para1") }}
+                <!-- You can change your registration email here -->
+                <strong class="m-l-4">{{ otpForm.email }}</strong
+                ><br />
+              </h6>
+              <div v-if="canUpdateEmail" class="">
+                <UpdateEmail ref="change_email" @changeEmail="changeEmail">
+                  <template v-slot:change-email>
+                    <h5 class="email_update_para">
+                      You can change your registration email
+                      <a @click="updateEmailHere" class="custom-link"> here </a>
+                    </h5>
+                  </template>
+                </UpdateEmail>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="text-center">
-        <h6 class="email_verify_message">
-          {{ $t("login.otp_step.verify_acc_para2") }}
-        </h6>
-      </div>
-      <div class="">
-        <form @submit.prevent="OTPInput" action="">
-          <div class="k_form_group">
-            <div class="text_center">
-              <CustomOtp
-                :classesName="'k_inp_field single_num_inp'"
-                :onChanges="getChange"
-                :counters="6"
-                :onComplete="onCompleted"
-                @onPaste="handleOnPaste"
-                validateType="numeric"
-                validateMsg="Please enter the valid OTP code"
-              />
-            </div>
-          </div>
-          <div class="d-grid space_btn_acc_ver">
-            <button
-              :disabled="isSubmitted"
-              type="submit"
-              class="btn k_btn_block btn-primary"
-            >
-              <div
-                v-if="isStatus"
-                class="spinner-border text-light"
-                role="status"
-              >
-                <span class="visually-hidden">{{ $t("login.loading") }}</span>
+        <div class="text-center">
+          <h6 class="email_verify_message">
+            {{ $t("login.otp_step.verify_acc_para2") }}
+          </h6>
+        </div>
+        <div class="">
+          <form action="">
+            <div class="k_form_group">
+              <div class="text_center">
+                <CustomOtp
+                  :classesName="'k_inp_field single_num_inp'"
+                  :onChanges="getChange"
+                  :counters="6"
+                  :onComplete="onCompleted"
+                  @onPaste="handleOnPaste"
+                  validateType="numeric"
+                  validateMsg="Please enter the valid OTP code"
+                />
               </div>
-              <span v-else>
-                {{ $t("login.otp_step.buttons.verify_account") }}
-              </span>
-            </button>
-          </div>
-          <div class="im-user flex justify-center">
-            <span class="para14"> {{ $t("login.otp_step.no_account") }}</span>
-            <router-link
-              target="_blank"
-              class="custom-link"
-              :to="{ name: 'signup-register' }"
-              >{{ $t("login.otp_step.buttons.sign_up") }}</router-link
-            >
-          </div>
-        </form>
+            </div>
+            <div class="d-grid space_btn_acc_ver">
+              <button
+                v-if="!canUpdateEmail"
+                :disabled="isSubmitted"
+                type="button"
+                @click="OTPInput"
+                class="btn k_btn_block btn-primary"
+              >
+                <div
+                  v-if="isStatus"
+                  class="spinner-border text-light"
+                  role="status"
+                >
+                  <span class="visually-hidden">{{ $t("login.loading") }}</span>
+                </div>
+                <span v-else>
+                  {{ $t("login.otp_step.buttons.verify_account") }}
+                </span>
+              </button>
+              <button
+                v-else
+                :disabled="isSubmitted"
+                type="button"
+                @click="OTPForRegistration"
+                class="btn k_btn_block btn-primary"
+              >
+                <div
+                  v-if="isStatus"
+                  class="spinner-border text-light"
+                  role="status"
+                >
+                  <span class="visually-hidden">{{ $t("login.loading") }}</span>
+                </div>
+                <span v-else>
+                  {{ $t("login.otp_step.buttons.verify_account") }}
+                </span>
+              </button>
+            </div>
+
+            <div class="im-user flex justify-center">
+              <span class="para14"> Already have an account?</span>
+              <router-link
+                target="_blank"
+                class="custom-link"
+                :to="{ name: 'signup-signin' }"
+                >Sign In</router-link
+              >
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Modal To check Company Info -->
   <div
-    class="modal fade"
+    class="modal custom_modal_email fade"
     id="exampleModal"
     ref="exampleModal"
     data-bs-backdrop="static"
@@ -90,8 +116,8 @@
     aria-hidden="true"
   >
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
+      <div class="modal-content set_modal_width">
+        <div class="modal-body update_email_body">
           <div class="verify_email">
             <h2 class="verify_title">
               <strong
@@ -106,11 +132,11 @@
           </div>
         </div>
         <div class="modal_action_btn text-right">
+          <!-- data-bs-dismiss="modal" -->
           <button
             type="button"
-            data-bs-dismiss="modal"
             @click="closeModal"
-            class="btn k_btnfs14_w700 btn-primary"
+            class="btn default_padding k_btnfs14_w700 btn-primary"
           >
             Ok
           </button>
@@ -127,21 +153,29 @@ import loginService from "../../Services/LoginService";
 import CustomOtp from "../../components/Shared/CustomOtp.vue";
 import UpdateEmail from "./Components/UpdateEmail.vue";
 // import CompanyService from "../../Services/Company/CompanyService";
+import MainLogo from "../../components/Shared/MainLogo.vue";
+
 import { mapGetters } from "vuex";
 import errorhandler from "../../utils/Error";
 export default {
   components: {
     CustomOtp,
     UpdateEmail,
+    MainLogo,
   },
   data() {
     return {
+      canUpdateEmail: false,
       isStatus: false,
       isSubmitted: true,
-      isCompany: undefined,
+      isCompanyStep1: undefined,
+      isCompanyStep2: undefined,
       isCareer: undefined,
       modal: null,
-      logData: JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")),
+      UserSavedData: JSON.parse(
+        sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")
+      ),
+      logData: JSON.parse(sessionStorage.getItem("QiLC1IUzI1JhbGciOiKV")),
       invitedUserData: JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")),
       otpForm: {
         email: "",
@@ -152,11 +186,20 @@ export default {
       },
     };
   },
+
+  watch: {
+    "UserSavedData.email": function (val) {
+      console.log(val);
+      this.otpForm.email = val;
+    },
+  },
+
   computed: {
     ...mapGetters({
       staffInfo: "staffData",
     }),
   },
+
   mounted() {
     this.modal = new Modal(this.$refs.exampleModal);
     if (
@@ -168,18 +211,40 @@ export default {
       console.log("invitation id", +this.invitedUserData.invitation_id);
     }
   },
-
+  // beforeCreate() {
+  //   let activePage = this.$route.path.split("/")[1];
+  //   console.log("active page", activePage);
+  //   this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
+  // },
   created() {
-    let activePage = this.$route.path.split("/")[2];
-    this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
-    if (
-      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
-      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == null
-    ) {
-      this.$router.push({ path: "/signup/signin" });
+    if (this.UserSavedData && Object.keys(this.UserSavedData).length) {
+      // let activePage = this.$route.path.split("/")[1];
+      // this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
+      this.canUpdateEmail = true;
+      if (
+        this.invitedUserData &&
+        Object.keys(this.invitedUserData).length != 0 &&
+        this.invitedUserData.invitation_id != ""
+      ) {
+        this.otpForm.invitation_id = +this.invitedUserData.invitation_id;
+      }
+      this.otpForm.email = this.UserSavedData.email;
+      this.otpForm.stay_signed_in = undefined;
+      this.otpForm.auth_token = this.UserSavedData.auth_token;
+    } else if (this.logData && Object.keys(this.logData).length) {
+      // let activePage = this.$route.path.split("/")[1];
+      // this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
+      this.canUpdateEmail = false;
+      this.otpForm.email = this.logData.email;
+      this.otpForm.stay_signed_in = this.logData.stay_signIn;
+    } else {
+      let activePage = this.$route.path.split("/")[1];
+      console.log("Verify page3", activePage);
+      this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
+      this.$router.push({ name: "signup-signin" });
     }
-    this.otpForm.email = this.logData.email;
-    this.otpForm.stay_signed_in = this.logData.stay_signIn;
+    // this.otpForm.email = this.logData.email
+    // this.otpForm.stay_signed_in = this.logData.stay_signIn;
   },
 
   setup() {
@@ -200,6 +265,8 @@ export default {
     updateEmailHere() {
       this.$refs.change_email.modal.show();
     },
+
+    // OTP For Login
     OTPInput() {
       // console.log("opt form", this.$refs.change_email);
       // this.$refs.change_email.modal.show();
@@ -212,6 +279,8 @@ export default {
         .then((res) => {
           if (res.data.status) {
             console.log("otp response", res.data.data);
+            // sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
+            sessionStorage.removeItem("QiLC1IUzI1JhbGciOiKV");
             sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
             localStorage.setItem(
               "bWFpbCI6Inpvb",
@@ -226,11 +295,71 @@ export default {
               this.$router.push({ name: "link-company-account" });
             } else {
               this.isCareer = res.data.data.is_career_information_setup;
-              this.isCompany = res.data.data.is_company_setup;
+
+              this.isCompanyStep1 = res.data.data.is_first_step_complete;
+              this.isCompanyStep2 = res.data.data.is_second_step_complete;
 
               if (
                 res.data.data.is_career_information_setup &&
-                res.data.data.is_company_setup
+                res.data.data.is_first_step_complete &&
+                res.data.data.is_second_step_complete
+              ) {
+                this.$router.push({ name: "Dashboard" });
+                if (this.staffInfo && Object.keys(this.staffInfo).length != 0) {
+                  this.invitaionAccepted();
+                }
+              } else {
+                this.modal.show();
+              }
+            }
+          } else {
+            errorhandler(res, this);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.isStatus = false;
+          this.isSubmitted = false;
+        });
+    },
+
+    // OTP For Registration
+    OTPForRegistration() {
+      console.log("opt form for Registration", this.otpForm);
+      if (this.isSubmitted) {
+        return false;
+      }
+      this.isStatus = true;
+      loginService
+        .registrationOTPVerification(this.otpForm)
+        .then((res) => {
+          if (res.data.status) {
+            console.log("otp response", res.data.data);
+            sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
+            localStorage.setItem(
+              "bWFpbCI6Inpvb",
+              JSON.stringify(res.data.data)
+            );
+            sessionStorage.removeItem("QiLC1IUzI1JhbGciOiKV");
+            sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
+            let user = JSON.parse(localStorage.getItem("bWFpbCI6Inpvb"));
+            if (
+              this.invitedUserData &&
+              Object.keys(this.invitedUserData).length != 0 &&
+              Object.keys(user).length != 0
+            ) {
+              this.$router.push({ name: "link-company-account" });
+            } else {
+              this.isCareer = res.data.data.is_career_information_setup;
+              this.isCompanyStep1 = res.data.data.is_first_step_complete;
+              this.isCompanyStep2 = res.data.data.is_second_step_complete;
+
+              if (
+                res.data.data.is_career_information_setup &&
+                res.data.data.is_first_step_complete &&
+                res.data.data.is_second_step_complete
               ) {
                 this.$router.push({ name: "Dashboard" });
                 if (this.staffInfo && Object.keys(this.staffInfo).length != 0) {
@@ -257,7 +386,7 @@ export default {
       this.otpForm.otp = ev.asString;
       this.otpForm.code = ev.lists;
 
-      console.log("completed", ev, this.isSubmitted);
+      // console.log("completed", ev, this.isSubmitted);
     },
 
     getChange(ev) {
@@ -266,13 +395,20 @@ export default {
       this.otpForm.code = ev.lists;
       console.log("input Change", ev, this.isSubmitted);
     },
+
+    changeEmail(val) {
+      console.log(val);
+      this.otpForm.email = val;
+    },
     closeModal() {
       console.log(this.isCompany, this.isCareer);
       this.modal.hide();
       if (this.isCareer == false) {
         this.$router.push({ name: "signup-career" });
-      } else if (this.isCompany == false) {
-        this.$router.push({ name: "signup-company" });
+      } else if (this.isCompanyStep1 == false) {
+        this.$router.push({ name: "company-step-one" });
+      } else if (this.isCompanyStep2 == false) {
+        this.$router.push({ name: "company-step-two" });
       } else {
         this.$router.push({ name: "Dashboard" });
       }
@@ -350,9 +486,10 @@ export default {
   color: #222b45;
   margin-bottom: 0;
   .custom-link {
-    font-size: inherit;
+    font-size: 16px;
   }
 }
-.main-heading-wrap {
+.custom_brand_logo {
+  margin-bottom: 2rem;
 }
 </style>

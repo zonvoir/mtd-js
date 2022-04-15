@@ -4,23 +4,24 @@
       <slot name="change-email"> </slot>
     </div>
     <!-- Modal -->
+    <!-- -->
     <div
-      class="modal fade"
+      class="modal custom_modal_email fade"
       id="exampleModal"
       ref="exampleModal"
+      tabindex="-1"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
-      tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content set_modal_width">
           <div class="modal-body update_email_body">
             <div class="text-left">
               <h5 class="update_email_title">Change your email</h5>
             </div>
-            <form action="">
+            <form @submit.prevent="onChangeEmail" action="">
               <div class="">
                 <div class="k_form_group text-left">
                   <label class="update_email_label"
@@ -28,20 +29,20 @@
                   >
                   <input
                     type="email"
-                    v-model.trim="updateEmailForm.newEmail"
-                    @blur="v$.updateEmailForm.newEmail.$touch"
+                    v-model.trim="updateEmailForm.email"
+                    @blur="v$.updateEmailForm.email.$touch"
                     class="form-control k_inp_field"
                     :class="{
-                      'is-invalid': v$.updateEmailForm.newEmail.$error,
+                      'is-invalid': v$.updateEmailForm.email.$error,
                     }"
                     placeholder="Enter email"
                   />
                   <div
-                    v-if="v$.updateEmailForm.newEmail.$errors"
+                    v-if="v$.updateEmailForm.email.$errors"
                     class="invalid-feedback text-left"
                   >
                     <span
-                      v-if="v$.updateEmailForm.newEmail.required.$invalid"
+                      v-if="v$.updateEmailForm.email.required.$invalid"
                       class="text-left fs-14"
                     >
                       {{
@@ -53,7 +54,7 @@
 
                     <span
                       class="text-left fs-14"
-                      v-if="v$.updateEmailForm.newEmail.email.$invalid"
+                      v-if="v$.updateEmailForm.email.email.$invalid"
                     >
                       {{
                         $t(
@@ -66,15 +67,16 @@
               </div>
               <div class="btns_wrap">
                 <button
+                  type="reset"
                   @click="closeModal"
                   class="btn btn-light btn-set text-uppercase m-r-20"
                 >
                   Cancel
                 </button>
+                <!-- @click="onChangeEmail" -->
                 <button
                   :disabled="isSubmitted"
-                  type="button"
-                  @click="onChangeEmail"
+                  type="submit"
                   class="btn btn-primary btn-set text-uppercase"
                 >
                   <div v-if="isSubmitted">
@@ -99,13 +101,17 @@
 import { Modal } from "bootstrap";
 import { required, email } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+import { updateSessionStorage } from "../../../utils/commonHelperFuntions";
+import LoginService from "../../../Services/LoginService";
+import errorhandler from "../../../utils/Error";
 export default {
   data() {
     return {
       modal: null,
+      staffData: JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")),
       isSubmitted: false,
       updateEmailForm: {
-        newEmail: "",
+        email: "",
       },
     };
   },
@@ -121,23 +127,33 @@ export default {
   validations() {
     return {
       updateEmailForm: {
-        newEmail: { required, email },
+        email: { required, email },
       },
     };
   },
   methods: {
     onChangeEmail() {
-      console.log(this.v$);
+      this.updateEmailForm.auth_token = this.staffData.auth_token;
       this.v$.$touch();
       if (!this.v$.$invalid) {
-        console.log("update email", this.updateEmailForm.newEmail);
-        this.closeModal();
+        LoginService.editEmailOnRegister(this.updateEmailForm).then((res) => {
+          if (res.data.status) {
+            updateSessionStorage("OiJKV1QiLCJhbGciOiJIUzI1", [
+              { email: this.updateEmailForm.email },
+            ]);
+            this.$emit("changeEmail", this.updateEmailForm.email);
+            this.closeModal();
+          } else {
+            errorhandler(res);
+          }
+        });
       }
     },
     resetForm() {
       this.v$.$reset();
+
       this.updateEmailForm = {
-        newEmail: "",
+        email: "",
       };
       this.modal.hide();
     },
@@ -160,14 +176,15 @@ export default {
   color: #222b45;
   margin-bottom: 20px;
 }
-// .btns_wrap {
-//   margin-top: 30px;
-//   display: flex;
-//   justify-content: center;
-// }
-.update_email_body {
-  padding: 24px !important;
+.btns_wrap {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  .btn {
+    padding: 0.375rem 3rem;
+  }
 }
+
 .update_email_label {
   font-weight: 400;
   font-size: 15px;

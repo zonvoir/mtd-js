@@ -1,172 +1,178 @@
 <template>
-  <div class="register_auth_wrapper">
-    <div class="">
+  <div class="">
+    <div class="custom_brand_logo">
+      <MainLogo />
+    </div>
+    <div class="register_auth_wrapper">
       <div class="">
-        <div class="main-heading-wrap text-center">
-          <h2 class="main-heading">Update your password</h2>
+        <div class="">
+          <div class="main-heading-wrap text-center">
+            <h2 class="main-heading">Update your password</h2>
+          </div>
         </div>
-      </div>
-      <div class="">
-        <form action="" @submit.prevent="onSubmit">
-          <div class="k_form_group psw_visibilty">
-            <input
-              ref="refPass"
-              :type="passwordFieldType1"
-              @blur="v$.resetPasswordForm.password.$touch"
-              v-model.trim="resetPasswordForm.password"
-              class="form-control k_inp_field"
-              placeholder="Password"
-              :class="{
-                'is-invalid': v$.resetPasswordForm.password.$error,
-              }"
-            />
-            <div
-              v-if="
-                !resetPasswordForm.password == '' ||
-                v$.resetPasswordForm.password.$error
-              "
-              class="text-danger text-left"
-            >
-              <div
-                class="text-left"
+        <div class="">
+          <form action="" @submit.prevent="onSubmit">
+            <div class="k_form_group psw_visibilty">
+              <input
+                ref="refPass"
+                :type="passwordFieldType1"
+                @blur="v$.resetPasswordForm.password.$touch"
+                v-model.trim="resetPasswordForm.password"
+                class="form-control k_inp_field"
+                placeholder="Password"
                 :class="{
-                  'text-success':
-                    !v$.resetPasswordForm.password.required.$invalid,
+                  'is-invalid': v$.resetPasswordForm.password.$error,
                 }"
-              >
-                <span class="fs-14"> Password is required</span>
-              </div>
+              />
               <div
-                :class="{
-                  'text-success':
-                    !v$.resetPasswordForm.password.minimum8CharCalc.$invalid,
-                }"
-                class="text-left d-flex"
-              >
-                <span class="fs-14">
-                  Strong password must be minimum 8 character</span
-                >
-              </div>
-
-              <div
-                :class="{
-                  'text-success':
-                    !v$.resetPasswordForm.password.upperCaseCalc.$invalid,
-                }"
-                class="text-left"
-              >
-                <span class="fs-14">
-                  Password must contain uppercase alphabetic characters (e.g.
-                  A-Z)</span
-                >
-              </div>
-
-              <div
-                :class="{
-                  'text-success':
-                    !v$.resetPasswordForm.password.lowerCaseCalc.$invalid,
-                }"
-                class="text-left"
-              >
-                <span class="fs-14">
-                  Password must contain lowerercase alphabetic characters (e.g.
-                  a-z)</span
-                >
-              </div>
-
-              <div
-                :class="{
-                  'text-success':
-                    !v$.resetPasswordForm.password.numberCalc.$invalid,
-                }"
-                class="text-left"
-              >
-                <span class="fs-14">
-                  Password must have at least one numerical character(e.g.
-                  0-9)</span
-                >
-              </div>
-
-              <div
-                :class="{
-                  'text-success':
-                    !v$.resetPasswordForm.password.specialCharCalc.$invalid,
-                }"
-                class="text-left"
-              >
-                <span class="fs-14">
-                  Password must have at least one special character</span
-                >
-              </div>
-            </div>
-            <span class="visibilty_btn">
-              <button
-                @click="switchVisibilityPswd"
-                type="button"
-                class="btn eye_btn btn-white"
-              >
-                <img :src="visibilityIcon1" class="eye_icon" />
-              </button>
-            </span>
-          </div>
-          <div class="k_form_group psw_visibilty">
-            <input
-              :type="passwordFieldType2"
-              @click="sw"
-              @blur="v$.resetPasswordForm.confirm_password.$touch"
-              v-model.trim="resetPasswordForm.confirm_password"
-              class="form-control k_inp_field"
-              placeholder="Confirm Password"
-              :class="{
-                'is-invalid': v$.resetPasswordForm.confirm_password.$error,
-              }"
-            />
-            <div
-              v-if="v$.resetPasswordForm.confirm_password.$errors"
-              class="invalid-feedback text-left"
-            >
-              <span
-                v-if="v$.resetPasswordForm.confirm_password.required.$invalid"
-                class="text-left fs-14"
-              >
-                Confirm Password is required
-              </span>
-
-              <span
-                class="text-left fs-14"
                 v-if="
-                  v$.resetPasswordForm.confirm_password.sameAsPassword.$invalid
+                  !resetPasswordForm.password == '' ||
+                  v$.resetPasswordForm.password.$error
                 "
-                >Password does not matched</span
+                class="text-danger text-left"
               >
+                <div
+                  class="text-left"
+                  :class="{
+                    'text-success':
+                      !v$.resetPasswordForm.password.required.$invalid,
+                  }"
+                >
+                  <span class="fs-14"> Password is required</span>
+                </div>
+                <div
+                  :class="{
+                    'text-success':
+                      !v$.resetPasswordForm.password.minimum8CharCalc.$invalid,
+                  }"
+                  class="text-left d-flex"
+                >
+                  <span class="fs-14">
+                    Strong password must be minimum 8 character</span
+                  >
+                </div>
+
+                <div
+                  :class="{
+                    'text-success':
+                      !v$.resetPasswordForm.password.upperCaseCalc.$invalid,
+                  }"
+                  class="text-left"
+                >
+                  <span class="fs-14">
+                    Password must contain uppercase alphabetic characters (e.g.
+                    A-Z)</span
+                  >
+                </div>
+
+                <div
+                  :class="{
+                    'text-success':
+                      !v$.resetPasswordForm.password.lowerCaseCalc.$invalid,
+                  }"
+                  class="text-left"
+                >
+                  <span class="fs-14">
+                    Password must contain lowerercase alphabetic characters
+                    (e.g. a-z)</span
+                  >
+                </div>
+
+                <div
+                  :class="{
+                    'text-success':
+                      !v$.resetPasswordForm.password.numberCalc.$invalid,
+                  }"
+                  class="text-left"
+                >
+                  <span class="fs-14">
+                    Password must have at least one numerical character(e.g.
+                    0-9)</span
+                  >
+                </div>
+
+                <div
+                  :class="{
+                    'text-success':
+                      !v$.resetPasswordForm.password.specialCharCalc.$invalid,
+                  }"
+                  class="text-left"
+                >
+                  <span class="fs-14">
+                    Password must have at least one special character</span
+                  >
+                </div>
+              </div>
+              <span class="visibilty_btn">
+                <button
+                  @click="switchVisibilityPswd"
+                  type="button"
+                  class="btn eye_btn btn-white"
+                >
+                  <img :src="visibilityIcon1" class="eye_icon" />
+                </button>
+              </span>
+            </div>
+            <div class="k_form_group psw_visibilty">
+              <input
+                :type="passwordFieldType2"
+                @click="sw"
+                @blur="v$.resetPasswordForm.confirm_password.$touch"
+                v-model.trim="resetPasswordForm.confirm_password"
+                class="form-control k_inp_field"
+                placeholder="Confirm Password"
+                :class="{
+                  'is-invalid': v$.resetPasswordForm.confirm_password.$error,
+                }"
+              />
+              <div
+                v-if="v$.resetPasswordForm.confirm_password.$errors"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.resetPasswordForm.confirm_password.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  Confirm Password is required
+                </span>
+
+                <span
+                  class="text-left fs-14"
+                  v-if="
+                    v$.resetPasswordForm.confirm_password.sameAsPassword
+                      .$invalid
+                  "
+                  >Password does not matched</span
+                >
+              </div>
+
+              <span class="visibilty_btn">
+                <button
+                  @click="switchVisibilityConfirmPswd"
+                  type="button"
+                  class="btn eye_btn btn-white"
+                >
+                  <img :src="visibilityIcon2" class="eye_icon" />
+                </button>
+              </span>
             </div>
 
-            <span class="visibilty_btn">
-              <button
-                @click="switchVisibilityConfirmPswd"
-                type="button"
-                class="btn eye_btn btn-white"
-              >
-                <img :src="visibilityIcon2" class="eye_icon" />
+            <div class="d-grid space_btn2">
+              <button class="btn k_btn_block btn-primary" type="submit">
+                RESET PASSWORD
               </button>
-            </span>
-          </div>
-
-          <div class="d-grid space_btn2">
-            <button class="btn k_btn_block btn-primary" type="submit">
-              RESET PASSWORD
-            </button>
-          </div>
-          <div class="im-user flex justify-center">
-            <span class="para14"> No account yet ?</span>
-            <router-link
-              target="_blank"
-              class="custom-link"
-              :to="{ name: 'signup-signin' }"
-              >Sign In</router-link
-            >
-          </div>
-        </form>
+            </div>
+            <div class="im-user flex justify-center">
+              <span class="para14"> No account yet ?</span>
+              <router-link
+                target="_blank"
+                class="custom-link"
+                :to="{ name: 'signup-signin' }"
+                >Sign In</router-link
+              >
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -178,6 +184,7 @@ import useVuelidate from "@vuelidate/core";
 import LoginService from "../../Services/LoginService";
 import errorhandler, { successhandler } from "../../utils/Error";
 // import errorhandler from "../../utils/Error";
+import MainLogo from "../../components/Shared/MainLogo.vue";
 
 // MINIMUM 8 CHARCTER
 const minimum8CharCalc = (val) => val.length >= 8;
@@ -209,6 +216,11 @@ export default {
       },
     };
   },
+
+  components: {
+    MainLogo,
+  },
+
   mounted() {
     this.$refs.refPass.focus();
     this.$route.query.token

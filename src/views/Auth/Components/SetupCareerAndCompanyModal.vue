@@ -33,7 +33,7 @@
             <button
               type="button"
               @click="onCloseModal"
-              class="btn k_btnfs14_w700 btn-primary"
+              class="btn default_padding k_btnfs14_w700 btn-primary"
             >
               Ok
             </button>

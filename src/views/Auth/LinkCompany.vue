@@ -1,88 +1,93 @@
 <template>
-  <div class="container">
-    <div class="register_auth_wrapper">
-      <div class="">
+  <div class="">
+    <div class="custom_brand_logo">
+      <MainLogo />
+    </div>
+    <div class="container">
+      <div class="register_auth_wrapper">
         <div class="">
-          <div class="main-heading-wrap text-center">
-            <h2 class="main-heading p-b-30">Add a new company</h2>
-          </div>
-        </div>
-        <div class="all_comp_wraper scroll_list">
-          <div
-            class="compnay_tile"
-            v-for="(company, indx) in usersCompanies.slice().reverse()"
-            :key="indx"
-          >
-            <div class="d-inline-flex">
-              <div class="com_logo_wrap">
-                <img
-                  v-if="company.company_logo"
-                  :src="
-                    company.company_logo
-                      ? company.company_logo
-                      : 'brandlogo.PNG'
-                  "
-                  class="com_logo"
-                  alt=""
-                />
-                <span v-else class="default_logo default_member_logo">
-                  <b> {{ formatMemberName(company.company) }}</b>
-                </span>
-              </div>
-              <div class="comp_basic_info">
-                <h5 class="company_title">{{ company.company }}</h5>
-                <p class="company_desc">
-                  <span v-if="company.invited" class="company_desc invited"
-                    >Invited as
-                    <span class="m-r-2"
-                      >{{ company.company_role_name }}
-                    </span></span
-                  >
-                  <span v-else>
-                    Already a member in
-
-                    <template
-                      v-for="(department, i) in company.department_list"
-                      :key="department.departmentid"
-                    >
-                      <span
-                        >{{ department.name }}
-                        <span v-if="i != company.department_list.length - 1"
-                          >,</span
-                        ></span
-                      >
-                    </template>
-                    Departament
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div v-if="company.invited" class="select_check">
-              <BaseCheckbox
-                :key="indx"
-                :checkval="company.invited"
-                @getCheckboxValue="acceptUserChoice"
-              />
+          <div class="">
+            <div class="main-heading-wrap text-center">
+              <h2 class="main-heading p-b-30">Add a new company</h2>
             </div>
           </div>
-        </div>
-        <div class="">
-          <div class="d-grid space_btn3">
-            <button
-              :disabled="!invitaionStatus || isSubmitted"
-              @click="companySelected"
-              type="submit"
-              class="btn k_btn_block btn-primary"
+          <div class="all_comp_wraper scroll_list">
+            <div
+              class="compnay_tile"
+              v-for="(company, indx) in usersCompanies.slice().reverse()"
+              :key="indx"
             >
-              <div
-                v-if="isSubmitted"
-                class="spinner-border text-light"
-                role="status"
-              >
-                <span class="visually-hidden">Loading...</span>
+              <div class="d-inline-flex">
+                <div class="com_logo_wrap">
+                  <img
+                    v-if="company.company_logo"
+                    :src="
+                      company.company_logo
+                        ? company.company_logo
+                        : 'brandlogo.PNG'
+                    "
+                    class="com_logo"
+                    alt=""
+                  />
+                  <span v-else class="default_logo default_member_logo">
+                    <b> {{ formatMemberName(company.company) }}</b>
+                  </span>
+                </div>
+                <div class="comp_basic_info">
+                  <h5 class="company_title">{{ company.company }}</h5>
+                  <p class="company_desc">
+                    <span v-if="company.invited" class="company_desc invited"
+                      >Invited as
+                      <span class="m-r-2"
+                        >{{ company.company_role_name }}
+                      </span></span
+                    >
+                    <span v-else>
+                      Already a member in
+
+                      <template
+                        v-for="(department, i) in company.department_list"
+                        :key="department.departmentid"
+                      >
+                        <span
+                          >{{ department.name }}
+                          <span v-if="i != company.department_list.length - 1"
+                            >,</span
+                          ></span
+                        >
+                      </template>
+                      Departament
+                    </span>
+                  </p>
+                </div>
               </div>
-              <span v-else> Continue </span>
-            </button>
+              <div v-if="company.invited" class="select_check">
+                <BaseCheckbox
+                  :key="indx"
+                  :checkval="company.invited"
+                  @getCheckboxValue="acceptUserChoice"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <div class="d-grid space_btn3">
+              <button
+                :disabled="!invitaionStatus || isSubmitted"
+                @click="companySelected"
+                type="submit"
+                class="btn k_btn_block btn-primary"
+              >
+                <div
+                  v-if="isSubmitted"
+                  class="spinner-border text-light"
+                  role="status"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <span v-else> Continue </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -94,6 +99,8 @@
 import BaseCheckbox from "../../components/Shared/BaseCheckbox.vue";
 import CompanyService from "../../Services/Company/CompanyService";
 import { getFirstLetter } from "../../utils/commonHelperFuntions";
+import MainLogo from "../../components/Shared/MainLogo.vue";
+
 import errorhandler from "../../utils/Error";
 export default {
   data() {
@@ -113,6 +120,7 @@ export default {
 
   components: {
     BaseCheckbox,
+    MainLogo,
   },
   created() {
     this.usersInvitedCompanies();
@@ -146,20 +154,6 @@ export default {
                 position: "bottom-left",
                 duration: 3712,
               });
-              // set company is setup
-              if (
-                sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") ||
-                localStorage.getItem("bWFpbCI6Inpvb") != null
-              ) {
-                this.staffInfo["is_company_setup"] = true;
-              }
-
-              // remove invited user
-              // set local storage
-              localStorage.setItem(
-                "bWFpbCI6Inpvb",
-                JSON.stringify(this.staffInfo)
-              );
               sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
               localStorage.removeItem("bWFInpvitedbpbUser");
 

@@ -101,6 +101,11 @@
             @getUserSelected="userGivenAnswer"
             :currentAns="questions[currentIdx].staff_anwser"
           />
+          <!-- <MaskPhInput
+            :id="'33'"
+            class="form-control k_inp_field"
+            v-model="answerValue"
+          /> -->
         </div>
         <div v-if="questions[currentIdx].type == 'number'">
           <AnsSingleNumber
@@ -164,6 +169,8 @@
           v-if="isHint"
           :hint="questions[currentIdx].hint"
           :hint-type="questions[currentIdx].hint_type"
+          :size_height="+questions[currentIdx].hint_height"
+          :size_width="+questions[currentIdx].hint_width"
         />
       </div>
       <!-- explanation Section Ends -->
@@ -218,6 +225,7 @@ import AnsEmail from "./AnsEmail.vue";
 import AnsWebsite from "./AnsWebsite.vue";
 import AnsSelect from "./AnsSelect.vue";
 import AnsPercent from "./AnsPercent.vue";
+// import MaskPhInput from "./MaskPhInput.vue";
 // import AnsTextEditor from "./AnsTextEditor.vue";
 import AnsDate from "./AnsDate.vue";
 import QuestionnaireService from "../../../Services/QuestionnaireServices/Questionnaire";
@@ -228,6 +236,7 @@ import errorhandler from "../../../utils/Error";
 export default {
   props: {},
   components: {
+    // MaskPhInput,
     // AnsTextEditor,
     AnsCheckbox,
     AnsRadio,
@@ -274,6 +283,7 @@ export default {
       } else {
         this.currentIdx = this.questionIdex || this.currentIdx;
       }
+      this.isHint = false;
       this.answerValue = this.questions[this.currentIdx].staff_anwser;
     },
     questions: function () {

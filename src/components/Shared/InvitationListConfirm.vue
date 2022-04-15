@@ -3,6 +3,16 @@
     <p class="import_file_text">
       or you can
       <button
+        v-if="teamModal"
+        :disabled="is_FileUploaded"
+        @click="invitaionsForTeamFile"
+        :key="staffRole"
+        class="btn btn_primary_transparent"
+      >
+        Import
+      </button>
+      <button
+        v-else
         :disabled="is_FileUploaded"
         @click="invitaionsFile"
         :key="staffRole"
@@ -10,19 +20,21 @@
       >
         Import
       </button>
+
       a file with employee emails
     </p>
-    <!-- <input
+    <input
       type="file"
       style="display: none"
       :ref="`fileInput-${index}`"
       accept=".csv"
       @change="onFilePicked($event, staffRole)"
-    /> -->
+    />
   </div>
   <!-- Invite People Modal -->
   <div
-    class="modal fade confirmation_modal"
+    class="modal fade"
+    :class="department_List.length ? 'confirmation_modal' : 'team_modal'"
     ref="invitationConfirmModal"
     id="staticBackdrop"
     data-bs-backdrop="static"
@@ -62,7 +74,9 @@
               <h5 v-if="dropFilename" class="m-b-0 box_title">
                 {{ dropFilename }}
               </h5>
-              <h5 class="m-b-0 box_title">Select Your File or Drop here</h5>
+              <h5 v-else class="m-b-0 box_title">
+                Select Your File or Drop here
+              </h5>
               <input
                 :ref="`fileInput-${indexValue}`"
                 type="file"
@@ -128,7 +142,19 @@ export default {
   props: {
     department_List: {
       type: Array,
-      required: true,
+      default: () => [],
+    },
+    department_id: {
+      type: String,
+      default: null,
+    },
+    category_id: {
+      type: String,
+      default: null,
+    },
+    teamModal: {
+      type: Boolean,
+      default: false,
     },
     indexValue: {
       type: Number,
@@ -166,13 +192,6 @@ export default {
     },
 
     onFilePicked(event) {
-      // console.log("role is k", event);
-      // if(DragEvent==event)
-      // this.filelist = [this.$refs["fileInput-" + this.indexValue].files];
-      // console.log(this.filelist);
-      // console.log(event.dataTransfer.files);
-      // event.currentTarget.classList.add('active-dropzone');
-      // event.currentTarget.classList.remove('active-dropzone');
       const allowedExtensions = ["csv"];
       const files = event.target.files || event.dataTransfer.files;
       let $th = this;
@@ -205,6 +224,7 @@ export default {
       }
     },
 
+    // import file for invitation process
     sendInvitationByFile(file) {
       this.is_FileUploaded = true;
       let data = {
@@ -212,40 +232,99 @@ export default {
         role_id: this.staffRole,
         excel_file: file,
       };
-      CompanyService.invitationByFile(data).then((res) => {
-        if (res.data.status) {
-          this.members = [];
-          this.is_FileUploaded = false;
-          this.members = res.data.data;
-        }
-      });
+      if (this.teamModal) {
+        // invitationn process for team with a csv file
+        CompanyService.inviteTeamMemberByList(data).then((res) => {
+          if (res.data.status) {
+            this.members = [];
+            this.is_FileUploaded = false;
+            this.members = res.data.data;
+          }
+        });
+      } else {
+        // invite people with normal process
+        CompanyService.invitationByFile(data).then((res) => {
+          if (res.data.status) {
+            this.members = [];
+            this.is_FileUploaded = false;
+            this.members = res.data.data;
+          }
+        });
+      }
     },
 
+    // inviteTeamByFile(file) {
+    //   this.is_FileUploaded = true;
+    //   let data = {
+    //     auth_token: this.staffInfo.auth_token,
+    //     role_id: this.staffRole,
+    //     excel_file: file,
+    //   };
+    //   CompanyService.invitationByFile(data).then((res) => {
+    //     if (res.data.status) {
+    //       this.members = [];
+    //       this.is_FileUploaded = false;
+    //       this.members = res.data.data;
+    //     }
+    //   });
+    // },
+
     closeModal() {
+      this.modal.hide();
       this.dropFilename = "";
       this.active = false;
       this.members = [];
-      this.modal.hide();
+      setTimeout(document.body.classList.remove("file_upload_modal"), 60000);
     },
 
     proceedForward() {
-      let data = {
-        auth_token: this.staffInfo.auth_token,
-        role_id: this.staffRole,
-        departments: this.department_List,
-        email_list: this.members,
-        invitation_validity: "",
-      };
-      CompanyService.confirmedInvitationFile(data).then((res) => {
-        if (res.data.data) {
-          this.$store.dispatch("GET_INVITATION_STAFFROLE_LIST", res.data.data);
-          this.closeModal();
-        } else {
-          this.closeModal();
-          errorhandler(res);
-        }
-      });
+      if (this.teamModal) {
+        let data = {
+          auth_token: this.staffInfo.auth_token,
+          category_id: this.category_id,
+          department_id: this.department_id,
+          role_id: this.staffRole,
+          email_list: this.members,
+        };
+        //  CompanyService.confirmedTeamMemberByList(data)
+        this.$store
+          .dispatch("GET_INVITE_TEAM_MEMBER_BY_FILELIST", data)
+          .then((res) => {
+            if (res.data.data) {
+              // this.$store.dispatch("GET_INVITATIONS_FOR_QUESTIONNAIRE_TEAM", {
+              //   auth_token: this.staffInfo.auth_token,
+              //   category_id: this.category_id,
+              //   department_id: this.department_id,
+              // });
+              this.closeModal();
+            } else {
+              this.closeModal();
+              errorhandler(res);
+            }
+          });
+      } else {
+        let data = {
+          auth_token: this.staffInfo.auth_token,
+          role_id: this.staffRole,
+          departments: this.department_List,
+          email_list: this.members,
+          invitation_validity: "",
+        };
+        CompanyService.confirmedInvitationFile(data).then((res) => {
+          if (res.data.data) {
+            this.$store.dispatch(
+              "GET_INVITATION_STAFFROLE_LIST",
+              res.data.data
+            );
+            this.closeModal();
+          } else {
+            this.closeModal();
+            errorhandler(res);
+          }
+        });
+      }
     },
+
     invitaionsFile() {
       if (this.department_List.length) {
         this.modal.show();
@@ -253,35 +332,51 @@ export default {
         errorhandler("Please select department");
       }
     },
+
+    invitaionsForTeamFile() {
+      const el = document.body;
+      el.classList.add("file_upload_modal");
+
+      this.modal.show();
+      // if (this.department_List.length) {
+      // } else {
+      //   errorhandler("Please select department");
+      // }
+    },
+
     // today
     toggleActive() {
       this.active = !this.active;
     },
+
     // drop down start here
-    remove(i) {
-      this.filelist.splice(i, 1);
-    },
-    dragover(event) {
-      event.preventDefault();
-      // Add some visual fluff to show the user can drop its files
-      if (!event.currentTarget.classList.contains("bg-green-300")) {
-        event.currentTarget.classList.remove("bg-gray-100");
-        event.currentTarget.classList.add("bg-green-300");
-      }
-    },
-    dragleave(event) {
-      // Clean up
-      event.currentTarget.classList.add("bg-gray-100");
-      event.currentTarget.classList.remove("bg-green-300");
-    },
-    drop(event) {
-      event.preventDefault();
-      this.$refs.file.files = event.dataTransfer.files;
-      this.onChange(); // Trigger the onChange event manually
-      // Clean up
-      event.currentTarget.classList.add("bg-gray-100");
-      event.currentTarget.classList.remove("bg-green-300");
-    },
+    // remove(i) {
+    //   this.filelist.splice(i, 1);
+    // },
+
+    // dragover(event) {
+    //   event.preventDefault();
+    //   // Add some visual fluff to show the user can drop its files
+    //   if (!event.currentTarget.classList.contains("bg-green-300")) {
+    //     event.currentTarget.classList.remove("bg-gray-100");
+    //     event.currentTarget.classList.add("bg-green-300");
+    //   }
+    // },
+
+    // dragleave(event) {
+    //   // Clean up
+    //   event.currentTarget.classList.add("bg-gray-100");
+    //   event.currentTarget.classList.remove("bg-green-300");
+    // },
+
+    // drop(event) {
+    //   event.preventDefault();
+    //   this.$refs.file.files = event.dataTransfer.files;
+    //   this.onChange(); // Trigger the onChange event manually
+    //   // Clean up
+    //   event.currentTarget.classList.add("bg-gray-100");
+    //   event.currentTarget.classList.remove("bg-green-300");
+    // },
   },
 };
 </script>
@@ -367,11 +462,12 @@ li {
   }
 }
 .dropbox_area {
-  padding: 12px 0;
+  padding: 8px 0;
   border-style: dashed;
   border-color: #222b45;
   border-width: 2px;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 .upload_area {
   // width: 200px;
@@ -398,11 +494,17 @@ li {
 }
 .confirmation_modal {
   &.modal {
-    z-index: 999 !important;
+    z-index: 99999 !important;
   }
 }
 .invitaion_content {
+  border: 1px solid rgb(255, 255, 255) !important;
+  box-shadow: 0px 10px 15px rgba(169, 180, 208, 0.89) !important;
   // box-shadow: 9px 9px 16px rgba(163 177 198 / 60%),
   //   -9px -9px 16px rgba(255 255 255 / 50%);
+}
+.file_upload_modal .modal-backdrop.fade.show {
+  background-color: #ffffff;
+  opacity: 0;
 }
 </style>

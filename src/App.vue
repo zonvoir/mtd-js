@@ -1,14 +1,25 @@
 <template>
   <router-view />
+  <!-- <p>kk {{ answerValue }}</p>
+  <MaskPhInput
+    :id="'33'"
+    class="form-control k_inp_field"
+    v-model="answerValue"
+  /> -->
 </template>
 <script>
 import CommonService from "./Services/CommonService";
+// import MaskPhInput from "./views/Questionnarie/components/MaskPhInput.vue";
 // import CompanyService from "./Services/Company/CompanyService";
 import errorhandler from "./utils/Error";
 
 export default {
+  components: {
+    // MaskPhInput,
+  },
   data() {
     return {
+      answerValue: "",
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
     };
   },

@@ -84,7 +84,10 @@
             </div></a
           >
         </li>
-        <li class="">
+        <!-- {{
+          invitedUserData === null
+        }} -->
+        <li v-if="invitedUserData === null" class="">
           <a class="step">
             <div
               class="step_number_wrap"
@@ -110,6 +113,7 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      invitedUserData: JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")),
       selectedLanguage: { value: "1", label: "En", icon: "K_Icons/flag1.svg" },
       pages: ["register", "career", "company"],
       // currentUrl: "",
@@ -137,17 +141,15 @@ export default {
       return this.currentUrl;
     },
   },
-  updated() {
-    let url = this.$route.path.split("/")[2];
-    this.$store.dispatch("GET_ACTIVE_PAGE", url);
-  },
+  // updated() {
+  //   let url = this.$route.path.split("/")[2];
+  //   console.log("stepper header updated", url);
+  //   this.$store.dispatch("GET_ACTIVE_PAGE", url);
+  // },
 
   created() {
-    // let url = this.$route.path;
     let url = this.$route.path.split("/")[2];
     this.$store.dispatch("GET_ACTIVE_PAGE", url);
-
-    // console.log("current url kk", this.currentUrl);
   },
 
   methods: {

@@ -250,6 +250,10 @@ import SignupService from "../../../Services/SignupService";
 import errorhandler from "../../../utils/Error";
 import Dropdown from "primevue/dropdown";
 import { mapGetters } from "vuex";
+import {
+  updateLocalStorage,
+  updateSessionStorage,
+} from "../../../utils/commonHelperFuntions";
 
 export default {
   components: {
@@ -265,10 +269,10 @@ export default {
       codeWithNumber: "",
       numberPattern: /[0-9]/,
       defaultImg: "icons/cloud-upload.svg",
-      staffData: JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")),
-      // staffData:
-      //   JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
-      //   JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      // staffData: JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")),
+      staffData:
+        JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
+        JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       value: null,
       companyForm: {
         auth_token: "",
@@ -305,26 +309,34 @@ export default {
     }),
   },
 
+  // beforeCreate(){
+  //       let activePage = this.$route.path.split("/")[1];
+  //   this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
+  // },
+
   created() {
     this.$store.dispatch("GET_ALL_CURRENCY");
-
-    let activePage = this.$route.path.split("/")[2];
-    this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
-    if (
-      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
-      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == null ||
-      sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == ""
-    ) {
-      if (
-        localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-        localStorage.getItem("bWFpbCI6Inpvb") == null ||
-        localStorage.getItem("bWFpbCI6Inpvb") == ""
-      ) {
-        this.$router.push({ name: "signup-signin" });
-      } else {
-        this.$router.push({ name: "signup-company" });
-      }
-    }
+    // if (this.staffData && Object.keys(this.staffData).length === 0) {
+    //   this.$router.push({ name: "signup-signin" });
+    // } else if (!this.staffData.is_first_step_complete) {
+    //   console.log("I am in company first step");
+    //   this.$router.push({ name: "company-step-one" });
+    // } else if (!this.staffData.is_second_step_complete) {
+    //   console.log("I am in company step second");
+    //   // this.$router.push({ name: "company-step-two" });
+    // } else {
+    //   this.$router.push({ name: "signup-signin" });
+    // }
+    // if (
+    //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
+    //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == null ||
+    //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == ""
+    // ) {
+    //   this.$router.push({ name: "signup-signin" });
+    // } else {
+    //   // this.$router.push({ name: "signup-company" });
+    //   this.$router.push({ name: "company-step-two" });
+    // }
 
     this.checkCompany();
     this.getIndustryList();
@@ -373,26 +385,61 @@ export default {
               // set local storage Data
               this.checkCompany();
               if (
-                localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-                localStorage.getItem("bWFpbCI6Inpvb") == null ||
-                localStorage.getItem("bWFpbCI6Inpvb") == ""
+                localStorage.getItem("bWFpbCI6Inpvb") != null ||
+                sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null
               ) {
                 let memberStaffData = {
                   auth_token: response.data.data.auth_token,
+                  is_first_step_complete: true,
                   is_second_step_complete: true,
-                  is_company_setup: true,
                   is_career_information_setup: true,
                 };
-                console.log("member Data", memberStaffData);
-                sessionStorage.setItem(
-                  "OiJKV1QiLCJhbGciOiJIUzI1",
-                  JSON.stringify(memberStaffData)
-                );
-                // localStorage.setItem(
-                //   "bWFpbCI6Inpvb",
-                //   JSON.stringify(memberStaffData)
-                // );
+                if (
+                  sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null
+                ) {
+                  sessionStorage.setItem(
+                    "OiJKV1QiLCJhbGciOiJIUzI1",
+                    JSON.stringify(memberStaffData)
+                  );
+                } else {
+                  localStorage.setItem(
+                    "bWFpbCI6Inpvb",
+                    JSON.stringify(memberStaffData)
+                  );
+                }
               }
+
+              // let memberStaffData = {
+              //   auth_token: response.data.data.auth_token,
+              //   is_first_step_complete: true,
+              //   is_second_step_complete: true,
+              //   is_career_information_setup: true,
+              // };
+              // sessionStorage.setItem(
+              //   "OiJKV1QiLCJhbGciOiJIUzI1",
+              //   JSON.stringify(memberStaffData)
+              // );
+              // if (
+              //   localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
+              //   localStorage.getItem("bWFpbCI6Inpvb") == null ||
+              //   localStorage.getItem("bWFpbCI6Inpvb") == ""
+              // ) {
+              //   let memberStaffData = {
+              //     auth_token: response.data.data.auth_token,
+              //     is_second_step_complete: true,
+              //     is_company_setup: true,
+              //     is_career_information_setup: true,
+              //   };
+              //   console.log("member Data", memberStaffData);
+              //   sessionStorage.setItem(
+              //     "OiJKV1QiLCJhbGciOiJIUzI1",
+              //     JSON.stringify(memberStaffData)
+              //   );
+              //   // localStorage.setItem(
+              //   //   "bWFpbCI6Inpvb",
+              //   //   JSON.stringify(memberStaffData)
+              //   // );
+              // }
               // delete session storage Data
               // if (
               //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") !=
@@ -429,21 +476,48 @@ export default {
         currency: "",
         operating_international: false,
       };
-      if (sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null) {
-        // if (localStorage.getItem("bWFpbCI6Inpvb") != null) {
+
+      if (
+        localStorage.getItem("bWFpbCI6Inpvb") != null ||
+        sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null
+      ) {
         this.staffData.is_second_step_complete = true;
-        this.staffData.is_company_setup = true;
+        this.staffData.is_first_step_complete = true;
         this.staffData.is_career_information_setup = true;
-        sessionStorage.setItem(
-          "OiJKV1QiLCJhbGciOiJIUzI1",
-          JSON.stringify(this.staffData)
-        );
-        // localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
-        // this.$router.push({ name: "Dashboard" });
+
+        if (sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null) {
+          sessionStorage.setItem(
+            "OiJKV1QiLCJhbGciOiJIUzI1",
+            JSON.stringify(this.staffData)
+          );
+        } else {
+          localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
+        }
+
+        // below two lines added
+        this.checkCompany();
         this.$router.push({ name: "signin-verify-account" });
+        // this.$router.push({ name: "Dashboard" });
       } else {
         this.$router.push({ name: "signup-signin" });
       }
+
+      // if (sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null) {
+      //   // this.staffData.is_company_setup = true;
+      //   // if (localStorage.getItem("bWFpbCI6Inpvb") != null) {
+      //   this.staffData.is_second_step_complete = true;
+      //   this.staffData.is_first_step_complete = true;
+      //   this.staffData.is_career_information_setup = true;
+      //   sessionStorage.setItem(
+      //     "OiJKV1QiLCJhbGciOiJIUzI1",
+      //     JSON.stringify(this.staffData)
+      //   );
+      //   // localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
+      //   // this.$router.push({ name: "Dashboard" });
+      //   this.$router.push({ name: "signin-verify-account" });
+      // } else {
+      //   this.$router.push({ name: "signup-signin" });
+      // }
     },
 
     isNumber(event) {
@@ -533,6 +607,7 @@ export default {
     getCountries(id) {
       this.$store.dispatch("GET_COUNTRIES", id);
     },
+
     checkCompany() {
       if (this.staffData != null) {
         SignupService.checkCompany({
@@ -540,12 +615,34 @@ export default {
         }).then((resp) => {
           if (resp.data.status) {
             console.log("there company is already setup", resp.data.data);
-            if (
-              !resp.data.data.is_first_step_complete &&
-              !resp.data.data.is_second_step_complete
-            ) {
-              this.$router.push({ name: "company-step-one" });
-            } else if (!resp.data.data.is_first_step_complete) {
+
+            // update session Storage
+            if (sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null) {
+              updateSessionStorage("OiJKV1QiLCJhbGciOiJIUzI1", [
+                {
+                  is_first_step_complete: resp.data.data.is_first_step_complete,
+                },
+                {
+                  is_second_step_complete:
+                    resp.data.data.is_second_step_complete,
+                },
+              ]);
+            }
+
+            // update local Storage
+            if (localStorage.getItem("bWFpbCI6Inpvb") != null) {
+              updateLocalStorage("bWFpbCI6Inpvb", [
+                {
+                  is_first_step_complete: resp.data.data.is_first_step_complete,
+                },
+                {
+                  is_second_step_complete:
+                    resp.data.data.is_second_step_complete,
+                },
+              ]);
+            }
+
+            if (!resp.data.data.is_first_step_complete) {
               this.$router.push({ name: "company-step-one" });
             } else if (!resp.data.data.is_second_step_complete) {
               this.$router.push({ name: "company-step-two" });
@@ -557,6 +654,30 @@ export default {
         });
       }
     },
+    // checkCompany() {
+    //   if (this.staffData != null) {
+    //     SignupService.checkCompany({
+    //       auth_token: this.staffData.auth_token,
+    //     }).then((resp) => {
+    //       if (resp.data.status) {
+    //         console.log("there company is already setup", resp.data.data);
+    //         if (
+    //           !resp.data.data.is_first_step_complete &&
+    //           !resp.data.data.is_second_step_complete
+    //         ) {
+    //           this.$router.push({ name: "company-step-one" });
+    //         } else if (!resp.data.data.is_first_step_complete) {
+    //           this.$router.push({ name: "company-step-one" });
+    //         } else if (!resp.data.data.is_second_step_complete) {
+    //           this.$router.push({ name: "company-step-two" });
+    //         } else {
+    //           this.$router.push({ name: "signin-verify-account" });
+    //         }
+    //         // this.$router.push({ name: "Dashboard" });
+    //       }
+    //     });
+    //   }
+    // },
 
     // selectedCountryCode(id) {
     //   CommonService.getCountryCode({ country_id: id }).then((resp) => {

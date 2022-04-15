@@ -521,9 +521,9 @@
               >
                 <div class="career_info_container">
                   <div class="career_wrap">
-                    <div class="img_wrap">
+                    <!-- <div class="img_wrap">
                       <img src="logo.png" class="" alt="" />
-                    </div>
+                    </div> -->
                     <div class="career_content_wrap">
                       <div class="in_position_wrap d-flex">
                         <h5 class="in_postion">{{ career.position }}</h5>

@@ -18,7 +18,7 @@
         <!-- <div class="dropdown"> -->
         <button
           v-if="member.sender_id"
-          class="btn btn-transaprent"
+          class="btn btn-transaprent kk_drop"
           type="button"
           @click="toggle"
         >
@@ -33,33 +33,23 @@
           @click="toggle"
           aria-haspopup="true"
           aria-controls="overlay_tmenu"
-        />
-        <TieredMenu id="overlay_tmenu" ref="menu" :model="items" :popup="true">
-          <template #item="{ item }">
-            <div
-              class="d-flex align-items-center"
-              @click="removeInvitaion(member.id)"
-            >
-              <Button
-                type="button"
-                :icon="item.icon"
-                class="
-                  p-button-rounded
-                  kp_icon_btn
-                  p-button-text p-button-plain
-                "
-                aria-haspopup="true"
-                aria-controls="overlay_tmenu"
-              />
-              <span icon="item"></span>
-              <a :href="item.url" class="cusdropdown">{{ item.label }}</a>
-            </div>
-          </template>
-        </TieredMenu> -->
+        /> :popup="true"-->
       </div>
     </div>
   </div>
-  <ul
+  <!-- :appendTo="'kk_drop'" -->
+  <!-- :appendTo="'.kk_drop'" -->
+  <Menu id="overlay_tmenu" ref="menu" :model="items" :popup="true">
+    <template #item="{ item }">
+      <div
+        class="d-flex drop_cus_option align-items-center"
+        @click="removeInvitaion(member.id)"
+      >
+        <a :href="item.url" class="cusdropdown">{{ item.label }}</a>
+      </div>
+    </template>
+  </Menu>
+  <!-- <ul
     :class="openDropdown ? 'active_dropdown' : ''"
     class="dropdown-menu custom_dropdown"
     ref="invitationModal"
@@ -67,7 +57,7 @@
     <li @click="removeInvitaion(member.id)">
       <a class="dropdown-item">Delete</a>
     </li>
-  </ul>
+  </ul> -->
 </template>
 
 <script>
@@ -77,13 +67,17 @@ import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
 import { mapGetters } from "vuex";
 // import { Dropdown } from "bootstrap";
-// import Menu from 'primevue/menu';
+import Menu from "primevue/menu";
 
 export default {
   props: {
     member: {
       type: Object,
       required: true,
+    },
+    teamModal: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -94,7 +88,7 @@ export default {
   },
 
   components: {
-    // Menu
+    Menu,
     // TieredMenu,
     // Button,
   },
@@ -109,7 +103,10 @@ export default {
       items: [
         {
           label: "Delete",
-          icon: "pi pi-trash",
+          // icon: "pi pi-trash",
+          command: () => {
+            this.removeInvitaion();
+          },
         },
       ],
     };
@@ -120,8 +117,8 @@ export default {
   methods: {
     toggle() {
       // console.log(this.dropdown);
-      this.openDropdown = !this.openDropdown;
-      // this.$refs.menu.toggle(event);
+      // this.openDropdown = !this.openDropdown;
+      this.$refs.menu.toggle(event);
     },
     getClass(value) {
       return {
@@ -144,22 +141,31 @@ export default {
         auth_token: this.staffInfo.auth_token,
         invitation_id: inv_Id,
       };
-      CompanyService.deleleInvitation(data)
-        .then((res) => {
-          if (res.data.status) {
-            this.deletedInvitaion(inv_Id);
-            console.log("deleted invitaion res ", res.data);
-            this.$store.dispatch(
-              "GET_INVITATION_STAFFROLE_LIST",
-              res.data.data
-            );
-          } else {
-            errorhandler(res, this);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (this.teamModal) {
+        this.$store.dispatch("GET_REMOVE_TEAM_MEMBER", data);
+        // CompanyService.removeTeamMember(data).then((res) => {
+        //   if (res.data.status) {
+        //     console.log("response come from remved team", res.data.data);
+        //   }
+        // });
+      } else {
+        CompanyService.deleleInvitation(data)
+          .then((res) => {
+            if (res.data.status) {
+              this.deletedInvitaion(inv_Id);
+              console.log("deleted invitaion res ", res.data);
+              this.$store.dispatch(
+                "GET_INVITATION_STAFFROLE_LIST",
+                res.data.data
+              );
+            } else {
+              errorhandler(res, this);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
 
     // deleted list
@@ -205,16 +211,16 @@ export default {
     }
   }
 }
-// .cusdropdown {
-//   cursor: pointer;
-//   text-decoration: none;
-//   color: #222b45;
-//   &:hover {
-//     cursor: pointer;
-//     text-decoration: none;
-//     color: #222b45;
-//   }
-// }
+.cusdropdown {
+  cursor: pointer;
+  text-decoration: none;
+  color: #222b45;
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: #222b45;
+  }
+}
 .list_wrapper {
   display: flex;
   align-items: center;
@@ -256,5 +262,15 @@ export default {
     text-align: center;
     color: inherit;
   }
+}
+.drop_cus_option {
+  padding: 0 15px;
+}
+#overlay_tmenu {
+  // width: 7rem !important;
+  // left: 1015.08px;
+  // min-width: 26px;
+  // z-index: 9999;
+  // width: 7rem;
 }
 </style>

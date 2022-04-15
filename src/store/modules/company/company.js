@@ -325,8 +325,9 @@ const actions = {
   async getCompanyMembers(context, val) {
     context.commit("setCompanyMembers", val);
   },
+
   async GET_STAFFS_DEPARTMENT({ commit }, deptarments) {
-    if (!deptarments.length) return;
+    // if (!deptarments.length) return;12 april
     let deptArr = deptarments.map((item) => {
       return {
         value: item.departmentid,
@@ -396,13 +397,15 @@ const actions = {
       );
     });
   },
+
   GET_INVITE_TEAM_MEMBER_BY_FILELIST: ({ commit }, data) => {
     return new Promise((resolve, reject) => {
-      CompanyService.inviteTeamMemberByList(data).then(
+      CompanyService.confirmedTeamMemberByList(data).then(
         (res) => {
           if (res.data.status) {
-            console.log("res to add new member", res.data.data);
-            commit("setInviteTeamMember", res.data.data);
+            console.log("res to add new file listr", res.data.data);
+            // commit("setInviteTeamMember", res.data.data);
+            commit("setInvitationsForQuestionnaireTeam", res.data.data);
           } else {
             errorhandler(res);
           }
@@ -414,14 +417,16 @@ const actions = {
       );
     });
   },
+
   GET_REMOVE_TEAM_MEMBER: ({ commit }, data) => {
     return new Promise((resolve, reject) => {
       CompanyService.removeTeamMember(data).then(
         (res) => {
           if (res.data.status) {
-            console.log("remve member ", res.data.data);
-            commit("setInviteTeamMember", res.data.data);
+            // commit("setInviteTeamMember", res.data.data);
+            commit("setInvitationsForQuestionnaireTeam", res.data.data);
           } else {
+            // commit("setInvitationsForQuestionnaireTeam", []);
             errorhandler(res);
           }
           resolve(res);
@@ -435,6 +440,7 @@ const actions = {
   // async getStaffsCompanies(context, val) {
   //   context.commit("setStaffsCompanies", val);
   // },
+
   getStaffsCompanies: ({ commit }, data) => {
     return new Promise((resolve, reject) => {
       CompanyService.companiesList(data).then(

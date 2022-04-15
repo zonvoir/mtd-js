@@ -581,7 +581,7 @@ export default {
         this.companyForm.auth_token = this.staffData.auth_token;
         this.companyForm.country_code = this.country_code;
         this.isSubmitted = true;
-        SignupService.setUpCompany(this.companyForm)
+        SignupService.companyBasicInfo(this.companyForm)
           // this.$store
           //   .dispatch("CompanySetup", this.companyForm)
           .then((res) => {

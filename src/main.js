@@ -27,7 +27,6 @@ const i18n = setupI18n({
   fallbackWarn: false,
 });
 loadLocaleMessages(i18n, localStorage.getItem("language") || "en");
-
 // .use(i18n)
 const app = createApp(App);
 app

@@ -1,4 +1,9 @@
 <template>
+  <div class="">
+    <div class="custom_brand_logo">
+      <MainLogo />
+    </div>
+  </div>
   <div class="register_auth_wrapper">
     <div v-if="reserLinkStatus" class="main-heading-wrap text-center">
       <h2 class="main-heading success_heading">
@@ -72,6 +77,8 @@ import { required, email } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import errorhandler from "../../utils/Error";
 import LoginService from "../../Services/LoginService";
+import MainLogo from "../../components/Shared/MainLogo.vue";
+
 export default {
   data() {
     return {
@@ -81,6 +88,10 @@ export default {
         email: "",
       },
     };
+  },
+
+  components: {
+    MainLogo,
   },
 
   validations() {

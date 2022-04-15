@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="stepper_withlogo">
+      <RegistrationHeader />
+    </div>
     <div class="register_auth_wrapper">
       <div class="">
         <div class="">
@@ -81,6 +84,8 @@ import useVuelidate from "@vuelidate/core";
 import CareerInformationModal from "../../components/Shared/CareerInformationModal";
 import SignupService from "../../Services/SignupService";
 import errorhandler from "../../utils/Error";
+import RegistrationHeader from "../../Layout/RegisterLayout/RegisterationHeader.vue";
+
 import {
   departmentModify,
   getDepartemntsValue,
@@ -92,6 +97,7 @@ export default {
   components: {
     CareerInformationModal,
     CareerForm,
+    RegistrationHeader,
   },
   data() {
     return {
@@ -150,7 +156,8 @@ export default {
   },
 
   created() {
-    let activePage = this.$route.path.split("/")[2];
+    let activePage = this.$route.path.split("/")[1];
+    console.log("career route", activePage);
     this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
     if (
       sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
@@ -209,11 +216,13 @@ export default {
   // validations: {
   //   staffCareerForm: {},
   // },
+
   setup() {
     return {
       v$: useVuelidate(),
     };
   },
+
   methods: {
     saveModalData(val) {
       console.log("modal career data", val.newCareer);
@@ -221,10 +230,12 @@ export default {
         this.staffCareeArr2 = val.newCareer;
       }
     },
+
     modifyDepartment(data) {
       let deptsArr = departmentModify(data);
       return deptsArr.slice().reverse();
     },
+
     //save carreer details
     saveCarreerInfo() {
       console.log("check vali career", this.v$);
@@ -287,24 +298,27 @@ export default {
         sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null
       ) {
         this.staffData.is_career_information_setup = true;
-        // console.log("kk", this.staffData);
-        // this code add also run for save email on login
         if (sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null) {
           sessionStorage.setItem(
             "OiJKV1QiLCJhbGciOiJIUzI1",
             JSON.stringify(this.staffData)
           );
+        } else {
+          localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
         }
       }
+
       this.v$.$reset();
       this.staffCareerForm = {};
-      console.log("kk1", this.invitedUserData);
+      // console.log("kk1", this.invitedUserData);
       if (
         this.invitedUserData != null &&
         "invitation_id" in this.invitedUserData &&
         this.invitedUserData.invitation_id
       ) {
-        this.$router.push({ name: "link-company-account" });
+        // this.$router.push({ name: "link-company-account" });
+        // this.$router.push({ name: "link-company-account" });
+        this.$router.push({ name: "signin-verify-account" });
       } else {
         this.$router.push({ name: "signup-company" });
       }

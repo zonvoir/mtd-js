@@ -225,7 +225,7 @@
                     :key="member.id"
                     class="list_group_item d-inline-flex m-b-8"
                   >
-                    <InvitationEmail :member="member" />
+                    <InvitationEmail :key="member.id" :member="member" />
                   </li>
                 </ul>
               </div>
@@ -336,9 +336,11 @@ export default {
     clearDate() {
       this.expiryDate = "";
     },
+
     departmentModifyComp(val) {
       return departmentModify(val);
     },
+
     checkRoles() {
       if (this.ownRole.roleId == this.consulatant_roleId) {
         return true;
@@ -352,24 +354,13 @@ export default {
         return data.filter((val) => val.roleid != id);
       }
     },
+
     updateDate() {
       // this.checkValidation();
       this.validity_date = this.expiryDate.toISOString().slice(0, 10);
       console.log("date", this.validity_date);
     },
 
-    // getCompanyDetails(companyId) {
-    //   let companyArr;
-    //   this.tempCompnies = this.companyLists;
-    //   console.log(this.tempCompnies);
-    //   this.tempCompnies.forEach((item) => {
-    //     if (item.company_id == companyId) {
-    //       companyArr = item;
-    //     }
-    //   });
-
-    //   console.log("all conpany dettails", companyArr);
-    // },
     importFile(fileNameIndex = 0) {
       console.log(this.v$);
       this.v$.$touch();

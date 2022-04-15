@@ -9,6 +9,16 @@ class LoginService {
   verifyOTP(data) {
     return http.post("userlogin/otp_verification", data);
   }
+
+  registrationOTPVerification(data) {
+    return http.post("customers/verify_two_factor", data);
+  }
+
+  // Edit Email on Register
+  editEmailOnRegister(data) {
+    return http.post("customers/edit_email_register", data);
+  }
+
   createLogin(data) {
     return http.post("userlogin/login", data);
   }

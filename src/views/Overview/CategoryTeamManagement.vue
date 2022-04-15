@@ -42,7 +42,25 @@
             </div>
           </div>
         </form>
-        <div class="text-center">
+        <!-- :department_List="myDepartmensList" -->
+        <InvitationConfirmModal
+          @uploadCSVFile="importFile(index)"
+          ref="confirmFile"
+          :teamModal="true"
+          :key="staffrole.roleid"
+          :staffRole="staffrole.roleid"
+          :indexValue="index"
+          :department_id="departmentId"
+          :category_id="categoryId"
+        />
+        <input
+          type="file"
+          style="display: none"
+          :ref="`fileInput-${index}`"
+          accept=".csv"
+          @change="onFilePicked($event, staffrole.roleid)"
+        />
+        <!-- <div class="text-center">
           <p class="import_file_text">
             or you can
             <button
@@ -62,7 +80,7 @@
             accept=".csv"
             @change="onFilePicked($event, staffrole.roleid)"
           />
-        </div>
+        </div> -->
       </div>
       <div
         v-if="staffrole.invitation_list.length > 0"
@@ -79,7 +97,11 @@
               :key="member.id"
               class="list_group_item d-inline-flex m-b-8"
             >
-              <InvitationEmail :member="member" />
+              <InvitationEmail
+                :teamModal="true"
+                :key="member.id"
+                :member="member"
+              />
             </li>
           </ul>
         </div>
@@ -92,12 +114,13 @@
 import Select2 from "vue3-select2-component";
 import { mapGetters } from "vuex";
 import InvitationEmail from "../../components/Shared/InvitationEmail.vue";
-
+import InvitationConfirmModal from "../../components/Shared/InvitationListConfirm.vue";
 import { successhandler } from "../../utils/Error";
 export default {
   components: {
     Select2,
     InvitationEmail,
+    InvitationConfirmModal,
   },
 
   data() {
@@ -157,13 +180,7 @@ export default {
         category_id: this.categoryId,
         department_id: this.departmentId,
       };
-      this.$store
-        .dispatch("GET_INVITATIONS_FOR_QUESTIONNAIRE_TEAM", data)
-        .then((res) => {
-          if (res.data.status) {
-            console.log("team response", res.data.data);
-          }
-        });
+      this.$store.dispatch("GET_INVITATIONS_FOR_QUESTIONNAIRE_TEAM", data);
     },
 
     chooseRoleStaff(data, id, isYes = false) {
@@ -175,16 +192,17 @@ export default {
     },
 
     importFile(fileNameIndex = 0) {
-      // this.v$.$touch();
-      // if (this.v$.$invalid) {
-      //   return;
-      // } else {
-      //   }
-      this.$refs["fileInput-" + fileNameIndex].click();
+      console.log(this.v$);
+      this.v$.$touch();
+      if (!this.v$.$invalid) {
+        this.$refs["fileInput-" + fileNameIndex].click();
+      }
+      // this.$refs["fileInput-" + fileNameIndex].click();
     },
 
     onFilePicked(event, roleId) {
-      console.log("role is k", roleId, event);
+      this.$refs.confirmFile.openModal;
+      console.log(this.$refs.confirmFile.openModal);
       this.valiImage = true;
       const allowedExtensions = ["csv"];
       const files = event.target.files;
