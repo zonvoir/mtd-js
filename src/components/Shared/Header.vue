@@ -143,9 +143,9 @@ export default {
   },
   computed: {
     ...mapGetters({
+      companyLists: "staffsCompanies",
       getProfileData: "personalInfo",
       getMembers: "companyMembers",
-      companyLists: "staffsCompanies",
       ownRole: "roleInCompany",
       currentCompany: "activeCompany",
     }),
