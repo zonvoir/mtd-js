@@ -172,10 +172,11 @@ function loginGaurd(to, from, next) {
     isAuthenticated = true;
   }
   if (isAuthenticated) {
+    console.log("is user sigin_in");
     if (
       user.is_career_information_setup &&
       user.is_first_step_complete &&
-      is_second_step_complete
+      user.is_second_step_complete
     ) {
       if (to.query.invitation_id != undefined) {
         next({ name: "link-company-account" });
