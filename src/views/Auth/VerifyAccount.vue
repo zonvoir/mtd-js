@@ -38,7 +38,7 @@
         <div class="">
           <form action="">
             <div class="k_form_group">
-              <div class="text_center">
+              <div @keyup="enterClicked" class="text_center">
                 <CustomOtp
                   :classesName="'k_inp_field single_num_inp'"
                   :onChanges="getChange"
@@ -211,15 +211,9 @@ export default {
       console.log("invitation id", +this.invitedUserData.invitation_id);
     }
   },
-  // beforeCreate() {
-  //   let activePage = this.$route.path.split("/")[1];
-  //   console.log("active page", activePage);
-  //   this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
-  // },
+
   created() {
     if (this.UserSavedData && Object.keys(this.UserSavedData).length) {
-      // let activePage = this.$route.path.split("/")[1];
-      // this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
       this.canUpdateEmail = true;
       if (
         this.invitedUserData &&
@@ -232,19 +226,14 @@ export default {
       this.otpForm.stay_signed_in = undefined;
       this.otpForm.auth_token = this.UserSavedData.auth_token;
     } else if (this.logData && Object.keys(this.logData).length) {
-      // let activePage = this.$route.path.split("/")[1];
-      // this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
       this.canUpdateEmail = false;
       this.otpForm.email = this.logData.email;
       this.otpForm.stay_signed_in = this.logData.stay_signIn;
     } else {
       let activePage = this.$route.path.split("/")[1];
-      console.log("Verify page3", activePage);
       this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
       this.$router.push({ name: "signup-signin" });
     }
-    // this.otpForm.email = this.logData.email
-    // this.otpForm.stay_signed_in = this.logData.stay_signIn;
   },
 
   setup() {
@@ -268,8 +257,6 @@ export default {
 
     // OTP For Login
     OTPInput() {
-      // console.log("opt form", this.$refs.change_email);
-      // this.$refs.change_email.modal.show();
       if (this.isSubmitted) {
         return false;
       }
@@ -381,6 +368,7 @@ export default {
           this.isSubmitted = false;
         });
     },
+
     onCompleted(ev) {
       this.isSubmitted = !ev.valiated;
       this.otpForm.otp = ev.asString;
@@ -400,6 +388,15 @@ export default {
       console.log(val);
       this.otpForm.email = val;
     },
+
+    enterClicked(ev) {
+      if (ev.keyCode === 13) {
+        console.log("enter is clicked");
+      } else {
+        errorhandler("Please answer the question");
+      }
+    },
+
     closeModal() {
       console.log(this.isCompany, this.isCareer);
       this.modal.hide();

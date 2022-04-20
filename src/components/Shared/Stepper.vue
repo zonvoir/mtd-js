@@ -1,49 +1,5 @@
 <template>
   <div>
-    <!-- brand Logo start -->
-    <div class="brand-logo-wrapper text-center">
-      <img
-        alt="More Than Digital"
-        src="../../assets/images/MTGLogo.png"
-        class="brand-logo-size"
-      />
-    </div>
-    <!-- brand logo Ends  -->
-    <Language />
-    <!-- <div class="language_wrap">
-      <Dropdown
-        v-model="selectedLanguage"
-        :options="laguage"
-        optionLabel="label"
-        class="language_dropdown"
-        placeholder="Select a company"
-      >
-        <template #value="slotProps">
-          <div class="company-item company-item-value" v-if="slotProps.value">
-            <span class="company_item_name m-r-6">{{
-              slotProps.value.label
-            }}</span>
-            <img
-              v-if="slotProps.value.icon"
-              class="img_logo"
-              :src="slotProps.value.icon"
-            />
-          </div>
-        </template>
-        <template #option="slotProps">
-          <div class="company-item">
-            <span class="company_item_name m-r-3">{{
-              slotProps.option.label
-            }}</span>
-            <img
-              v-if="slotProps.option.icon"
-              class="img_logo"
-              :src="slotProps.option.icon"
-            />
-          </div>
-        </template>
-      </Dropdown>
-    </div> -->
     <!-- stepper begins -->
     <div class="stepper_container">
       <ul class="stepper_wrap">
@@ -51,15 +7,9 @@
           <a class="step">
             <div
               class="step_number_wrap"
-              :class="
-                this.currentUrl === 'register'
-                  ? 'step_active'
-                  : 'step_completed'
-              "
+              :class="this.currentStep === 1 ? 'step_active' : 'step_completed'"
             >
-              <span v-if="this.currentUrl === 'register'" class="step_number"
-                >1</span
-              >
+              <span v-if="this.currentStep === 1" class="step_number">1</span>
               <span v-else class="">
                 <img src="K_Icons/checkmark.svg" class="checked" alt="" />
               </span>
@@ -71,14 +21,14 @@
             <div
               class="step_number_wrap"
               :class="
-                this.currentUrl === 'career'
+                this.currentStep === 2
                   ? 'step_active'
-                  : this.currentUrl === 'company'
+                  : this.currentStep === 0
                   ? 'step_completed'
                   : 'step_not_visited'
               "
             >
-              <span v-if="this.currentUrl === 'company'" class="">
+              <span v-if="this.currentStep === 'company'" class="">
                 <img src="K_Icons/checkmark.svg" class="checked" alt="" />
               </span>
               <span v-else class="step_number">2</span>
@@ -88,12 +38,12 @@
         <!-- {{
           invitedUserData === null
         }} -->
-        <li v-if="invitedUserData === null" class="">
+        <!-- <li v-if="invitedUserData === null" class="">
           <a class="step">
             <div
               class="step_number_wrap"
               :class="
-                this.currentUrl === 'company'
+                this.currentStep === 'company'
                   ? 'step_active'
                   : 'step_not_visited'
               "
@@ -101,7 +51,7 @@
               <span class="step_number">3</span>
             </div>
           </a>
-        </li>
+        </li> -->
       </ul>
     </div>
     <!-- stepper ends -->
@@ -109,67 +59,20 @@
 </template>
 
 <script>
-// import Dropdown from "primevue/dropdown";
-import Language from "../../components/Shared/LanguageDropdown.vue";
-import { mapGetters } from "vuex";
 export default {
+  props: {
+    currentStep: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
-      invitedUserData: JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")),
-      pages: ["register", "career", "company"],
-      // currentUrl: "",
-      // selectedLanguage: { value: "1", label: "En", icon: "K_Icons/flag1.svg" },
-
-      // laguage: [
-      //   { value: "1", label: "En", icon: "ukflag.png" },
-      //   { value: "2", label: "Ge", icon: "K_Icons/flag1.svg" },
-      // ],
+      //   currentStep: "register",
     };
   },
 
-  components: {
-    // Dropdown,
-    Language,
-  },
-
-  computed: {
-    ...mapGetters({
-      currentUrl: "actviePage",
-      userType: "userType",
-    }),
-  },
-
-  watch: {
-    currentUrl: function () {
-      return this.currentUrl;
-    },
-  },
-  // updated() {
-  //   let url = this.$route.path.split("/")[2];
-  //   console.log("stepper header updated", url);
-  //   this.$store.dispatch("GET_ACTIVE_PAGE", url);
-  // },
-
-  created() {
-    let url = this.$route.path.split("/")[2];
-    this.$store.dispatch("GET_ACTIVE_PAGE", url);
-  },
-
-  methods: {
-    // onChangeLanguage() {
-    //   console.loog("selected language", this.selectedLanguage);
-    // },
-    getActiveClass(value) {
-      return {
-        step_not_visited: "expired",
-        step_active: "accepted",
-        step_completed: "pending",
-      }[value];
-    },
-    testUrl(url) {
-      return this.pages.includes(url);
-    },
-  },
+  methods: {},
 };
 </script>
 
@@ -268,17 +171,4 @@ export default {
     }
   }
 }
-// .language_wrap {
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-// }
-// .img_logo {
-//   margin-left: auto;
-// }
-// .language_dropdown {
-//   .img_logo {
-//     width: 22px;
-//   }
-// }
 </style>

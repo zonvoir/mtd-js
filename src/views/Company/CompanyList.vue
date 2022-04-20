@@ -8,22 +8,26 @@
           <tbody class="company_tbody">
             <tr class="company_tr">
               <td @click="addCompany" class="company_td add_new_company">
-                <div class="company_detail company_add">
-                  <div class="company_pic">
-                    <div class="add_company_button">
-                      <span class="add_icon">+</span>
+                <AddCompanyModal ref="add_company_modal">
+                  <template v-slot:add-company>
+                    <div class="company_detail company_add">
+                      <div class="company_pic">
+                        <div class="add_company_button">
+                          <span class="add_icon">+</span>
+                        </div>
+                      </div>
+                      <div class="company_info">
+                        <h4 class="company_name company_new">
+                          {{
+                            $t(
+                              "company_profile.company_tab.company_table.Add_new_company"
+                            )
+                          }}
+                        </h4>
+                      </div>
                     </div>
-                  </div>
-                  <div class="company_info">
-                    <h4 class="company_name company_new">
-                      {{
-                        $t(
-                          "company_profile.company_tab.company_table.Add_new_company"
-                        )
-                      }}
-                    </h4>
-                  </div>
-                </div>
+                  </template>
+                </AddCompanyModal>
               </td>
               <td class="company_td">
                 <div class="td_location td_wrap">
@@ -135,6 +139,7 @@
 
 <script>
 import UserPic from "../../assets/users/Avatar.png";
+import AddCompanyModal from "./components/AddCompanyModal.vue";
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
 import { mapGetters } from "vuex";
 import {
@@ -154,7 +159,9 @@ const tablist = [
   },
 ];
 export default {
-  components: {},
+  components: {
+    AddCompanyModal,
+  },
 
   data() {
     return {
@@ -179,7 +186,8 @@ export default {
     },
 
     addCompany() {
-      this.$router.push({ name: "company-update" });
+      this.$refs.add_company_modal.modal.show();
+      // this.$router.push({ name: "company-update" });
     },
 
     companyDetails(id) {

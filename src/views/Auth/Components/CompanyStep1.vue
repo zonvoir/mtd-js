@@ -2,7 +2,7 @@
   <div>
     <div class="register_auth_wrapper">
       <div class="">
-        <div class="">
+        <div v-if="creatingMode === 'signup'" class="">
           <div class="main-heading-wrap text-center">
             <h2 class="main-heading">Setup your company</h2>
             <span class="step_title">Step 1: Basic Company Information</span>
@@ -167,6 +167,10 @@
 
               <div class="col-lg-6">
                 <div class="k_form_group k_select_single">
+                  <!-- :options="departments"
+              class="prime_multiselect"
+              optionLabel="label"
+              optionValue="value" -->
                   <Dropdown
                     class="k_prime_inp_select"
                     optionLabel="label"
@@ -297,45 +301,47 @@
               </div>
             </div>
 
-            <div class="d-grid space_btn">
-              <button
-                :disabled="isSubmitted"
-                type="submit"
-                class="btn k_btn_block btn-primary"
-              >
-                <div
-                  v-if="isSubmitted"
-                  class="spinner-border text-light"
-                  role="status"
+            <div v-if="creatingMode === 'signup'" class="">
+              <div class="d-grid space_btn">
+                <button
+                  :disabled="isSubmitted"
+                  type="submit"
+                  class="btn k_btn_block btn-primary"
                 >
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <span v-else> Next </span>
-              </button>
+                  <div
+                    v-if="isSubmitted"
+                    class="spinner-border text-light"
+                    role="status"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <span v-else> Next </span>
+                </button>
+              </div>
+              <div class="im-user flex justify-center">
+                <span class="para14"> Already have an account?</span>
+                <a @click="goTo" target="_blank" class="custom-link">Sign In</a>
+                <!-- :to="{ name: 'signup-signin' }" -->
+              </div>
             </div>
-            <div class="im-user flex justify-center">
-              <span class="para14"> Already have an account?</span>
-              <a @click="goTo" target="_blank" class="custom-link">Sign In</a>
-              <!-- :to="{ name: 'signup-signin' }" -->
-            </div>
+            <!-- <div v-else class="">save and next</div> -->
           </form>
         </div>
       </div>
     </div>
   </div>
   <!-- Modal -->
-  <TermsConditionsModal ref="terms" />
+  <div v-if="creatingMode === 'signup'" class="">
+    <TermsConditionsModal ref="terms" />
+  </div>
 </template>
 
 <script>
 import { required, numeric, maxLength } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import TermsConditionsModal from "./TermsConditionsModal.vue";
+// import MultiSelect from "primevue/multiselect";
 
-// import CommonService from "../../Services/CommonService";
-// import SignupService from "../../Services/SignupService";
-// import errorhandler from "../../utils/Error";
-// import { Modal } from "bootstrap";
 import Dropdown from "primevue/dropdown";
 import { mapGetters } from "vuex";
 import CommonService from "../../../Services/CommonService";
@@ -349,8 +355,23 @@ import {
 export default {
   emits: ["stepStatus"],
   name: "CompanyStepOne",
+  props: {
+    creatingMode: {
+      type: String,
+      default: "signup",
+    },
+  },
+
+  components: {
+    Dropdown,
+    // MultiSelect,
+    TermsConditionsModal,
+  },
+
   data() {
     return {
+      isStepOneProfileCompleted: false,
+      // isStepTwoCompleted:false,
       valiImage: true,
       isPageFilled: false,
       isSubmitted: false,
@@ -381,17 +402,9 @@ export default {
       },
     };
   },
-  components: {
-    Dropdown,
-    TermsConditionsModal,
-  },
+
   computed: {
     ...mapGetters({
-      // industryLists: "mainIndustries",
-      // subIndustryLists: "subIndustries",
-      // detailedIndustryLists: "detailIndustries",
-      // regionLists: "allRegion",
-      // ownRoleLists: "allRoles",
       countryLists: "allCountries",
       legalCorpLists: "allLegalFormCorporation",
     }),
@@ -401,47 +414,22 @@ export default {
     if (!this.staffData.is_first_step_complete) {
       this.$refs.terms.modal.show();
     }
-    // if (this.staffData && Object.keys(this.staffData).length === 0) {
-    //   this.$router.push({ name: "signup-signin" });
-    // } else if (!this.staffData.is_second_step_complete) {
-    //   console.log("I am in company step second");
-    //   this.$router.push({ name: "company-step-two" });
-    // } else {
-    //   this.$router.push({ name: "signup-signin" });
-    // }
   },
-  // beforeCreate(){
-  //     let activePage = this.$route.path.split("/")[1];
-  //   this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
-  // },
+
   created() {
-    // if (this.staffData && Object.keys(this.staffData).length === 0) {
-    //   this.$router.push({ name: "signup-signin" });
-    // } else if (!this.staffData.is_second_step_complete) {
-    //   console.log("I am in company step second");
-    //   this.$router.push({ name: "company-step-two" });
-    // } else {
-    //   this.$router.push({ name: "signup-signin" });
-    // }
-    // if (
-    //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
-    //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == null ||
-    //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == ""
-    // ) {
-    //   this.$router.push({ name: "signup-signin" });
-    // } else {
-    //   // this.$router.push({ name: "signup-company" });
-    //   this.$router.push({ name: "company-step-one" });
-    // }
     this.getLegalCoporation();
-    this.checkCompany();
+    if (this.creatingMode === "signup") {
+      this.checkCompany();
+    }
     this.getCountries();
   },
+
   setup() {
     return {
       v$: useVuelidate(),
     };
   },
+
   validations() {
     return {
       companyForm: {
@@ -460,20 +448,31 @@ export default {
       },
     };
   },
+
   beforeUnmount() {
-    this.$refs.terms.modal.hide();
-    if (document.querySelector(".modal-backdrop")) {
-      document.querySelector(".modal-backdrop").remove();
+    if (this.creatingMode === "signup") {
+      this.$refs.terms.modal.hide();
+      if (document.querySelector(".modal-backdrop")) {
+        document.querySelector(".modal-backdrop").remove();
+      }
     }
-    // console.log();
-    // console.log(this.$refs.terms.modal);
-  },
-  unmounted() {
-    // console.log(this.$refs);
-    // this.$refs.terms.modal.hide();
   },
 
   methods: {
+    // create comapny on company profile start
+    companyProfileStepOne() {
+      console.log("I am from company step one from");
+      this.v$.$touch();
+      if (!this.v$.$invalid) {
+        console.log("this form is fully valid");
+        this.companyForm.auth_token = this.staffData.auth_token;
+        this.companyForm.country_code = this.country_code;
+        this.isStepOneProfileCompleted = true;
+      }
+    },
+
+    // create comapny on company profile end
+
     goTo() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
@@ -483,6 +482,7 @@ export default {
       this.$store.dispatch("GET_STAFF_DATA", null);
       this.$router.push({ name: "signup-signin" });
     },
+
     visRedirect() {
       this.$router.push({ name: "signup-signin" });
     },
@@ -527,49 +527,6 @@ export default {
                   );
                 }
               }
-
-              // let memberStaffData = {
-              //   auth_token: response.data.data.auth_token,
-              //   is_first_step_complete: true,
-              //   is_second_step_complete: false,
-              //   is_career_information_setup: true,
-              // };
-              // console.log("member Data", memberStaffData);
-              // sessionStorage.setItem(
-              //   "OiJKV1QiLCJhbGciOiJIUzI1",
-              //   JSON.stringify(memberStaffData)
-              // );
-              // if (
-              //   localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-              //   localStorage.getItem("bWFpbCI6Inpvb") == null ||
-              //   localStorage.getItem("bWFpbCI6Inpvb") == ""
-              // ) {
-              //   let memberStaffData = {
-              //     auth_token: response.data.data.auth_token,
-              //     is_first_step_complete: true,
-              //     is_company_setup: true,
-              //     is_career_information_setup: true,
-              //   };
-              //   console.log("member Data", memberStaffData);
-              //   sessionStorage.setItem(
-              //     "bWFpbCI6Inpvb",
-              //     JSON.stringify(memberStaffData)
-              //   );
-              // localStorage.setItem( new flow
-              //   "bWFpbCI6Inpvb",
-              //   JSON.stringify(memberStaffData)
-              // );
-              // }
-              // delete session storage Data
-              // if (
-              //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") !=
-              //     undefined ||
-              //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null ||
-              //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != ""
-              // ) {
-              //   sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
-              // }
-
               this.formReset();
             } else {
               errorhandler(response, this);
@@ -583,6 +540,7 @@ export default {
           });
       }
     },
+
     formReset() {
       this.v$.$reset();
       this.country_flag = "";
@@ -621,21 +579,18 @@ export default {
         this.$router.push({ name: "signup-signin" });
       }
     },
-    // showModal() {
-    //   this.modal.show();
-    // },
-    // acceptTermsCondtions() {
-    //   this.modal.hide();
-    // },
+
     isNumber(event) {
       let char = String.fromCharCode(event.keyCode);
       if (this.numberPattern.test(char)) return true;
       else event.preventDefault();
     },
+
     // file select
     onPickFile() {
       this.$refs.fileInput.click();
     },
+
     onFilePicked(event) {
       this.valiImage = true;
       const files = event.target.files;
@@ -654,6 +609,7 @@ export default {
         return true;
       }
     },
+
     removeImage() {
       this.defaultImg = "icons/cloud-upload.svg";
     },
@@ -665,7 +621,6 @@ export default {
       reader.onload = function () {
         $th.defaultImg = reader.result.toString();
         $th.companyForm.client_logo = $th.defaultImg;
-        // console.log($th.defaultImg);
       };
       reader.onerror = function (error) {
         console.log("Error: ", error);
@@ -676,6 +631,7 @@ export default {
       console.log("Detail Industry", this.companyForm.country);
       this.selectedCountryCode(+this.companyForm.country);
     },
+
     // get legal Corporation lists
     getLegalCoporation() {
       this.$store.dispatch("GET_ALL_LEGAL_FORM_CORPORATION");
@@ -726,6 +682,7 @@ export default {
             } else if (!resp.data.data.is_second_step_complete) {
               this.$router.push({ name: "company-step-two" });
             } else {
+              console.log("kk step 1");
               this.$router.push({ name: "signin-verify-account" });
             }
             // this.$router.push({ name: "Dashboard" });

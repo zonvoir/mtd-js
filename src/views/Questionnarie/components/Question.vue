@@ -257,6 +257,7 @@ export default {
   data() {
     return {
       currentIdx: 0,
+      testCard: "",
       quiz: [],
       isHint: false,
       isValidated: false,

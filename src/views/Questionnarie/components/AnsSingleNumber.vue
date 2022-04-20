@@ -1,37 +1,39 @@
 <template>
   <div>
     <div class="k_form_group k_inp_half k_inp_number">
+      <!-- v-model="ansValue"
+        @keypress="isNumber"
+        @input="onInput" -->
+
       <input
+        @keydown="isNumber"
+        @blur="blurEvent"
+        @input="onInput"
+        v-model="ansValue"
+        :data-original="maskRemovers(ansValue, ' ')"
         type="text"
         name="single"
-        v-model="ansValue"
-        @keypress="isNumber"
-        @input="onInput"
         placeholder="Ex.1"
         class="form-control k_inp_field"
-        @blur="v$.ansValue.$touch"
+      />
+      <!-- @blur="v$.ansValue.$touch"
         :class="{
           'is-invalid': v$.ansValue.$error,
-        }"
-      />
-      <div v-if="v$.ansValue.$error" class="invalid-feedback text-left">
-        <span v-if="v$.ansValue.required.$invalid" class="text-left fs-14">
-          Answer is required
-        </span>
-        <span v-if="v$.ansValue.numeric.$invalid" class="text-left fs-14">
-          Answer is required
-        </span>
+        }" -->
+      <div v-if="isValid" class="custom_error">
+        <span class="text-left fs-14"> Valid number is required </span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { required, numeric } from "@vuelidate/validators";
-import useVuelidate from "@vuelidate/core";
+import maskFormatter, { maskRemover } from "../../../utils/mask-formmater";
+import numfractionMixin from "../../../mixins/numeric-fraction-numbers";
 
 export default {
   emits: ["getUserSelected"],
+  mixins: [numfractionMixin],
 
   props: {
     currentAns: {
@@ -42,10 +44,25 @@ export default {
   data() {
     return {
       numberPattern: /[0-9]/,
+      numbersArr: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
       ansValue: "",
       isFieldValid: false,
+      isValid: false,
+      default_seprator: " ",
     };
   },
+
+  // watch: {
+  //   ansValue: function (val) {
+  //     if (val !== "") {
+  //       this.isValid = false;
+  //       this.isFieldValid = true;
+  //     } else {
+  //       this.isValid = true;
+  //       this.isFieldValid = false;
+  //     }
+  //   },
+  // },
   created() {
     if (this.currentAns != "") {
       this.isFieldValid = true;
@@ -53,41 +70,145 @@ export default {
       this.emitData(this.ansValue);
     }
   },
-  validations() {
-    return {
-      ansValue: { required, numeric },
-    };
-  },
-  setup() {
-    return {
-      v$: useVuelidate(),
-    };
-  },
-  methods: {
-    onInput(event) {
-      this.v$.$touch();
-      this.isFieldValid = false;
-      let val;
-      if (!this.v$.$invalid) {
-        val = event.target.value;
-        this.isFieldValid = true;
-      }
 
-      this.emitData(val);
+  methods: {
+    checkDecimalLength(evt) {
+      if (this.ansValue.includes(".")) {
+        let afterDeimal = this.ansValue.split(".");
+        if (afterDeimal[1].length > 2) {
+          if (this.numbersArr.includes(evt.key)) {
+            evt.preventDefault();
+          }
+        }
+      }
     },
+
+    onNegativeInput(event) {
+      if (event.key == "-" || event.key == "+") {
+        event.preventDefault();
+        return false;
+      } else {
+        this.checkDecimalLength(event);
+      }
+    },
+    onInput(event) {
+      // console.log("refined value", event);
+      // this.checkDecimalLength();
+      let dataI;
+      if (event.target.value.includes(".")) {
+        console.log("decimal is available", event.target.value);
+        let dataValArr = event.target.value.split(".");
+        let str_first = dataValArr[0];
+        // .replace(/ /g, "")
+        // .match(/.{1,3}/g)
+        // .join(" ");
+        let str_last = dataValArr[1];
+        // let Arr = [...str_first, ...str_last];
+
+        console.log(
+          "f",
+          str_first,
+          "l",
+          str_last,
+          "full",
+          str_first + "." + str_last
+        );
+        let itermediatData =
+          str_first + "." + (str_last.length > 3 ? "" : str_last);
+        dataI = itermediatData;
+      } else {
+        console.log("no decimal", event.target.value);
+        if (event.target.value === "") return;
+
+        dataI = event.target.value
+          .replace(/ /g, "")
+          .match(/.{1,3}/g)
+          .join(" ");
+      }
+      // let tempAns = event.target.value;
+      // let tempid = id;
+      this.checkValidate(dataI);
+    },
+    checkValidate(ansParams) {
+      console.log("kk", ansParams);
+      console.log(this.ansValue);
+      this.isValid = false;
+      // if (this.ansValue !== "") {
+      //   this.isValid = false;
+      //   // this.isFieldValid = false;
+      // }
+      this.emitData(ansParams);
+      this.ansValue = ansParams;
+    },
+
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,
-        isFieldValid: this.isFieldValid,
+        isFieldValid: !this.isValid,
       });
     },
-    isNumber(event) {
-      let char = String.fromCharCode(event.keyCode);
-      if (this.numberPattern.test(char)) return true;
-      else event.preventDefault();
+
+    // isNumber(event) {
+    //   let char = String.fromCharCode(event.keyCode);
+    //   if (this.numberPattern.test(char)) return true;
+    //   else event.preventDefault();
+    // },
+
+    maskRemovers(number, seprator = ",") {
+      if (number == "") {
+        return maskRemover(number, seprator);
+      } else {
+        return number;
+      }
+    },
+
+    originalNumberBackup(ev) {
+      console.log(ev.target.value);
+      if (
+        ev.target.value != null &&
+        ev.target.value != "" &&
+        ev.target.value != undefined
+      ) {
+        let v = maskRemover(ev.target.value, this.default_seprator);
+        this.checkValidate(v);
+        ev.target.setAttribute("type", "number");
+        ev.target.setAttribute("min", "0");
+      }
+    },
+
+    formatMaskedNumber(ev) {
+      console.log(
+        ev.target.value,
+        ev.target.value == null,
+        ev.target.value == undefined,
+        ev.target.value == "",
+        "original number backup"
+      );
+      // if (ev.target.value) {
+      let fVal = 0;
+      if (ev.target.value != "") {
+        fVal = maskFormatter(ev.target.value, this.default_seprator);
+        ev.target.removeAttribute("min");
+        ev.target.setAttribute("type", "text");
+        this.checkValidate(fVal);
+      } else {
+        this.isValid = true;
+        console.log("ee", this.ansValue);
+        this.emitData(this.ansValue);
+        // this.emitData(this.ansValue);
+      }
+      console.log("numbrvis", fVal.toString());
+
+      // }
     },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.custom_error {
+  color: #db2c66;
+  font-size: 14px;
+  font-weight: 400;
+}
+</style>

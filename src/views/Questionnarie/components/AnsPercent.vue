@@ -16,8 +16,9 @@
         name="single"
         :value="staffAns[index].sub_ans"
         minlength="1"
-        maxlength="3"
-        @keypress="isNumber"
+        maxlength="6"
+        @keydown="isNumber"
+        @blur="blurEvent"
         @input="onInput(subQuestion.subquestion_id, index, $event)"
         class="form-control k_inp_field"
       />
@@ -31,8 +32,12 @@
 </template>
 
 <script>
+import numfractionMixin from "../../../mixins/numeric-fraction-numbers";
+
 export default {
   emits: ["getUserSelected"],
+  mixins: [numfractionMixin],
+
   props: {
     data: {
       required: true,
@@ -45,12 +50,15 @@ export default {
   },
   data() {
     return {
-      numberPattern: /[0-9]/,
+      // numberPattern: /[0-9]/,
+      numberPattern: /^\d{0,4}(?:[.,]\d{1,3})?$/,
+      patternPercent: /^(0|[1-9]\d*)(\.\d{0,3})?$/,
       staffAns: new Array(this.data.length).fill({
         subquestion_id: "",
         sub_ans: "",
       }),
       // staffAns: [],
+
       isValid: false,
       validPercent: false,
       allAnsFilled: undefined,
@@ -65,12 +73,15 @@ export default {
       console.log("current ans", this.staffAns);
     }
   },
+
   methods: {
     onInput(id, index, event) {
+      console.log("refined value", event.target.value);
       let tempAns = event.target.value;
       let tempid = id;
       this.checkValidate(tempAns, tempid, index);
     },
+
     checkValidate(tempAns, tempid, index) {
       this.staffAns[index] = {
         subquestion_id: tempid,
@@ -99,11 +110,6 @@ export default {
         ansData: val,
         isFieldValid: this.allAnsFilled,
       });
-    },
-    isNumber(event) {
-      let char = String.fromCharCode(event.keyCode);
-      if (this.numberPattern.test(char)) return true;
-      else event.preventDefault();
     },
   },
 };

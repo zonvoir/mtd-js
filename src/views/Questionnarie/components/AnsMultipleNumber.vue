@@ -22,6 +22,7 @@
         :value="staffAns[index].sub_ans"
         :data-original="maskRemovers(staffAns[index].sub_ans, '-')"
         class="form-control k_inp_field"
+        @keydown="onInput(subQuestion.subquestion_id, index, $event)"
       />
       <!-- @input="onInput(subQuestion.subquestion_id, index, $event)" -->
       <!-- @keydown="isNumber" -->
@@ -81,32 +82,35 @@ export default {
   // },
 
   methods: {
-    onInput(id, index, event) {
-      // event.target.dataset.org = event.target.dataset.org + event.data;
-      // console.info(event.target.dataset, event);
-      let tempAns = event.target.value;
-      // console.info("vishu", typeof tempAns);
-      this.updatetedAns = tempAns;
-      console.info(
-        "updated",
-        this.updatetedAns,
-        this.maskRemovers(this.updatetedAns, this.default_seprator)
-      );
-      event.target.dataset.org = this.maskRemovers(
-        this.updatetedAns,
-        this.default_seprator
-      );
-      // console.log(id, index, event);
-      // console.info(tempAns);
-      this.checkValidate(this.updatetedAns, id, index);
+    onInput(_id, _index, event) {
+      console.log(event);
+      if (event.key == "-") {
+        event.preventDefault();
+        return false;
+      }
+      //   // event.target.dataset.org = event.target.dataset.org + event.data;
+      //   // console.info(event.target.dataset, event);
+      //   let tempAns = event.target.value;
+      //   // console.info("vishu", typeof tempAns);
+      //   this.updatetedAns = tempAns;
+      //   console.info(
+      //     "updated",
+      //     this.updatetedAns,
+      //     this.maskRemovers(this.updatetedAns, this.default_seprator)
+      //   );
+      //   event.target.dataset.org = this.maskRemovers(
+      //     this.updatetedAns,
+      //     this.default_seprator
+      //   );
+      //   // console.log(id, index, event);
+      //   // console.info(tempAns);
+      //   this.checkValidate(this.updatetedAns, id, index);
     },
-
     checkValidate(tempAns, tempid, index) {
       this.staffAns[index] = {
         subquestion_id: tempid,
         sub_ans: tempAns,
       };
-
       console.log(this.staffAns[index]);
       this.isValid = this.staffAns.some((e) => e.sub_ans === "");
       this.allAnsFilled = true;
@@ -134,60 +138,48 @@ export default {
       });
     },
 
-    isNumber() {
-      // console.log(this.$refs.inpValue.input, ev);
-      // // let char = String.fromCharCode(event.keyCode);
-      // // if (this.numberPattern.test(char)) return true;
-      // // else event.preventDefault();
-      // maskFormatter(+ev.target.value);
-      // let numberStr = ev.target.value;
-      // console.log(numberStr);
-      // if (this.numberPattern.test(numberStr)) {
-      //   return true;
-      // } else {
-      //   if (ev.keyCode == 8) {
-      //     return true;
-      //   } else {
-      //     ev.preventDefault();
-      //   }
-      // }
-    },
-
     maskRemovers(number, seprator = ",") {
-      return maskRemover(number, seprator);
+      if (number == "") {
+        return maskRemover(number, seprator);
+      } else {
+        return number;
+      }
     },
 
     originalNumberBackup(id, index, ev) {
-      // if (ev.target.value) {
-      this.checkValidate(
-        maskRemover(ev.target.value, this.default_seprator).toString(),
-        id,
-        index
-      );
-      ev.target.setAttribute("type", "number");
-      // }
+      console.log(ev.target.value);
+      if (
+        ev.target.value != null &&
+        ev.target.value != "" &&
+        ev.target.value != undefined
+      ) {
+        let v = maskRemover(ev.target.value, this.default_seprator);
+        this.checkValidate(v, id, index);
+        ev.target.setAttribute("type", "number");
+        ev.target.setAttribute("min", "0");
+      }
       console.log(ev.target.value, ev.target.dataset, "original Number Backup");
     },
 
     formatMaskedNumber(id, index, ev) {
-      // console.log(ev.target.value, "original number backup");
-      // if (ev.target.value) {
       console.log(
-        "numbrvis",
-        maskFormatter(ev.target.value, this.default_seprator).toString()
+        ev.target.value,
+        ev.target.value == null,
+        ev.target.value == undefined,
+        ev.target.value == "",
+        "original number backup"
       );
-      ev.target.setAttribute("type", "text");
-      this.checkValidate(
-        maskFormatter(ev.target.value, this.default_seprator) == 0
-          ? ""
-          : maskFormatter(ev.target.value, this.default_seprator),
-        id,
-        index
-      );
+      // if (ev.target.value) {
+      let fVal = 0;
+      if (ev.target.value != "") {
+        fVal = maskFormatter(ev.target.value, this.default_seprator);
+        ev.target.removeAttribute("min");
+        ev.target.setAttribute("type", "text");
+        this.checkValidate(fVal, id, index);
+      }
+      console.log("numbrvis", fVal.toString());
+
       // }
-    },
-    formatOnCreated(val) {
-      return maskFormatter(+val, this.default_seprator);
     },
   },
 };

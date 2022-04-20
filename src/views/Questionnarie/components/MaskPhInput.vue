@@ -7,7 +7,7 @@
       :type="type"
       :value="cardNumber"
       @input="updateValue"
-      @keyup="isNumber($event)"
+      @keypress="isNumber($event)"
     />
   </div>
 </template>
@@ -51,16 +51,16 @@ export default {
   methods: {
     isNumber(evt) {
       console.log("key press", evt);
-      // if (this.cardNumber.includes(".")) {
-      //   let afterDeimal = this.cardNumber.split(".");
-      //   let str = afterDeimal[1];
-      //   let str1 = str.replaceAll(" ", "");
-      //   console.log(str, str1, "vishal");
-      //   console.log(afterDeimal[1].length);
-      //   if (afterDeimal[1].length > 2) {
-      //     evt.preventDefault();
-      //   }
-      // }
+      if (this.cardNumber.includes(".")) {
+        let afterDeimal = this.cardNumber.split(".");
+        let str = afterDeimal[1];
+        // let str1 = str.replaceAll(" ", "");
+        console.log(str, "vishal");
+        // console.log("kk", afterDeimal[1].length);
+        if (afterDeimal[1].length > 2) {
+          evt.preventDefault();
+        }
+      }
       let keyPressed = evt.key;
       evt = evt ? evt : window.event;
       var charCode = evt.which ? evt.which : evt.keyCode;
@@ -73,11 +73,11 @@ export default {
       } else {
         if (keyPressed === ".") {
           evt.preventDefault();
-          // if (this.cardNumber.includes(".")) {
-          //   console.log(this.cardNumber.split("."));
-          // } else {
-          //   return true;
-          // }
+          if (this.cardNumber.includes(".")) {
+            console.log(this.cardNumber.split("."));
+          } else {
+            return true;
+          }
         } else {
           return true;
         }

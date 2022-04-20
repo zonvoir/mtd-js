@@ -2,7 +2,7 @@
   <div>
     <div class="register_auth_wrapper">
       <div class="">
-        <div class="">
+        <div v-if="creatingMode === 'signup'" class="">
           <div class="main-heading-wrap text-center">
             <h2 class="main-heading">Setup your company</h2>
             <span class="step_title">Step 2: Company Classification</span>
@@ -208,33 +208,27 @@
               </div>
             </div>
 
-            <div class="row"></div>
-
-            <div class="d-grid space_btn">
-              <button
-                :disabled="isSubmitted"
-                type="submit"
-                class="btn k_btn_block btn-primary"
-              >
-                <div
-                  v-if="isSubmitted"
-                  class="spinner-border text-light"
-                  role="status"
+            <div v-if="creatingMode === 'signup'">
+              <div class="d-grid space_btn">
+                <button
+                  :disabled="isSubmitted"
+                  type="submit"
+                  class="btn k_btn_block btn-primary"
                 >
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <span v-else> Create Company </span>
-              </button>
-            </div>
-            <div class="im-user flex justify-center">
-              <span class="para14"> Already have an account?</span>
-              <a @click="goTo" target="_blank" class="custom-link">Sign In</a>
-              <!-- <router-link
-                target="_blank"
-                class="custom-link"
-                :to="{ name: 'signup-signin' }"
-                >Sign In</router-link
-              > -->
+                  <div
+                    v-if="isSubmitted"
+                    class="spinner-border text-light"
+                    role="status"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <span v-else> Create Company </span>
+                </button>
+              </div>
+              <div class="im-user flex justify-center">
+                <span class="para14"> Already have an account?</span>
+                <a @click="goTo" target="_blank" class="custom-link">Sign In</a>
+              </div>
             </div>
           </form>
         </div>
@@ -246,7 +240,6 @@
 <script>
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-// import CommonService from "../../../Services/CommonService";
 import SignupService from "../../../Services/SignupService";
 import errorhandler from "../../../utils/Error";
 import Dropdown from "primevue/dropdown";
@@ -261,8 +254,17 @@ export default {
     Dropdown,
   },
   name: "CompanyStepTwo",
+
+  props: {
+    creatingMode: {
+      type: String,
+      default: "signup",
+    },
+  },
+
   data() {
     return {
+      isStepTwoProfileCompleted: false,
       valiImage: true,
       isSubmitted: false,
       country_flag: "",
@@ -270,7 +272,6 @@ export default {
       codeWithNumber: "",
       numberPattern: /[0-9]/,
       defaultImg: "icons/cloud-upload.svg",
-      // staffData: JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")),
       staffData:
         JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
         JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
@@ -305,54 +306,28 @@ export default {
       detailedIndustryLists: "detailIndustries",
       countryLists: "allCountries",
       regionLists: "allRegion",
-      // ownRoleLists: "allRoles",
-      // legalCorpLists: "allLegalFormCorporation",
     }),
   },
 
-  // beforeCreate(){
-  //       let activePage = this.$route.path.split("/")[1];
-  //   this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
-  // },
-
   created() {
     this.$store.dispatch("GET_ALL_CURRENCY");
-    // if (this.staffData && Object.keys(this.staffData).length === 0) {
-    //   this.$router.push({ name: "signup-signin" });
-    // } else if (!this.staffData.is_first_step_complete) {
-    //   console.log("I am in company first step");
-    //   this.$router.push({ name: "company-step-one" });
-    // } else if (!this.staffData.is_second_step_complete) {
-    //   console.log("I am in company step second");
-    //   // this.$router.push({ name: "company-step-two" });
-    // } else {
-    //   this.$router.push({ name: "signup-signin" });
-    // }
-    // if (
-    //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == undefined ||
-    //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == null ||
-    //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") == ""
-    // ) {
-    //   this.$router.push({ name: "signup-signin" });
-    // } else {
-    //   // this.$router.push({ name: "signup-company" });
-    //   this.$router.push({ name: "company-step-two" });
-    // }
-
-    this.checkCompany();
+    if (this.creatingMode === "signup") {
+      this.checkCompany();
+    }
     this.getIndustryList();
     this.getRegions();
     this.getCountries();
   },
+
   setup() {
     return {
       v$: useVuelidate(),
     };
   },
+
   validations() {
     return {
       companyForm: {
-        // country: { required },
         main_industry: { required },
         sub_industry: { required },
         detailed_industry: { required },
@@ -362,6 +337,19 @@ export default {
   },
 
   methods: {
+    // create comapny on company profile start
+    companyProfileSteptwo() {
+      console.log("I am from company step two form");
+      this.v$.$touch();
+      if (!this.v$.$invalid) {
+        this.companyForm.auth_token = this.staffData.auth_token;
+        this.isStepTwoProfileCompleted = true;
+        console.log("this form is fully valid step 2");
+      }
+    },
+
+    // create comapny on company profile end
+
     goTo() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
@@ -371,20 +359,22 @@ export default {
       this.$store.dispatch("GET_STAFF_DATA", null);
       this.$router.push({ name: "signup-signin" });
     },
+
     visRedirect() {
       this.$router.push({ name: "signup-signin" });
     },
+
     internationalCompany() {
       this.companyForm.region = null;
       this.companyForm.company_country = null;
     },
+
     saveCompanyInfoStep2() {
       this.v$.$touch();
       if (this.v$.$invalid) {
         return;
       } else {
         this.companyForm.auth_token = this.staffData.auth_token;
-        // this.companyForm.country_code = this.country_code;
         console.log("company data", this.companyForm);
         this.isSubmitted = true;
         SignupService.companyClassificationInfo(this.companyForm)
@@ -392,7 +382,6 @@ export default {
             if (response.data.status) {
               console.log("COMPANY INFOMATION", response.data.data);
               this.$store.dispatch("getCompanyInfoDetails", response.data.data);
-              // set local storage Data
               this.checkCompany();
               if (
                 localStorage.getItem("bWFpbCI6Inpvb") != null ||
@@ -419,47 +408,6 @@ export default {
                 }
               }
 
-              // let memberStaffData = {
-              //   auth_token: response.data.data.auth_token,
-              //   is_first_step_complete: true,
-              //   is_second_step_complete: true,
-              //   is_career_information_setup: true,
-              // };
-              // sessionStorage.setItem(
-              //   "OiJKV1QiLCJhbGciOiJIUzI1",
-              //   JSON.stringify(memberStaffData)
-              // );
-              // if (
-              //   localStorage.getItem("bWFpbCI6Inpvb") == undefined ||
-              //   localStorage.getItem("bWFpbCI6Inpvb") == null ||
-              //   localStorage.getItem("bWFpbCI6Inpvb") == ""
-              // ) {
-              //   let memberStaffData = {
-              //     auth_token: response.data.data.auth_token,
-              //     is_second_step_complete: true,
-              //     is_company_setup: true,
-              //     is_career_information_setup: true,
-              //   };
-              //   console.log("member Data", memberStaffData);
-              //   sessionStorage.setItem(
-              //     "OiJKV1QiLCJhbGciOiJIUzI1",
-              //     JSON.stringify(memberStaffData)
-              //   );
-              //   // localStorage.setItem(
-              //   //   "bWFpbCI6Inpvb",
-              //   //   JSON.stringify(memberStaffData)
-              //   // );
-              // }
-              // delete session storage Data
-              // if (
-              //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") !=
-              //     undefined ||
-              //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null ||
-              //   sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != ""
-              // ) {
-              //   sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
-              // }
-
               this.formReset();
             } else {
               errorhandler(response, this);
@@ -473,10 +421,9 @@ export default {
           });
       }
     },
+
     formReset() {
       this.v$.$reset();
-      // this.country_flag = "";
-      // this.country_code = "";
       this.companyForm = {
         company_country: "",
         main_industry: null,
@@ -511,23 +458,6 @@ export default {
       } else {
         this.$router.push({ name: "signup-signin" });
       }
-
-      // if (sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null) {
-      //   // this.staffData.is_company_setup = true;
-      //   // if (localStorage.getItem("bWFpbCI6Inpvb") != null) {
-      //   this.staffData.is_second_step_complete = true;
-      //   this.staffData.is_first_step_complete = true;
-      //   this.staffData.is_career_information_setup = true;
-      //   sessionStorage.setItem(
-      //     "OiJKV1QiLCJhbGciOiJIUzI1",
-      //     JSON.stringify(this.staffData)
-      //   );
-      //   // localStorage.setItem("bWFpbCI6Inpvb", JSON.stringify(this.staffData));
-      //   // this.$router.push({ name: "Dashboard" });
-      //   this.$router.push({ name: "signin-verify-account" });
-      // } else {
-      //   this.$router.push({ name: "signup-signin" });
-      // }
     },
 
     isNumber(event) {
@@ -535,10 +465,12 @@ export default {
       if (this.numberPattern.test(char)) return true;
       else event.preventDefault();
     },
+
     // file select
     onPickFile() {
       this.$refs.fileInput.click();
     },
+
     onFilePicked(event) {
       this.valiImage = true;
       const files = event.target.files;
@@ -558,6 +490,7 @@ export default {
         return true;
       }
     },
+
     removeImage() {
       this.defaultImg = "icons/cloud-upload.svg";
     },
@@ -577,42 +510,39 @@ export default {
       // this.getBase64(file);
       console.log("selected file", file);
     },
+
     // get Industry lists
     getIndustryList() {
       this.$store.dispatch("GET_MAIN_INDUSTRIES");
     },
+
     onChangeMainIndustry() {
       this.$store.dispatch(
         "GET_SUB_INDUSTRIES",
         this.companyForm.main_industry
       );
     },
+
     onChangeSubIndustry() {
       this.$store.dispatch(
         "GET_DEATAIL_INDUSTRIES",
         this.companyForm.sub_industry
       );
     },
+
     onChangeRegion() {
       this.getCountries(this.companyForm.region);
     },
+
     onChangeCountry() {
       console.log("Detail Industry", this.companyForm.company_country);
-      // this.selectedCountryCode(+this.companyForm.country);
     },
 
-    // get legal Corporation lists
-    // getLegalCoporation() {
-    //   this.$store.dispatch("GET_ALL_LEGAL_FORM_CORPORATION");
-    // },
-    // get role in company lists
-    // getRoleInCompany() {
-    //   this.$store.dispatch("GET_ROLES");
-    // },
     // get regions lists
     getRegions() {
       this.$store.dispatch("GET_ALL_REGION");
     },
+
     // get country lists
     getCountries(id) {
       this.$store.dispatch("GET_COUNTRIES", id);
@@ -659,44 +589,10 @@ export default {
             } else {
               this.$router.push({ name: "signin-verify-account" });
             }
-            // this.$router.push({ name: "Dashboard" });
           }
         });
       }
     },
-    // checkCompany() {
-    //   if (this.staffData != null) {
-    //     SignupService.checkCompany({
-    //       auth_token: this.staffData.auth_token,
-    //     }).then((resp) => {
-    //       if (resp.data.status) {
-    //         console.log("there company is already setup", resp.data.data);
-    //         if (
-    //           !resp.data.data.is_first_step_complete &&
-    //           !resp.data.data.is_second_step_complete
-    //         ) {
-    //           this.$router.push({ name: "company-step-one" });
-    //         } else if (!resp.data.data.is_first_step_complete) {
-    //           this.$router.push({ name: "company-step-one" });
-    //         } else if (!resp.data.data.is_second_step_complete) {
-    //           this.$router.push({ name: "company-step-two" });
-    //         } else {
-    //           this.$router.push({ name: "signin-verify-account" });
-    //         }
-    //         // this.$router.push({ name: "Dashboard" });
-    //       }
-    //     });
-    //   }
-    // },
-
-    // selectedCountryCode(id) {
-    //   CommonService.getCountryCode({ country_id: id }).then((resp) => {
-    //     if (resp.data.status) {
-    //       this.country_flag = resp.data.data.image;
-    //       this.country_code = resp.data.data.code;
-    //     }
-    //   });
-    // },
   },
 };
 </script>

@@ -6,10 +6,17 @@
       class="brand-logo-size"
     />
   </div>
+  <div class="">
+    <Language />
+  </div>
 </template>
 
 <script>
+import Language from "../Shared/LanguageDropdown.vue";
 export default {
+  components: {
+    Language,
+  },
   setup() {
     return {};
   },
