@@ -21,8 +21,10 @@
                 <UpdateEmail ref="change_email" @changeEmail="changeEmail">
                   <template v-slot:change-email>
                     <h5 class="email_update_para">
-                      You can change your registration email
-                      <a @click="updateEmailHere" class="custom-link"> here </a>
+                      {{ $t("login.otp_step.verify_acc_email_change") }}
+                      <a @click="updateEmailHere" class="custom-link">
+                        {{ $t("login.otp_step.email_change_here") }}
+                      </a>
                     </h5>
                   </template>
                 </UpdateEmail>
@@ -47,7 +49,9 @@
                   :onComplete="onCompleted"
                   @onPaste="handleOnPaste"
                   validateType="numeric"
-                  validateMsg="Please enter the valid OTP code"
+                  :validateMsg="
+                    $t('login.otp_step.form.invalid_msgs.otp_is_invalid')
+                  "
                 />
               </div>
             </div>
@@ -91,12 +95,14 @@
             </div>
 
             <div class="im-user flex justify-center">
-              <span class="para14"> Already have an account?</span>
+              <span class="para14">{{
+                $t("login.otp_step.already_account")
+              }}</span>
               <router-link
                 target="_blank"
                 class="custom-link"
                 :to="{ name: 'signup-signin' }"
-                >Sign In</router-link
+                >{{ $t("login.otp_step.buttons.sign_in") }}</router-link
               >
             </div>
           </form>

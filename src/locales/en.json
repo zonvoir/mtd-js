@@ -1,5 +1,6 @@
 {
   "message": "hello i18n !!",
+
   "header": {
     "placeholder": {
       "select_your_company": "Select Your Company",
@@ -38,6 +39,7 @@
     "password_step": {
       "enter_password": "Enter Your Password",
       "no_account": "No account created yet ?",
+      "already_account": "Already have an account ? german",
       "stay_signed": "Stay signed in",
       "form": {
         "placeholder": {
@@ -55,7 +57,10 @@
     "otp_step": {
       "verify_account": "Verify your account",
       "no_account": "No account created yet ?",
+      "already_account": "Already have an account ? german",
       "verify_acc_para1": "We've sent you a six-digit confirmation code to",
+      "verify_acc_email_change": "You can change your registration email",
+      "email_change_here": "here",
       "verify_acc_para2": "Please enter it below to confirm your email address.",
       "form": {
         "invalid_msgs": {
@@ -64,7 +69,8 @@
       },
       "buttons": {
         "verify_account": "Verify Account",
-        "sign_up": "Sign Up"
+        "sign_up": "Sign Up",
+        "sign_in": "Sign In"
       }
     }
   },

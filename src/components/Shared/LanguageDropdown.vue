@@ -66,7 +66,8 @@ export default {
     onChangeLanguage() {
       console.log("selected language", this.selectedLanguage.value);
       localStorage.setItem("language", this.selectedLanguage.value);
-      // this.$router.go();
+      loadLocaleMessages(this.$i18n, this.selectedLanguage.value);
+      this.$router.go();
     },
 
     getActiveLanguage(value) {

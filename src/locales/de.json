@@ -16,59 +16,67 @@
     "in_progress": "in_progress",
     "completed": "completed"
   },
+
   "login": {
     "loading": "Loading...",
     "email_step": {
-      "Sign_In": "Sign In",
-      "no_account": "No account created yet ?",
-      "forgot_password": "Forgot your password",
+      "Sign_In": "Sign In german",
+      "no_account": "No account created yet ? german",
+      "forgot_password": "Forgot your password german",
       "form": {
         "placeholder": {
-          "email": "Email"
+          "email": "Email german"
         },
         "invalid_msgs": {
-          "Email_is_invalid": "Email is invalid",
-          "email_is_required": "Email is required"
+          "Email_is_invalid": "Email is invalid german",
+          "email_is_required": "Email is required german"
         }
       },
       "buttons": {
-        "done": "Done",
-        "sign_up": "Sign Up"
+        "done": "Done german",
+        "sign_up": "Sign Up german"
       }
     },
+
     "password_step": {
-      "enter_password": "Enter Your Password",
-      "no_account": "No account created yet ?",
-      "stay_signed": "Stay signed in",
+      "enter_password": "Enter Your Password german",
+      "already_account": "Already have an account ? german",
+      "stay_signed": "Stay signed in german",
       "form": {
         "placeholder": {
-          "password": "Password"
+          "password": "Password german"
         },
         "invalid_msgs": {
-          "password_is_required": "Password is invalid"
+          "password_is_required": "Password is invalid german"
         }
       },
       "buttons": {
-        "sign_in": "Sign In",
-        "sign_up": "Sign Up"
+        "sign_in": "Sign In german",
+        "sign_up": "Sign Up german"
       }
     },
+
     "otp_step": {
-      "verify_account": "Verify your account",
-      "no_account": "No account created yet ?",
-      "verify_acc_para1": "We've sent you a six-digit confirmation code to",
-      "verify_acc_para2": "Please enter it below to confirm your email address.",
+      "verify_account": "Verify your account german",
+      "no_account": "No account created yet ? german",
+      "already_account": "Already have an account ? german",
+      "verify_acc_email_change": "You can change your registration email german",
+      "email_change_here": "here german",
+      "verify_acc_para1": "We've sent you a six-digit confirmation code to german",
+      "verify_acc_para2": "Please enter it below to confirm your email address. german",
       "form": {
         "invalid_msgs": {
-          "otp_is_invalid": "Please enter the valid OTP code"
+          "otp_is_invalid": "Please enter the valid OTP code german"
         }
       },
       "buttons": {
-        "verify_account": "Verify Account",
-        "sign_up": "Sign Up"
+        "verify_account": "Verify Account german",
+        "sign_up": "Sign Up german",
+        "sign_in": "Sign In german"
       }
     }
   },
+
   "personal_account": {
     "personal_account": "Persönliches Konto",
     "form": {
@@ -121,6 +129,7 @@
       }
     }
   },
+
   "sidebar_links": {
     "overview": "Überblick",
     "results": "Ergebnisse",
@@ -130,6 +139,7 @@
     "find_partner": "Partner finden",
     "help_center": "Hilfezentrum"
   },
+
   "overview_index": {
     "Extended": "Extended",
     "Company": "Company",
@@ -147,6 +157,7 @@
       "all": "all"
     }
   },
+
   "category_details": {
     "tab": {
       "overview": "Overview",
