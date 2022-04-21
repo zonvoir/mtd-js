@@ -1,40 +1,45 @@
 <template>
-  <div
-    v-for="(subQuestion, index) in data"
-    :key="subQuestion.subquestion_id"
-    class="d-flex"
-  >
-    <div class="sub_question_wrap">
-      <h5 class="sub_ques_name">
-        {{ subQuestion.subquestion }}
-      </h5>
+  <div class="">
+    <div
+      v-for="(subQuestion, index) in data"
+      :key="subQuestion.subquestion_id"
+      class="d-flex"
+    >
+      <div class="sub_question_wrap">
+        <h5 class="sub_ques_name">
+          {{ subQuestion.subquestion }}
+        </h5>
+      </div>
+      <div class="k_form_group k_inp_number m-r-10">
+        <!-- @keypress="isNumber" -->
+        <!-- @keydown="isNumber" new -->
+        <!-- ref="inpValue" -->
+        <input
+          :key="'mni' + index"
+          type="text"
+          name="single"
+          @keydown="isNumber"
+          @blur="blurEvent"
+          @input="onInput(subQuestion.subquestion_id, index, $event)"
+          v-model="staffAns[index].sub_ans"
+          class="form-control k_inp_field"
+        />
+        <!-- :data-original="maskRemovers(staffAns[index].sub_ans, '-')" -->
+        <!-- @input="onInput(subQuestion.subquestion_id, index, $event)" -->
+        <!-- @keydown="isNumber" -->
+      </div>
     </div>
-    <div class="k_form_group k_inp_number m-r-10">
-      <!-- @keypress="isNumber" -->
-      <!-- @keydown="isNumber" new -->
-      <!-- ref="inpValue" -->
-      <input
-        :key="'mni' + index"
-        type="text"
-        name="single"
-        @focus="originalNumberBackup(subQuestion.subquestion_id, index, $event)"
-        @blur="formatMaskedNumber(subQuestion.subquestion_id, index, $event)"
-        :value="staffAns[index].sub_ans"
-        :data-original="maskRemovers(staffAns[index].sub_ans, '-')"
-        class="form-control k_inp_field"
-        @keydown="onInput(subQuestion.subquestion_id, index, $event)"
-      />
-      <!-- @input="onInput(subQuestion.subquestion_id, index, $event)" -->
-      <!-- @keydown="isNumber" -->
-    </div>
+    <div v-if="isValid" class="custom_error">All answer is required</div>
   </div>
-  <div v-if="isValid" class="custom_error">All answer is required</div>
 </template>
 
 <script>
 import maskFormatter, { maskRemover } from "../../../utils/mask-formmater";
+import numfractionMixin from "../../../mixins/numeric-fraction-numbers";
+
 export default {
   emits: ["getUserSelected"],
+  mixins: [numfractionMixin],
 
   props: {
     data: {
@@ -83,30 +88,35 @@ export default {
 
   methods: {
     onInput(_id, _index, event) {
-      console.log(event);
-      if (event.key == "-") {
-        event.preventDefault();
-        return false;
+      console.log(_id, _index, event);
+      let dataI = "";
+      if (event.target.value.includes(".")) {
+        console.log("decimal is available", event.target.value);
+        let dataValArr = event.target.value.split(".");
+        let str_first = dataValArr[0];
+        let str_last = dataValArr[1];
+        let itermediatData =
+          str_first //below code modify in middle
+            .replace(/ /g, "")
+            .match(/.{1,3}/g)
+            .join(" ") +
+          "." +
+          (str_last.length > 3 ? "" : str_last);
+        dataI = itermediatData;
+      } else {
+        console.log("no decimal", event.target.value);
+        dataI = "";
+        if (event.target.value !== "") {
+          dataI = event.target.value
+            .replace(/ /g, "")
+            .match(/.{1,3}/g)
+            .join(" ");
+        }
       }
-      //   // event.target.dataset.org = event.target.dataset.org + event.data;
-      //   // console.info(event.target.dataset, event);
-      //   let tempAns = event.target.value;
-      //   // console.info("vishu", typeof tempAns);
-      //   this.updatetedAns = tempAns;
-      //   console.info(
-      //     "updated",
-      //     this.updatetedAns,
-      //     this.maskRemovers(this.updatetedAns, this.default_seprator)
-      //   );
-      //   event.target.dataset.org = this.maskRemovers(
-      //     this.updatetedAns,
-      //     this.default_seprator
-      //   );
-      //   // console.log(id, index, event);
-      //   // console.info(tempAns);
-      //   this.checkValidate(this.updatetedAns, id, index);
+      this.checkValidate(dataI, _id, _index);
     },
     checkValidate(tempAns, tempid, index) {
+      console.log("checking for null values");
       this.staffAns[index] = {
         subquestion_id: tempid,
         sub_ans: tempAns,

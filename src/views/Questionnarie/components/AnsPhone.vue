@@ -60,6 +60,7 @@ export default {
     return {
       numberPattern: /[0-9]/,
       numbersArr: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      tabBackDel: [8, 9, 46],
       ansValue: "",
       formatedData: "",
       isFieldValid: false,
@@ -156,7 +157,11 @@ export default {
     //   console.log("dello");
     // },
     isNumber(evt) {
-      console.log(evt, "delllo1");
+      console.log(evt, "kk");
+      if (this.tabBackDel.includes(evt.keyCode)) {
+        console.log("going to delete the code", evt.target.value);
+        this.onInput(evt.target.value);
+      }
       // evt = evt ? evt : window.event;
       // var charCode = evt.which ? evt.which : evt.keyCode;
       // if (

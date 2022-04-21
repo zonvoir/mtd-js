@@ -5,12 +5,12 @@
         @keypress="isNumber"
         @input="onInput" -->
 
+      <!-- :data-original="maskRemovers(ansValue, ' ')" -->
       <input
         @keydown="isNumber"
         @blur="blurEvent"
         @input="onInput"
         v-model="ansValue"
-        :data-original="maskRemovers(ansValue, ' ')"
         type="text"
         name="single"
         placeholder="Ex.1"
@@ -46,23 +46,23 @@ export default {
       numberPattern: /[0-9]/,
       numbersArr: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
       ansValue: "",
-      isFieldValid: false,
+      isFieldValid: undefined,
       isValid: false,
       default_seprator: " ",
     };
   },
 
-  // watch: {
-  //   ansValue: function (val) {
-  //     if (val !== "") {
-  //       this.isValid = false;
-  //       this.isFieldValid = true;
-  //     } else {
-  //       this.isValid = true;
-  //       this.isFieldValid = false;
-  //     }
-  //   },
-  // },
+  watch: {
+    // ansValue: function (val) {
+    //   if (val !== "") {
+    //     this.isValid = false;
+    //     this.isFieldValid = true;
+    //   } else {
+    //     this.isValid = true;
+    //     this.isFieldValid = false;
+    //   }
+    // },
+  },
   created() {
     if (this.currentAns != "") {
       this.isFieldValid = true;
@@ -94,57 +94,47 @@ export default {
     onInput(event) {
       // console.log("refined value", event);
       // this.checkDecimalLength();
-      let dataI;
+      let dataI = "";
       if (event.target.value.includes(".")) {
         console.log("decimal is available", event.target.value);
         let dataValArr = event.target.value.split(".");
         let str_first = dataValArr[0];
-        // .replace(/ /g, "")
-        // .match(/.{1,3}/g)
-        // .join(" ");
         let str_last = dataValArr[1];
-        // let Arr = [...str_first, ...str_last];
-
-        console.log(
-          "f",
-          str_first,
-          "l",
-          str_last,
-          "full",
-          str_first + "." + str_last
-        );
         let itermediatData =
-          str_first + "." + (str_last.length > 3 ? "" : str_last);
+          str_first
+            .replace(/ /g, "")
+            .match(/.{1,3}/g)
+            .join(" ") +
+          "." +
+          (str_last.length > 3 ? "" : str_last);
         dataI = itermediatData;
       } else {
         console.log("no decimal", event.target.value);
-        if (event.target.value === "") return;
-
-        dataI = event.target.value
-          .replace(/ /g, "")
-          .match(/.{1,3}/g)
-          .join(" ");
+        if (event.target.value !== "") {
+          dataI = event.target.value
+            .replace(/ /g, "")
+            .match(/.{1,3}/g)
+            .join(" ");
+        }
       }
       // let tempAns = event.target.value;
       // let tempid = id;
       this.checkValidate(dataI);
     },
     checkValidate(ansParams) {
-      console.log("kk", ansParams);
-      console.log(this.ansValue);
-      this.isValid = false;
-      // if (this.ansValue !== "") {
-      //   this.isValid = false;
-      //   // this.isFieldValid = false;
-      // }
-      this.emitData(ansParams);
       this.ansValue = ansParams;
+      this.ansValue ? (this.isValid = false) : (this.isValid = true);
+      this.isFieldValid = true;
+      if (this.isValid) {
+        this.isFieldValid = !this.isFieldValid;
+      }
+      this.emitData(this.ansValue);
     },
 
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,
-        isFieldValid: !this.isValid,
+        isFieldValid: this.isFieldValid,
       });
     },
 
