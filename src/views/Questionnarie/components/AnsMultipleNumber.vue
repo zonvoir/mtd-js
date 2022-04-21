@@ -15,13 +15,13 @@
         <!-- @keydown="isNumber" new -->
         <!-- ref="inpValue" -->
         <input
-          :key="'mni' + index"
+          :key="subQuestion.subquestion_id"
           type="text"
           name="single"
           @keydown="isNumber"
           @blur="blurEvent"
           @input="onInput(subQuestion.subquestion_id, index, $event)"
-          v-model="staffAns[index].sub_ans"
+          :value="staffAns[index].sub_ans"
           class="form-control k_inp_field"
         />
         <!-- :data-original="maskRemovers(staffAns[index].sub_ans, '-')" -->
@@ -87,8 +87,8 @@ export default {
   // },
 
   methods: {
-    onInput(_id, _index, event) {
-      console.log(_id, _index, event);
+    onInput(qid, index, event) {
+      console.log(qid, index, event);
       let dataI = "";
       if (event.target.value.includes(".")) {
         console.log("decimal is available", event.target.value);
@@ -105,7 +105,7 @@ export default {
         dataI = itermediatData;
       } else {
         console.log("no decimal", event.target.value);
-        dataI = "";
+
         if (event.target.value !== "") {
           dataI = event.target.value
             .replace(/ /g, "")
@@ -113,10 +113,10 @@ export default {
             .join(" ");
         }
       }
-      this.checkValidate(dataI, _id, _index);
+      this.checkValidate(dataI, qid, index);
     },
     checkValidate(tempAns, tempid, index) {
-      console.log("checking for null values");
+      console.log("checking for null values", tempAns, tempid, index);
       this.staffAns[index] = {
         subquestion_id: tempid,
         sub_ans: tempAns,

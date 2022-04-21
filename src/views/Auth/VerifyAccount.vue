@@ -38,7 +38,8 @@
         <div class="">
           <form action="">
             <div class="k_form_group">
-              <div @keyup="enterClicked" class="text_center">
+              <!-- @keyup="enterClicked" -->
+              <div class="text_center">
                 <CustomOtp
                   :classesName="'k_inp_field single_num_inp'"
                   :onChanges="getChange"
@@ -389,13 +390,13 @@ export default {
       this.otpForm.email = val;
     },
 
-    enterClicked(ev) {
-      if (ev.keyCode === 13) {
-        console.log("enter is clicked");
-      } else {
-        errorhandler("Please answer the question");
-      }
-    },
+    // enterClicked(ev) {
+    //   if (ev.keyCode === 13) {
+    //     console.log("enter is clicked");
+    //   } else {
+    //     errorhandler("Please answer the question");
+    //   }
+    // },
 
     closeModal() {
       console.log(this.isCompany, this.isCareer);

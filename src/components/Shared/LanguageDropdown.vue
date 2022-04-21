@@ -5,7 +5,7 @@
       :options="laguage"
       optionLabel="label"
       class="language_dropdown"
-      placeholder="Select a company"
+      @change="onChangeLanguage"
     >
       <template #value="slotProps">
         <div class="company-item company-item-value" v-if="slotProps.value">
@@ -37,6 +37,9 @@
 
 <script>
 import Dropdown from "primevue/dropdown";
+import errorhandler from "../../utils/Error";
+import { loadLocaleMessages } from "../../i18n";
+import CommonService from "../../Services/CommonService";
 
 export default {
   components: {
@@ -44,18 +47,75 @@ export default {
   },
   data() {
     return {
-      selectedLanguage: { value: "1", label: "En", icon: "K_Icons/flag1.svg" },
+      selectedLanguage: { value: "1", label: "En", icon: "ukflag.png" },
 
       laguage: [
-        { value: "1", label: "En", icon: "ukflag.png" },
-        { value: "2", label: "Ge", icon: "K_Icons/flag1.svg" },
+        { value: "en", label: "En", icon: "ukflag.png" },
+        { value: "de", label: "Ge", icon: "K_Icons/flag1.svg" },
       ],
     };
   },
 
+  created() {
+    this.selectedLanguage =
+      this.getActiveLanguage(localStorage.getItem("language")) ||
+      this.selectedLanguage;
+  },
+
   methods: {
     onChangeLanguage() {
-      console.loog("selected language", this.selectedLanguage);
+      console.log("selected language", this.selectedLanguage.value);
+      localStorage.setItem("language", this.selectedLanguage.value);
+      // this.$router.go();
+    },
+
+    getActiveLanguage(value) {
+      return this.laguage.find((x) => x.value == value);
+    },
+    getLanguage(value) {
+      return {
+        en: "english",
+        de: "german",
+      }[value];
+    },
+
+    // onChangeLanguage() {
+    //   console.log("selected langage");
+    //   // let data = {
+    //   //   auth_token: this.authToken,
+    //   //   language: this.getLanguage(this.selectedLanguage),
+    //   // };
+
+    //   // this.setLanguages(data);
+    //   // this.$router.go();
+    //   // loadLocaleMessages(i18n, "en");
+    // },
+    setLanguages(data) {
+      console.log("set Lang", data);
+      CommonService.setLanguage(data).then((res) => {
+        if (res.data.status) {
+          console.log("data", res.data);
+          localStorage.setItem("language", this.selectedLanguage);
+          loadLocaleMessages(this.$i18n, this.selectedLanguage);
+          this.$router.go();
+        } else {
+          errorhandler(res);
+          // let $th = this;
+          // if ("error" in res.data) {
+          //   Object.keys(res.data.error).map(function (key) {
+          //     $th.$toast.error(res.data.error[key], {
+          //       position: "bottom-left",
+          //       duration: 3712,
+          //     });
+          //   });
+          // } else {
+          //   $th.$toast.error(res.data.message, {
+          //     position: "bottom-left",
+          //     duration: 3712,
+          //   });
+          // }
+        }
+      });
     },
   },
 };
