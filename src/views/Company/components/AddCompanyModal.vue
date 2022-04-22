@@ -163,10 +163,11 @@ export default {
               });
 
               // reset the compay data
-              this.$refs.create_company_modal_step_second.formReset();
+              this.closeModal();
+              //  this.$refs.create_company_modal_step_second.clearForm();
 
               // close the company modal
-              this.modal.hide();
+              // this.modal.hide();
               this.$router.push({ name: "Dashboard" });
             } else {
               errorhandler(res);
@@ -179,6 +180,8 @@ export default {
     // close modal
     closeModal() {
       this.modal.hide();
+      this.$refs.create_company_modal_step_first.clearForm();
+      this.$refs.create_company_modal_step_second.clearForm();
     },
   },
 };

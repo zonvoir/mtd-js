@@ -1,5 +1,8 @@
 <template>
-  <div class="dept_card card_specing">
+  <div
+    class="dept_card card_specing"
+    :class="financeArr.includes(slug) ? 'finance_card' : ' maturity_card'"
+  >
     <div class="card_header">
       <div class="dept_logo position-relative m-r-11">
         <div class="logo_wrap">
@@ -8,14 +11,28 @@
       </div>
 
       <div class="dept_name">
-        <h4 class="m-b-0 dept_name">{{ title }}</h4>
+        <h4
+          class="m-b-0 dept_name"
+          :class="
+            financeArr.includes(slug)
+              ? 'finance_dept_name'
+              : ' maturity_dept_name'
+          "
+        >
+          {{ title }}
+        </h4>
       </div>
     </div>
+
     <div class="card_body">
-      <p class="dept_desc">
+      <p
+        class="dept_desc"
+        :class="financeArr.includes(slug) ? 'finance_desc' : ' maturity_desc'"
+      >
         <span v-html="description"> </span>
       </p>
     </div>
+
     <div class="card_footer">
       <div class="">
         <span
@@ -46,6 +63,10 @@ export default {
       type: String,
       required: true,
     },
+    slug: {
+      type: String,
+      default: "",
+    },
     title: {
       type: String,
       required: true,
@@ -73,7 +94,9 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      financeArr: ["advanced-kpi", "kpi"],
+    };
   },
   methods: {
     sectionDetail(componentId) {
@@ -121,11 +144,16 @@ export default {
 }
 
 .dept_card {
-  background: #ffffff;
+  // background-color: #ffffff;
   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
   border-radius: 4px;
   padding: 10px 10px 10px 10px;
-  // width: auto;
+  &.maturity_card {
+    background-color: #ffffff;
+  }
+  &.finance_card {
+    background-color: #ededed;
+  }
   .card_header {
     display: inline-flex;
     align-items: center;
@@ -148,7 +176,7 @@ export default {
     .dept_name {
       font-size: 18px;
       font-weight: 600;
-      color: #222b45;
+      // color: #222b45;
       vertical-align: middle;
       line-height: normal;
       display: -webkit-inline-box;
@@ -156,6 +184,12 @@ export default {
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
+      &.maturity_dept_name {
+        color: #222b45;
+      }
+      &.finance_dept_name {
+        color: #7900d8;
+      }
     }
   }
   .card_body {
@@ -165,7 +199,7 @@ export default {
     .dept_desc {
       font-size: 14px;
       font-weight: 400;
-      color: #8f9bb3;
+      // color: #8f9bb3;
       line-height: 20px;
       vertical-align: middle;
       line-height: normal;
@@ -174,6 +208,12 @@ export default {
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
+      &.finance_desc {
+        color: #000000;
+      }
+      &.maturity_desc {
+        color: #8f9bb3;
+      }
     }
   }
   .card_footer {

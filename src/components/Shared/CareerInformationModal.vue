@@ -27,12 +27,14 @@
                     justify-content-between
                   "
                 >
-                  <h4 class="m-t-0 title-dark">Add Carreer Information</h4>
+                  <h4 class="m-t-0 title-dark">
+                    {{ $t("career_step.add_career") }}
+                  </h4>
                   <button
                     @click="removeForm(idx)"
                     class="btn-danger btn-set btn"
                   >
-                    Remove
+                    {{ $t("career_step.buttons.remove") }}
                   </button>
                 </div>
                 <!-- @isFormValid="checkFormValidation" -->
@@ -52,7 +54,7 @@
                   @click="addMoreCareerInformation"
                   class="btn_add_multiple btn-transaprent"
                 >
-                  add More
+                  {{ $t("career_step.buttons.add_more") }}
                 </button>
               </div>
             </form>
@@ -64,14 +66,14 @@
             type="button"
             class="btn btn-primary btn-set"
           >
-            Done
+            {{ $t("career_step.buttons.done") }}
           </button>
           <button
             @click="resetCareer"
             type="button"
             class="btn btn-light btn-set"
           >
-            Cancel
+            {{ $t("career_step.buttons.cancel") }}
           </button>
         </div>
       </div>

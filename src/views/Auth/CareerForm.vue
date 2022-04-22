@@ -1,6 +1,6 @@
 <template>
   <div class="col-lg-12">
-    <h5 class="section_heading">Your current employer</h5>
+    <h5 class="section_heading">{{ $t("career_step.current_employer") }}</h5>
     <div class="row">
       <div :class="className">
         <div class="k_form_group">
@@ -9,7 +9,7 @@
             :suggestions="filteredCompanies"
             @complete="searchCompany($event)"
             field="label"
-            placeholder="Company name"
+            :placeholder="$t('career_step.form.placeholder.company_name')"
             @blur="v$.careerForm.company.$touch"
             v-model="careerForm.company"
             modelValue="value"
@@ -25,7 +25,7 @@
               v-if="v$.careerForm.company.required.$invalid"
               class="text-left fs-14"
             >
-              Company is required
+              {{ $t("career_step.form.invalid_msgs.company_name_is_required") }}
             </span>
           </div>
         </div>
@@ -38,7 +38,7 @@
             :options="industries"
             optionLabel="label"
             optionValue="value"
-            placeholder="Industry"
+            :placeholder="$t('career_step.form.placeholder.Industry')"
             @blur="v$.careerForm.industry.$touch"
             :class="{
               'is-invalid': v$.careerForm.industry.$error,
@@ -52,7 +52,7 @@
               v-if="v$.careerForm.industry.required.$invalid"
               class="text-left fs-14"
             >
-              Industry is required
+              {{ $t("career_step.form.invalid_msgs.Industry_is_required") }}
             </span>
           </div>
         </div>
@@ -63,7 +63,7 @@
           <input
             type="text"
             class="form-control k_inp_field"
-            placeholder="Division"
+            :placeholder="$t('career_step.form.placeholder.Division')"
             v-model.trim="careerForm.division"
             @blur="v$.careerForm.division.$touch"
             :class="{
@@ -79,7 +79,7 @@
               v-if="v$.careerForm.division.required.$invalid"
               class="text-left fs-14"
             >
-              Division is required
+              {{ $t("career_step.form.invalid_msgs.Division_is_required") }}
             </span>
           </div>
         </div>
@@ -92,7 +92,7 @@
               <input
                 type="text"
                 class="form-control k_inp_field"
-                placeholder="Department"
+                :placeholder="$t('career_step.form.placeholder.Department')"
                 v-model="newDepartment"
               />
               <div class="btn-dept">
@@ -101,7 +101,7 @@
                   type="button"
                   class="btn btn-primary update_btn btn-set"
                 >
-                  Add
+                  {{ $t("career_step.buttons.add") }}
                 </button>
               </div>
             </div>
@@ -111,7 +111,7 @@
                 type="button"
                 class="btn_adds btn-transaprent"
               >
-                Back
+                {{ $t("career_step.buttons.back") }}
               </button>
             </div>
           </div>
@@ -122,7 +122,7 @@
               class="prime_multiselect"
               optionLabel="label"
               optionValue="value"
-              placeholder="Department"
+              :placeholder="$t('career_step.form.placeholder.Department')"
               @blur="v$.careerForm.department.$touch"
               :class="{
                 'is-invalid': v$.careerForm.department.$error,
@@ -136,11 +136,7 @@
                 v-if="v$.careerForm.department.required.$invalid"
                 class="text-left fs-14"
               >
-                {{
-                  $t(
-                    "personal_account.form.invalid_msgs.Department_is_required"
-                  )
-                }}
+                {{ $t("career_step.form.invalid_msgs.Department_is_required") }}
               </span>
             </div>
             <div class="text_right">
@@ -149,7 +145,7 @@
                 type="button"
                 class="btn_adds btn-transaprent"
               >
-                Add department
+                {{ $t("career_step.buttons.add_department") }}
               </button>
             </div>
           </div>
@@ -158,14 +154,14 @@
     </div>
   </div>
   <div class="col-lg-12">
-    <h5 class="section_heading">Your current employment information</h5>
+    <h5 class="section_heading">{{ $t("career_step.current_employment") }}</h5>
     <div class="row">
       <div :class="className">
         <div class="k_form_group">
           <input
             type="text"
             class="form-control k_inp_field"
-            :placeholder="$t('personal_account.form.placeholder.position')"
+            :placeholder="$t('career_step.form.placeholder.Position')"
             v-model.trim="careerForm.position"
             @blur="v$.careerForm.position.$touch"
             :class="{
@@ -180,9 +176,7 @@
               v-if="v$.careerForm.position.required.$invalid"
               class="text-left fs-14"
             >
-              {{
-                $t("personal_account.form.invalid_msgs.Position_is_required")
-              }}
+              {{ $t("career_step.form.invalid_msgs.Position_is_required") }}
             </span>
           </div>
         </div>
@@ -193,9 +187,7 @@
             class="k_prime_inp_select"
             optionLabel="label"
             optionValue="value"
-            :placeholder="
-              $t('personal_account.form.placeholder.seniority_level')
-            "
+            :placeholder="$t('career_step.form.placeholder.Seniority_level')"
             :options="seniority"
             @blur="v$.careerForm.seniority_level.$touch"
             v-model="careerForm.seniority_level"
@@ -213,9 +205,7 @@
               class="text-left fs-14"
             >
               {{
-                $t(
-                  "personal_account.form.invalid_msgs.Seniority_level_is_required"
-                )
+                $t("career_step.form.invalid_msgs.Seniority_level_is_required")
               }}
             </span>
           </div>
@@ -225,7 +215,9 @@
         <div class="k_form_group row">
           <div class="col-lg-6">
             <div class="k_form_group position-relative">
-              <label for="" class="date_label">{{ fromDate }}</label>
+              <label for="" class="date_label">{{
+                $t("career_step.form.placeholder.from")
+              }}</label>
               <Datepicker
                 class="project_date_picker custom_label"
                 v-model="careerForm.from"
@@ -245,14 +237,16 @@
                   v-if="v$.careerForm.from.required.$invalid"
                   class="text-left fs-14"
                 >
-                  From date is required
+                  {{ $t("career_step.form.invalid_msgs.from_is_required") }}
                 </span>
               </div>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="k_form_group position-relative">
-              <label for="" class="date_label">{{ toDate }}</label>
+              <label for="" class="date_label">{{
+                $t("career_step.form.placeholder.to")
+              }}</label>
               <Datepicker
                 :disabled="careerForm.workingAtPresent"
                 class="project_date_picker custom_label"
@@ -271,7 +265,7 @@
     <div class="k_form_group">
       <div class="check_box_wrapper">
         <label class="k_checkbox check_lable">
-          I’m currently working in this role
+          {{ $t("career_step.currrenly_working") }}
 
           <input
             type="checkbox"
@@ -332,7 +326,7 @@ export default {
       toDate: "To",
       newDepartment: "",
       isValid: undefined,
-      myOptions: ["India", "France"],
+      // myOptions: ["India", "France"],
       myValue: "uservalue",
       date: new Date(),
       workingAtPresent: true,

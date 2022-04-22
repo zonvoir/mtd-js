@@ -7,12 +7,16 @@
       <div class="">
         <div class="">
           <div class="main-heading-wrap text-center">
-            <h2 class="main-heading">Create an account</h2>
+            <h2 class="main-heading">
+              {{ $t("register_step.title_heading") }}
+            </h2>
           </div>
         </div>
         <div class="">
           <form @submit.prevent="onSubmit" action="">
-            <h5 class="section_heading">Personal Information</h5>
+            <h5 class="section_heading">
+              {{ $t("register_step.personal_info") }}
+            </h5>
             <div class="k_form_group">
               <input
                 type="text"
@@ -21,7 +25,7 @@
                 @blur="v$.registerForm.firstname.$touch"
                 v-model.trim="registerForm.firstname"
                 class="form-control k_inp_field"
-                placeholder="Firstname"
+                :placeholder="$t('register_step.form.placeholder.Firstname')"
                 :class="{
                   'is-invalid': v$.registerForm.firstname.$error,
                 }"
@@ -30,7 +34,10 @@
                 v-if="v$.registerForm.firstname.$error"
                 class="invalid-feedback text-left"
               >
-                First Name is required
+                {{
+                  $t("register_step.form.invalid_msgs.firstname_is_required")
+                }}
+                <!-- First Name is required -->
               </span>
             </div>
             <div class="k_form_group">
@@ -39,7 +46,7 @@
                 @blur="v$.registerForm.lastname.$touch"
                 v-model.trim="registerForm.lastname"
                 class="form-control k_inp_field"
-                placeholder="Lastname"
+                :placeholder="$t('register_step.form.placeholder.Lastname')"
                 :class="{
                   'is-invalid': v$.registerForm.lastname.$error,
                 }"
@@ -48,17 +55,19 @@
                 v-if="v$.registerForm.lastname.$error"
                 class="invalid-feedback text-left"
               >
-                Last Name is required
+                {{ $t("register_step.form.invalid_msgs.lastname_is_required") }}
               </span>
             </div>
-            <h5 class="section_heading">Account Information</h5>
+            <h5 class="section_heading">
+              {{ $t("register_step.account_info") }}
+            </h5>
             <div class="k_form_group">
               <input
                 type="text"
                 @blur="v$.registerForm.username.$touch"
                 v-model.trim="registerForm.username"
                 class="form-control k_inp_field"
-                placeholder="Username"
+                :placeholder="$t('register_step.form.placeholder.Useraname')"
                 :class="{
                   'is-invalid': v$.registerForm.username.$error,
                 }"
@@ -67,7 +76,7 @@
                 v-if="v$.registerForm.username.$error"
                 class="invalid-feedback text-left"
               >
-                Userename is required
+                {{ $t("register_step.form.invalid_msgs.username_is_required") }}
               </span>
             </div>
             <div class="k_form_group">
@@ -77,7 +86,7 @@
                 @blur="v$.registerForm.email.$touch"
                 v-model.trim="registerForm.email"
                 class="form-control k_inp_field"
-                placeholder="Email"
+                :placeholder="$t('register_step.form.placeholder.email')"
                 :class="{
                   'is-invalid': v$.registerForm.email.$error,
                 }"
@@ -90,13 +99,15 @@
                   v-if="v$.registerForm.email.required.$invalid"
                   class="text-left fs-14"
                 >
-                  Email is required
+                  {{ $t("register_step.form.invalid_msgs.email_is_required") }}
                 </span>
 
                 <span
                   class="text-left fs-14"
                   v-if="v$.registerForm.email.email.$invalid"
-                  >Email is invalid</span
+                  >{{
+                    $t("register_step.form.invalid_msgs.Email_is_invalid")
+                  }}</span
                 >
               </div>
             </div>
@@ -107,7 +118,7 @@
                 @blur="v$.registerForm.password.$touch"
                 v-model.trim="registerForm.password"
                 class="form-control k_inp_field"
-                placeholder="Password"
+                :placeholder="$t('register_step.form.placeholder.password')"
                 :class="{
                   'is-invalid': v$.registerForm.password.$error,
                 }"
@@ -125,7 +136,11 @@
                     'text-success': !v$.registerForm.password.required.$invalid,
                   }"
                 >
-                  <span class="fs-14"> Password is required</span>
+                  <span class="fs-14">
+                    {{
+                      $t("register_step.form.invalid_msgs.password_is_required")
+                    }}</span
+                  >
                 </div>
                 <div
                   :class="{
@@ -207,7 +222,9 @@
                 @blur="v$.registerForm.confirm_password.$touch"
                 v-model.trim="registerForm.confirm_password"
                 class="form-control k_inp_field"
-                placeholder="Confirm Password"
+                :placeholder="
+                  $t('register_step.form.placeholder.confirm_password')
+                "
                 :class="{
                   'is-invalid': v$.registerForm.confirm_password.$error,
                 }"
@@ -220,7 +237,11 @@
                   v-if="v$.registerForm.confirm_password.required.$invalid"
                   class="text-left fs-14"
                 >
-                  Confirm Password is required
+                  {{
+                    $t(
+                      "register_step.form.invalid_msgs.confirm_password_is_required"
+                    )
+                  }}
                 </span>
 
                 <span
@@ -228,7 +249,9 @@
                   v-if="
                     v$.registerForm.confirm_password.sameAsPassword.$invalid
                   "
-                  >Password does not matched</span
+                  >{{
+                    $t("register_step.form.invalid_msgs.password_not_match")
+                  }}</span
                 >
               </div>
 
@@ -245,12 +268,13 @@
             <div class="k_form_group">
               <div class="check_box_wrapper">
                 <label class="k_checkbox check_lable">
-                  I agree with the
+                  {{ $t("register_step.i_agree") }}
+                  <!-- I agree with the -->
                   <a
                     target="_blank"
                     class="custom-link"
                     href="https://www.w3schools.com"
-                    >Terms of Service!</a
+                    >{{ $t("register_step.terms_condtion") }}</a
                   >
                   <input
                     type="checkbox"
@@ -268,7 +292,11 @@
                       v-if="v$.registerForm.terms_service.required.$invalid"
                       class="text-left"
                     >
-                      Please accept terms and conditions required
+                      {{
+                        $t(
+                          "register_step.form.invalid_msgs.terms_and_condition"
+                        )
+                      }}
                     </span>
                   </span>
                   <span class="checkmark"></span>
@@ -279,12 +307,13 @@
             <div class="k_form_group">
               <div class="check_box_wrapper">
                 <label class="k_checkbox check_lable">
-                  I have read and accept the
+                  <!-- I have read and accept the -->
+                  {{ $t("register_step.i_read") }}
                   <a
                     target="_blank"
                     class="custom-link"
                     href="https://www.w3schools.com"
-                    >Privacy Policy!</a
+                    >{{ $t("register_step.privacy_policy") }}</a
                   >
                   <input
                     type="checkbox"
@@ -304,7 +333,9 @@
                       v-if="v$.registerForm.privacy_policy.required.$invalid"
                       class="text-left"
                     >
-                      Please accept privacy and policy required
+                      {{
+                        $t("register_step.form.invalid_msgs.privacy_and_policy")
+                      }}
                     </span>
                   </span>
                 </label>
@@ -323,16 +354,20 @@
                 >
                   <span class="visually-hidden">Loading...</span>
                 </div>
-                <span v-else> Create Account </span>
+                <span v-else>
+                  {{ $t("register_step.buttons.create_account") }}
+                </span>
               </button>
             </div>
             <div class="im-user flex justify-center">
-              <span class="para14"> Already have an account?</span>
+              <span class="para14">{{
+                $t("register_step.already_account")
+              }}</span>
               <router-link
                 target="_blank"
                 class="custom-link"
                 :to="{ name: 'signup-signin' }"
-                >Sign In</router-link
+                >{{ $t("register_step.buttons.sign_in") }}</router-link
               >
             </div>
           </form>

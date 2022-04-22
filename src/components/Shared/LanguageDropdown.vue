@@ -51,7 +51,7 @@ export default {
 
       laguage: [
         { value: "en", label: "En", icon: "ukflag.png" },
-        { value: "de", label: "Ge", icon: "K_Icons/flag1.svg" },
+        { value: "de", label: "De", icon: "K_Icons/flag1.svg" },
       ],
     };
   },

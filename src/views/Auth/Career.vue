@@ -7,7 +7,7 @@
       <div class="">
         <div class="">
           <div class="main-heading-wrap text-center">
-            <h2 class="main-heading">Career Information</h2>
+            <h2 class="main-heading">{{ $t("career_step.title_heading") }}</h2>
           </div>
         </div>
         <div class="">
@@ -38,7 +38,8 @@
                   @click="addCareer"
                 >
                   <span>
-                    Add Carreer Information<img
+                    {{ $t("career_step.add_career")
+                    }}<img
                       src="K_Icons/info_gray_24dp.svg"
                       class="m-l-4"
                       alt=""
@@ -61,12 +62,14 @@
               >
                 <span class="visually-hidden">Loading...</span>
               </div>
-              <span v-else> Done </span>
+              <span v-else> {{ $t("career_step.title_heading") }} </span>
             </button>
           </div>
           <div class="im-user flex justify-center">
-            <span class="para14"> Already have an account?</span>
-            <a @click="goTo" target="_blank" class="custom-link">Sign In</a>
+            <span class="para14"> {{ $t("career_step.already_account") }}</span>
+            <a @click="goTo" target="_blank" class="custom-link">{{
+              $t("career_step.buttons.sign_in")
+            }}</a>
             <!-- :to="{ name: 'signup-signin' }" -->
           </div>
         </div>
@@ -223,7 +226,7 @@ export default {
     goTo() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
-      localStorage.removeItem("language");
+      // localStorage.removeItem("language");
       localStorage.removeItem("selected_year");
       sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
       this.$store.dispatch("GET_STAFF_DATA", null);

@@ -41,11 +41,12 @@
           <form action="">
             <div class="k_form_group">
               <!-- @keyup="enterClicked" -->
-              <div class="text_center">
+              <div @keyup="enterClicked" class="text_center">
                 <CustomOtp
                   :classesName="'k_inp_field single_num_inp'"
                   :onChanges="getChange"
                   :counters="6"
+                  ref="otpData"
                   :onComplete="onCompleted"
                   @onPaste="handleOnPaste"
                   validateType="numeric"
@@ -396,13 +397,13 @@ export default {
       this.otpForm.email = val;
     },
 
-    // enterClicked(ev) {
-    //   if (ev.keyCode === 13) {
-    //     console.log("enter is clicked");
-    //   } else {
-    //     errorhandler("Please answer the question");
-    //   }
-    // },
+    enterClicked(ev) {
+      if (this.$refs.otpData.validated && ev.keyCode === 13) {
+        this.OTPForRegistration();
+      } else {
+        return;
+      }
+    },
 
     closeModal() {
       console.log(this.isCompany, this.isCareer);

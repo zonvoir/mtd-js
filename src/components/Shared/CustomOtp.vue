@@ -6,7 +6,7 @@
       :key="index"
       type="text"
       ref="focusInp"
-      v-model.trim="v[index]"
+      v-model="v[index]"
       maxlength="1"
       @keydown="clicked"
       @paste="onPaste(index)"

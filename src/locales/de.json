@@ -16,7 +16,154 @@
     "in_progress": "in_progress",
     "completed": "completed"
   },
+  "register_step": {
+    "title_heading": "Create an account german",
+    "personal_info": "Personal Information german",
+    "account_info": "Account Information german",
+    "already_account": "Already have an account ? german",
+    "i_agree": " I agree with the  german",
+    "terms_condtion": " Terms of Service! german ",
+    "i_read": "  I have read and accept the  german ",
+    "privacy_policy": " Privacy Policy! german ",
+    "form": {
+      "placeholder": {
+        "Firstname": "Firstname german",
+        "Lastname": "Lastname german",
+        "Useraname": "Useraname german",
+        "email": "Email german",
+        "password": "Password german",
+        "confirm_password": "Confirm password german"
+      },
+      "invalid_msgs": {
+        "terms_and_condition": "Please accept terms and conditions required  german",
+        "privacy_and_policy": "Please accept privacy and policy required german",
+        "firstname_is_required": "Firstname is required german",
+        "lastname_is_required": "Fastname is invalid german",
+        "password_is_required": "Password is required german",
+        "password_not_match": "Password does not matched german",
+        "confirm_password_is_required": "Confirm password is required german",
+        "username_is_required": "Username is required german",
+        "Email_is_invalid": "Email is invalid german",
+        "email_is_required": "Email is required german"
+      }
+    },
+    "buttons": {
+      "create_account": "Create Account german",
+      "sign_in": "Sign In german",
+      "sign_up": "Sign Up german"
+    }
+  },
+  "career_step": {
+    "title_heading": "Career Information german",
+    "current_employer": "Your current employer german",
+    "current_employment": "Your current employment information german",
+    "already_account": "Already have an account ? german",
+    "currrenly_working": " I’m currently working in this role german ",
+    "add_career": "Add Carreer Information german",
+    "form": {
+      "placeholder": {
+        "company_name": "Company name german",
+        "Industry": "Industry german",
+        "Division": "Division german",
+        "Department": "Department german",
+        "Position": "Position german",
+        "Seniority_level": "Seniority level german",
+        "from": "From german",
+        "to": "To german"
+      },
+      "invalid_msgs": {
+        "company_name_is_required": "Company name is required german",
+        "Industry_is_required": "Industry is required german",
+        "Division_is_required": "Division is required german",
+        "Department_is_required": "Department is required german",
+        "Position_is_required": "Position is required german",
+        "Seniority_level_is_required": "Seniority level is required german",
+        "from_is_required": "From date is required german"
+      }
+    },
+    "buttons": {
+      "add_department": "Add Department german",
+      "done": "Done german",
+      "back": "Back german",
+      "add": "Add german",
+      "remove": "Remove german",
+      "add_more": "Add More german",
+      "cancel": "Cancel german",
+      "sign_in": "Sign In german",
+      "sign_up": "Sign Up german"
+    }
+  },
 
+  "company": {
+    "main_title": "Setup your company german",
+    "step_one": {
+      "title_heading": "Step 1: Basic Company Information german",
+      "basic_details": "Basic Company Details german",
+      "main_contact": "Main contact for questions german",
+      "already_account": "Already have an account ? german",
+      "as_consultant": "Setting up company as a consultant german",
+      "image_size": "Images should be 100 x 100 px as a png or jpeg file german",
+
+      "form": {
+        "placeholder": {
+          "company_name": "Company Name german",
+          "company_id": "Company ID german",
+          "legal_form": "Legal form of corporation german",
+          "incorp_year": "Incorporation year german",
+          "country": "country german",
+          "address": "Address german",
+          "phone": "Phone Number german"
+        },
+        "invalid_msgs": {
+          "company_name_is_required": "Company Name is required german",
+          "company_id_is_required": "Company Id is required german",
+          "legal_form_is_required": "Legal form of corporation is required german",
+          "incorp_year_is_required": "Incorporation year is required german",
+          "country_is_required": "Country is required german",
+          "address_is_required": "Address is required german",
+          "phone_is_required": "Phone Number is required german"
+        }
+      },
+      "buttons": {
+        "next": "Next german",
+        "upload_logo": "upload Logo ge",
+        "remove": "Remove german",
+        "cancel": "Cancel german",
+        "sign_in": "Sign In german",
+        "sign_up": "Sign Up german"
+      }
+    },
+    "step_two": {
+      "title_heading": "Step 2: Company Classification german",
+      "geo_scope": "Geographical Scope german",
+      "reporting_currency": "Reporting Currency german",
+      "industry_info": "Industry Information german",
+      "already_account": "Already have an account ? german",
+      "as_Intlnal": " Is your company operating internationally?  german",
+      "outside_country": "Outside of ..country..?  german",
+      "form": {
+        "placeholder": {
+          "region": "Region german",
+          "currency": "Currency german",
+          "country": "country german",
+          "main_industry": "Main Industry german",
+          "sub_industry": "Sub Industry german",
+          "detailed_industry": "Detailed Industry german"
+        },
+        "invalid_msgs": {
+          "currency_is_required": "Currency is required german",
+          "main_industry_is_required": "Main Industry is required german",
+          "sub_industry_is_required": "Sub Industry is required german",
+          "detailed_industry_is_required": "Detailed Industry is required german"
+        }
+      },
+      "buttons": {
+        "create_company": "Create Company german",
+        "sign_in": "Sign In german",
+        "sign_up": "Sign Up german"
+      }
+    }
+  },
   "login": {
     "loading": "Loading...",
     "email_step": {

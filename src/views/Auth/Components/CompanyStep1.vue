@@ -4,8 +4,10 @@
       <div class="">
         <div v-if="creatingMode === 'signup'" class="">
           <div class="main-heading-wrap text-center">
-            <h2 class="main-heading">Setup your company</h2>
-            <span class="step_title">Step 1: Basic Company Information</span>
+            <h2 class="main-heading">{{ $t("company.main_title") }}</h2>
+            <span class="step_title">
+              {{ $t("company.step_one.title_heading") }}</span
+            >
           </div>
         </div>
         <div class="">
@@ -32,34 +34,39 @@
                     @click="onPickFile"
                     class="btn k_btnfs14_w700 btn-primary m-r-20"
                   >
-                    upload logo
+                    {{ $t("company.step_one.buttons.upload_logo") }}
                   </button>
                   <button
                     @click="removeImage"
                     type="button"
                     class="btn k_btnfs14_w700 btn-basic-3"
                   >
-                    Remove
+                    {{ $t("company.step_one.buttons.remove") }}
                   </button>
                 </div>
                 <div class="hint_message_wrap">
-                  <p v-if="valiImage" class="text-secodary m-b-0">
-                    Images should be 100 x 100 px as a png or jpeg file
+                  <p class="text-secodary m-b-0">
+                    {{ $t("company.step_one.image_size") }}
+                    <!-- Images should be 100 x 100 px as a png or jpeg file -->
                   </p>
-                  <p v-else class="text-danger m-b-0">
+                  <!-- v-if="valiImage" <p v-else class="text-danger m-b-0">
                     Images Must be 100 x 100 px as a png or jpeg file
-                  </p>
+                  </p> -->
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-lg-12">
-                <h5 class="section_heading">Basic Company Details</h5>
+                <h5 class="section_heading">
+                  {{ $t("company.step_one.basic_details") }}
+                </h5>
                 <div class="k_form_group">
                   <input
                     type="text"
                     class="form-control k_inp_field"
-                    placeholder="Company Name"
+                    :placeholder="
+                      $t('company.step_one.form.placeholder.company_name')
+                    "
                     @blur="v$.companyForm.company.$touch"
                     v-model="companyForm.company"
                     :class="{
@@ -74,7 +81,11 @@
                       v-if="v$.companyForm.company.required.$invalid"
                       class="text-left fs-14"
                     >
-                      Company is required
+                      {{
+                        $t(
+                          "company.step_one.form.invalid_msgs.company_name_is_required"
+                        )
+                      }}
                     </span>
                   </div>
                 </div>
@@ -84,7 +95,9 @@
                   <input
                     type="text"
                     class="form-control k_inp_field"
-                    placeholder="Company ID"
+                    :placeholder="
+                      $t('company.step_one.form.placeholder.company_id')
+                    "
                     @blur="v$.companyForm.companyId.$touch"
                     v-model="companyForm.companyId"
                     :class="{
@@ -99,7 +112,11 @@
                       v-if="v$.companyForm.companyId.required.$invalid"
                       class="text-left fs-14"
                     >
-                      Company Id is required
+                      {{
+                        $t(
+                          "company.step_one.form.invalid_msgs.company_id_is_required"
+                        )
+                      }}
                     </span>
                   </div>
                 </div>
@@ -111,7 +128,9 @@
                     class="k_prime_inp_select"
                     optionLabel="label"
                     optionValue="value"
-                    placeholder="Legal from of corporation"
+                    :placeholder="
+                      $t('company.step_one.form.placeholder.legal_form')
+                    "
                     :options="legalCorpLists"
                     @blur="v$.companyForm.corporation_legal_form.$touch"
                     v-model="companyForm.corporation_legal_form"
@@ -131,7 +150,11 @@
                       "
                       class="text-left fs-14"
                     >
-                      Corporation legal form is required
+                      {{
+                        $t(
+                          "company.step_one.form.invalid_msgs.legal_form_is_required"
+                        )
+                      }}
                     </span>
                   </div>
                 </div>
@@ -141,7 +164,9 @@
                   <input
                     type="text"
                     class="form-control k_inp_field"
-                    placeholder="Incorporation year"
+                    :placeholder="
+                      $t('company.step_one.form.placeholder.incorp_year')
+                    "
                     maxlength="4"
                     minlength="4"
                     @keypress="isNumber"
@@ -159,7 +184,11 @@
                       v-if="v$.companyForm.incorporation_year.required.$invalid"
                       class="text-left fs-14"
                     >
-                      Incorporation year is required
+                      {{
+                        $t(
+                          "company.step_one.form.invalid_msgs.incorp_year_is_required"
+                        )
+                      }}
                     </span>
                   </div>
                 </div>
@@ -167,17 +196,13 @@
 
               <div class="col-lg-6">
                 <div class="k_form_group k_select_single">
-                  <!-- :options="departments"
-              class="prime_multiselect"
-              optionLabel="label"
-              optionValue="value" -->
                   <Dropdown
                     class="k_prime_inp_select"
                     optionLabel="label"
                     optionValue="value"
-                    placeholder="
-                   Country
-                  "
+                    :placeholder="
+                      $t('company.step_one.form.placeholder.country')
+                    "
                     :options="countryLists"
                     @blur="v$.companyForm.country.$touch"
                     @change="onChangeCountry"
@@ -195,7 +220,11 @@
                       v-if="v$.companyForm.country.required.$invalid"
                       class="text-left fs-14"
                     >
-                      Country is required
+                      {{
+                        $t(
+                          "company.step_one.form.invalid_msgs.country_is_required"
+                        )
+                      }}
                     </span>
                   </div>
                 </div>
@@ -205,7 +234,9 @@
                   <input
                     type="text"
                     class="form-control k_inp_field"
-                    placeholder="Address"
+                    :placeholder="
+                      $t('company.step_one.form.placeholder.address')
+                    "
                     @blur="v$.companyForm.address.$touch"
                     v-model="companyForm.address"
                     :class="{
@@ -220,7 +251,11 @@
                       v-if="v$.companyForm.address.required.$invalid"
                       class="text-left fs-14"
                     >
-                      Address is required
+                      {{
+                        $t(
+                          "company.step_one.form.invalid_msgs.address_is_required"
+                        )
+                      }}
                     </span>
                   </div>
                 </div>
@@ -229,7 +264,7 @@
                 <div class="k_form_group">
                   <div class="check_box_wrapper">
                     <label class="k_checkbox check_lable">
-                      Setting up company as a consultant
+                      {{ $t("company.step_one.as_consultant") }}
 
                       <input
                         type="checkbox"
@@ -240,7 +275,9 @@
                     </label>
                   </div>
                 </div>
-                <h5 class="section_heading">Main contact for questions</h5>
+                <h5 class="section_heading">
+                  {{ $t("company.step_one.main_contact") }}
+                </h5>
               </div>
 
               <div class="col-lg-6">
@@ -266,9 +303,7 @@
                         type="text"
                         @keypress="isNumber"
                         :placeholder="
-                          $t(
-                            'company_profile.company_tab.company_setup_update.form.placeholder.phone_no'
-                          )
+                          $t('company.step_one.form.placeholder.phone')
                         "
                         @blur="v$.companyForm.phonenumber.$touch"
                         v-model="companyForm.phonenumber"
@@ -284,16 +319,20 @@
                           v-if="v$.companyForm.phonenumber.required.$invalid"
                           class="text-left fs-14"
                         >
-                          Phone number is required
+                          {{
+                            $t(
+                              "company.step_one.form.invalid_msgs.phone_is_required"
+                            )
+                          }}
                         </span>
-                        <span
+                        <!-- <span
                           v-if="
                             v$.companyForm.phonenumber.maxLengthValue.$invalid
                           "
                           class="text-left fs-14"
                         >
                           Phone Number must be 15 digit
-                        </span>
+                        </span> -->
                       </div>
                     </div>
                   </div>
@@ -315,12 +354,18 @@
                   >
                     <span class="visually-hidden">Loading...</span>
                   </div>
-                  <span v-else> Next </span>
+                  <span v-else>
+                    {{ $t("company.step_one.buttons.next") }}
+                  </span>
                 </button>
               </div>
               <div class="im-user flex justify-center">
-                <span class="para14"> Already have an account?</span>
-                <a @click="goTo" target="_blank" class="custom-link">Sign In</a>
+                <span class="para14">
+                  {{ $t("company.step_one.already_account") }}</span
+                >
+                <a @click="goTo" target="_blank" class="custom-link">
+                  {{ $t("company.step_one.buttons.sign_in") }}</a
+                >
                 <!-- :to="{ name: 'signup-signin' }" -->
               </div>
             </div>
@@ -459,7 +504,7 @@ export default {
   },
 
   methods: {
-    // create comapny on company profile start
+    // create company on company profile start
     companyProfileStepOne() {
       console.log("I am from company step one from");
       this.v$.$touch();
@@ -471,12 +516,12 @@ export default {
       }
     },
 
-    // create comapny on company profile end
+    // create company on company profile end
 
     goTo() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
-      localStorage.removeItem("language");
+      // localStorage.removeItem("language");
       localStorage.removeItem("selected_year");
       sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
       this.$store.dispatch("GET_STAFF_DATA", null);
@@ -541,7 +586,7 @@ export default {
       }
     },
 
-    formReset() {
+    clearForm() {
       this.v$.$reset();
       this.country_flag = "";
       this.country_code = "";
@@ -558,6 +603,11 @@ export default {
         client_logo: "",
         detailed_industry: null,
       };
+    },
+
+    formReset() {
+      this.clearForm();
+
       if (
         localStorage.getItem("bWFpbCI6Inpvb") != null ||
         sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null
@@ -638,9 +688,9 @@ export default {
     },
 
     // get country lists
-
-    getCountries(id) {
-      this.$store.dispatch("GET_COUNTRIES", id);
+    // id
+    getCountries() {
+      this.$store.dispatch("GET_COUNTRIES");
     },
 
     checkCompany() {

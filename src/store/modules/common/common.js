@@ -145,6 +145,8 @@ export default {
         );
       });
     },
+
+    // get all regions
     GET_ALL_REGION: ({ commit }) => {
       return new Promise((resolve, reject) => {
         CommonService.getAllRegion().then(
@@ -158,6 +160,33 @@ export default {
                   label: item.region_name,
                 };
               });
+              commit("setAllRegion", regionArray);
+            } else {
+              commit("setAllRegion", []);
+              errorhandler(res);
+            }
+            resolve(res);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      });
+    },
+    // get regions according to country
+    GET_REGION_BY_COUNTRY: ({ commit }, countryId) => {
+      return new Promise((resolve, reject) => {
+        CommonService.getRegionByCountryId(countryId).then(
+          (res) => {
+            if (res.data.status) {
+              if (!res.data.data.length) return;
+              let regionArray = res.data.data.map((item) => {
+                return {
+                  value: item.id,
+                  label: item.name,
+                };
+              });
+              console.log("all region as County Id", regionArray);
               commit("setAllRegion", regionArray);
             } else {
               commit("setAllRegion", []);

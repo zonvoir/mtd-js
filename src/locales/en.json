@@ -16,6 +16,155 @@
     "in_progress": "in_progress",
     "completed": "completed"
   },
+  "register_step": {
+    "title_heading": "Create an account",
+    "personal_info": "Personal Information",
+    "account_info": "Account Information",
+    "already_account": "Already have an account ?",
+    "i_agree": " I agree with the ",
+    "terms_condtion": " Terms of Service! ",
+    "i_read": "  I have read and accept the  ",
+    "privacy_policy": " Privacy Policy! ",
+    "form": {
+      "placeholder": {
+        "Firstname": "Firstname",
+        "Lastname": "Lastname",
+        "Useraname": "Useraname",
+        "email": "Email",
+        "password": "Password",
+        "confirm_password": "Confirm password"
+      },
+      "invalid_msgs": {
+        "terms_and_condition": "Please accept terms and conditions required ",
+        "privacy_and_policy": "Please accept privacy and policy required",
+        "firstname_is_required": "Firstname is required",
+        "lastname_is_required": "Fastname is invalid",
+        "password_is_required": "Password is required",
+        "password_not_match": "Password does not matched",
+        "confirm_password_is_required": "Confirm password is required",
+        "username_is_required": "Username is required",
+        "Email_is_invalid": "Email is invalid",
+        "email_is_required": "Email is required"
+      }
+    },
+    "buttons": {
+      "create_account": "Create Account",
+      "sign_in": "Sign In",
+      "sign_up": "Sign Up"
+    }
+  },
+  "career_step": {
+    "title_heading": "Career Information",
+    "current_employer": "Your current employer",
+    "current_employment": "Your current employment information",
+    "already_account": "Already have an account ?",
+    "currrenly_working": " I’m currently working in this role ",
+    "add_career": "Add Carreer Information",
+    "form": {
+      "placeholder": {
+        "company_name": "Company name",
+        "Industry": "Industry",
+        "Division": "Division",
+        "Department": "Department",
+        "Position": "Position",
+        "Seniority_level": "Seniority level",
+        "from": "From",
+        "to": "To"
+      },
+      "invalid_msgs": {
+        "company_name_is_required": "Company name is required",
+        "Industry_is_required": "Industry is required",
+        "Division_is_required": "Division is required",
+        "Department_is_required": "Department is required",
+        "Position_is_required": "Position is required",
+        "Seniority_level_is_required": "Seniority level is required",
+        "from_is_required": "From date is required"
+      }
+    },
+    "buttons": {
+      "add_department": "Add Department",
+      "done": "Done",
+      "back": "Back",
+      "add": "Add",
+      "remove": "Remove",
+      "add_more": "Add More",
+      "cancel": "Cancel",
+      "sign_in": "Sign In",
+      "sign_up": "Sign Up"
+    }
+  },
+
+  "company": {
+    "main_title": "Setup your company",
+    "step_one": {
+      "title_heading": "Step 1: Basic Company Information",
+      "basic_details": "Basic Company Details",
+      "main_contact": "Main contact for questions",
+      "already_account": "Already have an account ?",
+      "as_consultant": "Setting up company as a consultant",
+      "image_size": "Images should be 100 x 100 px as a png or jpeg file",
+
+      "form": {
+        "placeholder": {
+          "company_name": "Company Name",
+          "company_id": "Company ID",
+          "legal_form": "Legal form of corporation",
+          "incorp_year": "Incorporation year",
+          "country": "country",
+          "address": "Address",
+          "phone": "Phone Number"
+        },
+        "invalid_msgs": {
+          "company_name_is_required": "Company Name is required",
+          "company_id_is_required": "Company Id is required",
+          "legal_form_is_required": "Legal form of corporation is required",
+          "incorp_year_is_required": "Incorporation year is required",
+          "country_is_required": "Country is required",
+          "address_is_required": "Address is required",
+          "phone_is_required": "Phone Number is required"
+        }
+      },
+      "buttons": {
+        "next": "Next",
+        "upload_logo": "upload Logo",
+        "remove": "Remove",
+        "cancel": "Cancel",
+        "sign_in": "Sign In",
+        "sign_up": "Sign Up"
+      }
+    },
+    "step_two": {
+      "title_heading": "Step 2: Company Classification",
+      "geo_scope": "Geographical Scope",
+      "reporting_currency": "Reporting Currency",
+      "industry_info": "Industry Information",
+      "already_account": "Already have an account ?",
+      "as_Intlnal": " Is your company operating internationally? ",
+      "outside_country": "Outside of ..country..? ",
+      "form": {
+        "placeholder": {
+          "region": "Region",
+          "currency": "Currency",
+          "country": "country",
+          "main_industry": "Main Industry",
+          "sub_industry": "Sub Industry",
+          "detailed_industry": "Detailed Industry"
+        },
+        "invalid_msgs": {
+          "currency_is_required": "Currency is required",
+          "main_industry_is_required": "Main Industry is required",
+          "sub_industry_is_required": "Sub Industry is required",
+          "detailed_industry_is_required": "Detailed Industry is required"
+        }
+      },
+      "buttons": {
+        "create_company": "Create Company",
+        "sign_in": "Sign In",
+        "sign_up": "Sign Up"
+      }
+    }
+  },
+
   "login": {
     "loading": "Loading...",
     "email_step": {
@@ -39,7 +188,7 @@
     "password_step": {
       "enter_password": "Enter Your Password",
       "no_account": "No account created yet ?",
-      "already_account": "Already have an account ? german",
+      "already_account": "Already have an account ?",
       "stay_signed": "Stay signed in",
       "form": {
         "placeholder": {

@@ -4,18 +4,22 @@ class CommonService {
   setLanguage(data) {
     return http.post("staffs/change_staff_language", data);
   }
+
   // get All Industries
   getAllIndustries() {
     return http.get("lists/industry");
   }
+
   //get Token Is Expired
   getTokenValidation(data) {
     return http.post("staffs/is_staff_token_expired", data);
   }
+
   //get All deparartments
   getAllDepartments() {
     return http.get("lists/department");
   }
+
   //add one deparartment
   addNewDepartment(data) {
     return http.post("staffs/add_new_department", data);
@@ -25,14 +29,17 @@ class CommonService {
   getAllSeniorityLevels() {
     return http.get("lists/seniority_level");
   }
+
   // get  categories llist
   allCategories() {
     return http.get("lists/categories");
   }
+
   //get all sub industries based on subIndustries
   getAllSubIndustries(id) {
     return http.get(`lists/sub_industry_by_main_industry/${id}`);
   }
+
   // get all detailed industries based on subIndustries id
   getAllDetailedIndustries(id) {
     return http.get(`lists/detailed_industry_by_sub_industry/${id}`);
@@ -42,6 +49,7 @@ class CommonService {
   getAllLegalFormCorporation() {
     return http.get("lists/corporation_legal_form");
   }
+
   // get all Own role in company
   getAllOwnRoleInCompany() {
     return http.get("lists/company_role");
@@ -51,14 +59,19 @@ class CommonService {
   getAllRegion() {
     return http.get("lists/region");
   }
+  // get  Region when country id is given
+  getRegionByCountryId(countryId) {
+    return http.get(`lists/region_by_country/${countryId}`);
+  }
 
   // get all country by region
   getAllCountry(regionId) {
     // console.log(regionId);
     if (regionId) {
-      return http.get(`lists/region_countries/${regionId}`);
+      return http.post("lists/region_countries", regionId);
+      // return http.get(`lists/region_countries/${regionId}`);
     } else {
-      return http.get(`lists/region_countries`);
+      return http.post(`lists/region_countries`);
     }
   }
   // get all country code by country id

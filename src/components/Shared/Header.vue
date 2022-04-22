@@ -306,7 +306,7 @@ export default {
     onLogout() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
-      localStorage.removeItem("language");
+      // localStorage.removeItem("language");
       localStorage.removeItem("selected_year");
       this.$store.dispatch("GET_STAFF_DATA", null);
       this.$router.push({ name: "signup-signin" });

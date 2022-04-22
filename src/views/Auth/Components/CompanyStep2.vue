@@ -4,8 +4,10 @@
       <div class="">
         <div v-if="creatingMode === 'signup'" class="">
           <div class="main-heading-wrap text-center">
-            <h2 class="main-heading">Setup your company</h2>
-            <span class="step_title">Step 2: Company Classification</span>
+            <h2 class="main-heading">{{ $t("company.main_title") }}</h2>
+            <span class="step_title">{{
+              $t("company.step_two.title_heading")
+            }}</span>
           </div>
         </div>
         <div class="">
@@ -15,9 +17,11 @@
                 <div class="k_form_group">
                   <div class="check_box_wrapper">
                     <label class="k_checkbox check_lable">
-                      Is your company operating internationally?
+                      {{ $t("company.step_two.as_Intlnal") }}
+                      <!-- Is your company operating internationally? -->
                       <p class="internation_check">
-                        "(Outside of ..country..?)"
+                        {{ $t("company.step_two.outside_country") }}
+                        <!-- "(Outside of ..country..?)" -->
                       </p>
 
                       <input
@@ -32,19 +36,21 @@
               </div>
 
               <div class="col-lg-12">
-                <h5 class="section_heading">Geographical Scope</h5>
+                <h5 class="section_heading">
+                  {{ $t("company.step_two.geo_scope") }}
+                </h5>
 
                 <div class="row">
                   <div class="col-lg-6">
                     <div class="k_form_group k_select_single">
-                      <Dropdown
-                        class="k_prime_inp_select"
+                      <MultiSelect
+                        class="prime_multiselect"
                         :disabled="!companyForm.operating_international"
                         optionLabel="label"
                         optionValue="value"
-                        placeholder="
-                   Region
-                  "
+                        :placeholder="
+                          $t('company.step_two.form.placeholder.region')
+                        "
                         :options="regionLists"
                         @change="onChangeRegion"
                         v-model="companyForm.region"
@@ -54,34 +60,36 @@
 
                   <div class="col-lg-6">
                     <div class="k_form_group k_select_single">
-                      <Dropdown
+                      <MultiSelect
                         :disabled="!companyForm.operating_international"
-                        class="k_prime_inp_select"
+                        class="prime_multiselect"
                         optionLabel="label"
                         optionValue="value"
-                        placeholder="
-                   Country
-                  "
+                        :placeholder="
+                          $t('company.step_two.form.placeholder.country')
+                        "
                         :options="countryLists"
-                        @change="onChangeCountry"
                         v-model="companyForm.company_country"
                       />
+                      <!-- @change="onChangeCountry" -->
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-lg-12">
                 <div class="row">
-                  <h5 class="section_heading">Reporting Currency</h5>
+                  <h5 class="section_heading">
+                    {{ $t("company.step_two.reporting_currency") }}
+                  </h5>
                   <div class="col-lg-6">
                     <div class="k_form_group k_select_single">
                       <Dropdown
                         class="k_prime_inp_select"
                         optionLabel="label"
                         optionValue="value"
-                        placeholder="
-                   Currency
-                  "
+                        :placeholder="
+                          $t('company.step_two.form.placeholder.currency')
+                        "
                         :options="currencyLists"
                         v-model="companyForm.currency"
                         @blur="v$.companyForm.currency.$touch"
@@ -98,7 +106,12 @@
                           v-if="v$.companyForm.currency.required.$invalid"
                           class="text-left fs-14"
                         >
-                          Currency is required
+                          {{
+                            $t(
+                              "company.step_two.from.invalid_msgs.currency_is_required"
+                            )
+                          }}
+                          <!-- Currency is required -->
                         </span>
                       </div>
                     </div>
@@ -107,7 +120,9 @@
               </div>
 
               <div class="col-lg-12">
-                <h5 class="section_heading">Industry Information</h5>
+                <h5 class="section_heading">
+                  {{ $t("company.step_two.industry_info") }}
+                </h5>
                 <div class="row">
                   <div class="col-lg-6">
                     <div class="k_form_group k_select_single">
@@ -115,9 +130,9 @@
                         class="k_prime_inp_select"
                         optionLabel="label"
                         optionValue="value"
-                        placeholder="
-                   Main Industry
-                  "
+                        :placeholder="
+                          $t('company.step_two.form.placeholder.main_industry')
+                        "
                         :options="industryLists"
                         @change="onChangeMainIndustry"
                         @blur="v$.companyForm.main_industry.$touch"
@@ -135,7 +150,11 @@
                           v-if="v$.companyForm.main_industry.required.$invalid"
                           class="text-left fs-14"
                         >
-                          Main industry is required
+                          {{
+                            $t(
+                              "company.step_two.from.invalid_msgs.main_industry_is_required"
+                            )
+                          }}
                         </span>
                       </div>
                     </div>
@@ -147,9 +166,9 @@
                         class="k_prime_inp_select"
                         optionLabel="label"
                         optionValue="value"
-                        placeholder="
-                   Sub Industry
-                  "
+                        :placeholder="
+                          $t('company.step_two.form.placeholder.sub_industry')
+                        "
                         :options="subIndustryLists"
                         @change="onChangeSubIndustry"
                         @blur="v$.companyForm.sub_industry.$touch"
@@ -167,7 +186,11 @@
                           v-if="v$.companyForm.sub_industry.required.$invalid"
                           class="text-left fs-14"
                         >
-                          Sub industry is required
+                          {{
+                            $t(
+                              "company.step_two.from.invalid_msgs.sub_industry_is_required"
+                            )
+                          }}
                         </span>
                       </div>
                     </div>
@@ -179,9 +202,11 @@
                         class="k_prime_inp_select"
                         optionLabel="label"
                         optionValue="value"
-                        placeholder="
-                   Detailed Industry
-                  "
+                        :placeholder="
+                          $t(
+                            'company.step_two.form.placeholder.detailed_industry'
+                          )
+                        "
                         :options="detailedIndustryLists"
                         @blur="v$.companyForm.detailed_industry.$touch"
                         v-model="companyForm.detailed_industry"
@@ -199,7 +224,11 @@
                           "
                           class="text-left fs-14"
                         >
-                          Detailed industry is required
+                          {{
+                            $t(
+                              "company.step_two.from.invalid_msgs.detailed_industry_is_required"
+                            )
+                          }}
                         </span>
                       </div>
                     </div>
@@ -222,12 +251,18 @@
                   >
                     <span class="visually-hidden">Loading...</span>
                   </div>
-                  <span v-else> Create Company </span>
+                  <span v-else>
+                    {{ $t("company.step_two.buttons.create_company") }}
+                  </span>
                 </button>
               </div>
               <div class="im-user flex justify-center">
-                <span class="para14"> Already have an account?</span>
-                <a @click="goTo" target="_blank" class="custom-link">Sign In</a>
+                <span class="para14">
+                  {{ $t("company.step_two.already_account") }}</span
+                >
+                <a @click="goTo" target="_blank" class="custom-link">{{
+                  $t("company.step_two.buttons.sign_in")
+                }}</a>
               </div>
             </div>
           </form>
@@ -243,6 +278,7 @@ import useVuelidate from "@vuelidate/core";
 import SignupService from "../../../Services/SignupService";
 import errorhandler from "../../../utils/Error";
 import Dropdown from "primevue/dropdown";
+import MultiSelect from "primevue/multiselect";
 import { mapGetters } from "vuex";
 import {
   updateLocalStorage,
@@ -252,6 +288,7 @@ import {
 export default {
   components: {
     Dropdown,
+    MultiSelect,
   },
   name: "CompanyStepTwo",
 
@@ -275,14 +312,16 @@ export default {
       staffData:
         JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
         JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      value: null,
+      // value: null,
+      countriesArr: [],
+      RegionsArr: [],
       companyForm: {
         auth_token: "",
-        company_country: "",
+        company_country: [],
         main_industry: null,
         sub_industry: null,
         detailed_industry: null,
-        region: null,
+        region: [],
         currency: "",
         operating_international: false,
       },
@@ -294,6 +333,12 @@ export default {
       console.log(val);
       if (!val) {
         this.internationalCompany();
+      } else {
+        console.log(this.RegionsArr, this.countriesArr);
+        this.companyForm.region = this.RegionsArr;
+        this.companyForm.company_country = [];
+        this.companyForm.company_country.push(this.countriesArr);
+        this.getCountries(this.companyForm.region);
       }
     },
   },
@@ -316,7 +361,9 @@ export default {
     }
     this.getIndustryList();
     this.getRegions();
-    this.getCountries();
+    // if (!this.countriesArr.length && !this.RegionsArr.length) {
+    // this.getCountries();
+    // }
   },
 
   setup() {
@@ -337,7 +384,7 @@ export default {
   },
 
   methods: {
-    // create comapny on company profile start
+    // create company on company profile start
     companyProfileSteptwo() {
       console.log("I am from company step two form");
       this.v$.$touch();
@@ -348,12 +395,12 @@ export default {
       }
     },
 
-    // create comapny on company profile end
+    // create company on company profile end
 
     goTo() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
-      localStorage.removeItem("language");
+      // localStorage.removeItem("language");
       localStorage.removeItem("selected_year");
       sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
       this.$store.dispatch("GET_STAFF_DATA", null);
@@ -380,7 +427,7 @@ export default {
         SignupService.companyClassificationInfo(this.companyForm)
           .then((response) => {
             if (response.data.status) {
-              console.log("COMPANY INFOMATION", response.data.data);
+              // console.log("COMPANY INFOMATION", response.data.data);
               this.$store.dispatch("getCompanyInfoDetails", response.data.data);
               this.checkCompany();
               if (
@@ -422,7 +469,7 @@ export default {
       }
     },
 
-    formReset() {
+    clearForm() {
       this.v$.$reset();
       this.companyForm = {
         company_country: "",
@@ -433,7 +480,10 @@ export default {
         currency: "",
         operating_international: false,
       };
+    },
 
+    formReset() {
+      this.clearForm();
       if (
         localStorage.getItem("bWFpbCI6Inpvb") != null ||
         sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null
@@ -531,21 +581,26 @@ export default {
     },
 
     onChangeRegion() {
+      console.log("country_lists", this.companyForm.company_country);
       this.getCountries(this.companyForm.region);
     },
 
     onChangeCountry() {
-      console.log("Detail Industry", this.companyForm.company_country);
+      console.log("country_lists", this.companyForm.company_country);
     },
 
     // get regions lists
     getRegions() {
+      // if (this.countryId) {
+      //   this.$store.dispatch("GET_REGION_BY_COUNTRY", this.countryId);
+      // } else {
       this.$store.dispatch("GET_ALL_REGION");
+      // }
     },
 
     // get country lists
     getCountries(id) {
-      this.$store.dispatch("GET_COUNTRIES", id);
+      this.$store.dispatch("GET_COUNTRIES", { region_id: id });
     },
 
     checkCompany() {
@@ -554,8 +609,9 @@ export default {
           auth_token: this.staffData.auth_token,
         }).then((resp) => {
           if (resp.data.status) {
-            console.log("there company is already setup", resp.data.data);
-
+            console.log("multiSelect data", resp.data.data);
+            this.countriesArr = resp.data.data.first_country_id;
+            this.RegionsArr = resp.data.data.regions;
             // update session Storage
             if (sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null) {
               updateSessionStorage("OiJKV1QiLCJhbGciOiJIUzI1", [
