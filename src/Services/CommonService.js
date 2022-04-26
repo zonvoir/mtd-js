@@ -71,7 +71,8 @@ class CommonService {
       return http.post("lists/region_countries", regionId);
       // return http.get(`lists/region_countries/${regionId}`);
     } else {
-      return http.post(`lists/region_countries`);
+      console.log("no region id in all country api list");
+      return http.post("lists/region_countries");
     }
   }
   // get all country code by country id

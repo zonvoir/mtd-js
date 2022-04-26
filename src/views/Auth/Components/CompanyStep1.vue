@@ -259,6 +259,18 @@
                     </span>
                   </div>
                 </div>
+                <!-- <AutoComplete
+                  class="k_prime_inp_field"
+                  :suggestions="filteredCompanies"
+                  @complete="searchCompany($event)"
+                  field="label"
+                  :placeholder="$t('company.step_one.form.placeholder.address')"
+                  @blur="v$.companyForm.address.$touch"
+                  v-model="companyForm.address"
+                  :class="{
+                    'is-invalid': v$.companyForm.address.$error,
+                  }"
+                /> -->
               </div>
               <div class="col-lg-12">
                 <div class="k_form_group">
@@ -386,6 +398,7 @@ import { required, numeric, maxLength } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import TermsConditionsModal from "./TermsConditionsModal.vue";
 // import MultiSelect from "primevue/multiselect";
+// import AutoComplete from "primevue/autocomplete";
 
 import Dropdown from "primevue/dropdown";
 import { mapGetters } from "vuex";
@@ -409,7 +422,7 @@ export default {
 
   components: {
     Dropdown,
-    // MultiSelect,
+    // AutoComplete,
     TermsConditionsModal,
   },
 
@@ -678,7 +691,6 @@ export default {
     },
 
     onChangeCountry() {
-      console.log("Detail Industry", this.companyForm.country);
       this.selectedCountryCode(+this.companyForm.country);
     },
 

@@ -108,7 +108,7 @@
                         >
                           {{
                             $t(
-                              "company.step_two.from.invalid_msgs.currency_is_required"
+                              "company.step_two.form.invalid_msgs.currency_is_required"
                             )
                           }}
                           <!-- Currency is required -->
@@ -152,7 +152,7 @@
                         >
                           {{
                             $t(
-                              "company.step_two.from.invalid_msgs.main_industry_is_required"
+                              "company.step_two.form.invalid_msgs.main_industry_is_required"
                             )
                           }}
                         </span>
@@ -188,7 +188,7 @@
                         >
                           {{
                             $t(
-                              "company.step_two.from.invalid_msgs.sub_industry_is_required"
+                              "company.step_two.form.invalid_msgs.sub_industry_is_required"
                             )
                           }}
                         </span>
@@ -226,7 +226,7 @@
                         >
                           {{
                             $t(
-                              "company.step_two.from.invalid_msgs.detailed_industry_is_required"
+                              "company.step_two.form.invalid_msgs.detailed_industry_is_required"
                             )
                           }}
                         </span>
@@ -284,6 +284,7 @@ import {
   updateLocalStorage,
   updateSessionStorage,
 } from "../../../utils/commonHelperFuntions";
+import CommonService from "../../../Services/CommonService";
 
 export default {
   components: {
@@ -296,6 +297,10 @@ export default {
     creatingMode: {
       type: String,
       default: "signup",
+    },
+    countryId: {
+      type: String,
+      default: "",
     },
   },
 
@@ -340,6 +345,9 @@ export default {
         this.companyForm.company_country.push(this.countriesArr);
         this.getCountries(this.companyForm.region);
       }
+    },
+    countryId: function () {
+      this.getRegions();
     },
   },
 
@@ -591,11 +599,33 @@ export default {
 
     // get regions lists
     getRegions() {
-      // if (this.countryId) {
-      //   this.$store.dispatch("GET_REGION_BY_COUNTRY", this.countryId);
-      // } else {
-      this.$store.dispatch("GET_ALL_REGION");
-      // }
+      if (this.countryId !== "") {
+        this.getSelctedRegion();
+        this.countriesArr = this.countryId;
+        // this.RegionsArr = this.getSelctedRegion();
+
+        this.$store.dispatch("GET_REGION_BY_COUNTRY", this.countryId);
+        //  )}
+      }
+      // this.$store.dispatch("GET_ALL_REGION");
+      this.$store.dispatch("GET_REGION_BY_COUNTRY");
+    },
+
+    getSelctedRegion() {
+      console.log("al ", this.countryId);
+      CommonService.getRegionByCountryId(this.countryId).then((res) => {
+        if (res.data.status) {
+          // if (!res.data.data.length) return;
+          console.log("all region", res.data);
+          console.log("all region as County Id", res.data.data);
+          let selectedRegions = res.data.data.map((item) => {
+            return item.id;
+          });
+          this.RegionsArr = selectedRegions;
+        } else {
+          errorhandler(res);
+        }
+      });
     },
 
     // get country lists

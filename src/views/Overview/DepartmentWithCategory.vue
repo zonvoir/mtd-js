@@ -54,6 +54,7 @@
               <Card
                 :id="category.id"
                 :title="category.name"
+                :slug="category.slug"
                 :description="category.questionnaire.short_description"
                 :status="category.questionnaire.questionnaire_status"
                 :image="category.image"

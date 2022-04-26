@@ -399,7 +399,11 @@ export default {
 
     enterClicked(ev) {
       if (this.$refs.otpData.validated && ev.keyCode === 13) {
-        this.OTPForRegistration();
+        if (this.canUpdateEmail) {
+          this.OTPForRegistration();
+        } else {
+          this.OTPInput();
+        }
       } else {
         return;
       }

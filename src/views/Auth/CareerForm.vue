@@ -253,8 +253,23 @@
                 :enableTimePicker="false"
                 v-model="careerForm.to"
                 @open="clearToDate"
+                @blur="v$.careerForm.to.$touch"
                 placeholder="mm/dd/yyyy"
+                :class="{
+                  invalid_error: v$.careerForm.to.$error,
+                }"
               />
+              <div
+                v-if="v$.careerForm.to.$error"
+                class="invalid_feedback text-left"
+              >
+                <span
+                  v-if="v$.careerForm.to.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  {{ $t("career_step.form.invalid_msgs.to_is_required") }}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -281,7 +296,7 @@
 
 <script>
 import Datepicker from "vue3-date-time-picker";
-import { required } from "@vuelidate/validators";
+import { required, requiredIf } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import { formatDate } from "../../utils/FormatDate";
 import AutoComplete from "primevue/autocomplete";
@@ -335,16 +350,22 @@ export default {
       companies: [],
     };
   },
-  validations: {
-    careerForm: {
-      company: { required },
-      position: { required },
-      industry: { required },
-      department: { required },
-      from: { required },
-      division: { required },
-      seniority_level: { required },
-    },
+  validations() {
+    let validator = {
+      careerForm: {
+        company: { required },
+        position: { required },
+        industry: { required },
+        department: { required },
+        from: { required },
+        to: {
+          required: requiredIf(() => !this.careerForm.workingAtPresent),
+        },
+        division: { required },
+        seniority_level: { required },
+      },
+    };
+    return validator;
   },
 
   setup() {
@@ -361,7 +382,7 @@ export default {
   watch: {
     "careerForm.workingAtPresent": function (oldVal, newVal) {
       // this.careerForm.workingAtPresent = val;
-      console.log(oldVal, newVal);
+      console.log(oldVal, newVal, "vis", this.careerForm.workingAtPresent);
       this.clearToDate();
     },
   },

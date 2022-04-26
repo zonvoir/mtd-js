@@ -62,18 +62,18 @@
         </div>
         <div class="modal-footer invite_modal_footer">
           <button
-            @click="saveData"
-            type="button"
-            class="btn btn-primary btn-set"
-          >
-            {{ $t("career_step.buttons.done") }}
-          </button>
-          <button
             @click="resetCareer"
             type="button"
-            class="btn btn-light btn-set"
+            class="btn btn-light default_padding btn-set m-r-8"
           >
             {{ $t("career_step.buttons.cancel") }}
+          </button>
+          <button
+            @click="saveData"
+            type="button"
+            class="btn default_padding btn-primary btn-set"
+          >
+            {{ $t("career_step.buttons.done") }}
           </button>
         </div>
       </div>
@@ -89,6 +89,7 @@ import "vue3-date-time-picker/dist/main.css";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import CareerForm from "../../views/Auth/CareerForm.vue";
+import { successhandler } from "../../utils/Error";
 export default {
   emits: ["multiCareer"],
   props: {
@@ -191,7 +192,7 @@ export default {
       let dataResp = [];
       this.carreerForm.forEach((val, indx) => {
         dataResp[indx] = this.$refs["childCareer" + indx].validateForm();
-
+        successhandler("Information is saved.");
         console.log(dataResp);
         data.push(val);
       });

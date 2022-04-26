@@ -153,7 +153,6 @@ export default {
           (res) => {
             if (res.data.status) {
               if (!res.data.data.length) return;
-              console.log("all region");
               let regionArray = res.data.data.map((item) => {
                 return {
                   value: item.id,
@@ -183,7 +182,7 @@ export default {
               let regionArray = res.data.data.map((item) => {
                 return {
                   value: item.id,
-                  label: item.name,
+                  label: item.region_name,
                 };
               });
               console.log("all region as County Id", regionArray);
@@ -226,6 +225,7 @@ export default {
         );
       });
     },
+
     GET_ROLES: ({ commit }) => {
       return new Promise((resolve, reject) => {
         CommonService.getAllOwnRoleInCompany().then(
@@ -251,6 +251,7 @@ export default {
         );
       });
     },
+
     GET_ALL_LEGAL_FORM_CORPORATION: ({ commit }) => {
       return new Promise((resolve, reject) => {
         CommonService.getAllLegalFormCorporation().then(
@@ -276,6 +277,7 @@ export default {
         );
       });
     },
+
     GET_ALL_SENOIRITY_LEVELS: ({ commit }) => {
       return new Promise((resolve, reject) => {
         CommonService.getAllSeniorityLevels().then(
@@ -301,6 +303,7 @@ export default {
         );
       });
     },
+
     GET_ALL_COMPANY_DEPARTMENT: ({ commit }) => {
       return new Promise((resolve, reject) => {
         CommonService.getAllDepartments().then(
@@ -326,6 +329,7 @@ export default {
         );
       });
     },
+
     ADD_NEW_COMPANY_DEPARTMENT: ({ commit }, data) => {
       return new Promise((resolve, reject) => {
         CommonService.addNewDepartment(data).then(

@@ -78,7 +78,8 @@
         "Department_is_required": "Department is required",
         "Position_is_required": "Position is required",
         "Seniority_level_is_required": "Seniority level is required",
-        "from_is_required": "From date is required"
+        "from_is_required": "From date is required",
+        "to_is_required": "To date is required"
       }
     },
     "buttons": {
@@ -96,6 +97,8 @@
 
   "company": {
     "main_title": "Setup your company",
+    "profile_main_title": "Create Company",
+
     "step_one": {
       "title_heading": "Step 1: Basic Company Information",
       "basic_details": "Basic Company Details",
@@ -162,6 +165,11 @@
         "sign_in": "Sign In",
         "sign_up": "Sign Up"
       }
+    },
+    "profile_buttons": {
+      "Create": "Create",
+      "back": "back",
+      "Save_next": " Save & Next "
     }
   },
 

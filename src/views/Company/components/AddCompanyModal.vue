@@ -22,7 +22,9 @@
                 <Stepper :currentStep="activeStep" />
               </div>
               <div class="process_title_wrap">
-                <h2 class="process_title">Create Company</h2>
+                <h2 class="process_title">
+                  {{ $t("company.profile_main_title") }}
+                </h2>
               </div>
             </div>
             <div class="close_btn_wrap">
@@ -37,17 +39,18 @@
           </div>
           <div class="modal-body company_modal_body">
             <div class="company_forms_container">
-              <div v-if="activeStep === 1" class="">
+              <div v-show="activeStep === 1" class="">
                 <CompanyStep1
                   ref="create_company_modal_step_first"
                   :creatingMode="'profile'"
                 />
               </div>
-              <div v-else class="">
+              <div v-show="activeStep === 2" class="">
                 <!-- I am from step 2 -->
                 <CompanyStep2
                   ref="create_company_modal_step_second"
                   :creatingMode="'profile'"
+                  :countryId="countryData"
                 />
               </div>
             </div>
@@ -59,16 +62,25 @@
               @click="nextStep"
               class="btn default_padding btn-light btn-set"
             >
-              Save & Next
+              <!-- Save & Next -->
+              {{ $t("company.profile_buttons.Save_next") }}
             </button>
-            <button
-              v-else
-              type="button"
-              @click="addNewCompany"
-              class="btn default_padding btn-primary btn-set"
-            >
-              Create
-            </button>
+            <div v-else class="">
+              <button
+                type="button"
+                @click="previousStep"
+                class="btn default_padding btn-light btn-set m-r-8"
+              >
+                {{ $t("company.profile_buttons.back") }}
+              </button>
+              <button
+                type="button"
+                @click="addNewCompany"
+                class="btn default_padding btn-primary btn-set"
+              >
+                {{ $t("company.profile_buttons.Create") }}
+              </button>
+            </div>
             <!-- <button
               type="button"
               @click="onCloseModal"
@@ -101,6 +113,7 @@ export default {
     return {
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       modal: null,
+      countryData: "",
       activeStep: 1,
       allCompanyData: undefined,
       basicCompanyData: undefined,
@@ -127,9 +140,16 @@ export default {
           "congrats ! company first step is completed successfully. ",
           this.basicCompanyData
         );
+        this.countryData = this.basicCompanyData.country
+          ? this.basicCompanyData.country
+          : "";
       }
     },
 
+    // back to step 1
+    previousStep() {
+      this.activeStep = 1;
+    },
     // get company all infomarmation and merge and create new company
     addNewCompany() {
       console.log(
@@ -161,13 +181,7 @@ export default {
               this.$store.dispatch("getStaffsCompanies", {
                 auth_token: this.staffData.auth_token,
               });
-
-              // reset the compay data
               this.closeModal();
-              //  this.$refs.create_company_modal_step_second.clearForm();
-
-              // close the company modal
-              // this.modal.hide();
               this.$router.push({ name: "Dashboard" });
             } else {
               errorhandler(res);

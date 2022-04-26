@@ -78,7 +78,8 @@
         "Department_is_required": "Department is required german",
         "Position_is_required": "Position is required german",
         "Seniority_level_is_required": "Seniority level is required german",
-        "from_is_required": "From date is required german"
+        "from_is_required": "From date is required german",
+        "to_is_required": "To date is required german"
       }
     },
     "buttons": {
@@ -96,6 +97,7 @@
 
   "company": {
     "main_title": "Setup your company german",
+    "profile_main_title": "Create Company german",
     "step_one": {
       "title_heading": "Step 1: Basic Company Information german",
       "basic_details": "Basic Company Details german",
@@ -162,6 +164,11 @@
         "sign_in": "Sign In german",
         "sign_up": "Sign Up german"
       }
+    },
+    "profile_buttons": {
+      "Create": "Create ger",
+      "back": "back german",
+      "Save_next": " Save & Next ger"
     }
   },
   "login": {
