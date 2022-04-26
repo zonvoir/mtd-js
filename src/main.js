@@ -15,6 +15,9 @@ import "bootstrap/scss/bootstrap.scss";
 import "@vueform/multiselect/themes/default.scss";
 import "@vueform/toggle/themes/default.scss";
 import "./assets/scss/vue_mainStyle.scss";
+// sweet alert//
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import Tooltip from "primevue/tooltip";
@@ -38,6 +41,7 @@ app
     maxToasts: 20,
     newestOnTop: true,
   })
+  .use(VueSweetalert2)
   .use(store)
   .use(PrimeVue)
   .use(router)

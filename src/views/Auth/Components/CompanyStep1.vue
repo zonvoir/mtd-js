@@ -118,6 +118,18 @@
                         )
                       }}
                     </span>
+                    <span
+                      v-if="v$.companyForm.companyId.alphaNum.$invalid"
+                      class="text-left fs-14"
+                    >
+                      Company Id accept alfanumeric.
+                    </span>
+                    <span
+                      v-if="v$.companyForm.companyId.maxLengthValue.$invalid"
+                      class="text-left fs-14"
+                    >
+                      Company Id can't be more than 12 digits.
+                    </span>
                   </div>
                 </div>
               </div>
@@ -180,6 +192,15 @@
                     v-if="v$.companyForm.incorporation_year.$error"
                     class="invalid-feedback text-left"
                   >
+                    <span
+                      v-if="
+                        v$.companyForm.incorporation_year.minLengthValue
+                          .$invalid
+                      "
+                      class="text-left fs-14"
+                    >
+                      Year must be 4 digits
+                    </span>
                     <span
                       v-if="v$.companyForm.incorporation_year.required.$invalid"
                       class="text-left fs-14"
@@ -337,14 +358,22 @@
                             )
                           }}
                         </span>
-                        <!-- <span
+                        <span
+                          v-if="
+                            v$.companyForm.phonenumber.minLengthValue.$invalid
+                          "
+                          class="text-left fs-14"
+                        >
+                          Phone Number atleat be 6 digit
+                        </span>
+                        <span
                           v-if="
                             v$.companyForm.phonenumber.maxLengthValue.$invalid
                           "
                           class="text-left fs-14"
                         >
-                          Phone Number must be 15 digit
-                        </span> -->
+                          Phone must contain 6 to 15 digits
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -394,7 +423,19 @@
 </template>
 
 <script>
-import { required, numeric, maxLength } from "@vuelidate/validators";
+import {
+  required,
+  numeric,
+  alphaNum,
+  maxLength,
+  minLength,
+} from "@vuelidate/validators";
+
+// const alphaNumAndDotValidator = helpers.regex(
+//   "alphaNumAndDot",
+//   /^[A-Za-z]{2,4}(?=.{2,12}$)[-_\s0-9]*(?:[a-zA-Z][-_\s0-9]*){0,2}$/i
+// );
+
 import useVuelidate from "@vuelidate/core";
 import TermsConditionsModal from "./TermsConditionsModal.vue";
 // import MultiSelect from "primevue/multiselect";
@@ -497,11 +538,15 @@ export default {
           required,
           numeric,
           maxLengthValue: maxLength(15),
-          // minLengthValue: minLength(10),
+          minLengthValue: minLength(6),
         },
-        companyId: { required },
+        companyId: {
+          required,
+          alphaNum,
+          maxLengthValue: maxLength(12),
+        },
         address: { required },
-        incorporation_year: { required },
+        incorporation_year: { required, minLengthValue: minLength(4) },
         corporation_legal_form: { required },
       },
     };
@@ -658,16 +703,24 @@ export default {
       this.valiImage = true;
       const files = event.target.files;
       let $th = this;
+      const allowedExtensions = ["png", "jpg", "jpeg"];
       if (files != "undefined" && files.length > 0) {
-        var reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.onload = function (e) {
-          var image = new Image(); //Set the Base64 string return from FileReader as source.
-          image.src = e.target.result;
-          image.onload = function () {
-            $th.uploadCompanyLogo(files[0]);
+        var filename = files[0].name;
+        const fileExtension = filename.split(".").pop();
+        console.log("file extention type", fileExtension);
+        if (!allowedExtensions.includes(fileExtension)) {
+          errorhandler(" File type must be (.png , .jpg , .jpeg) only.");
+        } else {
+          var reader = new FileReader();
+          reader.readAsDataURL(files[0]);
+          reader.onload = function (e) {
+            var image = new Image(); //Set the Base64 string return from FileReader as source.
+            image.src = e.target.result;
+            image.onload = function () {
+              $th.uploadCompanyLogo(files[0]);
+            };
           };
-        };
+        }
       } else {
         return true;
       }

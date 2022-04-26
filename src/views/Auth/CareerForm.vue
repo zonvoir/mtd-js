@@ -341,7 +341,6 @@ export default {
       toDate: "To",
       newDepartment: "",
       isValid: undefined,
-      // myOptions: ["India", "France"],
       myValue: "uservalue",
       date: new Date(),
       workingAtPresent: true,
@@ -477,6 +476,7 @@ export default {
     },
 
     validateForm() {
+      this.v$.careerForm.$touch();
       if (!this.v$.careerForm.$invalid) {
         this.isValid = true;
         this.careerForm.company = this.modifyCompanyData(

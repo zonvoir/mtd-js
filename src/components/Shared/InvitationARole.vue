@@ -511,10 +511,6 @@ export default {
 
           this.disbaleInvited = true;
           successhandler("Invitations have been sent ");
-          // this.$toast.success(, {
-          //   position: "bottom-left",
-          //   duration: 3712,
-          // });
         } else {
           errorhandler(res);
         }
@@ -556,17 +552,7 @@ export default {
   font-weight: 400;
   text-align: center;
 }
-// dropdown
-// .invalid_error {
-//   &:focus {
-//     outline: 2px solid #db2c66 !important;
-//     outline-offset: 0px;
-//   }
-//   .dp__input {
-//     outline: 2px solid #db2c66 !important;
-//     outline-offset: 0px;
-//   }
-// }
+
 .btn_primary_transparent {
   font-weight: 600;
   font-size: 14px;

@@ -27,6 +27,7 @@
           </form>
           <div class="add_multiple_career">
             <CareerInformationModal
+              :is="!wantAddMoreCareer"
               :departments="departmentLists.slice().reverse()"
               :seniority_level="seniorityLevels"
               :industry="industryLists"
@@ -84,6 +85,7 @@ import CareerInformationModal from "../../components/Shared/CareerInformationMod
 import SignupService from "../../Services/SignupService";
 import errorhandler from "../../utils/Error";
 import RegistrationHeader from "../../Layout/RegisterLayout/RegisterationHeader.vue";
+// import Swal from "sweetalert2";
 
 import {
   departmentModify,
@@ -103,8 +105,7 @@ export default {
     return {
       value: null,
       openModal: false,
-      // isConsultant: false,
-
+      wantAddMoreCareer: false,
       staffCareeArr1: [],
       staffCareeArr2: [],
       careersList: [
@@ -237,6 +238,12 @@ export default {
       console.log("modal career data", val.newCareer);
       if (val.newCareer.length > 0) {
         this.staffCareeArr2 = val.newCareer;
+        this.$swal({
+          icon: "success",
+          title: "Information is Saved !",
+          text: "",
+        });
+        // this.$refs.career_success.modal.show();
       }
     },
 
@@ -247,9 +254,7 @@ export default {
 
     //save carreer details
     saveCarreerInfo() {
-      console.log("check vali career", this.v$);
-
-      this.v$.$touch();
+      // this.v$.$touch();
       this.$refs.moreCareer.validateForm();
       let newMerge;
       if (this.staffCareeArr1.length > 0 && this.staffCareeArr2.length > 0) {

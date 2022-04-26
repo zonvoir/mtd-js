@@ -18,10 +18,9 @@
                   <div class="check_box_wrapper">
                     <label class="k_checkbox check_lable">
                       {{ $t("company.step_two.as_Intlnal") }}
-                      <!-- Is your company operating internationally? -->
+
                       <p class="internation_check">
                         {{ $t("company.step_two.outside_country") }}
-                        <!-- "(Outside of ..country..?)" -->
                       </p>
 
                       <input
@@ -55,6 +54,21 @@
                         @change="onChangeRegion"
                         v-model="companyForm.region"
                       />
+                      <!-- :class="{
+                          'is-invalid': v$.companyForm.region.$error,
+                        }"
+
+                      <div
+                        v-if="v$.companyForm.region.$error"
+                        class="invalid-feedback text-left"
+                      >
+                        <span
+                          v-if="v$.companyForm.region.required.$invalid"
+                          class="text-left fs-14"
+                        >
+                          Region is required
+                        </span>
+                      </div> -->
                     </div>
                   </div>
 
@@ -71,7 +85,23 @@
                         :options="countryLists"
                         v-model="companyForm.company_country"
                       />
-                      <!-- @change="onChangeCountry" -->
+                      <!-- :class="{
+                          'is-invalid': v$.companyForm.company_country.$error,
+                        }"
+
+                      <div
+                        v-if="v$.companyForm.company_country.$error"
+                        class="invalid-feedback text-left"
+                      >
+                        <span
+                          v-if="
+                            v$.companyForm.company_country.required.$invalid
+                          "
+                          class="text-left fs-14"
+                        >
+                          Country is required
+                        </span>
+                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -387,6 +417,10 @@ export default {
         sub_industry: { required },
         detailed_industry: { required },
         currency: { required },
+        // company_country: {
+        //   required: requiredIf(() => this.companyForm.operating_international),
+        // },
+        // region: { required },
       },
     };
   },

@@ -83,13 +83,10 @@
 
 <script>
 import { Modal } from "bootstrap";
-// import Multiselect from "@vueform/multiselect";
-// import Datepicker from "vue3-date-time-picker";
 import "vue3-date-time-picker/dist/main.css";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import CareerForm from "../../views/Auth/CareerForm.vue";
-import { successhandler } from "../../utils/Error";
 export default {
   emits: ["multiCareer"],
   props: {
@@ -130,8 +127,6 @@ export default {
   },
   components: {
     CareerForm,
-    // Multiselect,
-    // Datepicker,
   },
   validations: {
     carreerForm: {
@@ -192,8 +187,7 @@ export default {
       let dataResp = [];
       this.carreerForm.forEach((val, indx) => {
         dataResp[indx] = this.$refs["childCareer" + indx].validateForm();
-        successhandler("Information is saved.");
-        console.log(dataResp);
+
         data.push(val);
       });
 

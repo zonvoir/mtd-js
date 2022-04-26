@@ -2,8 +2,8 @@
   "message": "Persönliches",
   "header": {
     "placeholder": {
-      "select_your_company": "Select Your Compan",
-      "select_year": "Select Yeark"
+      "select_your_company": "Select Your Company",
+      "select_year": "Select Year"
     },
 
     "profile_drop_down": {
@@ -29,7 +29,7 @@
       "placeholder": {
         "Firstname": "Firstname german",
         "Lastname": "Lastname german",
-        "Useraname": "Useraname german",
+        "Useraname": "User name german",
         "email": "Email german",
         "password": "Password german",
         "confirm_password": "Confirm password german"
@@ -38,7 +38,7 @@
         "terms_and_condition": "Please accept terms and conditions required  german",
         "privacy_and_policy": "Please accept privacy and policy required german",
         "firstname_is_required": "Firstname is required german",
-        "lastname_is_required": "Fastname is invalid german",
+        "lastname_is_required": "Lastname is invalid german",
         "password_is_required": "Password is required german",
         "password_not_match": "Password does not matched german",
         "confirm_password_is_required": "Confirm password is required german",
@@ -109,7 +109,7 @@
       "form": {
         "placeholder": {
           "company_name": "Company Name german",
-          "company_id": "Company ID german",
+          "company_id": "Tax ID german",
           "legal_form": "Legal form of corporation german",
           "incorp_year": "Incorporation year german",
           "country": "country german",
@@ -118,7 +118,7 @@
         },
         "invalid_msgs": {
           "company_name_is_required": "Company Name is required german",
-          "company_id_is_required": "Company Id is required german",
+          "company_id_is_required": "Tax ID is required german",
           "legal_form_is_required": "Legal form of corporation is required german",
           "incorp_year_is_required": "Incorporation year is required german",
           "country_is_required": "Country is required german",
