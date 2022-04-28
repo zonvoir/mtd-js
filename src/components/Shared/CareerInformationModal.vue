@@ -86,7 +86,7 @@ import { Modal } from "bootstrap";
 import "vue3-date-time-picker/dist/main.css";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-import CareerForm from "../../views/Auth/CareerForm.vue";
+import CareerForm from "../../views/Auth/Components/CareerForm.vue";
 export default {
   emits: ["multiCareer"],
   props: {

@@ -16,16 +16,11 @@
           <div class="modal-body">
             <div class="verify_email">
               <h2 class="verify_title">
-                <strong
-                  >Please setup your company and career information
-                  first.</strong
-                >
+                <strong>Please setup your company first.</strong>
               </h2>
             </div>
             <div class="verify-subtitle q-pb-none">
-              <h6 class="">
-                You've not setup your company and career information
-              </h6>
+              <h6 class="">You've not setup your company</h6>
             </div>
           </div>
           <div class="modal_action_btn text-right">
@@ -49,12 +44,7 @@ import { Modal } from "bootstrap";
 
 export default {
   emits: ["agreeToComplete"],
-  // props: {
-  //   registeredEmail: {
-  //     type: String,
-  //     required: true,
-  //   },
-  // },
+
   data() {
     return {
       modal: null,
@@ -64,13 +54,9 @@ export default {
   mounted() {
     this.modal = new Modal(this.$refs.exampleModal);
   },
-  // openModal() {
-  //   this.modal.hide();
-  // },
+
   onCloseModal() {
-    // this.modal.hide();
     console.log("hi");
-    // this.$emit("agreeToComplete");
   },
 };
 </script>

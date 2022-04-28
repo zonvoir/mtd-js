@@ -27,11 +27,11 @@ export default {
 
 .loader_container {
   position: relative;
-  background-color: #03030317;
+  background-color: #d2ced117;
   height: 90vh;
   //   width: 100%;
   padding: 25px 28px 0 20px;
-  margin-top: 60px !important;
+  margin-top: 68px !important;
   z-index: 1055;
   overflow: hidden;
 }

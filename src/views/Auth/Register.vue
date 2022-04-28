@@ -79,6 +79,7 @@
                 {{ $t("register_step.form.invalid_msgs.username_is_required") }}
               </span>
             </div>
+
             <div class="k_form_group">
               <input
                 :readonly="registerForm.invitation_id != ''"
@@ -451,6 +452,7 @@ export default {
         email: { required, email },
         password: {
           required,
+
           minimum8CharCalc,
           upperCaseCalc,
           lowerCaseCalc,

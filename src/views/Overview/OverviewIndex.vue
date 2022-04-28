@@ -188,13 +188,4 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.no_questionnaire_list {
-  background: #ffffff;
-  box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
-  border-radius: 4px;
-  width: 100%;
-  height: 23rem;
-  margin-bottom: 20px;
-  position: relative;
-}
 </style>

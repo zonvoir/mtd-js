@@ -2,7 +2,6 @@ import errorhandler from "../../../utils/Error";
 // import renameKeys from "../../../utils/commonHelperFuntions";
 import CompanyService from "../../../Services/Company/CompanyService";
 const state = {
-  loadingStatus: false,
   staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
   allDeafultRoles: undefined,
   consulatant_roleId: undefined,
@@ -121,9 +120,6 @@ const mutations = {
   setDefualtCurrency(state, val) {
     state.defualtCurrency = val;
   },
-  setLoadingStatus(state, val) {
-    state.loadingStatus = val;
-  },
 };
 const actions = {
   GET_ALL_CURRENCY: ({ commit }) => {
@@ -156,6 +152,7 @@ const actions = {
       );
     });
   },
+
   UPDATE_CUSTOM_CURRENCY_EXCHANGE_RATES: ({ commit }, data) => {
     return new Promise((resolve, reject) => {
       CompanyService.currencyExchnageRate(data).then(
@@ -174,6 +171,7 @@ const actions = {
       );
     });
   },
+
   GET_CUSTOM_CURRENCY_EXCHANGE_RATES: ({ commit }, data) => {
     return new Promise((resolve, reject) => {
       CompanyService.getCurrencyExchnageRate(data).then(
@@ -192,10 +190,12 @@ const actions = {
       );
     });
   },
+
   CAMPNAY_PROFILE_DATA: ({ commit, state }, data) => {
     state.companyData = {};
     return new Promise((resolve, reject) => {
-      commit("setLoadingStatus", true);
+      commit("getLoadingStatus", true, { root: true });
+
       CompanyService.companyProfileDetails(data).then(
         (res) => {
           if (res.data.status) {
@@ -204,11 +204,11 @@ const actions = {
             commit("setUpdateCompnay", []);
             errorhandler(res);
           }
-          commit("setLoadingStatus", false);
+          commit("getLoadingStatus", false, { root: true });
           resolve(res);
         },
         (error) => {
-          commit("setLoadingStatus", false);
+          commit("getLoadingStatus", false, { root: true });
           reject(error);
         }
       );
@@ -218,6 +218,8 @@ const actions = {
   UPDATE_CAMPNAY_DATA: ({ commit, state }, data) => {
     state.companyData = {};
     return new Promise((resolve, reject) => {
+      commit("getLoadingStatus", true, { root: true });
+
       CompanyService.updateCompany(data).then(
         (res) => {
           if (res.data.status) {
@@ -226,9 +228,12 @@ const actions = {
             commit("setUpdateCompnay", []);
             errorhandler(res);
           }
+          commit("getLoadingStatus", false, { root: true });
+
           resolve(res);
         },
         (error) => {
+          commit("getLoadingStatus", false, { root: true });
           reject(error);
         }
       );
@@ -289,9 +294,11 @@ const actions = {
   GET_ALOCATED_DEPARTMENTS(context, val) {
     context.commit("setAlocatedDepartments", val);
   },
+
   GET_PERMISSION_ARRAY(context, val) {
     context.commit("setMemberPermissions", val);
   },
+
   GET_ALL_DEAFULT_ROLES({ commit }) {
     return new Promise((resolve, reject) => {
       CompanyService.allSlugRoles().then(
@@ -310,9 +317,7 @@ const actions = {
       );
     });
   },
-  // getYear(context, val) {
-  //   context.commit("setYear", val);
-  // },
+
   async GET_INVITATION_STAFFROLE_LIST(context, val) {
     context.commit("setInvitationStaffRoleList", val);
   },
@@ -340,8 +345,10 @@ const actions = {
 
   GET_STAFFS_QUESTIONNIRE_DEPARTMENT: ({ commit }, data) => {
     return new Promise((resolve, reject) => {
+      commit("getLoadingStatus", true, { root: true });
       CompanyService.getExtendedDepartments(data).then(
         (res) => {
+          commit("getLoadingStatus", false, { root: true });
           if (res.data.status) {
             if (!res.data.data.length) return;
             commit("setStaffsQuestionnireDepartments", res.data.data);
@@ -360,6 +367,7 @@ const actions = {
 
   GET_INVITATIONS_FOR_QUESTIONNAIRE_TEAM: ({ commit }, data) => {
     return new Promise((resolve, reject) => {
+      // commit("getLoadingStatus", true, { root: true });
       CompanyService.getInvitedTeamManagenet(data).then(
         (res) => {
           if (res.data.status) {
@@ -369,9 +377,11 @@ const actions = {
             commit("setInvitationsForQuestionnaireTeam", []);
             errorhandler(res, this);
           }
+          // commit("getLoadingStatus", false, { root: true });
           resolve(res);
         },
         (error) => {
+          // commit("getLoadingStatus", false, { root: true });
           reject(error);
         }
       );
@@ -468,7 +478,6 @@ const actions = {
   },
 };
 const getters = {
-  loadingStatus: (state) => state.loadingStatus,
   companyData: (state) => state.companyData,
   defualtCurrency: (state) => state.defualtCurrency,
   currencyExRates: (state) => state.currencyExRates,
@@ -477,7 +486,6 @@ const getters = {
   owner_roleId: (state) => state.owner_roleId,
   manager_roleId: (state) => state.manager_roleId,
   employee_roleId: (state) => state.employee_roleId,
-  // team mangement getters
   invitationsForQuestionnaireTeam: (state) =>
     state.invitationsForQuestionnaireTeam,
   inviteTeamMember: (state) => state.inviteTeamMember,

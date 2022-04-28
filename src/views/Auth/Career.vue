@@ -91,7 +91,7 @@ import {
   departmentModify,
   getDepartemntsValue,
 } from "../../utils/DepartmentModify";
-import CareerForm from "./CareerForm.vue";
+import CareerForm from "./Components/CareerForm.vue";
 import { mapGetters } from "vuex";
 
 export default {

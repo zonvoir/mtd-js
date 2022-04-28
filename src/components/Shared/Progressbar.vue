@@ -41,10 +41,16 @@ export default {
   methods: {
     closeQuestionnaire() {
       let ro = this.$route.params;
-      this.$router.push({
+      console.log(ro, "ll parmas");
+      this.$router.back({
         name: "category-overview",
         params: { did: ro.departmentid, id: ro.categoryId },
       });
+
+      // this.$router.push({
+      //   name: "category-overview",
+      //   params: { did: ro.departmentid, id: ro.categoryId },
+      // });
     },
   },
 };

@@ -1,10 +1,6 @@
 <template>
   <div>
     <div class="k_form_group k_inp_half k_inp_number">
-      <!--  -->
-      <!-- @input="onInput" -->
-      <!-- <span class="">{{ ansValue.length }}</span> -->
-      <!-- @keypress="numberKeyUp" -->
       <input
         maxlength="20"
         type="text"
@@ -24,25 +20,25 @@
           Answer is required
         </span>
 
-        <!-- <span
+        <span
           v-if="v$.ansValue.maxLengthValue.$invalid"
           class="text-left fs-14"
         >
-          Phone Number must be 15 digit
+          Phone Number can't be more than 13 digit
         </span>
         <span
           v-if="v$.ansValue.minLengthValue.$invalid"
           class="text-left fs-14"
         >
-          Phone Number atlest 7 digit
-        </span> -->
+          Phone Number atlest 10 digit
+        </span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { required } from "@vuelidate/validators";
+import { maxLength, minLength, required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import { phoneNumberMask } from "../../../utils/commonHelperFuntions";
 import { maskRemover } from "../../../utils/mask-formmater";
@@ -56,6 +52,7 @@ export default {
       type: String,
     },
   },
+
   data() {
     return {
       numberPattern: /[0-9]/,
@@ -67,6 +64,7 @@ export default {
       default_seprator: " ",
     };
   },
+
   created() {
     this.ansValue =
       phoneNumberMask("", this.default_seprator) == 0
@@ -79,12 +77,13 @@ export default {
       this.emitData(this.ansValue);
     }
   },
+
   validations() {
     return {
       ansValue: {
         required,
-        // maxLengthValue: maxLength(19),
-        // minLengthValue: minLength(7),
+        maxLengthValue: maxLength(17),
+        minLengthValue: minLength(13),
       },
     };
   },

@@ -659,7 +659,7 @@ import signupService from "../../Services/SignupService";
 import commonService from "../../Services/CommonService";
 import { loadLocaleMessages } from "../../i18n";
 import errorhandler from "../../utils/Error";
-import CareerForm from "../Auth/CareerForm.vue";
+import CareerForm from "../Auth/Components/CareerForm.vue";
 import { formatDate } from "../../utils/FormatDate";
 import {
   departmentModify,

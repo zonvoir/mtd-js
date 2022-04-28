@@ -10,13 +10,13 @@
             @complete="searchCompany($event)"
             field="label"
             :placeholder="$t('career_step.form.placeholder.company_name')"
-            @blur="v$.careerForm.company.$touch"
             v-model="careerForm.company"
             modelValue="value"
+          />
+          <!-- @blur="v$.careerForm.company.$touch"
             :class="{
               'is-invalid': v$.careerForm.company.$error,
             }"
-          />
           <div
             v-if="v$.careerForm.company.$error"
             class="invalid-feedback text-left"
@@ -27,7 +27,7 @@
             >
               {{ $t("career_step.form.invalid_msgs.company_name_is_required") }}
             </span>
-          </div>
+          </div> -->
         </div>
       </div>
       <div :class="className">
@@ -39,11 +39,11 @@
             optionLabel="label"
             optionValue="value"
             :placeholder="$t('career_step.form.placeholder.Industry')"
-            @blur="v$.careerForm.industry.$touch"
+          />
+          <!-- @blur="v$.careerForm.industry.$touch"
             :class="{
               'is-invalid': v$.careerForm.industry.$error,
             }"
-          />
           <div
             v-if="v$.careerForm.industry.$error"
             class="invalid-feedback text-left"
@@ -54,7 +54,7 @@
             >
               {{ $t("career_step.form.invalid_msgs.Industry_is_required") }}
             </span>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- division section -->
@@ -65,11 +65,11 @@
             class="form-control k_inp_field"
             :placeholder="$t('career_step.form.placeholder.Division')"
             v-model.trim="careerForm.division"
-            @blur="v$.careerForm.division.$touch"
+          />
+          <!-- @blur="v$.careerForm.division.$touch"
             :class="{
               'is-invalid': v$.careerForm.division.$error,
             }"
-          />
 
           <div
             v-if="v$.careerForm.division.$error"
@@ -81,7 +81,7 @@
             >
               {{ $t("career_step.form.invalid_msgs.Division_is_required") }}
             </span>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- division section end -->
@@ -123,11 +123,11 @@
               optionLabel="label"
               optionValue="value"
               :placeholder="$t('career_step.form.placeholder.Department')"
-              @blur="v$.careerForm.department.$touch"
+            />
+            <!-- @blur="v$.careerForm.department.$touch"
               :class="{
                 'is-invalid': v$.careerForm.department.$error,
               }"
-            />
             <div
               v-if="v$.careerForm.department.$error"
               class="invalid-feedback text-left"
@@ -138,7 +138,7 @@
               >
                 {{ $t("career_step.form.invalid_msgs.Department_is_required") }}
               </span>
-            </div>
+            </div> -->
             <div class="text_right">
               <button
                 @click="extrernalDepartment"
@@ -153,6 +153,7 @@
       </div>
     </div>
   </div>
+
   <div class="col-lg-12">
     <h5 class="section_heading">{{ $t("career_step.current_employment") }}</h5>
     <div class="row">
@@ -163,11 +164,11 @@
             class="form-control k_inp_field"
             :placeholder="$t('career_step.form.placeholder.Position')"
             v-model.trim="careerForm.position"
-            @blur="v$.careerForm.position.$touch"
+          />
+          <!-- @blur="v$.careerForm.position.$touch"
             :class="{
               'is-invalid': v$.careerForm.position.$error,
             }"
-          />
           <div
             v-if="v$.careerForm.position.$error"
             class="invalid-feedback text-left"
@@ -178,7 +179,7 @@
             >
               {{ $t("career_step.form.invalid_msgs.Position_is_required") }}
             </span>
-          </div>
+          </div> -->
         </div>
       </div>
       <div :class="className">
@@ -189,12 +190,12 @@
             optionValue="value"
             :placeholder="$t('career_step.form.placeholder.Seniority_level')"
             :options="seniority"
-            @blur="v$.careerForm.seniority_level.$touch"
             v-model="careerForm.seniority_level"
+          />
+          <!-- @blur="v$.careerForm.seniority_level.$touch"
             :class="{
               'is-invalid': v$.careerForm.seniority_level.$error,
             }"
-          />
 
           <div
             v-if="v$.careerForm.seniority_level.$error"
@@ -208,27 +209,30 @@
                 $t("career_step.form.invalid_msgs.Seniority_level_is_required")
               }}
             </span>
-          </div>
+          </div> -->
         </div>
       </div>
-      <div :class="className">
-        <div class="k_form_group row">
-          <div class="col-lg-6">
-            <div class="k_form_group position-relative">
-              <label for="" class="date_label">{{
-                $t("career_step.form.placeholder.from")
-              }}</label>
-              <Datepicker
-                class="project_date_picker custom_label"
-                v-model="careerForm.from"
-                :enableTimePicker="false"
-                @open="clearFromDate"
-                @blur="v$.careerForm.from.$touch"
-                placeholder="mm/dd/yyyy"
+    </div>
+  </div>
+
+  <div>
+    <div class="k_form_group row">
+      <div class="col-lg-6">
+        <div class="k_form_group position-relative">
+          <label for="" class="date_label">{{
+            $t("career_step.form.placeholder.from")
+          }}</label>
+          <Datepicker
+            class="project_date_picker custom_label"
+            v-model="careerForm.from"
+            :enableTimePicker="false"
+            @open="clearFromDate"
+            placeholder="mm/dd/yyyy"
+          />
+          <!-- @blur="v$.careerForm.from.$touch"
                 :class="{
                   invalid_error: v$.careerForm.from.$error,
                 }"
-              />
               <div
                 v-if="v$.careerForm.from.$error"
                 class="invalid_feedback text-left"
@@ -239,26 +243,26 @@
                 >
                   {{ $t("career_step.form.invalid_msgs.from_is_required") }}
                 </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="k_form_group position-relative">
-              <label for="" class="date_label">{{
-                $t("career_step.form.placeholder.to")
-              }}</label>
-              <Datepicker
-                :disabled="careerForm.workingAtPresent"
-                class="project_date_picker custom_label"
-                :enableTimePicker="false"
-                v-model="careerForm.to"
-                @open="clearToDate"
-                @blur="v$.careerForm.to.$touch"
-                placeholder="mm/dd/yyyy"
+              </div> -->
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="k_form_group position-relative">
+          <label for="" class="date_label">{{
+            $t("career_step.form.placeholder.to")
+          }}</label>
+          <Datepicker
+            :disabled="careerForm.workingAtPresent"
+            class="project_date_picker custom_label"
+            :enableTimePicker="false"
+            v-model="careerForm.to"
+            @open="clearToDate"
+            placeholder="mm/dd/yyyy"
+          />
+          <!-- @blur="v$.careerForm.to.$touch"
                 :class="{
                   invalid_error: v$.careerForm.to.$error,
                 }"
-              />
               <div
                 v-if="v$.careerForm.to.$error"
                 class="invalid_feedback text-left"
@@ -269,13 +273,12 @@
                 >
                   {{ $t("career_step.form.invalid_msgs.to_is_required") }}
                 </span>
-              </div>
-            </div>
-          </div>
+              </div> -->
         </div>
       </div>
     </div>
   </div>
+
   <div class="col-lg-12">
     <div class="k_form_group">
       <div class="check_box_wrapper">
@@ -296,14 +299,14 @@
 
 <script>
 import Datepicker from "vue3-date-time-picker";
-import { required, requiredIf } from "@vuelidate/validators";
+// import { required, requiredIf } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-import { formatDate } from "../../utils/FormatDate";
 import AutoComplete from "primevue/autocomplete";
 import Dropdown from "primevue/dropdown";
 import MultiSelect from "primevue/multiselect";
-import CompanyService from "../../Services/Company/CompanyService";
-import errorhandler from "../../utils/Error";
+import errorhandler from "../../../utils/Error";
+import CompanyService from "../../../Services/Company/CompanyService";
+import { formatDate } from "../../../utils/FormatDate";
 export default {
   emits: ["addNewCareer"],
   props: {
@@ -349,23 +352,23 @@ export default {
       companies: [],
     };
   },
-  validations() {
-    let validator = {
-      careerForm: {
-        company: { required },
-        position: { required },
-        industry: { required },
-        department: { required },
-        from: { required },
-        to: {
-          required: requiredIf(() => !this.careerForm.workingAtPresent),
-        },
-        division: { required },
-        seniority_level: { required },
-      },
-    };
-    return validator;
-  },
+  // validations() {
+  //   let validator = {
+  //     careerForm: {
+  //       company: { required },
+  //       position: { required },
+  //       industry: { required },
+  //       department: { required },
+  //       from: { required },
+  //       to: {
+  //         required: requiredIf(() => !this.careerForm.workingAtPresent),
+  //       },
+  //       division: { required },
+  //       seniority_level: { required },
+  //     },
+  //   };
+  //   return validator;
+  // },
 
   setup() {
     return {
@@ -462,6 +465,7 @@ export default {
           this.companies = [];
           this.companies = res.data.data;
         } else {
+          console.log("ff");
           errorhandler(res, this);
         }
       });
@@ -476,26 +480,26 @@ export default {
     },
 
     validateForm() {
-      this.v$.careerForm.$touch();
-      if (!this.v$.careerForm.$invalid) {
-        this.isValid = true;
-        this.careerForm.company = this.modifyCompanyData(
-          this.careerForm.company,
-          "label"
-        );
-        // this.careerForm.workingAtPresent = this.workingAtPresent;
-        this.careerForm.to = formatDate(this.careerForm["to"], "L");
-        this.careerForm.from = formatDate(this.careerForm["from"], "L");
-        console.log("check vali", this.careerForm);
-        this.$emit("addNewCareer", {
-          isvalid: this.isValid,
-          newCareer: this.careerForm,
-        });
+      // this.v$.careerForm.$touch();
+      // if (!this.v$.careerForm.$invalid) {
+      this.isValid = true;
+      this.careerForm.company = this.modifyCompanyData(
+        this.careerForm.company,
+        "label"
+      );
+      // this.careerForm.workingAtPresent = this.workingAtPresent;
+      this.careerForm.to = formatDate(this.careerForm["to"], "L");
+      this.careerForm.from = formatDate(this.careerForm["from"], "L");
+      console.log("check vali", this.careerForm);
+      this.$emit("addNewCareer", {
+        isvalid: this.isValid,
+        newCareer: this.careerForm,
+      });
 
-        return true;
-      } else {
-        return false;
-      }
+      return true;
+      // } else {
+      //   return false;
+      // }
     },
   },
 };

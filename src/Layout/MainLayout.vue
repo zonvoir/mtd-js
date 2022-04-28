@@ -8,9 +8,11 @@
         </div>
       </div>
       <div class="main_layout_body">
-        {{ isLoading }}
+        <div v-show="isLoading === true" class="loading_wrapper">
+          <Loader :isLoading="isLoading" />
+        </div>
 
-        <div class="pages_view_container">
+        <div v-show="isLoading === false" class="pages_view_container">
           <router-view />
         </div>
       </div>
@@ -21,13 +23,13 @@
 <script>
 import Header from "../components/Shared/Header.vue";
 import Sidebar from "../components/Shared/Sidebar.vue";
-// import Loader from "../components/Shared/Loadder.vue";
+import Loader from "../components/Shared/Loadder.vue";
 import { mapGetters } from "vuex";
 export default {
   components: {
     Header,
     Sidebar,
-    // Loader,
+    Loader,
   },
   data() {
     return {
@@ -53,6 +55,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.loading_wrapper {
+  position: relative;
+}
 .k-header-wrapprer {
   background-color: #ffffff;
   z-index: 99;

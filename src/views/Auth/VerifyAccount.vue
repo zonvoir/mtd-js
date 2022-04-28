@@ -13,7 +13,6 @@
             <div class="verify-subtitle">
               <h6 class="email_verify_message">
                 {{ $t("login.otp_step.verify_acc_para1") }}
-                <!-- You can change your registration email here -->
                 <strong class="m-l-4">{{ otpForm.email }}</strong
                 ><br />
               </h6>
@@ -40,7 +39,6 @@
         <div class="">
           <form action="">
             <div class="k_form_group">
-              <!-- @keyup="enterClicked" -->
               <div @keyup="enterClicked" class="text_center">
                 <CustomOtp
                   :classesName="'k_inp_field single_num_inp'"
@@ -128,19 +126,14 @@
         <div class="modal-body update_email_body">
           <div class="verify_email">
             <h2 class="verify_title">
-              <strong
-                >Please setup your company and career information first.</strong
-              >
+              <strong>Please setup your company first.</strong>
             </h2>
           </div>
           <div class="verify-subtitle q-pb-none">
-            <h6 class="">
-              You've not setup your company and career information
-            </h6>
+            <h6 class="">You've not setup your company</h6>
           </div>
         </div>
-        <div class="modal_action_btn text-right">
-          <!-- data-bs-dismiss="modal" -->
+        <div class="modal_action_btn text-center">
           <button
             type="button"
             @click="closeModal"

@@ -1,20 +1,25 @@
 <template>
-  <div class="dept_wrapper">
-    <div class="custom_grid">
-      <div
-        v-for="(deparment, index) in departmentLists"
-        :key="index"
-        class="custom_grid_col"
-      >
-        <Card
-          :id="deparment.departmentid"
-          :title="deparment.name"
-          :description="deparment.description"
-          :image="deparment.image"
-          :page_name="component_name"
-          :page_parmas="{ id: deparment.departmentid }"
-        />
+  <div class="">
+    <div v-if="departmentLists.length" class="dept_wrapper">
+      <div class="custom_grid">
+        <div
+          v-for="(deparment, index) in departmentLists"
+          :key="index"
+          class="custom_grid_col"
+        >
+          <Card
+            :id="deparment.departmentid"
+            :title="deparment.name"
+            :description="deparment.description"
+            :image="deparment.image"
+            :page_name="component_name"
+            :page_parmas="{ id: deparment.departmentid }"
+          />
+        </div>
       </div>
+    </div>
+    <div v-else class="no_questionnaire_list">
+      <h6 class="empty_list_warning">Questionnaire list is empty</h6>
     </div>
   </div>
 </template>
