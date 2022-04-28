@@ -74,7 +74,7 @@ const mutations = {
     state.companyMembers = values;
   },
   setInvitationStaffRoleList(state, list) {
-    console.log("all invited list", list);
+    // console.log("all invited list", list);
     state.invitationStaffRoleList = list;
   },
   setRoleId(state, role) {
@@ -393,7 +393,7 @@ const actions = {
       CompanyService.inviteNewTeamMember(data).then(
         (res) => {
           if (res.data.status) {
-            console.log("res to add new member", res.data.data);
+            // console.log("res to add new member", res.data.data);
             // commit("setInviteTeamMember", res.data.data);
             commit("setInvitationsForQuestionnaireTeam", res.data.data);
           } else {
@@ -413,7 +413,7 @@ const actions = {
       CompanyService.confirmedTeamMemberByList(data).then(
         (res) => {
           if (res.data.status) {
-            console.log("res to add new file listr", res.data.data);
+            // console.log("res to add new file listr", res.data.data);
             // commit("setInviteTeamMember", res.data.data);
             commit("setInvitationsForQuestionnaireTeam", res.data.data);
           } else {

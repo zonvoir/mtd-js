@@ -19,14 +19,24 @@ const toast = useToast();
 
 const errorhandler = (res) => {
   if (typeof res === "string") {
-    toast.error(res, toastOptions);
+    // this.countryId !== "" && this.countryId !== undefined;
+    console.log(res, "kk");
+    if (res !== "" && res !== undefined && res != "No data were found") {
+      toast.error(res, toastOptions);
+    }
   } else {
     if ("error" in res.data) {
       Object.keys(res.data.error).map(function (key) {
         toast.error(res.data.error[key], toastOptions);
       });
     } else {
-      toast.error(res.data.message, toastOptions);
+      if (
+        res.data.message !== "" &&
+        res.data.message !== undefined &&
+        res.data.message != "No data were found"
+      ) {
+        toast.error(res, toastOptions);
+      }
     }
     if (
       res.data.message == "Authentication token expired" ||

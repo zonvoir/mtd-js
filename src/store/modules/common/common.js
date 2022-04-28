@@ -178,6 +178,7 @@ export default {
         CommonService.getRegionByCountryId(countryId).then(
           (res) => {
             if (res.data.status) {
+              console.log("all region before", res.data);
               if (!res.data.data.length) return;
               let regionArray = res.data.data.map((item) => {
                 return {
@@ -185,7 +186,8 @@ export default {
                   label: item.region_name,
                 };
               });
-              console.log("all region as County Id", regionArray);
+              console.log("all region after", regionArray);
+
               commit("setAllRegion", regionArray);
             } else {
               commit("setAllRegion", []);
@@ -393,7 +395,7 @@ export default {
         CommonService.getPersonalDetails(data).then(
           (res) => {
             if (res.data.status) {
-              console.log(res.data.data);
+              // console.log(res.data.data);
               commit("setPersonalInfo", res.data.data);
             } else {
               commit("setPersonalInfo", []);

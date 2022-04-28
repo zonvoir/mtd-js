@@ -46,8 +46,8 @@ export default {
     }),
   },
   watch: {
-    isLoading: function (pre, next) {
-      console.log(pre, next);
+    isLoading: function () {
+      // console.log(pre, next);
       return this.isLoading;
     },
   },

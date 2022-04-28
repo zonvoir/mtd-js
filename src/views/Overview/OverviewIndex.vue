@@ -97,12 +97,10 @@ export default {
     }),
   },
   watch: {
-    currentYear: function (next, pre) {
-      console.log("pre", +pre, "next", next);
+    currentYear: function () {
       this.getdDepartmentList();
     },
-    currentCompany: function (next, pre) {
-      console.log("pre", +pre, "next", next);
+    currentCompany: function () {
       this.getdDepartmentList();
     },
   },
@@ -131,12 +129,10 @@ export default {
         .then((res) => {
           let $th = this;
           if (res.data.status) {
-            console.log("all departments", res);
             this.departmentLists = res.data.data.filter(function (depts) {
               return depts.departmentid === $th.defaultDepartment; //5 is default company department id
             });
-            // let department_Id = this.departmentLists[0].departmentid;
-            console.log("default department", this.departmentLists);
+
             let data = {
               department_id: $th.defaultDepartment,
               auth_token: this.authToken,
@@ -148,11 +144,7 @@ export default {
     },
     // get categories lists
     getDefaultDeptCategories(data) {
-      this.$store
-        .dispatch("GET_QUESTIONNAIRE_CATEGORY_ARRAY", data)
-        .then((res) => {
-          console.log("categories res", res);
-        });
+      this.$store.dispatch("GET_QUESTIONNAIRE_CATEGORY_ARRAY", data);
     },
     filterCategory(val) {
       this.isFiltered = val;

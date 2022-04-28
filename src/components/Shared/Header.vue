@@ -259,7 +259,7 @@ export default {
       this.tempCompnies.forEach((item) => {
         if (item.company_id == companyId) {
           memberArr = item.member;
-          console.log("item", item);
+          // console.log("item", item);
           roleId = {
             roleId: item.company_role_id,
             can_invite: item.can_invite,
@@ -301,7 +301,7 @@ export default {
       this.isprofile = true;
       this.$router.push({ name: "personal-account" });
       this.currentPage = this.$route.path;
-      console.log("profile Page", this.currentPage);
+      // console.log("profile Page", this.currentPage);
     },
     onLogout() {
       localStorage.removeItem("bWFpbCI6Inpvb");

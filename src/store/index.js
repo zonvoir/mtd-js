@@ -14,8 +14,6 @@ export default createStore({
   },
   mutations: {
     getLoadingStatus(state, val) {
-      console.log("status k", val);
-
       state.loadingStatus = val;
     },
   },

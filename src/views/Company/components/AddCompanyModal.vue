@@ -128,7 +128,6 @@ export default {
   methods: {
     // get company basic info from step one
     nextStep() {
-      console.log("hi", this.$refs.create_company_modal_step_first);
       this.$refs.create_company_modal_step_first.companyProfileStepOne();
       if (
         this.$refs.create_company_modal_step_first.isStepOneProfileCompleted
@@ -136,10 +135,7 @@ export default {
         this.basicCompanyData =
           this.$refs.create_company_modal_step_first.companyForm;
         this.activeStep = 2;
-        console.log(
-          "congrats ! company first step is completed successfully. ",
-          this.basicCompanyData
-        );
+
         this.countryData = this.basicCompanyData.country
           ? this.basicCompanyData.country
           : "";
@@ -152,10 +148,6 @@ export default {
     },
     // get company all infomarmation and merge and create new company
     addNewCompany() {
-      console.log(
-        "all data is comming from ",
-        this.$refs.create_company_modal_step_second
-      );
       this.$refs.create_company_modal_step_second.companyProfileSteptwo();
 
       if (

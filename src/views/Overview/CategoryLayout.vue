@@ -201,6 +201,7 @@ export default {
 .category_logo {
   width: 60px;
   height: 60px;
+  border-radius: 50%;
 }
 .border-bottom-1 {
   margin-top: 40px;

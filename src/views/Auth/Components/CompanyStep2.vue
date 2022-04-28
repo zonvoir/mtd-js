@@ -633,16 +633,17 @@ export default {
 
     // get regions lists
     getRegions() {
-      if (this.countryId !== "") {
+      if (this.countryId !== "" && this.countryId !== undefined) {
         this.getSelctedRegion();
         this.countriesArr = this.countryId;
         // this.RegionsArr = this.getSelctedRegion();
 
         this.$store.dispatch("GET_REGION_BY_COUNTRY", this.countryId);
         //  )}
+      } else {
+        // this.$store.dispatch("GET_ALL_REGION");
+        this.$store.dispatch("GET_REGION_BY_COUNTRY");
       }
-      // this.$store.dispatch("GET_ALL_REGION");
-      this.$store.dispatch("GET_REGION_BY_COUNTRY");
     },
 
     getSelctedRegion() {
