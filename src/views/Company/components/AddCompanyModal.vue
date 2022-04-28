@@ -145,6 +145,7 @@ export default {
     // back to step 1
     previousStep() {
       this.activeStep = 1;
+      this.$refs.create_company_modal_step_first.getCountries();
     },
     // get company all infomarmation and merge and create new company
     addNewCompany() {

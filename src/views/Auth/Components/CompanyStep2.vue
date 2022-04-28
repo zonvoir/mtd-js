@@ -377,6 +377,8 @@ export default {
       }
     },
     countryId: function () {
+      this.companyForm.company_country = [];
+      this.companyForm.company_country.push(this.countryId);
       this.getRegions();
     },
   },
