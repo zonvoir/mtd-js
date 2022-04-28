@@ -151,7 +151,9 @@ export default {
   methods: {
     getDeptAndCategoryDetails(data) {
       console.log(this.category);
+      this.$store.dispatch("SET_LOADING_STATUS", true);
       QuestionnaireService.getOneCategory(data).then((res) => {
+        this.$store.dispatch("SET_LOADING_STATUS", false);
         if (res.data.status) {
           this.$store.dispatch(
             "GET_QUESTIONNAIRE",

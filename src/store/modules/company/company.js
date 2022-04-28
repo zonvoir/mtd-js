@@ -367,7 +367,7 @@ const actions = {
 
   GET_INVITATIONS_FOR_QUESTIONNAIRE_TEAM: ({ commit }, data) => {
     return new Promise((resolve, reject) => {
-      // commit("getLoadingStatus", true, { root: true });
+      commit("getLoadingStatus", true, { root: true });
       CompanyService.getInvitedTeamManagenet(data).then(
         (res) => {
           if (res.data.status) {
@@ -377,11 +377,11 @@ const actions = {
             commit("setInvitationsForQuestionnaireTeam", []);
             errorhandler(res, this);
           }
-          // commit("getLoadingStatus", false, { root: true });
+          commit("getLoadingStatus", false, { root: true });
           resolve(res);
         },
         (error) => {
-          // commit("getLoadingStatus", false, { root: true });
+          commit("getLoadingStatus", false, { root: true });
           reject(error);
         }
       );

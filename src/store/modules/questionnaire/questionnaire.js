@@ -61,9 +61,13 @@ export default {
     },
 
     GET_QUESTIONNAIRE_CATEGORY_ARRAY: ({ commit }, data) => {
+      commit("getLoadingStatus", true, { root: true });
+
       return new Promise((resolve, reject) => {
         QuestionnaireService.getAllQuestionnireCategories(data).then(
           (res) => {
+            commit("getLoadingStatus", false, { root: true });
+
             if (res.data.status) {
               commit("SET_QUESTIONNAIRE_CATEGORY_ARRAY", res.data.data);
             } else {

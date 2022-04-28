@@ -1,64 +1,69 @@
 <template>
-  <div class="team_wrapper m-b-20">
-    <div class="m-b-14">
-      <h4 class="m-b-0 title-dark">
-        {{ $t("category_details.questionTab.Questions") }}
-      </h4>
-    </div>
-
-    <div class="question_list_wrapper">
-      <div class="list_wrap m-b-20">
-        <ul class="list-group">
-          <li
-            v-for="(question, idx) in questionList"
-            :key="question.id"
-            class="d-inline-flex"
-          >
-            <div class="list_wrapper">
-              <div class="list_counter_wrap">
-                <div
-                  :class="question.is_answered ? 'bg_success' : 'bg-gray-0'"
-                  class="counter_status m-r-13"
-                >
-                  <span class="q_no">{{ idx + 1 }}</span>
-                  <span class="q_check_icon">
-                    <img
-                      v-if="question.is_answered"
-                      src="K_Icons/checkmark-circle-fill.svg"
-                      alt=""
-                      class="check_icon"
-                    />
-                  </span>
-                </div>
-                <div class="">
-                  <p class="m-b-0 ques_title">
-                    {{ question.name }}
-                  </p>
-                  <p v-if="question.is_answered" class="m-b-0 ques_ans">
-                    {{ getValueOfAns(question) }}
-                  </p>
-                </div>
-              </div>
-              <div class="list_action m-l-auto">
-                <button
-                  v-if="question.is_editable_own && question.is_answered"
-                  @click="editQuetion(question.id)"
-                  class="
-                    btn
-                    text-primary
-                    fs-16
-                    text-capitalize
-                    fw-500
-                    btn-transaprent
-                  "
-                >
-                  {{ $t("category_details.questionTab.buttons.edit") }}
-                </button>
-              </div>
-            </div>
-          </li>
-        </ul>
+  <div class="">
+    <div v-if="questionList.length" class="team_wrapper m-b-20">
+      <div class="m-b-14">
+        <h4 class="m-b-0 title-dark">
+          {{ $t("category_details.questionTab.Questions") }}
+        </h4>
       </div>
+
+      <div class="question_list_wrapper">
+        <div class="list_wrap m-b-20">
+          <ul class="list-group">
+            <li
+              v-for="(question, idx) in questionList"
+              :key="question.id"
+              class="d-inline-flex"
+            >
+              <div class="list_wrapper">
+                <div class="list_counter_wrap">
+                  <div
+                    :class="question.is_answered ? 'bg_success' : 'bg-gray-0'"
+                    class="counter_status m-r-13"
+                  >
+                    <span class="q_no">{{ idx + 1 }}</span>
+                    <span class="q_check_icon">
+                      <img
+                        v-if="question.is_answered"
+                        src="K_Icons/checkmark-circle-fill.svg"
+                        alt=""
+                        class="check_icon"
+                      />
+                    </span>
+                  </div>
+                  <div class="">
+                    <p class="m-b-0 ques_title">
+                      {{ question.name }}
+                    </p>
+                    <p v-if="question.is_answered" class="m-b-0 ques_ans">
+                      {{ getValueOfAns(question) }}
+                    </p>
+                  </div>
+                </div>
+                <div class="list_action m-l-auto">
+                  <button
+                    v-if="question.is_editable_own && question.is_answered"
+                    @click="editQuetion(question.id)"
+                    class="
+                      btn
+                      text-primary
+                      fs-16
+                      text-capitalize
+                      fw-500
+                      btn-transaprent
+                    "
+                  >
+                    {{ $t("category_details.questionTab.buttons.edit") }}
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div v-else class="no_questionnaire_list">
+      <h6 class="empty_list_warning">Question list is empty</h6>
     </div>
   </div>
 </template>

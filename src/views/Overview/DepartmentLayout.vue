@@ -24,8 +24,12 @@
             </div>
           </div>
         </div>
-        <div class="invite_btn_wrap m-l-auto">
-          <button class="btn-primary btn k_btn_people">INVITE PEOPLE</button>
+        <div class="invite_btn_wrap m-l-auto" v-if="ownRole.can_invite">
+          <InvitePeopleModal>
+            <template v-slot:invite-button>
+              {{ $t("company_profile.buttons.invite_members") }}
+            </template>
+          </InvitePeopleModal>
         </div>
       </div>
       <!-- tabs start -->
@@ -43,7 +47,8 @@
 <script>
 import CommonService from "../../Services/CommonService";
 import errorhandler from "../../utils/Error";
-
+import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -55,6 +60,7 @@ export default {
       authToken: "",
     };
   },
+
   created() {
     this.url_dataID = this.$route.params.id;
     if (this.url_dataID) {
@@ -63,7 +69,17 @@ export default {
     }
     this.authToken = this.staffData.auth_token;
   },
-  components: {},
+
+  components: {
+    InvitePeopleModal,
+  },
+
+  computed: {
+    ...mapGetters({
+      ownRole: "roleInCompany",
+    }),
+  },
+
   methods: {
     ChangeT(title) {
       this.title = title;

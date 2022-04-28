@@ -38,9 +38,25 @@
         </div>
         <div class="">
           <form action="">
-            <div class="k_form_group">
-              <div @keyup="enterClicked" class="text_center">
-                <CustomOtp
+            <div class="">
+              <div @keyup="enterClicked" class="text_center m-t-20">
+                <v-otp-input
+                  class="otp_componnent"
+                  ref="otpInput"
+                  input-classes="otp-input  "
+                  separator=""
+                  :num-inputs="6"
+                  :should-auto-focus="true"
+                  :is-input-num="true"
+                  :conditionalClass="['one', 'two', 'three', 'four']"
+                  :placeholder="['', '', '', '', '', '']"
+                  @on-change="getChange"
+                  @on-complete="onCompleted"
+                />
+                <span v-if="isValidOTP" class="text-danger">{{
+                  $t("login.otp_step.form.invalid_msgs.otp_is_invalid")
+                }}</span>
+                <!-- <CustomOtp
                   :classesName="'k_inp_field single_num_inp'"
                   :onChanges="getChange"
                   :counters="6"
@@ -51,13 +67,13 @@
                   :validateMsg="
                     $t('login.otp_step.form.invalid_msgs.otp_is_invalid')
                   "
-                />
+                /> -->
               </div>
             </div>
             <div class="d-grid space_btn_acc_ver">
               <button
                 v-if="!canUpdateEmail"
-                :disabled="isSubmitted"
+                :disabled="isValidOTP == undefined || isValidOTP"
                 type="button"
                 @click="OTPInput"
                 class="btn k_btn_block btn-primary"
@@ -75,7 +91,7 @@
               </button>
               <button
                 v-else
-                :disabled="isSubmitted"
+                :disabled="isValidOTP == undefined || isValidOTP"
                 type="button"
                 @click="OTPForRegistration"
                 class="btn k_btn_block btn-primary"
@@ -151,24 +167,26 @@
 // import { ref } from "vue";
 import { Modal } from "bootstrap";
 import loginService from "../../Services/LoginService";
-import CustomOtp from "../../components/Shared/CustomOtp.vue";
+// import CustomOtp from "../../components/Shared/CustomOtp.vue";
 import UpdateEmail from "./Components/UpdateEmail.vue";
 // import CompanyService from "../../Services/Company/CompanyService";
 import MainLogo from "../../components/Shared/MainLogo.vue";
+import VOtpInput from "vue3-otp-input";
 
 import { mapGetters } from "vuex";
 import errorhandler from "../../utils/Error";
 export default {
   components: {
-    CustomOtp,
+    // CustomOtp,
     UpdateEmail,
     MainLogo,
+    "v-otp-input": VOtpInput,
   },
   data() {
     return {
+      isValidOTP: undefined, //  replace this with isSubmitted
       canUpdateEmail: false,
       isStatus: false,
-      isSubmitted: true,
       isCompanyStep1: undefined,
       isCompanyStep2: undefined,
       isCareer: undefined,
@@ -258,7 +276,7 @@ export default {
 
     // OTP For Login
     OTPInput() {
-      if (this.isSubmitted) {
+      if (this.isValidOTP == undefined || this.isValidOTP) {
         return false;
       }
       this.isStatus = true;
@@ -309,14 +327,18 @@ export default {
         })
         .finally(() => {
           this.isStatus = false;
-          this.isSubmitted = false;
+          this.isValidOTP = true;
+          // this.isSubmitted = false;
         });
     },
 
     // OTP For Registration
     OTPForRegistration() {
       console.log("opt form for Registration", this.otpForm);
-      if (this.isSubmitted) {
+      // if (this.isValidOTP) {
+      //   return false;
+      // }
+      if (this.isValidOTP == undefined || this.isValidOTP) {
         return false;
       }
       this.isStatus = true;
@@ -366,23 +388,23 @@ export default {
         })
         .finally(() => {
           this.isStatus = false;
-          this.isSubmitted = false;
+          this.isValidOTP = true;
         });
     },
 
     onCompleted(ev) {
-      this.isSubmitted = !ev.valiated;
-      this.otpForm.otp = ev.asString;
-      this.otpForm.code = ev.lists;
-
-      // console.log("completed", ev, this.isSubmitted);
+      // this.isValidOTP = !ev.valiated;
+      // this.otpForm.otp = ev.asString;
+      // this.otpForm.code = ev.lists;
+      this.otpForm.otp = ev;
+      this.isValidOTP = false;
     },
 
-    getChange(ev) {
-      this.isSubmitted = !ev.valiated;
-      this.otpForm.otp = ev.asString;
-      this.otpForm.code = ev.lists;
-      console.log("input Change", ev, this.isSubmitted);
+    getChange() {
+      // this.isValidOTP = !ev.valiated;
+      // this.otpForm.otp = ev.asString;
+      // this.otpForm.code = ev.lists;
+      this.isValidOTP = true;
     },
 
     changeEmail(val) {
@@ -391,7 +413,11 @@ export default {
     },
 
     enterClicked(ev) {
-      if (this.$refs.otpData.validated && ev.keyCode === 13) {
+      if (
+        this.isValidOTP !== undefined &&
+        !this.isValidOTP &&
+        ev.keyCode === 13
+      ) {
         if (this.canUpdateEmail) {
           this.OTPForRegistration();
         } else {
@@ -420,6 +446,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.otp_componnent {
+  justify-content: center;
+  input {
+    margin-right: 15px !important;
+    &:last-child {
+      // margin-right: ;
+    }
+  }
+}
 .modal_action_btn {
   padding: 0 16px 16px 16px;
 }

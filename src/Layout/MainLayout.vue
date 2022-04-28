@@ -35,8 +35,8 @@ export default {
     return {
       invitedUserData: JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")),
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      invitedId: undefined,
-      kLoading: false,
+      // invitedId: undefined,
+      // kLoading: false,
     };
   },
 
