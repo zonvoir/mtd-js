@@ -194,6 +194,14 @@
                   >
                     <span
                       v-if="
+                        v$.companyForm.incorporation_year.maxValueValue.$invalid
+                      "
+                      class="text-left fs-14"
+                    >
+                      Please enter valid year
+                    </span>
+                    <span
+                      v-if="
                         v$.companyForm.incorporation_year.minLengthValue
                           .$invalid
                       "
@@ -314,7 +322,7 @@
               </div>
 
               <div class="col-lg-6">
-                <div class="input-group d-flex">
+                <div class="input-group k_form_group d-flex">
                   <div class="country_flag_wrap">
                     <img
                       v-if="country_flag"
@@ -382,35 +390,36 @@
             </div>
 
             <div v-if="creatingMode === 'signup'" class="">
-              <div class="d-grid space_btn">
-                <button
-                  :disabled="isSubmitted"
-                  type="submit"
-                  class="btn k_btn_block btn-primary"
-                >
-                  <div
-                    v-if="isSubmitted"
-                    class="spinner-border text-light"
-                    role="status"
+              <div class="space_btn">
+                <div class="d-grid">
+                  <button
+                    :disabled="isSubmitted"
+                    type="submit"
+                    class="btn k_btn_block btn-primary"
                   >
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
-                  <span v-else>
-                    {{ $t("company.step_one.buttons.next") }}
-                  </span>
-                </button>
-              </div>
-              <div class="im-user flex justify-center">
-                <span class="para14">
-                  {{ $t("company.step_one.already_account") }}</span
-                >
-                <a @click="goTo" target="_blank" class="custom-link">
-                  {{ $t("company.step_one.buttons.sign_in") }}</a
-                >
-                <!-- :to="{ name: 'signup-signin' }" -->
+                    <div
+                      v-if="isSubmitted"
+                      class="spinner-border text-light"
+                      role="status"
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span v-else>
+                      {{ $t("company.step_one.buttons.next") }}
+                    </span>
+                  </button>
+                </div>
+                <div class="im-user flex justify-center">
+                  <span class="para14">
+                    {{ $t("company.step_one.already_account") }}</span
+                  >
+                  <a @click="goTo" target="_blank" class="custom-link">
+                    {{ $t("company.step_one.buttons.sign_in") }}</a
+                  >
+                  <!-- :to="{ name: 'signup-signin' }" -->
+                </div>
               </div>
             </div>
-            <!-- <div v-else class="">save and next</div> -->
           </form>
         </div>
       </div>
@@ -429,6 +438,7 @@ import {
   alphaNum,
   maxLength,
   minLength,
+  maxValue,
 } from "@vuelidate/validators";
 
 // const alphaNumAndDotValidator = helpers.regex(
@@ -471,6 +481,7 @@ export default {
     return {
       isStepOneProfileCompleted: false,
       // isStepTwoCompleted:false,
+      termsData: JSON.parse(localStorage.getItem("terms_condtions")),
       valiImage: true,
       isPageFilled: false,
       isSubmitted: false,
@@ -510,12 +521,20 @@ export default {
   },
 
   mounted() {
+    if (this.termsData && Object.keys(this.termsData).length) {
+      console.log(
+        "mounted at",
+        this.termsData.terms_service,
+        this.termsData.privacy_policy
+      );
+    }
     if (!this.staffData.is_first_step_complete) {
       this.$refs.terms.modal.show();
     }
   },
 
   created() {
+    console.log("created at");
     this.getLegalCoporation();
     if (this.creatingMode === "signup") {
       this.checkCompany();
@@ -546,7 +565,11 @@ export default {
           maxLengthValue: maxLength(12),
         },
         address: { required },
-        incorporation_year: { required, minLengthValue: minLength(4) },
+        incorporation_year: {
+          required,
+          minLengthValue: minLength(4),
+          maxValueValue: maxValue(new Date().getFullYear()),
+        },
         corporation_legal_form: { required },
       },
     };

@@ -85,10 +85,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.box_container {
-  margin: 1rem 92px;
-  position: relative;
-}
 .right-banner-wrapper {
   .right-banner-img {
     width: 100%;

@@ -266,7 +266,7 @@
                 </button>
               </span>
             </div>
-            <div class="k_form_group">
+            <div class="p-b-10">
               <div class="check_box_wrapper">
                 <label class="k_checkbox check_lable">
                   {{ $t("register_step.i_agree") }}
@@ -305,10 +305,9 @@
               </div>
             </div>
 
-            <div class="k_form_group">
+            <div class="">
               <div class="check_box_wrapper">
                 <label class="k_checkbox check_lable">
-                  <!-- I have read and accept the -->
                   {{ $t("register_step.i_read") }}
                   <a
                     target="_blank"

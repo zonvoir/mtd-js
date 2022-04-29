@@ -190,11 +190,21 @@ export default {
     };
   },
 
+  created() {
+    // localStorage.setItem(
+    //   "terms_condtions",
+    //   JSON.stringify(this.termsCondtionForm)
+    // );
+  },
   mounted() {
     this.modal = new Modal(this.$refs.staticBackdrop);
   },
   methods: {
     acceptTermsCondtions() {
+      // localStorage.setItem(
+      //   "terms_condtions",
+      //   JSON.stringify(this.termsCondtionForm)
+      // );
       this.modal.hide();
     },
   },

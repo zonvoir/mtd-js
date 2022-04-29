@@ -268,31 +268,33 @@
             </div>
 
             <div v-if="creatingMode === 'signup'">
-              <div class="d-grid space_btn">
-                <button
-                  :disabled="isSubmitted"
-                  type="submit"
-                  class="btn k_btn_block btn-primary"
-                >
-                  <div
-                    v-if="isSubmitted"
-                    class="spinner-border text-light"
-                    role="status"
+              <div class="space_btn">
+                <div class="d-grid">
+                  <button
+                    :disabled="isSubmitted"
+                    type="submit"
+                    class="btn k_btn_block btn-primary"
                   >
-                    <span class="visually-hidden">Loading...</span>
-                  </div>
-                  <span v-else>
-                    {{ $t("company.step_two.buttons.create_company") }}
-                  </span>
-                </button>
-              </div>
-              <div class="im-user flex justify-center">
-                <span class="para14">
-                  {{ $t("company.step_two.already_account") }}</span
-                >
-                <a @click="goTo" target="_blank" class="custom-link">{{
-                  $t("company.step_two.buttons.sign_in")
-                }}</a>
+                    <div
+                      v-if="isSubmitted"
+                      class="spinner-border text-light"
+                      role="status"
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span v-else>
+                      {{ $t("company.step_two.buttons.create_company") }}
+                    </span>
+                  </button>
+                </div>
+                <div class="im-user flex justify-center">
+                  <span class="para14">
+                    {{ $t("company.step_two.already_account") }}</span
+                  >
+                  <a @click="goTo" target="_blank" class="custom-link">{{
+                    $t("company.step_two.buttons.sign_in")
+                  }}</a>
+                </div>
               </div>
             </div>
           </form>
