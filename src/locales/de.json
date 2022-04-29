@@ -87,6 +87,7 @@
       "done": "Done german",
       "back": "Back german",
       "add": "Add german",
+      "next": "Next german",
       "remove": "Remove german",
       "add_more": "Add More german",
       "cancel": "Cancel german",
@@ -176,7 +177,7 @@
     "email_step": {
       "Sign_In": "Sign In german",
       "no_account": "No account created yet ? german",
-      "forgot_password": "Forgot your password german",
+      "forgot_password": "Forgot your password ? german",
       "form": {
         "placeholder": {
           "email": "Email german"
@@ -187,6 +188,7 @@
         }
       },
       "buttons": {
+        "sign_in": "Sign In german",
         "done": "Done german",
         "sign_up": "Sign Up german"
       }
@@ -195,6 +197,7 @@
     "password_step": {
       "enter_password": "Enter Your Password german",
       "already_account": "Already have an account ? german",
+      "no_account": "No account created yet german ?",
       "stay_signed": "Stay signed in german",
       "form": {
         "placeholder": {
@@ -224,7 +227,7 @@
         }
       },
       "buttons": {
-        "verify_account": "Verify Account german",
+        "verify_account": "Verify german",
         "sign_up": "Sign Up german",
         "sign_in": "Sign In german"
       }

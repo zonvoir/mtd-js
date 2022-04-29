@@ -244,8 +244,68 @@
     width: 100% !important;
   }
 }
-// .invitation_dialog {
-//   max-width: 50%;
-//   margin: 80px auto;
-//   margin-right: 251px;
+// auth pages
+// .space_btn_psw {
+//   margin-top: 460px;
+//   padding-bottom: 30px;
 // }
+@media screen and (min-width: 1366px) {
+  .custom_brand_logo {
+    margin-bottom: 3rem;
+  }
+  .main-heading-wrap {
+    // margin-top: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .space_btn_psw {
+    margin-top: 12rem;
+    // position: fixed;
+    // bottom: 11px;
+    // width: 36.5%;
+  }
+  .space_btn2 {
+    margin-top: 16rem;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .custom_brand_logo {
+    margin-bottom: 4rem;
+  }
+  .main-heading-wrap {
+    // margin-top: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .space_btn_psw {
+    margin-top: 15rem;
+  }
+  .space_btn2 {
+    margin-top: 20rem;
+  }
+}
+@media (min-width: 1600px) and (max-width: 1920px) {
+  .custom_brand_logo {
+    margin-bottom: 5rem;
+  }
+  .main-heading-wrap {
+    // margin-top: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .space_btn_psw {
+    margin-top: 19.5rem;
+  }
+  .space_btn2 {
+    margin-top: 24rem;
+  }
+}
+@media screen and (min-width: 1920px) {
+  .custom_brand_logo {
+    margin-bottom: 3rem;
+  }
+  .main-heading-wrap {
+    // margin-top: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .space_btn_psw {
+    margin-top: 12rem;
+  }
+}

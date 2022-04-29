@@ -30,12 +30,13 @@ const errorhandler = (res) => {
         toast.error(res.data.error[key], toastOptions);
       });
     } else {
+      console.log(res.data.message);
       if (
         res.data.message !== "" &&
         res.data.message !== undefined &&
         res.data.message != "No data were found"
       ) {
-        toast.error(res, toastOptions);
+        toast.error(res.data.message, toastOptions);
       }
     }
     if (

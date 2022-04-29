@@ -14,7 +14,7 @@
         </div>
         <div class="">
           <form @submit.prevent="onSubmit" action="">
-            <div class="k_form_group">
+            <div class="k_form_group position-relative">
               <input
                 :readonly="invitedId"
                 type="email"
@@ -61,32 +61,38 @@
                 </div>
               </div>
             </div>
-            <div class="d-grid space_btn2">
-              <button
-                :disabled="isSubmitted"
-                type="submit"
-                class="btn text-uppercase k_btn_block btn-primary"
-              >
-                <div
-                  v-if="isSubmitted"
-                  class="spinner-border text-light"
-                  role="status"
+            <div class="space_btn2">
+              <div class="d-grid">
+                <button
+                  :disabled="isSubmitted"
+                  type="submit"
+                  class="btn text-uppercase k_btn_block btn-primary"
                 >
-                  <span class="visually-hidden">{{ $t("login.loading") }}</span>
-                </div>
-                <span v-else> {{ $t("login.email_step.buttons.done") }} </span>
-              </button>
-            </div>
-            <div class="im-user text-center flex justify-center">
-              <span class="para14">
-                {{ $t("login.email_step.no_account") }}</span
-              >
-              <router-link
-                target="_blank"
-                class="custom-link"
-                :to="{ name: 'signup-register' }"
-                >{{ $t("login.email_step.buttons.sign_up") }}</router-link
-              >
+                  <div
+                    v-if="isSubmitted"
+                    class="spinner-border text-light"
+                    role="status"
+                  >
+                    <span class="visually-hidden">{{
+                      $t("login.loading")
+                    }}</span>
+                  </div>
+                  <span v-else>
+                    {{ $t("login.email_step.buttons.sign_in") }}
+                  </span>
+                </button>
+              </div>
+              <div class="im-user text-center flex justify-center">
+                <span class="para14">
+                  {{ $t("login.email_step.no_account") }}</span
+                >
+                <router-link
+                  target="_blank"
+                  class="custom-link"
+                  :to="{ name: 'signup-register' }"
+                  >{{ $t("login.email_step.buttons.sign_up") }}</router-link
+                >
+              </div>
             </div>
           </form>
         </div>
@@ -212,23 +218,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.error_data_wrap {
-  display: flex;
-  justify-content: space-between;
-}
-.forgot_action_wrap {
-  text-align: right;
-  white-space: nowrap;
-  .muted_link {
-    color: #8f9bb3;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    &:hover {
-      color: #8f9bb3;
-      text-decoration: none;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

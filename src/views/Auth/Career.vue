@@ -21,8 +21,9 @@
                 :departments="departmentLists.slice().reverse()"
                 :industries="industryLists"
                 :seniority="seniorityLevels"
+                :authToken="staffData.auth_token"
               />
-              <!-- :authToken="staffData.auth_token" -->
+              <!--  -->
             </div>
           </form>
           <div class="add_multiple_career">
@@ -63,7 +64,7 @@
               >
                 <span class="visually-hidden">Loading...</span>
               </div>
-              <span v-else> {{ $t("career_step.title_heading") }} </span>
+              <span v-else>{{ $t("career_step.buttons.next") }} </span>
             </button>
           </div>
           <div class="im-user flex justify-center">

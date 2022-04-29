@@ -53,44 +53,58 @@
                 </button>
               </span>
             </div>
-            <div class="k_form_group k_toggle">
-              <Toggle v-model="stay_signIn" />
-              <label id="toggle-label" class="toggle_label m-l-12">{{
-                $t("login.password_step.stay_signed")
-              }}</label>
-            </div>
-
-            <div class="d-grid space_btn_psw">
-              <button
-                :disabled="isSubmitted"
-                type="submit"
-                class="btn k_btn_block btn-primary text-uppercase"
-              >
-                <div
-                  v-if="isSubmitted"
-                  class="spinner-border text-light"
-                  role="status"
-                >
-                  <span class="visually-hidden">{{
-                    $t("login.password_step.loading")
-                  }}</span>
+            <div class="d-flex justify-content-between">
+              <div class="k_form_group k_toggle">
+                <Toggle v-model="stay_signIn" />
+                <label id="toggle-label" class="toggle_label m-l-12">{{
+                  $t("login.password_step.stay_signed")
+                }}</label>
+              </div>
+              <div class="">
+                <div class="forgot_action_wrap m-l-auto">
+                  <router-link
+                    target="_blank"
+                    class="muted_link"
+                    :to="{ name: 'signin-update-password' }"
+                  >
+                    {{ $t("login.email_step.forgot_password") }}</router-link
+                  >
                 </div>
-                <span v-else>
-                  {{ $t("login.password_step.buttons.sign_in") }}
-                </span>
-              </button>
+              </div>
             </div>
+            <div class="space_btn_psw">
+              <div class="d-grid">
+                <button
+                  :disabled="isSubmitted"
+                  type="submit"
+                  class="btn k_btn_block btn-primary text-uppercase"
+                >
+                  <div
+                    v-if="isSubmitted"
+                    class="spinner-border text-light"
+                    role="status"
+                  >
+                    <span class="visually-hidden">{{
+                      $t("login.password_step.loading")
+                    }}</span>
+                  </div>
+                  <span v-else>
+                    {{ $t("login.password_step.buttons.sign_in") }}
+                  </span>
+                </button>
+              </div>
 
-            <div class="im-user flex justify-center">
-              <span class="para14">{{
-                $t("login.password_step.no_account")
-              }}</span>
-              <router-link
-                target="_blank"
-                class="custom-link"
-                :to="{ name: 'signup-register' }"
-                >{{ $t("login.password_step.buttons.sign_up") }}</router-link
-              >
+              <div class="im-user flex justify-center">
+                <span class="para14">{{
+                  $t("login.password_step.no_account")
+                }}</span>
+                <router-link
+                  target="_blank"
+                  class="custom-link"
+                  :to="{ name: 'signup-register' }"
+                  >{{ $t("login.password_step.buttons.sign_up") }}</router-link
+                >
+              </div>
             </div>
           </form>
         </div>
@@ -219,9 +233,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.space_btn_psw {
-  margin-top: 460px;
-  padding-bottom: 30px;
-}
-</style>
+<style lang="scss" scoped></style>

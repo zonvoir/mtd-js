@@ -9,10 +9,31 @@
   padding-top: 30px;
   padding-bottom: 30px;
 }
-.space_btn2 {
-  padding-top: 509px;
-  padding-bottom: 30px;
+// forgot password
+.forgot_action_wrap {
+  text-align: right;
+  white-space: nowrap;
+  .muted_link {
+    color: #8f9bb3;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    &:hover {
+      color: #8f9bb3;
+      text-decoration: none;
+    }
+  }
 }
+.error_data_wrap {
+  position: absolute;
+  top: 3.5rem;
+  right: 0;
+}
+// ///////////////
+// .space_btn2 {
+//   padding-top: 509px;
+//   padding-bottom: 30px;
+// }
 // visibility button
 .psw_visibilty {
   position: relative;
@@ -25,6 +46,7 @@
 //
 .im-user {
   text-align: center;
+  padding-top: 10px;
 }
 .k_form_group {
   margin-bottom: 20px;

@@ -87,6 +87,7 @@
       "done": "Done",
       "back": "Back",
       "add": "Add",
+      "next": "Next",
       "remove": "Remove",
       "add_more": "Add More",
       "cancel": "Cancel",
@@ -178,7 +179,7 @@
     "email_step": {
       "Sign_In": "Sign In",
       "no_account": "No account created yet ?",
-      "forgot_password": "Forgot your password",
+      "forgot_password": "Forgot your password ?",
       "form": {
         "placeholder": {
           "email": "Email"
@@ -190,6 +191,7 @@
       },
       "buttons": {
         "done": "Done",
+        "sign_in": "Sign In",
         "sign_up": "Sign Up"
       }
     },
@@ -225,7 +227,7 @@
         }
       },
       "buttons": {
-        "verify_account": "Verify Account",
+        "verify_account": "Verify",
         "sign_up": "Sign Up",
         "sign_in": "Sign In"
       }
