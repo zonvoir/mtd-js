@@ -201,10 +201,12 @@ export default {
   },
   methods: {
     acceptTermsCondtions() {
+      localStorage.setItem("agreedToPrivacy", true);
       // localStorage.setItem(
       //   "terms_condtions",
       //   JSON.stringify(this.termsCondtionForm)
       // );
+
       this.modal.hide();
     },
   },

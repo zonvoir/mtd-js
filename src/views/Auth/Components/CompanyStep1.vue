@@ -517,18 +517,12 @@ export default {
     ...mapGetters({
       countryLists: "allCountries",
       legalCorpLists: "allLegalFormCorporation",
+      agreedToPrivacyStatus: "agreedToPrivacyStatus",
     }),
   },
 
   mounted() {
-    if (this.termsData && Object.keys(this.termsData).length) {
-      console.log(
-        "mounted at",
-        this.termsData.terms_service,
-        this.termsData.privacy_policy
-      );
-    }
-    if (!this.staffData.is_first_step_complete) {
+    if (!this.staffData.is_first_step_complete && !this.agreedToPrivacyStatus) {
       this.$refs.terms.modal.show();
     }
   },

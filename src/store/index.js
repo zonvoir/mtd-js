@@ -9,10 +9,23 @@ export default createStore({
     questionnaireStore,
     companyStore,
   },
+
   state: {
+    agreedToPrivacy: false,
     loadingStatus: false,
   },
   mutations: {
+    initialiseStore(state) {
+      if (localStorage.getItem("agreedToPrivacy")) {
+        state.agreedToPrivacy = true;
+      }
+    },
+
+    agreePrivacyPolicy(state) {
+      localStorage.setItem("agreedToPrivacy", true);
+      state.agreedToPrivacy = true;
+    },
+
     getLoadingStatus(state, val) {
       state.loadingStatus = val;
     },
@@ -24,5 +37,6 @@ export default createStore({
   },
   getters: {
     loadingStatus: (state) => state.loadingStatus,
+    agreedToPrivacyStatus: (state) => state.agreedToPrivacy,
   },
 });

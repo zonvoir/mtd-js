@@ -156,20 +156,21 @@
                 </button>
               </span>
             </div>
-
-            <div class="d-grid space_btn2">
-              <button class="btn k_btn_block btn-primary" type="submit">
-                RESET PASSWORD
-              </button>
-            </div>
-            <div class="im-user flex justify-center">
-              <span class="para14"> No account yet ?</span>
-              <router-link
-                target="_blank"
-                class="custom-link"
-                :to="{ name: 'signup-signin' }"
-                >Sign In</router-link
-              >
+            <div class="space_btn2">
+              <div class="d-grid">
+                <button class="btn k_btn_block btn-primary" type="submit">
+                  RESET PASSWORD
+                </button>
+              </div>
+              <div class="im-user flex justify-center">
+                <span class="para14"> No account yet ?</span>
+                <router-link
+                  target="_blank"
+                  class="custom-link"
+                  :to="{ name: 'signup-signin' }"
+                  >Sign In</router-link
+                >
+              </div>
             </div>
           </form>
         </div>

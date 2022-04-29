@@ -8,7 +8,7 @@
         <div class="">
           <div class="">
             <div class="main-heading-wrap text-center">
-              <h2 class="main-heading p-b-30">Add a new company</h2>
+              <h2 class="main-heading">Add a new company</h2>
             </div>
           </div>
           <div class="all_comp_wraper scroll_list">
@@ -70,8 +70,8 @@
               </div>
             </div>
           </div>
-          <div class="">
-            <div class="d-grid space_btn3">
+          <div class="space_btn3">
+            <div class="d-grid">
               <button
                 :disabled="!invitaionStatus || isSubmitted"
                 @click="companySelected"
@@ -238,10 +238,7 @@ export default {
     color: #ffffff;
   }
 }
-.space_btn3 {
-  margin-top: 287px;
-  margin-bottom: 30px;
-}
+
 .compnay_tile {
   display: flex;
   justify-content: space-between;

@@ -31,7 +31,13 @@ const i18n = setupI18n({
 });
 loadLocaleMessages(i18n, localStorage.getItem("language") || "en");
 // .use(i18n)
-const app = createApp(App);
+// const app = createApp(App);
+const app = createApp({
+  extends: App,
+  beforeCreate() {
+    this.$store.commit("initialiseStore");
+  },
+});
 app
   .use(i18n)
   .use(Toaster)

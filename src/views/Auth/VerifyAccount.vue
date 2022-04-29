@@ -7,7 +7,7 @@
       <div class="">
         <div class="">
           <div class="main-heading-wrap text-center">
-            <h2 class="main-heading p-b-20">
+            <h2 class="main-heading p-b-10">
               {{ $t("login.otp_step.verify_account") }}
             </h2>
             <div class="verify-subtitle">
@@ -70,55 +70,61 @@
                 /> -->
               </div>
             </div>
-            <div class="d-grid space_btn_acc_ver">
-              <button
-                v-if="!canUpdateEmail"
-                :disabled="isValidOTP == undefined || isValidOTP"
-                type="button"
-                @click="OTPInput"
-                class="btn k_btn_block btn-primary"
-              >
-                <div
-                  v-if="isStatus"
-                  class="spinner-border text-light"
-                  role="status"
+            <div class="space_btn_acc_ver">
+              <div class="d-grid">
+                <button
+                  v-if="!canUpdateEmail"
+                  :disabled="isValidOTP == undefined || isValidOTP"
+                  type="button"
+                  @click="OTPInput"
+                  class="btn k_btn_block btn-primary"
                 >
-                  <span class="visually-hidden">{{ $t("login.loading") }}</span>
-                </div>
-                <span v-else>
-                  {{ $t("login.otp_step.buttons.verify_account") }}
-                </span>
-              </button>
-              <button
-                v-else
-                :disabled="isValidOTP == undefined || isValidOTP"
-                type="button"
-                @click="OTPForRegistration"
-                class="btn k_btn_block btn-primary"
-              >
-                <div
-                  v-if="isStatus"
-                  class="spinner-border text-light"
-                  role="status"
+                  <div
+                    v-if="isStatus"
+                    class="spinner-border text-light"
+                    role="status"
+                  >
+                    <span class="visually-hidden">{{
+                      $t("login.loading")
+                    }}</span>
+                  </div>
+                  <span v-else>
+                    {{ $t("login.otp_step.buttons.verify_account") }}
+                  </span>
+                </button>
+                <button
+                  v-else
+                  :disabled="isValidOTP == undefined || isValidOTP"
+                  type="button"
+                  @click="OTPForRegistration"
+                  class="btn k_btn_block btn-primary"
                 >
-                  <span class="visually-hidden">{{ $t("login.loading") }}</span>
-                </div>
-                <span v-else>
-                  {{ $t("login.otp_step.buttons.verify_account") }}
-                </span>
-              </button>
-            </div>
+                  <div
+                    v-if="isStatus"
+                    class="spinner-border text-light"
+                    role="status"
+                  >
+                    <span class="visually-hidden">{{
+                      $t("login.loading")
+                    }}</span>
+                  </div>
+                  <span v-else>
+                    {{ $t("login.otp_step.buttons.verify_account") }}
+                  </span>
+                </button>
+              </div>
 
-            <div class="im-user flex justify-center">
-              <span class="para14">{{
-                $t("login.otp_step.already_account")
-              }}</span>
-              <router-link
-                target="_blank"
-                class="custom-link"
-                :to="{ name: 'signup-signin' }"
-                >{{ $t("login.otp_step.buttons.sign_in") }}</router-link
-              >
+              <div class="im-user flex justify-center">
+                <span class="para14">{{
+                  $t("login.otp_step.already_account")
+                }}</span>
+                <router-link
+                  target="_blank"
+                  class="custom-link"
+                  :to="{ name: 'signup-signin' }"
+                  >{{ $t("login.otp_step.buttons.sign_in") }}</router-link
+                >
+              </div>
             </div>
           </form>
         </div>
@@ -461,10 +467,7 @@ export default {
 .text_center {
   text-align: center;
 }
-.space_btn_acc_ver {
-  padding-top: 384px;
-  padding-bottom: 30px;
-}
+
 .email_verify_message {
   font-size: 18px;
   font-weight: 400;
