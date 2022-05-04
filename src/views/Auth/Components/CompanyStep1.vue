@@ -395,7 +395,7 @@
                           "
                           class="text-left fs-14"
                         >
-                          Phone Number at least be 6 digits
+                          Phone Number at least 6 digits
                         </span>
                         <span
                           v-if="

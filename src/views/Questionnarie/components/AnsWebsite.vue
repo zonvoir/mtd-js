@@ -16,7 +16,7 @@
         <span v-if="v$.ansValue.required.$invalid" class="text-left fs-14">
           Answer is required
         </span>
-        <span v-if="v$.ansValue.url.$invalid" class="text-left fs-14">
+        <span v-if="v$.ansValue.urlCase.$invalid" class="text-left fs-14">
           Answer must be an url
         </span>
       </div>
@@ -25,8 +25,15 @@
 </template>
 
 <script>
-import { required, url } from "@vuelidate/validators";
+import { required, helpers } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+//^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$
+//  regex 2 (https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})
+const urlCase = (val) =>
+  !helpers.req(val) ||
+  /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/.test(
+    val
+  );
 export default {
   emits: ["getUserSelected"],
 
@@ -52,7 +59,7 @@ export default {
   },
   validations() {
     return {
-      ansValue: { required, url },
+      ansValue: { required, urlCase },
     };
   },
   setup() {

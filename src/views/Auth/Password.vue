@@ -32,7 +32,7 @@
                 v-if="v$.loginForm.password.$error"
                 class="invalid-feedback text-left"
               >
-                <div
+                <span
                   v-if="v$.loginForm.password.required.$invalid"
                   class="text-left fs-14"
                 >
@@ -41,7 +41,40 @@
                       "login.password_step.form.invalid_msgs.password_is_required"
                     )
                   }}
-                </div>
+                </span>
+                <span
+                  v-else-if="v$.loginForm.password.upperCaseCalc.$invalid"
+                  class="text-left fs-14"
+                >
+                  Password must contain uppercase alphabetic characters (e.g.
+                  A-Z)
+                </span>
+                <span
+                  v-else-if="v$.loginForm.password.numberCalc.$invalid"
+                  class="text-left fs-14"
+                >
+                  Password must have at least one numerical character(e.g. 0-9)
+                </span>
+
+                <span
+                  v-else-if="v$.loginForm.password.lowerCaseCalc.$invalid"
+                  class="text-left fs-14"
+                >
+                  Password must contain lowerercase alphabetic characters (e.g.
+                  a-z)
+                </span>
+                <span
+                  v-else-if="v$.loginForm.password.specialCharCalc.$invalid"
+                  class="text-left fs-14"
+                >
+                  Password must have at least one special character
+                </span>
+                <span
+                  v-else-if="v$.loginForm.password.minimum8CharCalc.$invalid"
+                  class="text-left fs-14"
+                >
+                  Strong password must be minimum 8 character
+                </span>
               </div>
               <span class="visibilty_btn">
                 <button
@@ -120,18 +153,20 @@ import EyeOffIcon from "../../assets/images/icons/eye-off.svg";
 import MainLogo from "../../components/Shared/MainLogo.vue";
 
 // MINIMUM 8 CHARCTER
-const minimum8CharCalc = (val) => val.length >= 8;
+const minimum8CharCalc = (val) => !helpers.req(val) || val.length >= 8;
 // for upper case calculation
-const upperCaseCalc = (val) => /[A-Z]/.test(val);
+const upperCaseCalc = (val) => !helpers.req(val) || /[A-Z]/.test(val);
 // for lower case calculation
-const lowerCaseCalc = (val) => /[a-z]/.test(val);
+const lowerCaseCalc = (val) => !helpers.req(val) || /[a-z]/.test(val);
 // for numbers
-const numberCalc = (val) => /[0-9]/.test(val);
+const numberCalc = (val) => !helpers.req(val) || /[0-9]/.test(val);
 // for special character
 const specialCharCalc = (val) => {
-  return /[ `!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?~]/.test(val);
+  return (
+    !helpers.req(val) || /[ `!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?~]/.test(val)
+  );
 };
-import { required } from "@vuelidate/validators";
+import { required, helpers } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import errorhandler from "../../utils/Error";
 import LoginService from "../../Services/LoginService";

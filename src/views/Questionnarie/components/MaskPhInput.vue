@@ -90,9 +90,6 @@ export default {
           .replace(/ /g, "")
           .match(/.{1,3}/g)
           .join(" ");
-        // console.log(this.cardNumber.split("."));
-
-        // Emit the blur event so it automatically sets the modelValue
         this.$emit("update:modelValue", this.cardNumber);
       } else {
         this.cardNumber = "";

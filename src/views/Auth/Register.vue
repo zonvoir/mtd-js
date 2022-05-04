@@ -341,34 +341,36 @@
                 </label>
               </div>
             </div>
-            <div class="d-grid space_btn">
-              <button
-                :disabled="isSubmitted"
-                type="submit"
-                class="btn k_btn_block btn-primary"
-              >
-                <div
-                  v-if="isSubmitted"
-                  class="spinner-border text-light"
-                  role="status"
+            <div class="space_btn">
+              <div class="d-grid">
+                <button
+                  :disabled="isSubmitted"
+                  type="submit"
+                  class="btn k_btn_block btn-primary"
                 >
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <span v-else>
-                  {{ $t("register_step.buttons.create_account") }}
-                </span>
-              </button>
-            </div>
-            <div class="im-user flex justify-center">
-              <span class="para14">{{
-                $t("register_step.already_account")
-              }}</span>
-              <router-link
-                target="_blank"
-                class="custom-link"
-                :to="{ name: 'signup-signin' }"
-                >{{ $t("register_step.buttons.sign_in") }}</router-link
-              >
+                  <div
+                    v-if="isSubmitted"
+                    class="spinner-border text-light"
+                    role="status"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <span v-else>
+                    {{ $t("register_step.buttons.create_account") }}
+                  </span>
+                </button>
+              </div>
+              <div class="im-user flex justify-center">
+                <span class="para14">{{
+                  $t("register_step.already_account")
+                }}</span>
+                <router-link
+                  target="_blank"
+                  class="custom-link"
+                  :to="{ name: 'signup-signin' }"
+                  >{{ $t("register_step.buttons.sign_in") }}</router-link
+                >
+              </div>
             </div>
           </form>
         </div>
