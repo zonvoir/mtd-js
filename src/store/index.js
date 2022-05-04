@@ -13,18 +13,28 @@ export default createStore({
   state: {
     agreedToPrivacy: false,
     loadingStatus: false,
+    staffDataLocal: undefined,
   },
   mutations: {
     initialiseStore(state) {
       if (localStorage.getItem("agreedToPrivacy")) {
         state.agreedToPrivacy = true;
       }
+      // if (localStorage.getItem("bWFpbCI6Inpvb")) {
+      //   state.staffDataLocal = true;
+      // }
     },
 
     agreePrivacyPolicy(state) {
       localStorage.setItem("agreedToPrivacy", true);
       state.agreedToPrivacy = true;
     },
+
+    // getLocalStaffDataLocal(state, val) {
+    //   let data = JSON.stringify(val);
+    //   localStorage.setItem("bWFpbCI6Inpvb", data);
+    //     state.staffDataLocal = val;
+    // },
 
     getLoadingStatus(state, val) {
       state.loadingStatus = val;
@@ -36,6 +46,7 @@ export default createStore({
     },
   },
   getters: {
+    //staffDataLocal: (state) => state.staffDataLocal, //get local storage data
     loadingStatus: (state) => state.loadingStatus,
     agreedToPrivacyStatus: (state) => state.agreedToPrivacy,
   },

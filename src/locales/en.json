@@ -20,7 +20,7 @@
     "title_heading": "Create an account",
     "personal_info": "Personal Information",
     "account_info": "Account Information",
-    "already_account": "Already have an account ?",
+    "already_account": "Already have an account?",
     "i_agree": " I agree with the ",
     "terms_condtion": " Terms of Service! ",
     "i_read": "  I have read and accept the  ",
@@ -57,7 +57,7 @@
     "title_heading": "Career Information",
     "current_employer": "Your current employer",
     "current_employment": "Your current employment information",
-    "already_account": "Already have an account ?",
+    "already_account": "Already have an account?",
     "currrenly_working": " I’m currently working in this role ",
     "add_career": "Add Carreer Information",
     "form": {
@@ -104,7 +104,7 @@
       "title_heading": "Step 1: Basic Company Information",
       "basic_details": "Basic Company Details",
       "main_contact": "Main contact for questions",
-      "already_account": "Already have an account ?",
+      "already_account": "Already have an account?",
       "as_consultant": "Setting up company as a consultant",
       "image_size": "Images should be 100 x 100 px as a png or jpeg file",
 
@@ -142,7 +142,7 @@
       "geo_scope": "Geographical Scope",
       "reporting_currency": "Reporting Currency",
       "industry_info": "Industry Information",
-      "already_account": "Already have an account ?",
+      "already_account": "Already have an account?",
       "as_Intlnal": " Is your company operating internationally? ",
       "outside_country": "Outside of ..country..? ",
       "form": {
@@ -178,8 +178,8 @@
     "loading": "Loading...",
     "email_step": {
       "Sign_In": "Sign In",
-      "no_account": "No account created yet ?",
-      "forgot_password": "Forgot your password ?",
+      "no_account": "No account created yet?",
+      "forgot_password": "Forgot your password?",
       "form": {
         "placeholder": {
           "email": "Email"
@@ -197,8 +197,8 @@
     },
     "password_step": {
       "enter_password": "Enter Your Password",
-      "no_account": "No account created yet ?",
-      "already_account": "Already have an account ?",
+      "no_account": "No account created yet?",
+      "already_account": "Already have an account?",
       "stay_signed": "Stay signed in",
       "form": {
         "placeholder": {
@@ -215,8 +215,8 @@
     },
     "otp_step": {
       "verify_account": "Verify your account",
-      "no_account": "No account created yet ?",
-      "already_account": "Already have an account ? german",
+      "no_account": "No account created yet?",
+      "already_account": "Already have an account?",
       "verify_acc_para1": "We've sent you a six-digit confirmation code to",
       "verify_acc_email_change": "You can change your registration email",
       "email_change_here": "here",
@@ -483,7 +483,7 @@
         "Lesson_Learned": "Lesson Learned",
         "Challages": "Challages",
         "areas_topics_impacted?": "What areas and topics were impacted?",
-        "Department_impacted ?": "What Department was impacted ?",
+        "Department_impacted ?": "What Department was impacted?",
         "Project_Cost": "Project Cost(Direct + Indirect)",
         "Personal_Cost_FTE": "Personal Cost-FTE",
         "Project_Period": "Project Period",

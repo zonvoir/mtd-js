@@ -288,18 +288,41 @@
                     </span>
                   </div>
                 </div>
-                <!-- <AutoComplete
-                  class="k_prime_inp_field"
-                  :suggestions="filteredCompanies"
-                  @complete="searchCompany($event)"
-                  field="label"
-                  :placeholder="$t('company.step_one.form.placeholder.address')"
-                  @blur="v$.companyForm.address.$touch"
-                  v-model="companyForm.address"
-                  :class="{
-                    'is-invalid': v$.companyForm.address.$error,
-                  }"
-                /> -->
+                <!-- <div class="k_form_group">
+                  <GMapAutocomplete
+                    class="form-control k_inp_field"
+                    :placeholder="
+                      $t('company.step_one.form.placeholder.address')
+                    "
+                    :options="{
+                      ComponentRestrictions: {
+                        country: 'in',
+                      },
+                    }"
+                    @blur="v$.companyForm.address.$touch"
+                    v-model="companyForm.address"
+                    :class="{
+                      'is-invalid': v$.companyForm.address.$error,
+                    }"
+                    @input="updateValue"
+                    @place_changed="setPlace"
+                  />
+                  <div
+                    v-if="v$.companyForm.address.$error"
+                    class="invalid-feedback text-left"
+                  >
+                    <span
+                      v-if="v$.companyForm.address.required.$invalid"
+                      class="text-left fs-14"
+                    >
+                      {{
+                        $t(
+                          "company.step_one.form.invalid_msgs.address_is_required"
+                        )
+                      }}
+                    </span>
+                  </div>
+                </div> -->
               </div>
               <div class="col-lg-12">
                 <div class="k_form_group">
@@ -372,7 +395,7 @@
                           "
                           class="text-left fs-14"
                         >
-                          Phone Number atleat be 6 digit
+                          Phone Number at least be 6 digits
                         </span>
                         <span
                           v-if="
@@ -441,15 +464,8 @@ import {
   maxValue,
 } from "@vuelidate/validators";
 
-// const alphaNumAndDotValidator = helpers.regex(
-//   "alphaNumAndDot",
-//   /^[A-Za-z]{2,4}(?=.{2,12}$)[-_\s0-9]*(?:[a-zA-Z][-_\s0-9]*){0,2}$/i
-// );
-
 import useVuelidate from "@vuelidate/core";
 import TermsConditionsModal from "./TermsConditionsModal.vue";
-// import MultiSelect from "primevue/multiselect";
-// import AutoComplete from "primevue/autocomplete";
 
 import Dropdown from "primevue/dropdown";
 import { mapGetters } from "vuex";
@@ -473,7 +489,6 @@ export default {
 
   components: {
     Dropdown,
-    // AutoComplete,
     TermsConditionsModal,
   },
 
@@ -493,7 +508,6 @@ export default {
       staffData:
         JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
         JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      // staffData: JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")),
       value: null,
 
       companyForm: {
@@ -589,6 +603,15 @@ export default {
         this.companyForm.country_code = this.country_code;
         this.isStepOneProfileCompleted = true;
       }
+    },
+
+    setPlace(e) {
+      this.companyForm.address = e.formatted_address;
+      console.log(e.geometry.location.lat(), e.geometry.location.lng());
+    },
+    updateValue(e) {
+      this.companyForm.address = e.target.value;
+      console.log(e.target.value);
     },
 
     // create company on company profile end

@@ -6,6 +6,7 @@ import store from "./store/index";
 import Toaster from "@meforma/vue-toaster";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import PrimeVue from "primevue/config";
+import VueGoogleMaps from "@fawmi/vue-google-maps";
 
 import "primevue/resources/themes/bootstrap4-light-blue/theme.css";
 import "primevue/resources/primevue.min.css";
@@ -48,6 +49,12 @@ app
     newestOnTop: true,
   })
   .use(VueSweetalert2)
+  .use(VueGoogleMaps, {
+    load: {
+      key: "AIzaSyBWPNwmej6ChgvyBY9e4EwFjkTrJUQr0Sg",
+      libraries: "places",
+    },
+  })
   .use(store)
   .use(PrimeVue)
   .use(router)

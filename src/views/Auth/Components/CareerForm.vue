@@ -226,6 +226,7 @@
             class="project_date_picker custom_label"
             v-model="careerForm.from"
             :enableTimePicker="false"
+            :maxDate="new Date()"
             @open="clearFromDate"
             placeholder="mm/dd/yyyy"
           />
@@ -256,6 +257,7 @@
             class="project_date_picker custom_label"
             :enableTimePicker="false"
             v-model="careerForm.to"
+            :minDate="careerForm.from"
             @open="clearToDate"
             placeholder="mm/dd/yyyy"
           />
@@ -386,6 +388,12 @@ export default {
       // this.careerForm.workingAtPresent = val;
       console.log(oldVal, newVal, "vis", this.careerForm.workingAtPresent);
       this.clearToDate();
+    },
+    "careerForm.from": function () {
+      if (this.careerForm.from > new Date()) {
+        errorhandler("Future date is not accepeted");
+        return (this.careerForm.from = "");
+      }
     },
   },
 

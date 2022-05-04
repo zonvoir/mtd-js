@@ -175,7 +175,8 @@ export default {
                 auth_token: this.staffData.auth_token,
               });
               this.closeModal();
-              this.$router.push({ name: "Dashboard" });
+              this.activeStep = 1;
+              this.$router.push({ name: "company-list" });
             } else {
               errorhandler(res);
             }

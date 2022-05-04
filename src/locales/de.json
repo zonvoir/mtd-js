@@ -20,7 +20,7 @@
     "title_heading": "Create an account german",
     "personal_info": "Personal Information german",
     "account_info": "Account Information german",
-    "already_account": "Already have an account ? german",
+    "already_account": "Already have an account? german",
     "i_agree": " I agree with the  german",
     "terms_condtion": " Terms of Service! german ",
     "i_read": "  I have read and accept the  german ",
@@ -57,7 +57,7 @@
     "title_heading": "Career Information german",
     "current_employer": "Your current employer german",
     "current_employment": "Your current employment information german",
-    "already_account": "Already have an account ? german",
+    "already_account": "Already have an account? german",
     "currrenly_working": " I’m currently working in this role german ",
     "add_career": "Add Carreer Information german",
     "form": {
@@ -103,7 +103,7 @@
       "title_heading": "Step 1: Basic Company Information german",
       "basic_details": "Basic Company Details german",
       "main_contact": "Main contact for questions german",
-      "already_account": "Already have an account ? german",
+      "already_account": "Already have an account? german",
       "as_consultant": "Setting up company as a consultant german",
       "image_size": "Images should be 100 x 100 px as a png or jpeg file german",
 
@@ -141,7 +141,7 @@
       "geo_scope": "Geographical Scope german",
       "reporting_currency": "Reporting Currency german",
       "industry_info": "Industry Information german",
-      "already_account": "Already have an account ? german",
+      "already_account": "Already have an account? german",
       "as_Intlnal": " Is your company operating internationally?  german",
       "outside_country": "Outside of ..country..?  german",
       "form": {
@@ -176,8 +176,8 @@
     "loading": "Loading...",
     "email_step": {
       "Sign_In": "Sign In german",
-      "no_account": "No account created yet ? german",
-      "forgot_password": "Forgot your password ? german",
+      "no_account": "No account created yet? german",
+      "forgot_password": "Forgot your password? german",
       "form": {
         "placeholder": {
           "email": "Email german"
@@ -196,8 +196,8 @@
 
     "password_step": {
       "enter_password": "Enter Your Password german",
-      "already_account": "Already have an account ? german",
-      "no_account": "No account created yet german ?",
+      "already_account": "Already have an account? german",
+      "no_account": "No account created yet? german",
       "stay_signed": "Stay signed in german",
       "form": {
         "placeholder": {
@@ -215,8 +215,8 @@
 
     "otp_step": {
       "verify_account": "Verify your account german",
-      "no_account": "No account created yet ? german",
-      "already_account": "Already have an account ? german",
+      "no_account": "No account created yet? german",
+      "already_account": "Already have an account? german",
       "verify_acc_email_change": "You can change your registration email german",
       "email_change_here": "here german",
       "verify_acc_para1": "We've sent you a six-digit confirmation code to german",
@@ -490,7 +490,7 @@
         "Lesson_Learned": "Lesson Learnedkk",
         "Challages": "Challageskk",
         "areas_topics_impacted": "What areas and topics were impactedkk?",
-        "Department_impacted": "What Department was impactedkk ?",
+        "Department_impacted": "What Department was impactedkk?",
         "Project_Cost": "Project Cost(Direct + Indirectkk)",
         "Personal_Cost_FTE": "Personal Cost-FTEkk",
         "Project_Period": "Project Periodkk",

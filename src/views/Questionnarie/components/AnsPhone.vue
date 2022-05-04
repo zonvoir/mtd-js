@@ -24,13 +24,13 @@
           v-if="v$.ansValue.maxLengthValue.$invalid"
           class="text-left fs-14"
         >
-          Phone Number can't be more than 13 digit
+          Phone Number can't be more than 13 digits
         </span>
         <span
           v-if="v$.ansValue.minLengthValue.$invalid"
           class="text-left fs-14"
         >
-          Phone Number atlest 10 digit
+          Phone Number at least 10 digits
         </span>
       </div>
     </div>

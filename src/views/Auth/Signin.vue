@@ -149,6 +149,7 @@ export default {
   beforeCreate() {
     localStorage.removeItem("bWFInpvitedbpbUser");
     // localStorage.removeItem("bWFpbCI6Inpvb");
+    localStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
   },
 
   created() {
