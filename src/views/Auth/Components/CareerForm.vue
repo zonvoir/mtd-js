@@ -51,6 +51,7 @@
               />
               <div class="btn-dept">
                 <button
+                  :disabled="newDepartment == ''"
                   @click="updateDepartment"
                   type="button"
                   class="btn btn-primary update_btn btn-set"

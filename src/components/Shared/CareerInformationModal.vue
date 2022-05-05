@@ -46,6 +46,7 @@
                   :departments="departments"
                   :industries="industry"
                   :seniority="seniority_level"
+                  :authToken="staffData.auth_token"
                 />
               </div>
               <div class="">
@@ -109,6 +110,9 @@ export default {
       from: "From",
       to: "To",
       // emitedValidation: undefined,
+      staffData:
+        JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
+        JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       multifrom: false,
       newAddedCareer: [],
       invitation_id: undefined,
