@@ -125,7 +125,7 @@ export default {
       isprofile: false,
       companyListArr: undefined,
       companies: [],
-      staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      // staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
 
       items: [
         {
@@ -148,6 +148,7 @@ export default {
       getMembers: "companyMembers",
       ownRole: "roleInCompany",
       currentCompany: "activeCompany",
+      staffInfo: "staffDataLocal",
     }),
   },
   watch: {
@@ -177,7 +178,6 @@ export default {
     document.addEventListener("click", this.close);
   },
   created() {
-    this.changeYear();
     if (
       this.staffInfo != null &&
       this.staffInfo != undefined &&
@@ -186,6 +186,7 @@ export default {
       this.getAllCompanies();
       this.getStaffDetails();
     }
+    this.changeYear();
   },
 
   methods: {
@@ -218,6 +219,7 @@ export default {
             this.companyListArr = this.companies.map((item, indx, itemsArr) => {
               if (item.created_by_me == "1") {
                 defCompany = item.company_id;
+                localStorage.setItem("selected_company", defCompany);
               } else if (itemsArr.length - 1 === indx) {
                 defCompany = item.company_id;
               }
@@ -301,14 +303,11 @@ export default {
       this.isprofile = true;
       this.$router.push({ name: "personal-account" });
       this.currentPage = this.$route.path;
-      // console.log("profile Page", this.currentPage);
     },
     onLogout() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
-      // localStorage.removeItem("language");
       localStorage.removeItem("selected_year");
-      this.$store.dispatch("GET_STAFF_DATA", null);
       this.$router.push({ name: "signup-signin" });
     },
     toggleDropdown() {

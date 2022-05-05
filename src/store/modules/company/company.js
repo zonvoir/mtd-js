@@ -34,7 +34,7 @@ const state = {
   defualtCurrency: undefined,
 };
 const mutations = {
-  // company profile
+  // company profile default
   setAllDeafultRoles(state, values) {
     values.roles.forEach((role) => {
       if (role.role_slug == "owner") {
@@ -52,56 +52,69 @@ const mutations = {
     if (values.default_department.slug == "company") {
       state.defaultCompanyDeptId = values.default_department.departmentid;
     }
-
-    // state.allDeafultRoles = values;
   },
+
   setMemberPermissions(state, values) {
     state.memberPermissions = values;
   },
+
   setYear(state, values) {
     state.activeYear = values;
   },
+
   setActiveCompany(state, company) {
     state.activeCompany = company;
   },
+
   setStaffsCompanies(state, values) {
     state.staffsCompanies = values;
   },
+
   setCompanyInfoDetails(state, info) {
     state.companyInfoDetails = info;
   },
+
   setCompanyMembers(state, values) {
     state.companyMembers = values;
   },
+
   setInvitationStaffRoleList(state, list) {
-    // console.log("all invited list", list);
     state.invitationStaffRoleList = list;
   },
+
+  // Role Id
   setRoleId(state, role) {
     state.role_id = role;
   },
+
+  // role In company
   setRoleInCompany(state, id) {
     state.roleInCompany = id;
   },
-  // company profile
-  //  new
+
+  //  new Career Deaprtment
   setAlocatedDepartments(state, values) {
     state.alocatedDepartments = values;
   },
+
   // update Company data
   setUpdateCompnay(state, values) {
     state.companyData = values;
   },
-  // update Company data
+
+  // update Company Currency
   setCurrencyExRates(state, values) {
     state.currencyExRates = values;
   },
+
   setStaffsDepartment(state, values) {
     state.staffsDepartment = values;
   },
+
   setStaffsQuestionnireDepartments(state, values) {
     state.staffsQuestionnireDepartments = values;
   },
+
   setInvitationsForQuestionnaireTeam(state, values) {
     state.invitationsForQuestionnaireTeam = values;
   },
@@ -115,7 +128,6 @@ const mutations = {
   },
   setAllCurrency(state, val) {
     state.allCurrency = val;
-    // let data = val;
   },
   setDefualtCurrency(state, val) {
     state.defualtCurrency = val;
@@ -332,7 +344,6 @@ const actions = {
   },
 
   async GET_STAFFS_DEPARTMENT({ commit }, deptarments) {
-    // if (!deptarments.length) return;12 april
     let deptArr = deptarments.map((item) => {
       return {
         value: item.departmentid,
@@ -340,7 +351,6 @@ const actions = {
       };
     });
     commit("setStaffsDepartment", deptArr);
-    // context.commit("setStaffsDepartment", val);
   },
 
   GET_STAFFS_QUESTIONNIRE_DEPARTMENT: ({ commit }, data) => {
@@ -393,8 +403,6 @@ const actions = {
       CompanyService.inviteNewTeamMember(data).then(
         (res) => {
           if (res.data.status) {
-            // console.log("res to add new member", res.data.data);
-            // commit("setInviteTeamMember", res.data.data);
             commit("setInvitationsForQuestionnaireTeam", res.data.data);
           } else {
             errorhandler(res);
@@ -413,8 +421,6 @@ const actions = {
       CompanyService.confirmedTeamMemberByList(data).then(
         (res) => {
           if (res.data.status) {
-            // console.log("res to add new file listr", res.data.data);
-            // commit("setInviteTeamMember", res.data.data);
             commit("setInvitationsForQuestionnaireTeam", res.data.data);
           } else {
             errorhandler(res);
@@ -433,10 +439,8 @@ const actions = {
       CompanyService.removeTeamMember(data).then(
         (res) => {
           if (res.data.status) {
-            // commit("setInviteTeamMember", res.data.data);
             commit("setInvitationsForQuestionnaireTeam", res.data.data);
           } else {
-            // commit("setInvitationsForQuestionnaireTeam", []);
             errorhandler(res);
           }
           resolve(res);
@@ -447,9 +451,6 @@ const actions = {
       );
     });
   },
-  // async getStaffsCompanies(context, val) {
-  //   context.commit("setStaffsCompanies", val);
-  // },
 
   getStaffsCompanies: ({ commit }, data) => {
     return new Promise((resolve, reject) => {

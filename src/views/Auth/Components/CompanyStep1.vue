@@ -439,7 +439,6 @@
                   <a @click="goTo" target="_blank" class="custom-link">
                     {{ $t("company.step_one.buttons.sign_in") }}</a
                   >
-                  <!-- :to="{ name: 'signup-signin' }" -->
                 </div>
               </div>
             </div>
@@ -522,8 +521,8 @@ export default {
         client_logo: "",
         country_code: "",
         corporation_legal_form: null,
-        is_main: "1",
       },
+      // is_main: "1",
     };
   },
 
@@ -619,10 +618,8 @@ export default {
     goTo() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
-      // localStorage.removeItem("language");
       localStorage.removeItem("selected_year");
       sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
-      this.$store.dispatch("GET_STAFF_DATA", null);
       this.$router.push({ name: "signup-signin" });
     },
 
@@ -637,6 +634,7 @@ export default {
       } else {
         this.companyForm.auth_token = this.staffData.auth_token;
         this.companyForm.country_code = this.country_code;
+        this.companyForm.is_main = "1";
         console.log("company data", this.companyForm);
         this.isPageFilled = true;
         this.isSubmitted = true;

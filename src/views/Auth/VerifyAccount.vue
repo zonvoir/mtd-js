@@ -291,7 +291,6 @@ export default {
         .then((res) => {
           if (res.data.status) {
             console.log("otp response", res.data.data);
-            // sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
             sessionStorage.removeItem("QiLC1IUzI1JhbGciOiKV");
             sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
             localStorage.setItem(
@@ -299,6 +298,7 @@ export default {
               JSON.stringify(res.data.data)
             );
             let user = JSON.parse(localStorage.getItem("bWFpbCI6Inpvb"));
+            this.$store.dispatch("SET_STAFF_DATA_LOCAL", user);
             if (
               this.invitedUserData &&
               Object.keys(this.invitedUserData).length != 0 &&
@@ -361,6 +361,7 @@ export default {
             sessionStorage.removeItem("QiLC1IUzI1JhbGciOiKV");
             sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
             let user = JSON.parse(localStorage.getItem("bWFpbCI6Inpvb"));
+            this.$store.dispatch("SET_STAFF_DATA_LOCAL", user);
             if (
               this.invitedUserData &&
               Object.keys(this.invitedUserData).length != 0 &&

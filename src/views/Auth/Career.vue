@@ -233,10 +233,8 @@ export default {
     goTo() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
-      // localStorage.removeItem("language");
       localStorage.removeItem("selected_year");
       sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
-      this.$store.dispatch("GET_STAFF_DATA", null);
       this.$router.push({ name: "signup-signin" });
     },
     saveModalData(val) {

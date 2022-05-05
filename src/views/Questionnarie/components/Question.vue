@@ -366,10 +366,15 @@ export default {
         if (res.data.status) {
           if (this.currentIdx >= this.questions.length - 1) {
             let ro = this.$route.params;
+            // this.$router.go(-1);
+            // /department/4/categories/7/overview
             this.$router.push({
-              name: "category-results",
-              params: { did: ro.departmentid, id: ro.categoryId },
+              path: `/department/${ro.departmentid}/categories/${ro.categoryId}/overview`,
             });
+            // this.$router.push({
+            //   name: "category-overview",
+            //   params: { did: ro.departmentid, id: ro.categoryId },
+            // });
           } else {
             this.questions[this.currentIdx].is_answered = true;
             this.questions[this.currentIdx].staff_anwser = data.answer;

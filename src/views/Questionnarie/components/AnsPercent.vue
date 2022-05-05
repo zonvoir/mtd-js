@@ -51,8 +51,8 @@ export default {
   data() {
     return {
       // numberPattern: /[0-9]/,
-      numberPattern: /^\d{0,4}(?:[.,]\d{1,3})?$/,
-      patternPercent: /^(0|[1-9]\d*)(\.\d{0,3})?$/,
+      // numberPattern: /^\d{0,4}(?:[.,]\d{1,3})?$/,
+      // patternPercent: /^(0|[1-9]\d*)(\.\d{0,3})?$/,
       staffAns: new Array(this.data.length).fill({
         subquestion_id: "",
         sub_ans: "",

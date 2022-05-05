@@ -2,17 +2,17 @@
   <div>
     <div class="main_layout_container">
       <div class="main_layout_sidebar">
-        <Sidebar />
         <div class="k-header-wrapprer">
           <Header />
         </div>
+        <Sidebar />
       </div>
       <div class="main_layout_body">
-        <div v-show="isLoading === true" class="loading_wrapper">
+        <div v-show="isLoading" class="loading_wrapper">
           <Loader :isLoading="isLoading" />
         </div>
 
-        <div v-show="isLoading === false" class="pages_view_container">
+        <div v-show="!isLoading" class="pages_view_container">
           <router-view />
         </div>
       </div>

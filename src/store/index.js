@@ -20,33 +20,34 @@ export default createStore({
       if (localStorage.getItem("agreedToPrivacy")) {
         state.agreedToPrivacy = true;
       }
-      // if (localStorage.getItem("bWFpbCI6Inpvb")) {
-      //   state.staffDataLocal = true;
-      // }
+      if (localStorage.getItem("bWFpbCI6Inpvb")) {
+        state.staffDataLocal = JSON.parse(
+          localStorage.getItem("bWFpbCI6Inpvb")
+        );
+      }
     },
 
     agreePrivacyPolicy(state) {
       localStorage.setItem("agreedToPrivacy", true);
       state.agreedToPrivacy = true;
     },
-
-    // getLocalStaffDataLocal(state, val) {
-    //   let data = JSON.stringify(val);
-    //   localStorage.setItem("bWFpbCI6Inpvb", data);
-    //     state.staffDataLocal = val;
-    // },
-
     getLoadingStatus(state, val) {
       state.loadingStatus = val;
+    },
+    getStaffDataLocal(state, val) {
+      state.staffDataLocal = val;
     },
   },
   actions: {
     SET_LOADING_STATUS: ({ commit }, val) => {
       commit("getLoadingStatus", val);
     },
+    SET_STAFF_DATA_LOCAL: ({ commit }, val) => {
+      commit("getStaffDataLocal", val);
+    },
   },
   getters: {
-    //staffDataLocal: (state) => state.staffDataLocal, //get local storage data
+    staffDataLocal: (state) => state.staffDataLocal, //get local storage data
     loadingStatus: (state) => state.loadingStatus,
     agreedToPrivacyStatus: (state) => state.agreedToPrivacy,
   },

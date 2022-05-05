@@ -13,21 +13,6 @@
             v-model="careerForm.company"
             modelValue="value"
           />
-          <!-- @blur="v$.careerForm.company.$touch"
-            :class="{
-              'is-invalid': v$.careerForm.company.$error,
-            }"
-          <div
-            v-if="v$.careerForm.company.$error"
-            class="invalid-feedback text-left"
-          >
-            <span
-              v-if="v$.careerForm.company.required.$invalid"
-              class="text-left fs-14"
-            >
-              {{ $t("career_step.form.invalid_msgs.company_name_is_required") }}
-            </span>
-          </div> -->
         </div>
       </div>
       <div :class="className">
@@ -40,21 +25,6 @@
             optionValue="value"
             :placeholder="$t('career_step.form.placeholder.Industry')"
           />
-          <!-- @blur="v$.careerForm.industry.$touch"
-            :class="{
-              'is-invalid': v$.careerForm.industry.$error,
-            }"
-          <div
-            v-if="v$.careerForm.industry.$error"
-            class="invalid-feedback text-left"
-          >
-            <span
-              v-if="v$.careerForm.industry.required.$invalid"
-              class="text-left fs-14"
-            >
-              {{ $t("career_step.form.invalid_msgs.Industry_is_required") }}
-            </span>
-          </div> -->
         </div>
       </div>
       <!-- division section -->
@@ -66,22 +36,6 @@
             :placeholder="$t('career_step.form.placeholder.Division')"
             v-model.trim="careerForm.division"
           />
-          <!-- @blur="v$.careerForm.division.$touch"
-            :class="{
-              'is-invalid': v$.careerForm.division.$error,
-            }"
-
-          <div
-            v-if="v$.careerForm.division.$error"
-            class="invalid-feedback text-left"
-          >
-            <span
-              v-if="v$.careerForm.division.required.$invalid"
-              class="text-left fs-14"
-            >
-              {{ $t("career_step.form.invalid_msgs.Division_is_required") }}
-            </span>
-          </div> -->
         </div>
       </div>
       <!-- division section end -->
@@ -124,21 +78,7 @@
               optionValue="value"
               :placeholder="$t('career_step.form.placeholder.Department')"
             />
-            <!-- @blur="v$.careerForm.department.$touch"
-              :class="{
-                'is-invalid': v$.careerForm.department.$error,
-              }"
-            <div
-              v-if="v$.careerForm.department.$error"
-              class="invalid-feedback text-left"
-            >
-              <span
-                v-if="v$.careerForm.department.required.$invalid"
-                class="text-left fs-14"
-              >
-                {{ $t("career_step.form.invalid_msgs.Department_is_required") }}
-              </span>
-            </div> -->
+
             <div class="text_right">
               <button
                 @click="extrernalDepartment"
@@ -230,21 +170,6 @@
             @open="clearFromDate"
             placeholder="mm/dd/yyyy"
           />
-          <!-- @blur="v$.careerForm.from.$touch"
-                :class="{
-                  invalid_error: v$.careerForm.from.$error,
-                }"
-              <div
-                v-if="v$.careerForm.from.$error"
-                class="invalid_feedback text-left"
-              >
-                <span
-                  v-if="v$.careerForm.from.required.$invalid"
-                  class="text-left fs-14"
-                >
-                  {{ $t("career_step.form.invalid_msgs.from_is_required") }}
-                </span>
-              </div> -->
         </div>
       </div>
       <div class="col-lg-6">
@@ -261,21 +186,6 @@
             @open="clearToDate"
             placeholder="mm/dd/yyyy"
           />
-          <!-- @blur="v$.careerForm.to.$touch"
-                :class="{
-                  invalid_error: v$.careerForm.to.$error,
-                }"
-              <div
-                v-if="v$.careerForm.to.$error"
-                class="invalid_feedback text-left"
-              >
-                <span
-                  v-if="v$.careerForm.to.required.$invalid"
-                  class="text-left fs-14"
-                >
-                  {{ $t("career_step.form.invalid_msgs.to_is_required") }}
-                </span>
-              </div> -->
         </div>
       </div>
     </div>

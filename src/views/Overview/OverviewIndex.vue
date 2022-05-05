@@ -118,12 +118,19 @@ export default {
       this.$router.push({ name: "signup-signin" });
     }
     this.authToken = this.staffData.auth_token;
-    this.getdDepartmentList();
+    console.log(
+      "get localStorage data",
+      localStorage.getItem("selected_company")
+    );
+    if (localStorage.getItem("selected_company")) {
+      this.getdDepartmentList();
+    }
   },
 
   methods: {
     getdDepartmentList() {
       let data = { auth_token: this.authToken };
+
       this.$store
         .dispatch("GET_STAFFS_QUESTIONNIRE_DEPARTMENT", data)
         .then((res) => {

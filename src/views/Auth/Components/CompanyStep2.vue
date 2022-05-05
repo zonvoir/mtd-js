@@ -21,6 +21,7 @@
 
                       <p class="internation_check">
                         {{ $t("company.step_two.outside_country") }}
+                        {{ getCountriesName(countriesArr) }}?
                       </p>
 
                       <input
@@ -50,7 +51,7 @@
                         :placeholder="
                           $t('company.step_two.form.placeholder.region')
                         "
-                        :options="regionLists"
+                        :options="filterdRegionList(regionLists)"
                         @change="onChangeRegion"
                         v-model="companyForm.region"
                       />
@@ -366,6 +367,7 @@ export default {
   },
 
   watch: {
+    // is Internatinal change...
     "companyForm.operating_international": function (val) {
       console.log(val);
       if (!val) {
@@ -378,10 +380,13 @@ export default {
         this.getCountries(this.companyForm.region);
       }
     },
+
+    // country changed
     countryId: function () {
       this.companyForm.company_country = [];
       this.companyForm.company_country.push(this.countryId);
-      this.getRegions();
+      // this.companyForm.operating_international = false;
+      this.getRegions(this.countryId);
     },
   },
 
@@ -403,9 +408,7 @@ export default {
     }
     this.getIndustryList();
     this.getRegions();
-    // if (!this.countriesArr.length && !this.RegionsArr.length) {
-    // this.getCountries();
-    // }
+    this.getCountries();
   },
 
   setup() {
@@ -430,14 +433,22 @@ export default {
   },
 
   methods: {
+    getCountriesName(value) {
+      let mainCountry;
+      this.countryLists.find((x) => {
+        if (x.value == value) {
+          mainCountry = x.label;
+        }
+      });
+      return mainCountry;
+    },
+
     // create company on company profile start
     companyProfileSteptwo() {
-      console.log("I am from company step two form");
       this.v$.$touch();
       if (!this.v$.$invalid) {
         this.companyForm.auth_token = this.staffData.auth_token;
         this.isStepTwoProfileCompleted = true;
-        console.log("this form is fully valid step 2");
       }
     },
 
@@ -446,10 +457,8 @@ export default {
     goTo() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
-      // localStorage.removeItem("language");
       localStorage.removeItem("selected_year");
       sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
-      this.$store.dispatch("GET_STAFF_DATA", null);
       this.$router.push({ name: "signup-signin" });
     },
 
@@ -458,8 +467,8 @@ export default {
     },
 
     internationalCompany() {
-      this.companyForm.region = null;
-      this.companyForm.company_country = null;
+      this.companyForm.region = "";
+      this.companyForm.company_country = "";
     },
 
     saveCompanyInfoStep2() {
@@ -473,7 +482,6 @@ export default {
         SignupService.companyClassificationInfo(this.companyForm)
           .then((response) => {
             if (response.data.status) {
-              // console.log("COMPANY INFOMATION", response.data.data);
               this.$store.dispatch("getCompanyInfoDetails", response.data.data);
               this.checkCompany();
               if (
@@ -640,23 +648,23 @@ export default {
       if (this.countryId !== "" && this.countryId !== undefined) {
         this.getSelctedRegion();
         this.countriesArr = this.countryId;
-        // this.RegionsArr = this.getSelctedRegion();
-
         this.$store.dispatch("GET_REGION_BY_COUNTRY", this.countryId);
-        //  )}
       } else {
-        // this.$store.dispatch("GET_ALL_REGION");
-        this.$store.dispatch("GET_REGION_BY_COUNTRY");
+        this.$store.dispatch("GET_ALL_REGION");
+        // this.$store.dispatch("GET_REGION_BY_COUNTRY");
       }
     },
 
+    filterdRegionList(regArr) {
+      let arr = regArr.filter((item) => {
+        return this.RegionsArr.includes(item.value);
+      });
+      return arr;
+    },
+
     getSelctedRegion() {
-      console.log("al ", this.countryId);
       CommonService.getRegionByCountryId(this.countryId).then((res) => {
         if (res.data.status) {
-          // if (!res.data.data.length) return;
-          console.log("all region", res.data);
-          console.log("all region as County Id", res.data.data);
           let selectedRegions = res.data.data.map((item) => {
             return item.id;
           });
