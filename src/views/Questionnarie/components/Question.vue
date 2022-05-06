@@ -366,8 +366,7 @@ export default {
         if (res.data.status) {
           if (this.currentIdx >= this.questions.length - 1) {
             let ro = this.$route.params;
-            // this.$router.go(-1);
-            // /department/4/categories/7/overview
+
             this.$router.push({
               path: `/department/${ro.departmentid}/categories/${ro.categoryId}/overview`,
             });

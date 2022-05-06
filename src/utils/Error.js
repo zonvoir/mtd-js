@@ -20,7 +20,7 @@ const toast = useToast();
 const errorhandler = (res) => {
   if (typeof res === "string") {
     // this.countryId !== "" && this.countryId !== undefined;
-    console.log(res, "kk");
+
     if (res !== "" && res !== undefined && res != "No data were found") {
       toast.error(res, toastOptions);
     }
@@ -30,7 +30,6 @@ const errorhandler = (res) => {
         toast.error(res.data.error[key], toastOptions);
       });
     } else {
-      console.log(res.data.message);
       if (
         res.data.message !== "" &&
         res.data.message !== undefined &&
@@ -45,7 +44,6 @@ const errorhandler = (res) => {
     ) {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
-      // localStorage.removeItem("language");
       localStorage.removeItem("selected_year");
       router.push({ name: "signup-signin" });
     }

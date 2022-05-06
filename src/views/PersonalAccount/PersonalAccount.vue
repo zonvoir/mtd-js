@@ -516,39 +516,53 @@
             <!-- list of careers start -->
             <div v-if="careersArr.length > 0" class="careers_wrap">
               <div
+                class="career_border"
                 v-for="(career, index) in careersArr.slice().reverse()"
                 :key="index"
               >
                 <div class="career_info_container">
                   <div class="career_wrap">
-                    <!-- <div class="img_wrap">
-                      <img src="logo.png" class="" alt="" />
-                    </div> -->
                     <div class="career_content_wrap">
                       <div class="in_position_wrap d-flex">
-                        <h5 class="in_postion">{{ career.position }}</h5>
+                        <h5 class="in_postion">
+                          {{ career.position ? career.position : "N/A" }}
+                        </h5>
                         <span class="att_val">{{
                           career.seniority_level_name
+                            ? career.seniority_level_name
+                            : "N/A"
                         }}</span>
                       </div>
                       <div class="in_company_wrap d-flex">
-                        <h5 class="in_company">
+                        <h5 v-if="career.company" class="in_company">
                           {{
                             typeof career.company == "object"
                               ? career.company.label
                               : career.company
                           }}
                         </h5>
+                        <h5 v-else class="in_company">N/A</h5>
                         <span class="in_durartion att_val">
-                          <span> {{ formatMyDate(career.from) }}</span> -
-                          <span>{{
-                            career.to ? formatMyDate(career.to) : "Present"
+                          <span>
+                            {{
+                              career.from ? formatMyDate(career.from) : "N/A"
+                            }}</span
+                          >
+                          -
+                          <span v-if="career.workingAtPresent"> Present</span>
+                          <span v-else>{{
+                            career.to ? formatMyDate(career.to) : "N/A"
                           }}</span>
                         </span>
                       </div>
-                      <div class="in_department_wrap">
-                        <span class="att_val">{{
-                          formatDepartments(career.department_list)
+                      <div class="in_department_wrap d-flex">
+                        <span class="att_val">
+                          {{ career.division ? career.division : "N/A" }}</span
+                        >
+                        <span class="att_val m-l-8">{{
+                          career.department_list
+                            ? formatDepartments(career.department_list)
+                            : "N/A"
                         }}</span>
                       </div>
                     </div>
@@ -728,7 +742,7 @@ export default {
       profileData: {},
       personalAccount: {
         auth_token: "",
-        position: "",
+        // position: "",
         firstname: "",
         lastname: "",
         username: "",
@@ -1101,7 +1115,7 @@ export default {
   .career_info_container {
     display: flex;
     align-items: center;
-    // border-bottom: 1px solid #edf1f7 !important;
+
     padding: 10px 0px;
     &:first-child {
       padding-top: 0px;
@@ -1113,6 +1127,14 @@ export default {
 }
 .career_wrap {
   display: inline-flex;
+}
+.career_border {
+  border-bottom: 1px solid #e4e9f2;
+  margin-bottom: 10px;
+  &:last-child {
+    border-bottom: 0;
+    margin-bottom: 0px;
+  }
 }
 .img_wrap {
   margin-right: 10px;

@@ -106,21 +106,6 @@
             :placeholder="$t('career_step.form.placeholder.Position')"
             v-model.trim="careerForm.position"
           />
-          <!-- @blur="v$.careerForm.position.$touch"
-            :class="{
-              'is-invalid': v$.careerForm.position.$error,
-            }"
-          <div
-            v-if="v$.careerForm.position.$error"
-            class="invalid-feedback text-left"
-          >
-            <span
-              v-if="v$.careerForm.position.required.$invalid"
-              class="text-left fs-14"
-            >
-              {{ $t("career_step.form.invalid_msgs.Position_is_required") }}
-            </span>
-          </div> -->
         </div>
       </div>
       <div :class="className">
@@ -133,31 +118,13 @@
             :options="seniority"
             v-model="careerForm.seniority_level"
           />
-          <!-- @blur="v$.careerForm.seniority_level.$touch"
-            :class="{
-              'is-invalid': v$.careerForm.seniority_level.$error,
-            }"
-
-          <div
-            v-if="v$.careerForm.seniority_level.$error"
-            class="invalid-feedback text-left"
-          >
-            <span
-              v-if="v$.careerForm.seniority_level.required.$invalid"
-              class="text-left fs-14"
-            >
-              {{
-                $t("career_step.form.invalid_msgs.Seniority_level_is_required")
-              }}
-            </span>
-          </div> -->
         </div>
       </div>
     </div>
   </div>
 
   <div>
-    <div class="k_form_group row">
+    <div class="row">
       <div class="col-lg-6">
         <div class="k_form_group position-relative">
           <label for="" class="date_label">{{

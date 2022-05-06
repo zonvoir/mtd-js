@@ -50,6 +50,7 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .custom_spinner {
   width: 3rem;
 }

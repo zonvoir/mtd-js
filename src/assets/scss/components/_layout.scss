@@ -251,6 +251,11 @@
     margin-right: 0 !important;
   }
 }
+// donut Chart
+.donut_chart_wrap {
+  display: table;
+  margin: 0 auto;
+}
 // Height Chart
 .vue-highcharts {
   width: 100%;

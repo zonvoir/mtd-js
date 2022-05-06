@@ -31,7 +31,7 @@
                       />
                     </span>
                   </div>
-                  {{ question.is_editable_own + "" + question.is_answered }}
+
                   <div class="">
                     <p class="m-b-0 ques_title">
                       {{ question.name }}

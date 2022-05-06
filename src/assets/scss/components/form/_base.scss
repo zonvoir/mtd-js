@@ -70,6 +70,7 @@
     outline-offset: 0px;
     border-radius: 0;
     box-shadow: none;
+    box-shadow: 1px 1px 8px rgba(147, 50, 221, 0.404);
   }
 }
 .k_inp_field {
@@ -93,6 +94,7 @@
     outline-offset: 0px;
     border-radius: 0;
     box-shadow: none;
+    box-shadow: 1px 1px 8px rgba(147, 50, 221, 0.404);
   }
 }
 
@@ -118,6 +120,7 @@
     outline-offset: 0px;
     border-radius: 0;
     box-shadow: none;
+    box-shadow: 1px 1px 8px rgba(147, 50, 221, 0.404);
     background-color: transparent;
   }
 }
@@ -153,7 +156,8 @@
     outline-offset: 0px;
     border-radius: 0;
     border: 0;
-    box-shadow: none !important;
+    // box-shadow: none ;
+    box-shadow: 1px 1px 8px rgba(199, 71, 84, 0.404) !important;
   }
 }
 .invalid-feedback {

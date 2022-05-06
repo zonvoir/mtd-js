@@ -53,6 +53,7 @@ import QuestionHint from "../views/Questionnarie/components/QuestionHint.vue";
 import nProgress from "nprogress";
 import { loadLocaleMessages, setI18nLanguage, setupI18n } from "../i18n";
 import CommonService from "../Services/CommonService";
+import errorhandler from "../utils/Error";
 
 const locale = localStorage.getItem("language") || "en";
 const i18n = setupI18n({
@@ -487,56 +488,7 @@ const routes = [
       },
     ],
   },
-  // signIn  pages
-  // {
-  //   path: "/user",
-  //   redirect: "/user/login",
-  //   component: Authentication,
 
-  //   children: [
-  //     {
-  //       path: "login",
-  //       name: "signup-signin",
-  //       beforeEnter: loginGaurd,
-  //       component: Signin,
-  //     },
-  //     {
-  //       path: "password",
-  //       name: "signin-password",
-
-  //       beforeEnter: loginGaurd,
-  //       component: Password,
-  //     },
-  //     {
-  //       path: "update-password",
-  //       name: "signin-update-password",
-  //       component: UpdatePassword,
-  //     },
-  //     {
-  //       path: "reset-password",
-  //       name: "reset-forget-password",
-  //       component: ResetPassword,
-  //     },
-  //     {
-  //       path: "verify-account",
-  //       name: "signin-verify-account",
-
-  //       beforeEnter: loginGaurd,
-  //       component: VerifyAccount,
-  //     },
-  //     {
-  //       path: "link-company",
-  //       name: "link-company-account",
-  //       component: LinkCompany,
-  //     },
-  //     {
-  //       path: "email-verified",
-
-  //       beforeEnter: loginGaurd,
-  //       component: VerifyEmail,
-  //     },
-  //   ],
-  // },
   {
     path: "/404",
     name: "page-not-found",
@@ -561,15 +513,6 @@ const routes = [
       requiresAuth: false,
     },
   },
-  // {
-  //   path: "/about",
-  //   name: "About",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  // },
 ];
 
 const router = createRouter({
@@ -580,6 +523,7 @@ const router = createRouter({
 
 router.beforeResolve((to, from, next) => {
   // If this isn't an initial page load.
+
   console.log(from);
   if (to.name) {
     // Start the route progress bar.
@@ -589,6 +533,12 @@ router.beforeResolve((to, from, next) => {
 });
 
 router.beforeEach(async (to, from, next) => {
+  if (navigator.onLine) {
+    // this.connectionStatus = "Connected to internet.";
+    console.log("Connected to internet.");
+  } else {
+    errorhandler("No Internet ! You are offline");
+  }
   const paramsLocale = localStorage.getItem("language") || "en";
   // load locale messages
   if (!i18n.global.availableLocales.includes(paramsLocale)) {

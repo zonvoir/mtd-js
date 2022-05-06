@@ -1,5 +1,6 @@
 <template>
-  <div class="invite_btn_wrap">
+  <div class="">
+    <!-- btn-primary-outline -->
     <button
       @click="invitePeople"
       class="btn-primary btn text-uppercase k_btnfs14_w700"

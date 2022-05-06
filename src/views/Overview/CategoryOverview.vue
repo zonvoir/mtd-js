@@ -2,42 +2,46 @@
   <div class="row g-0">
     <div class="col lg-6 m-r-20 m-b-20">
       <div class="bg-white zp-10">
+        <div class="bottom_section_wrapper zp-10">
+          <h4 class="desc_title">
+            {{ $t("category_details.overiewTab.Questionnarie") }}
+          </h4>
+          <div class="border-bottom-1 m-b-10">
+            <div class="d-flex">
+              <p class="text-gray text-14-400 m-b-33">
+                {{
+                  $t("category_details.overiewTab.Fill_all_the_KPI_questions")
+                }}
+                <!-- Fill all the KPI questions -->
+              </p>
+              <div class="m-l-auto">
+                <button
+                  :disabled="
+                    !questionnaireDetails.is_accessible ||
+                    !(questionnaireDetails.number_of_questions > 0)
+                  "
+                  @click="startQuestionnarie"
+                  class="btn-primary btn btn-set text-uppercase"
+                >
+                  Start Now
+                  <!-- {{ $t("category_details.overiewTab.buttons.start") }} -->
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="zp-10">
           <div class="description_wrapper">
             <h4 class="m-b-0 desc_title">
               {{ $t("category_details.overiewTab.Description") }}
             </h4>
           </div>
-          <div class="border-bottom-1 m-b-10">
-            <p class="desc_content">
-              <span
-                class=""
-                v-html="questionnaireDetails.long_description"
-              ></span>
-            </p>
-          </div>
-        </div>
-
-        <div class="bottom_section_wrapper zp-10">
-          <h4 class="desc_title m-b-18">
-            {{ $t("category_details.overiewTab.Questionnarie") }}
-          </h4>
-          <p class="text-gray text-14-400 m-b-33">
-            {{ $t("category_details.overiewTab.Fill_all_the_KPI_questions") }}
-            <!-- Fill all the KPI questions -->
+          <p class="desc_content">
+            <span
+              class=""
+              v-html="questionnaireDetails.long_description"
+            ></span>
           </p>
-          <div class="m-l-auto">
-            <button
-              :disabled="
-                !questionnaireDetails.is_accessible ||
-                !(questionnaireDetails.number_of_questions > 0)
-              "
-              @click="startQuestionnarie"
-              class="btn-primary btn btn-set text-uppercase"
-            >
-              {{ $t("category_details.overiewTab.buttons.start") }}
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -119,7 +123,7 @@
           </ul>
         </div>
         <!-- donut chart  -->
-        <div class="donut_chart_wrap text-center">
+        <div class="donut_chart_wrap">
           <DonutChart />
         </div>
       </div>
@@ -200,5 +204,6 @@ export default {
   line-height: 20px;
   color: #8f9bb3;
   height: 240px;
+  margin-bottom: 0;
 }
 </style>

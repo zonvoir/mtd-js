@@ -71,6 +71,33 @@ button[disabled] {
     border-color: $primary;
   }
 }
+.btn-primary-outline {
+  border: 1px solid #7900d8;
+  color: #7900d8;
+  margin-right: 20px;
+  &:hover {
+    border: 1px solid #7900d8;
+    color: #7900d8;
+    box-shadow: 1px 1px 8px rgba(147, 50, 221, 0.404);
+  }
+  &:focus {
+    border: 1px solid #7900d8;
+    color: #7900d8;
+    box-shadow: 1px 1px 8px rgba(147, 50, 221, 0.404);
+  }
+  &:active {
+    border: 1px solid #7900d8;
+    color: #7900d8;
+
+    box-shadow: 1px 1px 8px rgba(147, 50, 221, 0.404);
+    outline: none;
+    &:focus {
+      border: 1px solid #7900d8;
+      box-shadow: 1px 1px 8px rgba(147, 50, 221, 0.404);
+      color: #7900d8;
+    }
+  }
+}
 .btn_primary_transparent {
   background-color: transparent;
   color: $primary;

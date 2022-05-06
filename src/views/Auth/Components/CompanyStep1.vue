@@ -634,7 +634,7 @@ export default {
       } else {
         this.companyForm.auth_token = this.staffData.auth_token;
         this.companyForm.country_code = this.country_code;
-        this.companyForm.is_main = "1";
+        this.companyForm.created_by_me = "1";
         console.log("company data", this.companyForm);
         this.isPageFilled = true;
         this.isSubmitted = true;

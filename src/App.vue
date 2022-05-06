@@ -2,8 +2,8 @@
   <router-view />
 </template>
 <script>
-import CommonService from "./Services/CommonService";
-import errorhandler from "./utils/Error";
+// import CommonService from "./Services/CommonService";
+// import errorhandler from "./utils/Error";
 
 export default {
   components: {},
@@ -17,33 +17,52 @@ export default {
   beforeCreate() {
     this.$store.dispatch("GET_ALL_DEAFULT_ROLES");
   },
+
+  // computed: {
+  //   ...mapGetters({
+  //     internetStatus: "internetStatus",
+  //   }),
+  // },
+
+  // watch: {
+  //   internetStatus: function (val) {
+  //     if (!val) {
+  //       console.log("no Internet", val);
+  //       this.$router.push({ name: "internet-error" });
+  //     }
+  //   },
+  // },
+  // updated() {
+  //   this.$store.dispatch("getInternetStatus", navigator.onLine);
+  // },
+
   created() {
-    this.checkTotkenStatus();
+    // this.checkTotkenStatus();
   },
 
   methods: {
     // check token status
-    checkTotkenStatus() {
-      if (
-        this.staffData != null &&
-        this.staffData.auth_token != null &&
-        this.staffData.auth_token != undefined &&
-        Object.keys(this.staffData).length != 0
-      ) {
-        CommonService.getTokenValidation({
-          auth_token: this.staffData.auth_token,
-        })
-          .then((res) => {
-            if (!res.data.status) {
-              errorhandler(res, this);
-              this.$router.push({ name: "signup-signin" });
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    },
+    // checkTotkenStatus() {
+    //   if (
+    //     this.staffData != null &&
+    //     this.staffData.auth_token != null &&
+    //     this.staffData.auth_token != undefined &&
+    //     Object.keys(this.staffData).length != 0
+    //   ) {
+    //     CommonService.getTokenValidation({
+    //       auth_token: this.staffData.auth_token,
+    //     })
+    //       .then((res) => {
+    //         if (!res.data.status) {
+    //           errorhandler(res, this);
+    //           this.$router.push({ name: "signup-signin" });
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         console.log(error);
+    //       });
+    //   }
+    // },
   },
 };
 </script>

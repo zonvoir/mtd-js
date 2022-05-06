@@ -14,6 +14,7 @@ export default createStore({
     agreedToPrivacy: false,
     loadingStatus: false,
     staffDataLocal: undefined,
+    internetStatus: undefined,
   },
   mutations: {
     initialiseStore(state) {
@@ -24,6 +25,14 @@ export default createStore({
         state.staffDataLocal = JSON.parse(
           localStorage.getItem("bWFpbCI6Inpvb")
         );
+      }
+      if (navigator.onLine) {
+        // this.connectionStatus = "Connected to internet.";
+        state.internetStatus = true;
+        console.log("Connected to internet.");
+      } else {
+        state.internetStatus = true;
+        console.log("Unable to connect to internet.");
       }
     },
 
@@ -37,6 +46,9 @@ export default createStore({
     getStaffDataLocal(state, val) {
       state.staffDataLocal = val;
     },
+    getInternetStatus(state, val) {
+      state.internetStatus = val;
+    },
   },
   actions: {
     SET_LOADING_STATUS: ({ commit }, val) => {
@@ -45,8 +57,12 @@ export default createStore({
     SET_STAFF_DATA_LOCAL: ({ commit }, val) => {
       commit("getStaffDataLocal", val);
     },
+    SET_INTERNET_STATUS: ({ commit }, val) => {
+      commit("getInternetStatus", val);
+    },
   },
   getters: {
+    internetStatus: (state) => state.internetStatus,
     staffDataLocal: (state) => state.staffDataLocal, //get local storage data
     loadingStatus: (state) => state.loadingStatus,
     agreedToPrivacyStatus: (state) => state.agreedToPrivacy,

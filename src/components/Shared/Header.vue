@@ -178,6 +178,7 @@ export default {
     document.addEventListener("click", this.close);
   },
   created() {
+    this.changeYear();
     if (
       this.staffInfo != null &&
       this.staffInfo != undefined &&
@@ -186,7 +187,6 @@ export default {
       this.getAllCompanies();
       this.getStaffDetails();
     }
-    this.changeYear();
   },
 
   methods: {

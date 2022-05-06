@@ -9,12 +9,15 @@
             </div>
           </div>
         </div>
-        <div class="invite_btn_wrap m-l-auto" v-if="ownRole.can_invite">
+        <div class="invite_btn_wrap d-flex m-l-auto" v-if="ownRole.can_invite">
           <InvitePeopleModal>
             <template v-slot:invite-button>
               {{ $t("overview_index.buttons.invite_people") }}
             </template>
           </InvitePeopleModal>
+          <!-- <button class="btn-primary btn text-uppercase k_btnfs14_w700">
+            Start
+          </button> -->
         </div>
       </div>
       <!-- tabs  -->
