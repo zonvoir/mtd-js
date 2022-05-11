@@ -4,14 +4,6 @@
       <div class="d-flex align-items-center">
         <div class="view_title_wrap pb-15">
           <div class="page_title_wrap">
-            <!-- <div v-if="dept" class="m-r-6">
-              <button class="btn btn-transaprent">
-                <img src="K_Icons/arrowhead-right.svg" alt="" />
-              </button>
-            </div>
-            <div v-if="dept" class="k_icon_wrap m-r-10">
-              <img src="K_Icons/green_pie_logo.svg" class="" alt="" />
-            </div> -->
             <div class="">
               <h4 class="view_title">{{ $t("projects.Projects") }}</h4>
             </div>

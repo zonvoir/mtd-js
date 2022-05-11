@@ -1,7 +1,5 @@
 <template>
   <div class="invite_btn_wrap">
-    <!-- <button @click="addMultipleCareer" class="btn-transaprent btn_add_multiple">
-    </button> -->
     <slot name="add-button-action" :addCareer="addMultipleCareer"></slot>
   </div>
   <!-- Career Information modal -->
@@ -87,7 +85,7 @@ import { Modal } from "bootstrap";
 import "vue3-date-time-picker/dist/main.css";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-import CareerForm from "../../views/Auth/Components/CareerForm.vue";
+import CareerForm from "./CareerForm.vue";
 export default {
   emits: ["multiCareer"],
   props: {

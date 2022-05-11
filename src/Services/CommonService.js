@@ -55,10 +55,27 @@ class CommonService {
     return http.get("lists/company_role");
   }
 
+  // Get state on company step 1
+  getStates(countryId) {
+    if (countryId) {
+      return http.post("lists/states_by_country_id", { country_id: countryId });
+    } else {
+      return http.post("lists/states_by_country_id", { country_id: "" });
+    }
+  }
+  // Get city on company step 1
+  getCities(stateId) {
+    if (stateId) {
+      return http.post("lists/cities_by_state_id", { state_id: stateId });
+    } else {
+      return http.post("lists/cities_by_state_id", { state_id: "" });
+    }
+  }
   // get all Region
   getAllRegion() {
     return http.get("lists/region");
   }
+
   // get  Region when country id is given
   getRegionByCountryId(countryId) {
     return http.get(`lists/region_by_country/${countryId}`);
@@ -66,12 +83,9 @@ class CommonService {
 
   // get all country by region
   getAllCountry(regionId) {
-    // console.log(regionId);
     if (regionId) {
       return http.post("lists/region_countries", regionId);
-      // return http.get(`lists/region_countries/${regionId}`);
     } else {
-      console.log("no region id in all country api list");
       return http.post("lists/region_countries");
     }
   }

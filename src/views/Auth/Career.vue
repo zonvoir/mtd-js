@@ -86,11 +86,10 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import CareerInformationModal from "../../components/Shared/CareerInformationModal";
+import CareerInformationModal from "./Components/CareerInformationModal.vue";
 import SignupService from "../../Services/SignupService";
 import errorhandler from "../../utils/Error";
 import RegistrationHeader from "../../Layout/RegisterLayout/RegisterationHeader.vue";
-// import Swal from "sweetalert2";
 
 import {
   departmentModify,
@@ -140,12 +139,11 @@ export default {
         {
           company: "",
           position: "",
-          industry: null,
+          industry: "",
           to: "",
           from: "",
-          // workingAtPresent: true,
           division: "",
-          seniority_level: null,
+          seniority_level: "",
           department: [],
         },
       ],
@@ -241,12 +239,12 @@ export default {
       console.log("modal career data", val.newCareer);
       if (val.newCareer.length > 0) {
         this.staffCareeArr2 = val.newCareer;
+
         this.$swal({
           icon: "success",
           title: "Information is Saved !",
           text: "",
         });
-        // this.$refs.career_success.modal.show();
       }
     },
 
@@ -302,6 +300,7 @@ export default {
             company: res.data.data.company.company_name,
             department: getDepartemntsValue(res.data.data.departments),
             industry: res.data.data.industry.id,
+            workingAtPresent: true,
           };
         } else {
           errorhandler(res, this);

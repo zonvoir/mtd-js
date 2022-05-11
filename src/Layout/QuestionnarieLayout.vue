@@ -45,14 +45,10 @@ export default {
       questionArr: [],
     };
   },
-  // computed: mapState({
-  //   questionnaire: (state) => state.questionnaire,
-  //   questionList: (state) => state.questionList,
-  //   valuenow: (state) => state.quizProgressValue,
-  // }),
+
   computed: {
     ...mapGetters({
-      questionnaire: "questionnaire",
+      questionnaire: "questionnaireCategoryDetails",
       questionList: "questionList",
       valuenow: "quizProgressValue",
     }),

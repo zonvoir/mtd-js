@@ -124,50 +124,6 @@ export default {
         isFieldValid: this.allAnsFilled,
       });
     },
-
-    // maskRemovers(number, seprator = ",") {
-    //   if (number == "") {
-    //     return maskRemover(number, seprator);
-    //   } else {
-    //     return number;
-    //   }
-    // },
-
-    // originalNumberBackup(id, index, ev) {
-    //   console.log(ev.target.value);
-    //   if (
-    //     ev.target.value != null &&
-    //     ev.target.value != "" &&
-    //     ev.target.value != undefined
-    //   ) {
-    //     let v = maskRemover(ev.target.value, this.default_seprator);
-    //     this.checkValidate(v, id, index);
-    //     ev.target.setAttribute("type", "number");
-    //     ev.target.setAttribute("min", "0");
-    //   }
-    //   console.log(ev.target.value, ev.target.dataset, "original Number Backup");
-    // },
-
-    // formatMaskedNumber(id, index, ev) {
-    //   console.log(
-    //     ev.target.value,
-    //     ev.target.value == null,
-    //     ev.target.value == undefined,
-    //     ev.target.value == "",
-    //     "original number backup"
-    //   );
-    //   // if (ev.target.value) {
-    //   let fVal = 0;
-    //   if (ev.target.value != "") {
-    //     fVal = maskFormatter(ev.target.value, this.default_seprator);
-    //     ev.target.removeAttribute("min");
-    //     ev.target.setAttribute("type", "text");
-    //     this.checkValidate(fVal, id, index);
-    //   }
-    //   console.log("numbrvis", fVal.toString());
-
-    //   // }
-    // },
   },
 };
 </script>

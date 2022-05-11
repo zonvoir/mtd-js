@@ -199,14 +199,17 @@ export default {
       });
       return data;
     },
+
     getStaffDetails() {
       this.$store.dispatch("getPersonalInfo", {
         auth_token: this.staffInfo.auth_token,
       });
     },
+
     getFirstCharacter(str) {
       return getFirstLetter(str);
     },
+
     getAllCompanies() {
       this.$store
         .dispatch("getStaffsCompanies", {
@@ -219,7 +222,8 @@ export default {
             this.companyListArr = this.companies.map((item, indx, itemsArr) => {
               if (item.created_by_me == "1") {
                 defCompany = item.company_id;
-                localStorage.setItem("selected_company", defCompany);
+                // localStorage.setItem("selected_company", defCompany);
+                console.log("defCompany", defCompany);
               } else if (itemsArr.length - 1 === indx) {
                 defCompany = item.company_id;
               }
@@ -283,6 +287,7 @@ export default {
       // staff departments
       this.$store.dispatch("GET_STAFFS_DEPARTMENT", deprtmentArr);
     },
+
     changeYear() {
       companyService.getYears().then((res) => {
         if (res.data.status) {
@@ -304,15 +309,18 @@ export default {
       this.$router.push({ name: "personal-account" });
       this.currentPage = this.$route.path;
     },
+
     onLogout() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
       localStorage.removeItem("selected_year");
       this.$router.push({ name: "signup-signin" });
     },
+
     toggleDropdown() {
       this.state = !this.state;
     },
+
     close(e) {
       if (!this.$el.contains(e.target)) {
         this.state = false;

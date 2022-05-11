@@ -86,19 +86,16 @@ export default {
     };
   },
   components: {
-    // BaseCheckBox,
     CategoryPermission,
   },
   mounted() {
     this.updatedCategories = this.categoryList;
-    // console.log("all categories kkk", this.updatedCategories);
   },
   methods: {
     getPermitData(val) {
       let updated = this.updatedCategories.filter((category, idx, catArr) => {
         if (category.id == val.cat_id) {
           category.permissions[val.parms_change] = val.isAllowed;
-          // console.log("category Array", catArr, val.dept_id);
         }
         return catArr;
       });
@@ -106,7 +103,6 @@ export default {
         deptPermission: updated,
         dept_id: val.dept_id,
       });
-      // console.log("updated Categories", updated);
     },
   },
 };
@@ -177,11 +173,6 @@ export default {
             line-height: 24px;
             color: #000000;
           }
-          // &.cell_width {
-
-          //   text-align: left;
-          //   vertical-align: center;
-          // }
         }
       }
     }

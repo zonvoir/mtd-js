@@ -136,7 +136,7 @@ export default {
   width: 80%;
 }
 .k_inp_number {
-  width: 10%;
+  width: 15%;
   margin-left: 2rem;
   text-align: center;
 }

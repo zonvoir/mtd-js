@@ -190,14 +190,11 @@
                       </a>
                     </li>
                   </ul>
-                  <!-- v-if="ownRole.roleId == 5" -->
-                  <!-- {{ ownRole.view_company_detail }}
-                  {{ validRoleToSetPermission(people.role_id) }} -->
                   <div
                     v-if="ownRole.view_company_detail && people.set_permissions"
                     class="permission_btns"
                   >
-                    <PermissionModal>
+                    <PermissionModal :key="people.staffid">
                       <template
                         v-slot:permission-button="{ openPermissionModal }"
                       >

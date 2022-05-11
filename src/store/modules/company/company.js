@@ -2,13 +2,13 @@ import errorhandler from "../../../utils/Error";
 // import renameKeys from "../../../utils/commonHelperFuntions";
 import CompanyService from "../../../Services/Company/CompanyService";
 const state = {
-  staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+  // staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
   allDeafultRoles: undefined,
   consulatant_roleId: undefined,
   owner_roleId: undefined,
   manager_roleId: undefined,
   employee_roleId: undefined,
-  defaultCompanyDeptId: undefined, //5 is default company department id
+  defaultCompanyDeptId: undefined, // default company department id
   role_id: undefined,
   roleInCompany: { roleId: 0, can_invite: false, view_company_detail: false },
   invitationStaffRoleList: [], // invitation list of members
@@ -344,13 +344,15 @@ const actions = {
   },
 
   async GET_STAFFS_DEPARTMENT({ commit }, deptarments) {
-    let deptArr = deptarments.map((item) => {
-      return {
-        value: item.departmentid,
-        label: item.name,
-      };
-    });
-    commit("setStaffsDepartment", deptArr);
+    if (deptarments && deptarments.length) {
+      let deptArr = deptarments.map((item) => {
+        return {
+          value: item.departmentid,
+          label: item.name,
+        };
+      });
+      commit("setStaffsDepartment", deptArr);
+    }
   },
 
   GET_STAFFS_QUESTIONNIRE_DEPARTMENT: ({ commit }, data) => {

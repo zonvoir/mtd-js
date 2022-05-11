@@ -137,7 +137,7 @@ export default {
           let $th = this;
           if (res.data.status) {
             this.departmentLists = res.data.data.filter(function (depts) {
-              return depts.departmentid === $th.defaultDepartment; //5 is default company department id
+              return depts.departmentid === $th.defaultDepartment; //default company department id
             });
 
             let data = {

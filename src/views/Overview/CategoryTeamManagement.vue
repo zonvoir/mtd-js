@@ -42,7 +42,6 @@
             </div>
           </div>
         </form>
-        <!-- :department_List="myDepartmensList" -->
         <InvitationConfirmModal
           @uploadCSVFile="importFile(index)"
           ref="confirmFile"
@@ -60,27 +59,6 @@
           accept=".csv"
           @change="onFilePicked($event, staffrole.roleid)"
         />
-        <!-- <div class="text-center">
-          <p class="import_file_text">
-            or you can
-            <button
-              :disabled="is_FileUploaded"
-              @click="importFile(index)"
-              :key="staffrole.roleid"
-              class="btn btn_primary_transparent"
-            >
-              Import
-            </button>
-            a file with employee emails
-          </p>
-          <input
-            type="file"
-            style="display: none"
-            :ref="`fileInput-${index}`"
-            accept=".csv"
-            @change="onFilePicked($event, staffrole.roleid)"
-          />
-        </div> -->
       </div>
       <div
         v-if="staffrole.invitation_list.length > 0"

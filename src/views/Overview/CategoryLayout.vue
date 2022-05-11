@@ -5,7 +5,6 @@
         <div class="view_title_wrap pb-15">
           <div class="page_title_wrap">
             <div v-if="dept" class="m-r-6">
-              <!-- <button @click="backToMain" class="btn btn-transaprent"> -->
               <button @click="$router.back()" class="btn btn-transaprent">
                 <img src="K_Icons/arrowhead-right.svg" alt="" />
               </button>
@@ -31,10 +30,10 @@
             </div>
           </div>
         </div>
-        <div class="invite_btn_wrap m-l-auto" v-if="ownRole.can_invite">
+        <div class="invite_btn_wrap d-flex m-l-auto" v-if="ownRole.can_invite">
           <InvitePeopleModal>
             <template v-slot:invite-button>
-              {{ $t("company_profile.buttons.invite_members") }}
+              {{ $t("overview_index.buttons.invite_people") }}
             </template>
           </InvitePeopleModal>
         </div>
@@ -56,12 +55,13 @@
 <script>
 import { mapGetters } from "vuex";
 import TabsHr from "../../components/Shared/TabsHr.vue";
-import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
+// import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
+// import errorhandler from "../../utils/Error";
 import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
-import errorhandler from "../../utils/Error";
 export default {
   data() {
     return {
+      componenentId: 0,
       tablist: [],
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       dept: true,
@@ -79,22 +79,22 @@ export default {
   computed: {
     ...mapGetters({
       questionnaireDetails: "questionnaireDetails",
-      category: "questionnaire",
+      category: "questionnaireCategoryDetails",
       ownRole: "roleInCompany",
     }),
   },
   created() {
-    this.departmentId = this.$route.params.did;
-    this.categoryID = this.$route.params.id;
-    this.authToken = this.staffData.auth_token;
-    if (this.departmentId && this.categoryID && this.authToken) {
-      let data = {
-        auth_token: this.authToken,
-        department_id: this.departmentId,
-        category_id: this.categoryID,
-      };
-      this.getDeptAndCategoryDetails(data);
-    }
+    //     this.departmentId = this.$route.params.did;
+    //     this.categoryID = this.$route.params.id;
+    //     this.authToken = this.staffData.auth_token;
+    //     if (this.departmentId && this.categoryID && this.authToken) {
+    //       let data = {
+    //         auth_token: this.authToken,
+    //         department_id: this.departmentId,
+    //         category_id: this.categoryID,
+    //       };
+    // this.$store.dispatch("GET_QUESTIONNAIRE_ALL_DATA", data);
+    //     }
     this.tablist = [
       {
         tabId: 0,
@@ -134,6 +134,7 @@ export default {
       },
     ];
   },
+
   mounted() {
     this.departmentId = this.$route.params.did;
     this.categoryID = this.$route.params.id;
@@ -144,40 +145,43 @@ export default {
         department_id: this.departmentId,
         category_id: this.categoryID,
       };
-      this.getDeptAndCategoryDetails(data);
+      this.$store.dispatch("GET_QUESTIONNAIRE_ALL_DATA", data);
     }
   },
 
   methods: {
-    getDeptAndCategoryDetails(data) {
-      console.log(this.category);
-      this.$store.dispatch("SET_LOADING_STATUS", true);
-      QuestionnaireService.getOneCategory(data).then((res) => {
-        this.$store.dispatch("SET_LOADING_STATUS", false);
-        if (res.data.status) {
-          this.$store.dispatch(
-            "GET_QUESTIONNAIRE",
-            res.data.data.category_details
-          );
-
-          console.log(this.category);
-
-          this.$store.dispatch(
-            "GET_QUESTIONNAIRE_DETAILS",
-            res.data.data.questionnaire.detail
-          );
-          this.$store.dispatch(
-            "GET_QUESTIONLIST",
-            res.data.data.questionnaire.questions
-          );
-        } else {
-          errorhandler(res, this);
-          this.$store.dispatch("GET_QUESTIONNAIRE", []);
-          this.$store.dispatch("GET_QUESTIONNAIRE_DETAILS", []);
-          this.$store.dispatch("GET_QUESTIONLIST", []);
-        }
-      });
+    openModal() {
+      this.$store.dispatch("GET_QUIZ_MODAL_STATUS", true);
     },
+    // getDeptAndCategoryDetails(data) {
+    //   console.log(this.category);
+    //   this.$store.dispatch("SET_LOADING_STATUS", true);
+    //   QuestionnaireService.getOneCategory(data).then((res) => {
+    //     this.$store.dispatch("SET_LOADING_STATUS", false);
+    //     if (res.data.status) {
+    //       this.$store.dispatch(
+    //         "GET_QUESTIONNAIRE",
+    //         res.data.data.category_details
+    //       );
+
+    //       console.log(this.category);
+
+    //       this.$store.dispatch(
+    //         "GET_QUESTIONNAIRE_DETAILS",
+    //         res.data.data.questionnaire.detail
+    //       );
+    //       this.$store.dispatch(
+    //         "GET_QUESTIONLIST",
+    //         res.data.data.questionnaire.questions
+    //       );
+    //     } else {
+    //       errorhandler(res, this);
+    //       this.$store.dispatch("GET_QUESTIONNAIRE", []);
+    //       this.$store.dispatch("GET_QUESTIONNAIRE_DETAILS", []);
+    //       this.$store.dispatch("GET_QUESTIONLIST", []);
+    //     }
+    //   });
+    // },
     ChangeT(title) {
       this.title = title;
     },
@@ -196,6 +200,7 @@ export default {
   color: #7900d8;
   .catgry_name {
     color: #222b45;
+    text-transform: capitalize;
   }
 }
 .category_logo {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Category Start  -->
-    <div class="d-flex align-items-center m-b-28">
+    <!-- <div class="d-flex align-items-center m-b-28">
       <div class="view_title_wrap pb-15">
         <div class="page_title_wrap">
           <div class="k_icon_wrap m-r-10">
@@ -23,9 +23,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- category ends -->
-    <div class="sec_scrollbar">
+    <div class="">
       <Question />
       <!--  -->
     </div>
@@ -43,7 +43,7 @@ export default {
   computed: {
     ...mapGetters({
       questionnaireDetails: "questionnaireDetails",
-      questionnaire: "questionnaire",
+      questionnaire: "questionnaireCategoryDetails",
     }),
   },
 
@@ -65,34 +65,7 @@ export default {
     color: #222b45;
   }
 }
-.sec_scrollbar {
-  height: 65vh;
-  overflow: auto;
-  /* width */
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
 
-  /* Track */
-  &::-webkit-scrollbar-track {
-    background: #f7f9fc;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: #e1e2e4;
-    border-radius: 4px;
-    width: 10px;
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: #cbcbcc;
-    width: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-}
 .catLogo {
   width: 60px;
   height: 60px;

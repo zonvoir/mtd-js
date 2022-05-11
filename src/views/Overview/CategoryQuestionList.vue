@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div v-if="questionList.length" class="team_wrapper m-b-20">
+    <div v-if="questionList && questionList.length" class="team_wrapper m-b-20">
       <div class="m-b-14">
         <h4 class="m-b-0 title-dark">
           {{ $t("category_details.questionTab.Questions") }}
@@ -43,7 +43,10 @@
                 </div>
                 <div class="list_action m-l-auto">
                   <button
-                    v-if="question.is_editable_own && question.is_answered"
+                    v-if="
+                      question.is_answered &&
+                      questionnaireDetails.is_editable_own
+                    "
                     @click="editQuetion(question.id)"
                     class="
                       btn
@@ -67,45 +70,64 @@
       <h6 class="empty_list_warning">Question list is empty</h6>
     </div>
   </div>
+  <QuestionnaireModal ref="questinnaire_comp" />
 </template>
 
 <script>
-import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
-import errorhandler from "../../utils/Error";
+// import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
+// import errorhandler from "../../utils/Error";
+import QuestionnaireModal from "../Questionnarie/QuestionnaireModal.vue";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       optionsArr: [],
       questionnaire: {},
-      questionList: [],
+      isEditable: undefined,
     };
   },
-  created() {},
-  mounted() {
-    this.departmentId = this.$route.params.did;
-    this.categoryID = this.$route.params.id;
-    this.authToken = this.staffData.auth_token;
-    if (this.departmentId && this.categoryID && this.authToken) {
-      let data = {
-        auth_token: this.authToken,
-        department_id: this.departmentId,
-        category_id: this.categoryID,
-      };
-      this.getDeptAndCategoryDetails(data);
-    }
+
+  components: {
+    QuestionnaireModal,
   },
+
+  computed: {
+    ...mapGetters({
+      questionnaireDetails: "questionnaireDetails",
+      questionList: "getQuestionList",
+    }),
+  },
+
+  // mounted() {
+  //   this.departmentId = this.$route.params.did;
+  //   this.categoryID = this.$route.params.id;
+  //   this.authToken = this.staffData.auth_token;
+  //   if (this.departmentId && this.categoryID && this.authToken) {
+  //     let data = {
+  //       auth_token: this.authToken,
+  //       department_id: this.departmentId,
+  //       category_id: this.categoryID,
+  //     };
+  //     this.getDeptAndCategoryDetails(data);
+  //   }
+  // },
+
   methods: {
     getDeptAndCategoryDetails(data) {
-      QuestionnaireService.getOneCategory(data).then((res) => {
-        if (res.data.status) {
-          this.optionsArr = res.data.data.questionnaire.questions;
-          this.questionList = res.data.data.questionnaire.questions;
-          console.log("questionlist", res.data.data);
-        } else {
-          errorhandler(res);
-        }
-      });
+      this.$store.dispatch("GET_QUESTIONNAIRE_ALL_DATA", data);
+
+      // this.$store.dispatch("SET_LOADING_STATUS", true);
+      // QuestionnaireService.getOneCategory(data).then((res) => {
+      //   this.$store.dispatch("SET_LOADING_STATUS", false);
+      //   if (res.data.status) {
+      //     this.optionsArr = res.data.data.questionnaire.questions;
+      //     this.questionList = res.data.data.questionnaire.questions;
+      //     this.questionnaireDetails = res.data.data.questionnaire.detail;
+      //   } else {
+      //     errorhandler(res);
+      //   }
+      // });
     },
     getValueOfAns(value) {
       if (value.type === "text") {
@@ -161,13 +183,7 @@ export default {
     },
     editQuetion(id) {
       this.$store.dispatch("GET_RANDOM_QUESTION_INDEX", id);
-      this.$router.push({
-        name: "questionnarie-test",
-        params: {
-          departmentid: this.departmentId,
-          categoryId: this.categoryID,
-        },
-      });
+      this.$store.dispatch("GET_QUIZ_MODAL_STATUS", true);
     },
   },
 };

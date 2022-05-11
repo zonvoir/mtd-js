@@ -44,12 +44,14 @@ button[disabled] {
   &:hover {
     background-color: $primary;
     box-shadow: none;
+    box-shadow: 1px 1px 8px rgba(147, 50, 221, 0.404);
     border-color: $primary;
     outline: none;
   }
   &:focus {
     background-color: $primary;
     box-shadow: none;
+    box-shadow: 1px 1px 8px rgba(147, 50, 221, 0.404);
     border-color: $primary;
     outline: none;
   }
@@ -74,7 +76,7 @@ button[disabled] {
 .btn-primary-outline {
   border: 1px solid #7900d8;
   color: #7900d8;
-  margin-right: 20px;
+  // margin-right: 20px;
   &:hover {
     border: 1px solid #7900d8;
     color: #7900d8;

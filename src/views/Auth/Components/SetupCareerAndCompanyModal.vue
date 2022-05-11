@@ -56,6 +56,7 @@ export default {
   },
 
   onCloseModal() {
+    this.modal.hide();
     console.log("hi");
   },
 };

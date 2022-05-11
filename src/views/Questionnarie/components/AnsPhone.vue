@@ -99,24 +99,6 @@ export default {
   },
 
   methods: {
-    // onInput(event) {
-    //   this.v$.$touch();
-    //   this.isFieldValid = false;
-
-    //   let val;
-    //   if (!this.v$.$invalid) {
-    //     val = event.target.value;
-    //     this.isFieldValid = true;
-    //   }
-
-    //   this.emitData(val);
-    // },
-    // emitData(val) {
-    //   this.$emit("getUserSelected", {
-    //     ansData: val,
-    //     isFieldValid: this.isFieldValid,
-    //   });
-    // },
     onInput(value) {
       this.v$.$touch();
       this.isFieldValid = false;
@@ -152,37 +134,16 @@ export default {
       }
       console.log("dello2");
     },
-    // numberKeyUp() {
-    //   console.log("dello");
-    // },
+
     isNumber(evt) {
       console.log(evt, "kk");
       if (this.tabBackDel.includes(evt.keyCode)) {
         console.log("going to delete the code", evt.target.value);
         this.onInput(evt.target.value);
       }
-      // evt = evt ? evt : window.event;
-      // var charCode = evt.which ? evt.which : evt.keyCode;
-      // if (
-      //   charCode > 31 &&
-      //   (charCode < 48 || charCode > 57) &&
-      //   charCode !== 46
-      // ) {
-      //   evt.preventDefault();
-      // } else {
-      //   this.formatedData = phoneNumberMask(
-      //     maskRemover(evt.target.value, " "),
-      //     " "
-      //   );
-      //   console.log("fromated phone number", this.formatedData);
-      //   this.ansValue = this.formatedData;
-      //   return true;
-      // }
 
-      // let char = String.fromCharCode(evt.keyCode);
       let char = evt.key;
       if (this.numberPattern.test(char)) {
-        // if (this.numbersArr.includes(char)) {
         this.formatedData = phoneNumberMask(
           maskRemover(evt.target.value, this.default_seprator),
           this.default_seprator

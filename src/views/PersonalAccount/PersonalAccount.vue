@@ -841,14 +841,14 @@ export default {
 
     savePersonalInfo() {
       this.personalAccount.auth_token = this.staffData.auth_token;
+      if (this.addCareer === this.toggleUpdate) {
+        this.$refs.childCareer.validateForm();
+      }
       console.log(
         this.newAddedCareer,
         this.personalAccount.career_info,
         this.careersArr
       );
-      if (this.addCareer === this.toggleUpdate) {
-        this.$refs.childCareer.validateForm();
-      }
       this.v$.$touch();
       if (!this.v$.$invalid) {
         // this.$refs.updateCareer.validateForm();
@@ -858,8 +858,8 @@ export default {
         const filteredCareer = careers.filter(
           ({ id }, index) => !ids.includes(id, index + 1)
         );
-        console.log("filter arrays", filteredCareer);
-        this.personalAccount.career_info = filteredCareer;
+        console.log("filter arrays", careers, filteredCareer);
+        this.personalAccount.career_info = careers;
         console.log("latest career inforamtion", this.personalAccount);
         signupService
           .updatePersonalDetails(this.personalAccount)
@@ -867,6 +867,7 @@ export default {
             if (res.data.status) {
               this.addCareer = false;
               this.toggleUpdate = true;
+              this.newAddedCareer = [];
               this.personalAccount = res.data.data;
               this.careersArr = this.personalAccount.career_info;
               console.log("upadated data", this.careersArr);
@@ -890,70 +891,90 @@ export default {
           });
       }
     },
+
+    // On change career Info
     upadateCareer(id, c) {
       this.toggleUpdate = false;
+      if (this.addCareer) {
+        this.$refs.childCareer.validateForm();
+      }
       this.addCareer = false;
       console.log(c);
       this.careerInfo.push(id);
     },
+
+    // on cancel update button
     upadateCareerCancel(id) {
+      if (this.toggleUpdate) {
+        this.$refs.childCareer.validateForm();
+      }
       this.toggleUpdate = true;
       var myIndex = this.careerInfo.indexOf(id);
       if (myIndex !== -1) {
         this.careerInfo.splice(myIndex, 1);
       }
     },
+
+    // new Career is Fillled
     isCareerFilled(value) {
       if (value && Object.keys(value).length != 0) {
+        console.log("career arraykk ", this.checkProperties(value));
+        if (this.checkProperties(value)) return;
         this.newAddedCareer.push(value.newCareer);
         console.log("career arraykk ", this.newAddedCareer);
       }
     },
+
+    // new Career is updated is Filled
     isCareerUpdated(value) {
       if (value && Object.keys(value).length != 0) {
+        if (this.checkProperties(value)) return;
         this.newAddedCareer.push(value.newCareer);
         console.log("career array ", this.newAddedCareer);
       }
     },
+
+    // On hit add more career
     addMoreCareer() {
       this.addCareer = true;
       if (this.clickCount) {
-        this.v$.$touch();
-        if (!this.v$.$invalid) {
-          this.careerInfo = [];
-          if (this.$refs.childCareer.validateForm()) {
-            console.log(
-              "check validations",
-              this.$refs.childCareer.validateForm()
-            );
-          }
-          this.careersList.push({
-            company: "",
-            industry: "",
-            seniority_level: "",
-            department: [],
-            from: "",
-            to: "",
-          });
-        }
+        this.$refs.childCareer.validateForm();
+        console.log(this.$refs.childCareer.careerForm);
+        console.log(this.checkProperties(this.$refs.childCareer.careerForm));
+        this.careerInfo = [];
+        this.careersList.push({
+          company: "",
+          industry: "",
+          seniority_level: "",
+          department: [],
+          from: "",
+          to: "",
+        });
       }
       this.clickCount++;
-
-      console.log("length", this.careersList.length);
     },
+
+    // check object with all null values
+    checkProperties(obj) {
+      for (var key in obj) {
+        if (obj[key] !== null && obj[key] != "") return false;
+      }
+      return true;
+    },
+
     formatMyDate(value) {
       return formatDate(value, "ll");
     },
 
+    // Format departments
     formatDepartments(deptArr) {
       return getDepartemntsLables(deptArr).toString();
     },
+
     // get staff details to be updated
     getStaffDetails() {
       this.auth_token = this.staffData.auth_token;
       this.token.auth_token = this.staffData.auth_token;
-      // signupService
-      //   .getPersonalDetails(this.token)
       this.$store
         .dispatch("getPersonalInfo", { auth_token: this.staffData.auth_token })
         .then((res) => {
@@ -963,9 +984,7 @@ export default {
             this.personalAccount["profile"] =
               this.personalAccount.profile_image;
             this.personalAccount["profile_image"] = null;
-            console.log("pesonal data", res.data.data);
             this.careersArr = this.personalAccount.career_info;
-            console.log("career info", this.personalAccount.career_info);
           } else {
             errorhandler(res, this);
           }
@@ -974,53 +993,63 @@ export default {
           console.log(err);
         });
     },
+
     changePassword() {
       this.updatePsw = true;
     },
+
     removeEmail(id) {
       if (id > -1) {
         this.personalAccount.alternate_emails.splice(id, 1);
       }
-      console.log("deleted array", id, this.personalAccount.alternate_emails);
     },
+
     addEmail(newmail) {
-      console.log("new email", newmail);
       this.personalAccount.alternate_emails.push(newmail);
-      console.log("emails", this.personalAccount.alternate_emails);
       this.showAllEmails = true;
       this.add_email = false;
       this.newmail = "";
     },
+
     updateemail() {
-      console.log("updated primary email", this.personalAccount.email);
       this.primary_email = true;
     },
+
     addNewEmail() {
       this.add_email = true;
     },
+
     // file select
     onPickFile() {
       this.$refs.fileInput.click();
     },
+
     onFilePicked(event) {
       this.valiImage = true;
       const files = event.target.files;
       let $th = this;
-      console.log("seelcted Files", files);
+      const allowedExtensions = ["png", "jpg", "jpeg"];
       if (files != "undefined" && files.length > 0) {
-        var reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.onload = function (e) {
-          var image = new Image(); //Set the Base64 string return from FileReader as source.
-          image.src = e.target.result;
-          image.onload = function () {
-            $th.uploadCompanyLogo(files[0]);
+        var filename = files[0].name;
+        const fileExtension = filename.split(".").pop();
+        if (!allowedExtensions.includes(fileExtension)) {
+          errorhandler(" File type must be (.png , .jpg , .jpeg) only.");
+        } else {
+          var reader = new FileReader();
+          reader.readAsDataURL(files[0]);
+          reader.onload = function (e) {
+            var image = new Image(); //Set the Base64 string return from FileReader as source.
+            image.src = e.target.result;
+            image.onload = function () {
+              $th.uploadCompanyLogo(files[0]);
+            };
           };
-        };
+        }
       } else {
         return true;
       }
     },
+
     removeImage() {
       this.personalAccount.profile = "";
       this.defaultImg = "icons/cloud-upload.svg";
@@ -1033,9 +1062,8 @@ export default {
       };
 
       this.setLanguages(data);
-      // this.$router.go();
-      // loadLocaleMessages(i18n, "en");
     },
+
     setLanguages(data) {
       console.log("set Lang", data);
       commonService.setLanguage(data).then((res) => {
@@ -1045,20 +1073,7 @@ export default {
           loadLocaleMessages(this.$i18n, this.selectedLanguage);
           this.$router.go();
         } else {
-          let $th = this;
-          if ("error" in res.data) {
-            Object.keys(res.data.error).map(function (key) {
-              $th.$toast.error(res.data.error[key], {
-                position: "bottom-left",
-                duration: 3712,
-              });
-            });
-          } else {
-            $th.$toast.error(res.data.message, {
-              position: "bottom-left",
-              duration: 3712,
-            });
-          }
+          errorhandler(res);
         }
       });
     },

@@ -14,7 +14,6 @@ import Password from "../views/Auth/Password.vue";
 import UpdatePassword from "../views/Auth/UpdatePassword.vue";
 import ResetPassword from "../views/Auth/ResetPassword.vue";
 import VerifyAccount from "../views/Auth/VerifyAccount.vue";
-import VerifyEmail from "../views/Auth/EmailConfirmation.vue";
 import Dashboard from "../Layout/MainLayout.vue";
 import CompanyLayout from "../views/Company/CompanyLayout.vue";
 import Members from "../views/Company/MemberList.vue";
@@ -33,8 +32,8 @@ import CategoryOverview from "../views/Overview/CategoryOverview.vue";
 import CategoryResults from "../views/Overview/CategoryResults.vue";
 import CategoryTeamManagement from "../views/Overview/CategoryTeamManagement.vue";
 import CategoryQuestionList from "../views/Overview/CategoryQuestionList.vue";
-import QuestionnarieLayout from "../Layout/QuestionnarieLayout.vue";
-import QuestionnarieTest from "../views/Questionnarie/QuestionnarieTest.vue";
+// import QuestionnarieLayout from "../Layout/QuestionnarieLayout.vue";
+// import QuestionnarieTest from "../views/Questionnarie/QuestionnarieTest.vue";
 import ProjectsLayout from "../views/Projects/ProjectsLayout.vue";
 import ProjectList from "../views/Projects/ProjectList.vue";
 import CreateProject from "../views/Projects/CreateProject.vue";
@@ -64,7 +63,6 @@ loadLocaleMessages(i18n, locale);
 // check if user not login then Dashboard related page not show
 function guardMyroute(_to, _from, next) {
   var isAuthenticated = false;
-  // let user = localStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1");
   let user = localStorage.getItem("bWFpbCI6Inpvb");
   user = JSON.parse(user);
   if (
@@ -109,17 +107,6 @@ function guardMyroute(_to, _from, next) {
       console.log("no one will run");
       // next({ name: "signup-signin" });
     }
-    // && user.invitation_id
-    // if (!user.is_career_information_setup) {
-    //   next({ name: "signup-career" });
-    // } else if (!user.is_first_step_complete) {
-    //   next({ name: "company-step-one" });
-    // } else if (!user.is_second_step_complete) {
-    //   next({ name: "company-step-two" });
-    // } else {
-    //   next({ name: "signin-verify-account" });
-    // }
-    // next();
   }
 }
 
@@ -391,20 +378,20 @@ const routes = [
       },
     ],
   },
-  {
-    path: "/:departmentid/questionnarie/:categoryId",
-    component: QuestionnarieLayout,
-    beforeEnter: guardMyroute,
-    name: "questionnarie",
-    redirect: "/questionnarie/questionnarie-test",
-    children: [
-      {
-        path: "questionnarie-test",
-        component: QuestionnarieTest,
-        name: "questionnarie-test",
-      },
-    ],
-  },
+  // {
+  //   path: "/:departmentid/questionnarie/:categoryId",
+  //   component: QuestionnarieLayout,
+  //   beforeEnter: guardMyroute,
+  //   name: "questionnarie",
+  //   redirect: "/questionnarie/questionnarie-test",
+  //   children: [
+  //     {
+  //       path: "questionnarie-test",
+  //       component: QuestionnarieTest,
+  //       name: "questionnarie-test",
+  //     },
+  //   ],
+  // },
   {
     path: "/signup",
     redirect: "/signup/register",
@@ -480,12 +467,6 @@ const routes = [
         name: "link-company-account",
         component: LinkCompany,
       },
-      {
-        path: "email-verified",
-
-        beforeEnter: loginGaurd,
-        component: VerifyEmail,
-      },
     ],
   },
 
@@ -534,8 +515,7 @@ router.beforeResolve((to, from, next) => {
 
 router.beforeEach(async (to, from, next) => {
   if (navigator.onLine) {
-    // this.connectionStatus = "Connected to internet.";
-    console.log("Connected to internet.");
+    console.log("");
   } else {
     errorhandler("No Internet ! You are offline");
   }
@@ -561,10 +541,12 @@ router.afterEach((to, from) => {
     if (activeSubPage === "verify-account") {
       el.classList.add("auth_verify_account");
     } else {
+      // remove auth_verify_account  class here
       el.classList.remove("auth_verify_account");
     }
     el.classList.add("auth_pages");
   } else {
+    el.classList.remove("auth_verify_account");
     el.classList.remove("auth_pages");
   }
   nProgress.done();

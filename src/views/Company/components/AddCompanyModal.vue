@@ -41,6 +41,7 @@
             <div class="company_forms_container">
               <div v-show="activeStep === 1" class="">
                 <CompanyStep1
+                  :classLayout="'col-lg-6'"
                   ref="create_company_modal_step_first"
                   :creatingMode="'profile'"
                 />
@@ -81,13 +82,6 @@
                 {{ $t("company.profile_buttons.Create") }}
               </button>
             </div>
-            <!-- <button
-              type="button"
-              @click="onCloseModal"
-              class="btn default_padding k_btnfs14_w700 btn-primary"
-            >
-              Ok
-            </button> -->
           </div>
         </div>
       </div>

@@ -134,6 +134,8 @@
             class="project_date_picker custom_label"
             v-model="careerForm.from"
             :enableTimePicker="false"
+            :weekStart="0"
+            :disabledWeekDays="[6, 0]"
             :maxDate="new Date()"
             @open="clearFromDate"
             placeholder="mm/dd/yyyy"
@@ -149,8 +151,11 @@
             :disabled="careerForm.workingAtPresent"
             class="project_date_picker custom_label"
             :enableTimePicker="false"
+            :weekStart="0"
+            :disabledWeekDays="[6, 0]"
             v-model="careerForm.to"
             :minDate="careerForm.from"
+            :maxDate="new Date()"
             @open="clearToDate"
             placeholder="mm/dd/yyyy"
           />
@@ -232,24 +237,6 @@ export default {
       companies: [],
     };
   },
-  // validations() {
-  //   let validator = {
-  //     careerForm: {
-  //       company: { required },
-  //       position: { required },
-  //       industry: { required },
-  //       department: { required },
-  //       from: { required },
-  //       to: {
-  //         required: requiredIf(() => !this.careerForm.workingAtPresent),
-  //       },
-  //       division: { required },
-  //       seniority_level: { required },
-  //     },
-  //   };
-  //   return validator;
-  // },
-
   setup() {
     return {
       v$: useVuelidate(),
@@ -262,9 +249,7 @@ export default {
     Dropdown,
   },
   watch: {
-    "careerForm.workingAtPresent": function (oldVal, newVal) {
-      // this.careerForm.workingAtPresent = val;
-      console.log(oldVal, newVal, "vis", this.careerForm.workingAtPresent);
+    "careerForm.workingAtPresent": function () {
       this.clearToDate();
     },
     "careerForm.from": function () {
@@ -277,7 +262,6 @@ export default {
 
   updated() {
     this.careerForm = this.myCareer;
-    // this.careerForm.workingAtPresent = this.workingAtPresent;
   },
 
   mounted() {
@@ -285,22 +269,23 @@ export default {
     this.careerForm.workingAtPresent = this.workingAtPresent;
     this.getAllCompany();
   },
-  created() {
-    this.settings = {
-      tags: true,
-      allowClear: true,
-      multiple: true,
-      insertTag: function (data, tag) {
-        this.emailTag = tag;
-        console.log("data", data, "tag", tag);
-        data.push(tag);
-      },
-    };
 
-    this.mySettings = {
-      multiple: true,
-    };
-  },
+  // created() {
+  //   this.settings = {
+  //     tags: true,
+  //     allowClear: true,
+  //     multiple: true,
+  //     insertTag: function (data, tag) {
+  //       this.emailTag = tag;
+  //       console.log("data", data, "tag", tag);
+  //       data.push(tag);
+  //     },
+  //   };
+
+  //   this.mySettings = {
+  //     multiple: true,
+  //   };
+  // },
 
   methods: {
     clearFromDate() {
@@ -313,11 +298,11 @@ export default {
       this.addNewDept = true;
       this.newDepartment = "";
     },
-    mySelectEvent({ id, text }) {
-      console.log("id", { id, text });
+    // mySelectEvent({ id, text }) {
+    //   console.log("id", { id, text });
 
-      console.log("my all department", this.myValue);
-    },
+    //   console.log("my all department", this.myValue);
+    // },
     updateDepartment() {
       let deptData = {
         auth_token: this.staffData,
@@ -345,6 +330,7 @@ export default {
         }
       }, 250);
     },
+
     getAllCompany() {
       CompanyService.companySuggestions().then((res) => {
         if (res.data.status) {

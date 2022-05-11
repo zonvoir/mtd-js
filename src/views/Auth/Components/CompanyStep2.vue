@@ -369,11 +369,9 @@ export default {
   watch: {
     // is Internatinal change...
     "companyForm.operating_international": function (val) {
-      console.log(val);
       if (!val) {
         this.internationalCompany();
       } else {
-        console.log(this.RegionsArr, this.countriesArr);
         this.companyForm.region = this.RegionsArr;
         this.companyForm.company_country = [];
         this.companyForm.company_country.push(this.countriesArr);
@@ -477,7 +475,6 @@ export default {
         return;
       } else {
         this.companyForm.auth_token = this.staffData.auth_token;
-        console.log("company data", this.companyForm);
         this.isSubmitted = true;
         SignupService.companyClassificationInfo(this.companyForm)
           .then((response) => {
@@ -575,45 +572,45 @@ export default {
       this.$refs.fileInput.click();
     },
 
-    onFilePicked(event) {
-      this.valiImage = true;
-      const files = event.target.files;
-      let $th = this;
-      console.log("seelcted Files", files);
-      if (files != "undefined" && files.length > 0) {
-        var reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.onload = function (e) {
-          var image = new Image(); //Set the Base64 string return from FileReader as source.
-          image.src = e.target.result;
-          image.onload = function () {
-            $th.uploadCompanyLogo(files[0]);
-          };
-        };
-      } else {
-        return true;
-      }
-    },
+    // onFilePicked(event) {
+    //   this.valiImage = true;
+    //   const files = event.target.files;
+    //   let $th = this;
+    //   console.log("seelcted Files", files);
+    //   if (files != "undefined" && files.length > 0) {
+    //     var reader = new FileReader();
+    //     reader.readAsDataURL(files[0]);
+    //     reader.onload = function (e) {
+    //       var image = new Image(); //Set the Base64 string return from FileReader as source.
+    //       image.src = e.target.result;
+    //       image.onload = function () {
+    //         $th.uploadCompanyLogo(files[0]);
+    //       };
+    //     };
+    //   } else {
+    //     return true;
+    //   }
+    // },
 
-    removeImage() {
-      this.defaultImg = "icons/cloud-upload.svg";
-    },
+    // removeImage() {
+    //   this.defaultImg = "icons/cloud-upload.svg";
+    // },
 
-    uploadCompanyLogo(file) {
-      let $th = this;
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-        $th.defaultImg = reader.result.toString();
-        $th.companyForm.client_logo = $th.defaultImg;
-        console.log($th.defaultImg);
-      };
-      reader.onerror = function (error) {
-        console.log("Error: ", error);
-      };
-      // this.getBase64(file);
-      console.log("selected file", file);
-    },
+    // uploadCompanyLogo(file) {
+    //   let $th = this;
+    //   var reader = new FileReader();
+    //   reader.readAsDataURL(file);
+    //   reader.onload = function () {
+    //     $th.defaultImg = reader.result.toString();
+    //     $th.companyForm.client_logo = $th.defaultImg;
+    //     console.log($th.defaultImg);
+    //   };
+    //   reader.onerror = function (error) {
+    //     console.log("Error: ", error);
+    //   };
+    //   // this.getBase64(file);
+    //   console.log("selected file", file);
+    // },
 
     // get Industry lists
     getIndustryList() {
@@ -635,13 +632,13 @@ export default {
     },
 
     onChangeRegion() {
-      console.log("country_lists", this.companyForm.company_country);
+      // console.log("country_lists", this.companyForm.company_country);
       this.getCountries(this.companyForm.region);
     },
 
-    onChangeCountry() {
-      console.log("country_lists", this.companyForm.company_country);
-    },
+    // onChangeCountry() {
+    //   console.log("country_lists", this.companyForm.company_country);
+    // },
 
     // get regions lists
     getRegions() {
@@ -686,7 +683,6 @@ export default {
           auth_token: this.staffData.auth_token,
         }).then((resp) => {
           if (resp.data.status) {
-            console.log("multiSelect data", resp.data.data);
             this.countriesArr = resp.data.data.first_country_id;
             this.RegionsArr = resp.data.data.regions;
             // update session Storage

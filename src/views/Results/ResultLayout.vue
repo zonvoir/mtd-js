@@ -212,6 +212,7 @@ export default {
   color: #222b45;
   padding-bottom: 10px;
 }
+
 .desc_content {
   font-size: 15px;
   line-height: 22px;
@@ -219,6 +220,7 @@ export default {
   font-weight: 400;
   padding-bottom: 10px;
 }
+
 .setting {
   position: absolute;
   top: 50%;

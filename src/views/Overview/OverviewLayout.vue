@@ -15,9 +15,6 @@
               {{ $t("overview_index.buttons.invite_people") }}
             </template>
           </InvitePeopleModal>
-          <!-- <button class="btn-primary btn text-uppercase k_btnfs14_w700">
-            Start
-          </button> -->
         </div>
       </div>
       <!-- tabs  -->

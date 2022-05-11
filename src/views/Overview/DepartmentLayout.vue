@@ -5,7 +5,6 @@
         <div class="_change_wrap pb-15">
           <div class="page_title_wrap">
             <div class="m-r-6">
-              <!-- <button @click="backToMain" class="btn btn-transaprent"> -->
               <button @click="$router.back()" class="btn btn-transaprent">
                 <img src="K_Icons/arrowhead-right.svg" alt="" />
               </button>

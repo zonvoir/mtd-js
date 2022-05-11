@@ -7,6 +7,8 @@ export default {
     subIndustries: [],
     detailIndustries: [],
     allCountries: [],
+    allStates: [],
+    allCities: [],
     allRegion: [],
     allRoles: [],
     personalInfo: [],
@@ -39,6 +41,7 @@ export default {
     setDetailIndustry(state, detailIndustry) {
       state.detailIndustries = detailIndustry;
     },
+
     setAllRegion(state, region) {
       state.allRegion = region;
     },
@@ -46,9 +49,17 @@ export default {
     setAllCountries(state, country) {
       state.allCountries = country;
     },
+    setAllCities(state, val) {
+      state.allCities = val;
+    },
+    setAllStates(state, val) {
+      state.allStates = val;
+    },
+
     setAllRoles(state, country) {
       state.allRoles = country;
     },
+
     setAllLegalFormCorporation(state, legalCorp) {
       state.allLegalFormCorporation = legalCorp;
     },
@@ -218,6 +229,45 @@ export default {
             } else {
               commit("setAllCountries", []);
               errorhandler(res);
+            }
+            resolve(res);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      });
+    },
+
+    GET_STATES_BY_COUNTRY: ({ commit }, data) => {
+      return new Promise((resolve, reject) => {
+        CommonService.getStates(data).then(
+          (res) => {
+            if (res.data.status) {
+              // commit("setAllStates", statesArray);
+              if (!res.data.data.length) return;
+              commit("setAllStates", res.data.data);
+            } else {
+              commit("setAllStates", []);
+            }
+            resolve(res);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      });
+    },
+
+    GET_CITIES_BY_STATE_ID: ({ commit }, data) => {
+      return new Promise((resolve, reject) => {
+        CommonService.getCities(data).then(
+          (res) => {
+            if (res.data.status) {
+              if (!res.data.data.length) return;
+              commit("setAllCities", res.data.data);
+            } else {
+              commit("setAllCities", []);
             }
             resolve(res);
           },
@@ -418,6 +468,8 @@ export default {
     subIndustries: (state) => state.subIndustries,
     detailIndustries: (state) => state.detailIndustries,
     allCountries: (state) => state.allCountries,
+    allStates: (state) => state.allStates,
+    allCities: (state) => state.allCities,
     allRegion: (state) => state.allRegion,
     allRoles: (state) => state.allRoles,
     allLegalFormCorporation: (state) => state.allLegalFormCorporation,

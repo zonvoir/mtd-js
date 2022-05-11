@@ -170,12 +170,9 @@
 </template>
 
 <script>
-// import { ref } from "vue";
 import { Modal } from "bootstrap";
 import loginService from "../../Services/LoginService";
-// import CustomOtp from "../../components/Shared/CustomOtp.vue";
 import UpdateEmail from "./Components/UpdateEmail.vue";
-// import CompanyService from "../../Services/Company/CompanyService";
 import MainLogo from "../../components/Shared/MainLogo.vue";
 import VOtpInput from "vue3-otp-input";
 
@@ -183,7 +180,6 @@ import { mapGetters } from "vuex";
 import errorhandler from "../../utils/Error";
 export default {
   components: {
-    // CustomOtp,
     UpdateEmail,
     MainLogo,
     "v-otp-input": VOtpInput,

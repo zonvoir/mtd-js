@@ -1,6 +1,6 @@
 <template>
   <div @keyup="enterClicked">
-    <div v-if="questions.length">
+    <div v-if="questions.length" class="">
       <!-- question Section Start  -->
 
       <div>
@@ -8,75 +8,79 @@
           {{ questions[currentIdx].name }}
         </h4>
       </div>
-      <div v-if="questions[currentIdx].description" class="ques_descption_wrap">
-        <p
-          class="ques_descption"
-          v-html="questions[currentIdx].description"
-        ></p>
-      </div>
-      <!-- question Section Start -->
-      <!-- Answer Section Start -->
-      <div class="option_wrapper">
-        <div v-if="questions[currentIdx].type == 'multiple_choice'">
-          <AnsCheckbox
-            ref="ans_checkbox"
-            :key="currentIdx"
-            @getUserSelected="userGivenAnswer"
-            :data="questions[currentIdx].choices"
-            :currentAns="questions[currentIdx].staff_anwser"
-          />
+      <div class="sec_scrollbar">
+        <div
+          v-if="questions[currentIdx].description"
+          class="ques_descption_wrap"
+        >
+          <p
+            class="ques_descption"
+            v-html="questions[currentIdx].description"
+          ></p>
         </div>
-        <div v-if="questions[currentIdx].type == 'radio_button'">
-          <AnsRadio
-            ref="ans_radio"
-            :key="currentIdx"
-            @getUserSelected="userGivenAnswer"
-            :data="questions[currentIdx].choices"
-            :currentAns="questions[currentIdx].staff_anwser"
-          />
-        </div>
-        <div v-if="questions[currentIdx].type == 'yes_no'">
-          <AnsSwitch
-            ref="ans_switch"
-            :key="currentIdx"
-            v-model="answerValue"
-            @getUserSelected="userGivenAnswer"
-            :currentAns="questions[currentIdx].staff_anwser"
-          />
-        </div>
-        <!-- <div v-if="questions[currentIdx].type == 'richText'">
+        <!-- question Section Start -->
+        <!-- Answer Section Start -->
+        <div class="option_wrapper">
+          <div v-if="questions[currentIdx].type == 'multiple_choice'">
+            <AnsCheckbox
+              ref="ans_checkbox"
+              :key="currentIdx"
+              @getUserSelected="userGivenAnswer"
+              :data="questions[currentIdx].choices"
+              :currentAns="questions[currentIdx].staff_anwser"
+            />
+          </div>
+          <div v-if="questions[currentIdx].type == 'radio_button'">
+            <AnsRadio
+              ref="ans_radio"
+              :key="currentIdx"
+              @getUserSelected="userGivenAnswer"
+              :data="questions[currentIdx].choices"
+              :currentAns="questions[currentIdx].staff_anwser"
+            />
+          </div>
+          <div v-if="questions[currentIdx].type == 'yes_no'">
+            <AnsSwitch
+              ref="ans_switch"
+              :key="currentIdx"
+              v-model="answerValue"
+              @getUserSelected="userGivenAnswer"
+              :currentAns="questions[currentIdx].staff_anwser"
+            />
+          </div>
+          <!-- <div v-if="questions[currentIdx].type == 'richText'">
           <AnsTextArea :data="questions[currentIdx].choices" />
         </div> -->
-        <div v-if="questions[currentIdx].type == 'text'">
-          <!-- @getUserSelected="userGivenAnswer" -->
-          <AnsInput
-            ref="ans_freeText"
-            :key="currentIdx"
-            v-model="answerValue"
-            @getUserSelected="userGivenAnswer"
-            :currentAns="questions[currentIdx].staff_anwser"
-          />
-        </div>
-        <div v-if="questions[currentIdx].type == 'website'">
-          <AnsWebsite
-            ref="ans_url"
-            :key="currentIdx"
-            v-model="answerValue"
-            @getUserSelected="userGivenAnswer"
-            :currentAns="questions[currentIdx].staff_anwser"
-          />
-        </div>
-        <div v-if="questions[currentIdx].type == 'dropdown'">
-          <AnsSelect
-            ref="ans_dropdown"
-            :key="currentIdx"
-            v-model="answerValue"
-            @getUserSelected="userGivenAnswer"
-            :currentAns="questions[currentIdx].staff_anwser"
-            :data="questions[currentIdx].choices"
-          />
-        </div>
-        <!-- <div v-if="questions[currentIdx].type == 'manySelect'">
+          <div v-if="questions[currentIdx].type == 'text'">
+            <!-- @getUserSelected="userGivenAnswer" -->
+            <AnsInput
+              ref="ans_freeText"
+              :key="currentIdx"
+              v-model="answerValue"
+              @getUserSelected="userGivenAnswer"
+              :currentAns="questions[currentIdx].staff_anwser"
+            />
+          </div>
+          <div v-if="questions[currentIdx].type == 'website'">
+            <AnsWebsite
+              ref="ans_url"
+              :key="currentIdx"
+              v-model="answerValue"
+              @getUserSelected="userGivenAnswer"
+              :currentAns="questions[currentIdx].staff_anwser"
+            />
+          </div>
+          <div v-if="questions[currentIdx].type == 'dropdown'">
+            <AnsSelect
+              ref="ans_dropdown"
+              :key="currentIdx"
+              v-model="answerValue"
+              @getUserSelected="userGivenAnswer"
+              :currentAns="questions[currentIdx].staff_anwser"
+              :data="questions[currentIdx].choices"
+            />
+          </div>
+          <!-- <div v-if="questions[currentIdx].type == 'manySelect'">
           <AnsMultiSelect
             :key="currentIdx"
             v-model="answerValue"
@@ -84,98 +88,97 @@
             :currentAns="questions[currentIdx].staff_anwser"
           />
         </div> -->
-        <div v-if="questions[currentIdx].type == 'email'">
-          <AnsEmail
-            ref="ans_email"
-            :key="currentIdx"
-            v-model="answerValue"
-            @getUserSelected="userGivenAnswer"
-            :currentAns="questions[currentIdx].staff_anwser"
-          />
-        </div>
-        <div v-if="questions[currentIdx].type == 'phone_number'">
-          <AnsPhone
-            ref="ans_phone_no"
-            :key="currentIdx"
-            v-model="answerValue"
-            @getUserSelected="userGivenAnswer"
-            :currentAns="questions[currentIdx].staff_anwser"
-          />
-          <!-- <MaskPhInput
-            :id="'33'"
-            class="form-control k_inp_field"
-            v-model="answerValue"
-          /> -->
-        </div>
-        <div v-if="questions[currentIdx].type == 'number'">
-          <AnsSingleNumber
-            ref="ans_single_number"
-            :key="currentIdx"
-            v-model="answerValue"
-            @getUserSelected="userGivenAnswer"
-            :currentAns="questions[currentIdx].staff_anwser"
-          />
-        </div>
-        <!--  -->
-        <div v-if="questions[currentIdx].type == 'multi_number'">
-          <AnsMultipleNumber
-            :key="currentIdx"
-            v-model="answerValue"
-            :data="questions[currentIdx].subquestions"
-            @getUserSelected="userGivenAnswer"
-            :currentAns="questions[currentIdx].staff_anwser"
-          />
-        </div>
-        <!--  -->
-        <div v-if="questions[currentIdx].type == 'percent'">
-          <AnsPercent
-            :key="currentIdx"
-            v-model="answerValue"
-            :data="questions[currentIdx].subquestions"
-            @getUserSelected="userGivenAnswer"
-            :currentAns="questions[currentIdx].staff_anwser"
-          />
-        </div>
-        <!-- <div v-if="questions[currentIdx].type == 'editor'">
+          <div v-if="questions[currentIdx].type == 'email'">
+            <AnsEmail
+              ref="ans_email"
+              :key="currentIdx"
+              v-model="answerValue"
+              @getUserSelected="userGivenAnswer"
+              :currentAns="questions[currentIdx].staff_anwser"
+            />
+          </div>
+          <div v-if="questions[currentIdx].type == 'phone_number'">
+            <AnsPhone
+              ref="ans_phone_no"
+              :key="currentIdx"
+              v-model="answerValue"
+              @getUserSelected="userGivenAnswer"
+              :currentAns="questions[currentIdx].staff_anwser"
+            />
+          </div>
+          <div v-if="questions[currentIdx].type == 'number'">
+            <AnsSingleNumber
+              ref="ans_single_number"
+              :key="currentIdx"
+              v-model="answerValue"
+              @getUserSelected="userGivenAnswer"
+              :currentAns="questions[currentIdx].staff_anwser"
+            />
+          </div>
+          <!--  -->
+          <div v-if="questions[currentIdx].type == 'multi_number'">
+            <AnsMultipleNumber
+              :key="currentIdx"
+              v-model="answerValue"
+              :data="questions[currentIdx].subquestions"
+              @getUserSelected="userGivenAnswer"
+              :currentAns="questions[currentIdx].staff_anwser"
+            />
+          </div>
+          <!--  -->
+          <div v-if="questions[currentIdx].type == 'percent'">
+            <AnsPercent
+              :key="currentIdx"
+              v-model="answerValue"
+              :data="questions[currentIdx].subquestions"
+              @getUserSelected="userGivenAnswer"
+              :currentAns="questions[currentIdx].staff_anwser"
+            />
+          </div>
+          <!-- <div v-if="questions[currentIdx].type == 'editor'">
           <AnsTextEditor :data="questions[currentIdx].choices" />
         </div> -->
 
-        <div v-if="questions[currentIdx].type == 'date'">
-          <AnsDate
-            ref="ans_date"
-            :key="currentIdx"
-            v-model="answerValue"
-            @getUserSelected="userGivenAnswer"
-            :currentAns="questions[currentIdx].staff_anwser"
+          <div v-if="questions[currentIdx].type == 'date'">
+            <AnsDate
+              ref="ans_date"
+              :key="currentIdx"
+              v-model="answerValue"
+              @getUserSelected="userGivenAnswer"
+              :currentAns="questions[currentIdx].staff_anwser"
+            />
+          </div>
+        </div>
+        <!-- Answer Section Ends -->
+        <!-- explanation Section Start -->
+
+        <div v-if="questions[currentIdx].hint" class="">
+          <div class="d-flex align-items-center m-b-15">
+            <!-- <QuestionExpalnaion /> -->
+            <div class="info_icon_wrap m-r-10">
+              <img src="K_Icons/info_gray_24dp.svg" alt="" class="svg_icon" />
+            </div>
+            <h6 class="question_expaltion">
+              Question explanation
+              <a class="custom-link" @click="updateIsHint()">see here</a>
+            </h6>
+            <br />
+          </div>
+          <QuestionHint
+            v-if="isHint"
+            :hint="questions[currentIdx].hint"
+            :hint-type="questions[currentIdx].hint_type"
+            :size_height="+questions[currentIdx].hint_height"
+            :size_width="+questions[currentIdx].hint_width"
           />
         </div>
       </div>
-      <!-- Answer Section Ends -->
-      <!-- explanation Section Start -->
-
-      <div v-if="questions[currentIdx].hint" class="">
-        <div class="d-flex align-items-center m-b-15">
-          <!-- <QuestionExpalnaion /> -->
-          <div class="info_icon_wrap m-r-10">
-            <img src="K_Icons/info_gray_24dp.svg" alt="" class="svg_icon" />
-          </div>
-          <h6 class="question_expaltion">
-            Question explanation
-            <a class="custom-link" @click="updateIsHint()">see here</a>
-          </h6>
-          <br />
-        </div>
-        <QuestionHint
-          v-if="isHint"
-          :hint="questions[currentIdx].hint"
-          :hint-type="questions[currentIdx].hint_type"
-          :size_height="+questions[currentIdx].hint_height"
-          :size_width="+questions[currentIdx].hint_width"
-        />
-      </div>
       <!-- explanation Section Ends -->
       <!-- bottom section start -->
-      <div class="btns_wrap">
+    </div>
+    <div class="btns_wrap">
+      <!-- {{ questions.length }} -->
+      <div v-if="questions.length > 1" class="">
         <button
           :key="currentIdx"
           type="button"
@@ -195,17 +198,16 @@
         >
           next
         </button>
-
-        <button
-          type="button"
-          :disabled="!isValidated"
-          :class="currentIdx >= questions.length - 1 ? '' : 'd-none'"
-          @click="finishQuestion(questions[currentIdx].id)"
-          class="btn text-uppercase btn-primary btn-set"
-        >
-          Finish
-        </button>
       </div>
+      <button
+        type="button"
+        :disabled="!isValidated"
+        :class="currentIdx >= questions.length - 1 ? '' : 'd-none'"
+        @click="finishQuestion(questions[currentIdx].id)"
+        class="btn text-uppercase btn-primary btn-set"
+      >
+        Finish
+      </button>
     </div>
     <!-- bottom section ends -->
   </div>
@@ -232,23 +234,18 @@ import QuestionnaireService from "../../../Services/QuestionnaireServices/Questi
 import { mapGetters } from "vuex";
 import QuestionHint from "./QuestionHint.vue";
 import errorhandler from "../../../utils/Error";
-
 export default {
   props: {},
   components: {
-    // MaskPhInput,
-    // AnsTextEditor,
     AnsCheckbox,
     AnsRadio,
     AnsDate,
-    // AnsTextArea,
     AnsSwitch,
     AnsInput,
     AnsMultipleNumber,
     AnsSingleNumber,
     AnsPhone,
     AnsEmail,
-    // AnsMultiSelect,
     AnsWebsite,
     QuestionHint,
     AnsPercent,
@@ -365,15 +362,19 @@ export default {
         this.questions[this.currentIdx].is_answered = true;
         if (res.data.status) {
           if (this.currentIdx >= this.questions.length - 1) {
-            let ro = this.$route.params;
-
-            this.$router.push({
-              path: `/department/${ro.departmentid}/categories/${ro.categoryId}/overview`,
-            });
-            // this.$router.push({
-            //   name: "category-overview",
-            //   params: { did: ro.departmentid, id: ro.categoryId },
+            // this.$swal({
+            //   title: "Are you sure?",
+            //   text: "Your questionnaire will be closed !",
+            //   icon: "warning",
+            //   showCancelButton: true,
+            //   confirmButtonColor: "#7900d8 ",
+            //   cancelButtonColor: "#edf1f7",
+            //   confirmButtonText: "OK",
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     }
             // });
+            this.$store.dispatch("GET_QUIZ_MODAL_STATUS", false);
           } else {
             this.questions[this.currentIdx].is_answered = true;
             this.questions[this.currentIdx].staff_anwser = data.answer;
@@ -416,9 +417,16 @@ export default {
   color: #222b45;
 }
 .btns_wrap {
-  position: fixed;
-  bottom: 16px;
+  position: absolute;
+  bottom: 0px;
   right: 20px;
+  background-color: white;
+  padding: 8px;
+  left: 0;
+  right: 0;
+  width: 72%;
+  margin: 0 auto;
+  margin-right: 0;
 }
 .dis_btn {
   color: #7900d8;
@@ -430,7 +438,8 @@ export default {
   margin-bottom: 210px;
 }
 .option_wrapper {
-  padding: 0 0 0 36px;
+  // padding: 0 0 0 36px;
+  padding: 0 0 0 5px;
 }
 .question_title {
   font-size: 22px;

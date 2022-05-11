@@ -70,9 +70,12 @@ export default {
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap");
 #app {
-  font-family: Inter;
+  font-family: Inter !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+// html {
+//   font-size: 62.5% !important;
+// }
 </style>

@@ -4,7 +4,7 @@
       v-model="selectedLanguage"
       :options="laguage"
       optionLabel="label"
-      class="language_dropdown"
+      class="language_dropdown k_select_single"
       @change="onChangeLanguage"
     >
       <template #value="slotProps">

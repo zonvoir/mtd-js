@@ -60,6 +60,8 @@
                 <h5 class="section_heading">
                   {{ $t("company.step_one.basic_details") }}
                 </h5>
+              </div>
+              <div :class="classLayout">
                 <div class="k_form_group">
                   <input
                     type="text"
@@ -258,7 +260,68 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-12">
+              <div class="col-lg-6">
+                <div class="k_form_group k_select_single">
+                  <Dropdown
+                    class="k_prime_inp_select"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="
+                      State/Region
+                    "
+                    :options="allStates"
+                    @blur="v$.companyForm.state.$touch"
+                    @change="getAllCites(companyForm.state)"
+                    v-model="companyForm.state"
+                    :class="{
+                      'is-invalid': v$.companyForm.state.$error,
+                    }"
+                  />
+
+                  <div
+                    v-if="v$.companyForm.state.$error"
+                    class="invalid-feedback text-left"
+                  >
+                    <span
+                      v-if="v$.companyForm.state.required.$invalid"
+                      class="text-left fs-14"
+                    >
+                      State is required
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="k_form_group k_select_single">
+                  <Dropdown
+                    class="k_prime_inp_select"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="
+                      City
+                    "
+                    :options="allCities"
+                    @blur="v$.companyForm.city.$touch"
+                    v-model="companyForm.city"
+                    :class="{
+                      'is-invalid': v$.companyForm.city.$error,
+                    }"
+                  />
+
+                  <div
+                    v-if="v$.companyForm.city.$error"
+                    class="invalid-feedback text-left"
+                  >
+                    <span
+                      v-if="v$.companyForm.city.required.$invalid"
+                      class="text-left fs-14"
+                    >
+                      City is required
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div :class="classLayout">
                 <div class="k_form_group">
                   <input
                     type="text"
@@ -288,41 +351,6 @@
                     </span>
                   </div>
                 </div>
-                <!-- <div class="k_form_group">
-                  <GMapAutocomplete
-                    class="form-control k_inp_field"
-                    :placeholder="
-                      $t('company.step_one.form.placeholder.address')
-                    "
-                    :options="{
-                      ComponentRestrictions: {
-                        country: 'in',
-                      },
-                    }"
-                    @blur="v$.companyForm.address.$touch"
-                    v-model="companyForm.address"
-                    :class="{
-                      'is-invalid': v$.companyForm.address.$error,
-                    }"
-                    @input="updateValue"
-                    @place_changed="setPlace"
-                  />
-                  <div
-                    v-if="v$.companyForm.address.$error"
-                    class="invalid-feedback text-left"
-                  >
-                    <span
-                      v-if="v$.companyForm.address.required.$invalid"
-                      class="text-left fs-14"
-                    >
-                      {{
-                        $t(
-                          "company.step_one.form.invalid_msgs.address_is_required"
-                        )
-                      }}
-                    </span>
-                  </div>
-                </div> -->
               </div>
               <div class="col-lg-12">
                 <div class="k_form_group">
@@ -484,6 +512,10 @@ export default {
       type: String,
       default: "signup",
     },
+    classLayout: {
+      type: String,
+      default: "col-lg-12",
+    },
   },
 
   components: {
@@ -512,17 +544,18 @@ export default {
       companyForm: {
         auth_token: "",
         company: "",
-        country: null,
-        companyId: null,
-        address: null,
+        country: "",
+        state: "",
+        city: "",
+        companyId: "",
+        address: "",
         isConsultant: false,
-        phonenumber: null,
-        incorporation_year: null,
+        phonenumber: "",
+        incorporation_year: "",
         client_logo: "",
         country_code: "",
-        corporation_legal_form: null,
+        corporation_legal_form: "",
       },
-      // is_main: "1",
     };
   },
 
@@ -531,6 +564,8 @@ export default {
       countryLists: "allCountries",
       legalCorpLists: "allLegalFormCorporation",
       agreedToPrivacyStatus: "agreedToPrivacyStatus",
+      allStates: "allStates",
+      allCities: "allCities",
     }),
   },
 
@@ -541,7 +576,6 @@ export default {
   },
 
   created() {
-    console.log("created at");
     this.getLegalCoporation();
     if (this.creatingMode === "signup") {
       this.checkCompany();
@@ -560,6 +594,8 @@ export default {
       companyForm: {
         company: { required },
         country: { required },
+        state: { required },
+        city: { required },
         phonenumber: {
           required,
           numeric,
@@ -594,24 +630,22 @@ export default {
   methods: {
     // create company on company profile start
     companyProfileStepOne() {
-      console.log("I am from company step one from");
       this.v$.$touch();
       if (!this.v$.$invalid) {
-        console.log("this form is fully valid");
         this.companyForm.auth_token = this.staffData.auth_token;
         this.companyForm.country_code = this.country_code;
         this.isStepOneProfileCompleted = true;
       }
     },
 
-    setPlace(e) {
-      this.companyForm.address = e.formatted_address;
-      console.log(e.geometry.location.lat(), e.geometry.location.lng());
-    },
-    updateValue(e) {
-      this.companyForm.address = e.target.value;
-      console.log(e.target.value);
-    },
+    // setPlace(e) {
+    //   this.companyForm.address = e.formatted_address;
+    //   console.log(e.geometry.location.lat(), e.geometry.location.lng());
+    // },
+    // updateValue(e) {
+    //   this.companyForm.address = e.target.value;
+    //   console.log(e.target.value);
+    // },
 
     // create company on company profile end
 
@@ -635,13 +669,11 @@ export default {
         this.companyForm.auth_token = this.staffData.auth_token;
         this.companyForm.country_code = this.country_code;
         this.companyForm.created_by_me = "1";
-        console.log("company data", this.companyForm);
         this.isPageFilled = true;
         this.isSubmitted = true;
         SignupService.companyBasicInfo(this.companyForm)
           .then((response) => {
             if (response.data.status) {
-              console.log("COMPANY INFOMATION", response.data.data);
               this.$store.dispatch("getCompanyInfoDetails", response.data.data);
               // set local storage Data
               if (
@@ -688,16 +720,18 @@ export default {
       this.country_code = "";
       this.companyForm = {
         company: "",
-        country: null,
-        main_industry: null,
-        sub_industry: null,
-        corporation_legal_form: null,
-        company_role: null,
-        region: null,
+        country: "",
+        state: "",
+        city: "",
+        main_industry: "",
+        sub_industry: "",
+        corporation_legal_form: "",
+        company_role: "",
+        region: "",
         phonenumber: "",
-        incorporation_year: null,
+        incorporation_year: "",
         client_logo: "",
-        detailed_industry: null,
+        detailed_industry: "",
       };
     },
 
@@ -745,7 +779,6 @@ export default {
       if (files != "undefined" && files.length > 0) {
         var filename = files[0].name;
         const fileExtension = filename.split(".").pop();
-        console.log("file extention type", fileExtension);
         if (!allowedExtensions.includes(fileExtension)) {
           errorhandler(" File type must be (.png , .jpg , .jpeg) only.");
         } else {
@@ -782,6 +815,9 @@ export default {
     },
 
     onChangeCountry() {
+      this.$store.dispatch("GET_STATES_BY_COUNTRY", "");
+      this.$store.dispatch("GET_CITIES_BY_STATE_ID", "");
+      this.getAllStates(this.companyForm.country);
       this.selectedCountryCode(+this.companyForm.country);
     },
 
@@ -795,6 +831,25 @@ export default {
     getCountries() {
       this.$store.dispatch("GET_COUNTRIES");
     },
+    // get states lists
+    // id
+    getAllStates(id) {
+      if (id) {
+        this.$store.dispatch("GET_STATES_BY_COUNTRY", id);
+      } else {
+        this.$store.dispatch("GET_STATES_BY_COUNTRY");
+      }
+    },
+
+    // get city lists
+    // id
+    getAllCites(id) {
+      if (id) {
+        this.$store.dispatch("GET_CITIES_BY_STATE_ID", id);
+      } else {
+        this.$store.dispatch("GET_CITIES_BY_STATE_ID");
+      }
+    },
 
     checkCompany() {
       if (this.staffData != null) {
@@ -802,8 +857,6 @@ export default {
           auth_token: this.staffData.auth_token,
         }).then((resp) => {
           if (resp.data.status) {
-            console.log("there company is already setup", resp.data.data);
-
             // update session Storage
             if (sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1") != null) {
               updateSessionStorage("OiJKV1QiLCJhbGciOiJIUzI1", [
@@ -835,7 +888,6 @@ export default {
             } else if (!resp.data.data.is_second_step_complete) {
               this.$router.push({ name: "company-step-two" });
             } else {
-              console.log("kk step 1");
               this.$router.push({ name: "signin-verify-account" });
             }
             // this.$router.push({ name: "Dashboard" });

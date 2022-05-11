@@ -23,7 +23,7 @@
 <script>
 import Header from "../components/Shared/Header.vue";
 import Sidebar from "../components/Shared/Sidebar.vue";
-import Loader from "../components/Shared/Loadder.vue";
+import Loader from "../components/Shared/Loader.vue";
 import { mapGetters } from "vuex";
 export default {
   components: {

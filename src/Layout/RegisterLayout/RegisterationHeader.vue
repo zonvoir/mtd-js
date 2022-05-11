@@ -10,40 +10,7 @@
     </div>
     <!-- brand logo Ends  -->
     <Language />
-    <!-- <div class="language_wrap">
-      <Dropdown
-        v-model="selectedLanguage"
-        :options="laguage"
-        optionLabel="label"
-        class="language_dropdown"
-        placeholder="Select a company"
-      >
-        <template #value="slotProps">
-          <div class="company-item company-item-value" v-if="slotProps.value">
-            <span class="company_item_name m-r-6">{{
-              slotProps.value.label
-            }}</span>
-            <img
-              v-if="slotProps.value.icon"
-              class="img_logo"
-              :src="slotProps.value.icon"
-            />
-          </div>
-        </template>
-        <template #option="slotProps">
-          <div class="company-item">
-            <span class="company_item_name m-r-3">{{
-              slotProps.option.label
-            }}</span>
-            <img
-              v-if="slotProps.option.icon"
-              class="img_logo"
-              :src="slotProps.option.icon"
-            />
-          </div>
-        </template>
-      </Dropdown>
-    </div> -->
+
     <!-- stepper begins -->
     <div class="stepper_container">
       <ul class="stepper_wrap">
@@ -85,9 +52,7 @@
             </div></a
           >
         </li>
-        <!-- {{
-          invitedUserData === null
-        }} -->
+
         <li v-if="invitedUserData === null" class="">
           <a class="step">
             <div
@@ -117,18 +82,10 @@ export default {
     return {
       invitedUserData: JSON.parse(localStorage.getItem("bWFInpvitedbpbUser")),
       pages: ["register", "career", "company"],
-      // currentUrl: "",
-      // selectedLanguage: { value: "1", label: "En", icon: "K_Icons/flag1.svg" },
-
-      // laguage: [
-      //   { value: "1", label: "En", icon: "ukflag.png" },
-      //   { value: "2", label: "Ge", icon: "K_Icons/flag1.svg" },
-      // ],
     };
   },
 
   components: {
-    // Dropdown,
     Language,
   },
 
@@ -144,11 +101,6 @@ export default {
       return this.currentUrl;
     },
   },
-  // updated() {
-  //   let url = this.$route.path.split("/")[2];
-  //   console.log("stepper header updated", url);
-  //   this.$store.dispatch("GET_ACTIVE_PAGE", url);
-  // },
 
   created() {
     let url = this.$route.path.split("/")[2];
@@ -156,9 +108,6 @@ export default {
   },
 
   methods: {
-    // onChangeLanguage() {
-    //   console.loog("selected language", this.selectedLanguage);
-    // },
     getActiveClass(value) {
       return {
         step_not_visited: "expired",

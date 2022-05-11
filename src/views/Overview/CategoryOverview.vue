@@ -24,7 +24,6 @@
                   class="btn-primary btn btn-set text-uppercase"
                 >
                   Start Now
-                  <!-- {{ $t("category_details.overiewTab.buttons.start") }} -->
                 </button>
               </div>
             </div>
@@ -129,15 +128,18 @@
       </div>
     </div>
   </div>
+  <QuestionnaireModal ref="questinnaire_comp" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 
 import DonutChart from "../../components/Shared/DonutChart.vue";
+import QuestionnaireModal from "../Questionnarie/QuestionnaireModal.vue";
 export default {
   components: {
     DonutChart,
+    QuestionnaireModal,
   },
   data() {
     return {
@@ -153,23 +155,16 @@ export default {
   computed: {
     ...mapGetters({
       questionnaireDetails: "questionnaireDetails",
-      category: "questionnaire",
+      category: "questionnaireCategoryDetails",
     }),
   },
   created() {
-    console.log("kuldip  Details", this.questionnaireDetails);
     this.departmentId = this.$route.params.did;
     this.categoryID = this.$route.params.id;
   },
   methods: {
     startQuestionnarie() {
-      this.$router.push({
-        name: "questionnarie-test",
-        params: {
-          departmentid: this.departmentId,
-          categoryId: this.categoryID,
-        },
-      });
+      this.$store.dispatch("GET_QUIZ_MODAL_STATUS", true);
     },
   },
 };
@@ -203,7 +198,7 @@ export default {
   font-weight: 400;
   line-height: 20px;
   color: #8f9bb3;
-  height: 240px;
+  height: 322px;
   margin-bottom: 0;
 }
 </style>

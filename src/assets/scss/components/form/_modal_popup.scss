@@ -1,16 +1,103 @@
 // sweetAlert
-.swal2-styled.swal2-confirm {
-  background-color: #7900d8 !important;
+.swal2-container {
+  font-family: Inter !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #222b45;
+  .swal2-backdrop-show {
+    border: 1px solid rgb(255, 255, 255) !important;
+    box-shadow: 0px 10px 15px rgba(169, 180, 208, 0.89) !important;
+  }
+  .swal2-warning {
+    width: 3em;
+    height: 3em;
+    margin: 1.3em auto 0.6em;
+    .swal2-icon-content {
+      display: flex;
+      align-items: center;
+      font-size: 2.4em;
+    }
+  }
+  .swal2-title {
+    position: relative;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 !important;
+    color: #222b45;
+    font-size: 1.35em;
+  }
+  .swal2-actions {
+    margin: 0.75em auto 0;
+    .swal2-confirm {
+      background-color: #7900d8 !important;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 14px !important;
+      cursor: pointer;
+      height: 40px;
+    }
+    .swal2-cancel {
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      height: 40px;
+      background-color: #edf1f7 !important;
+      box-shadow: none;
+      border-color: #edf1f7;
+      outline: none;
+      color: #222b45;
+      &:hover {
+        background-color: #edf1f7 !important;
+        box-shadow: none;
+        border-color: #edf1f7;
+        outline: none;
+        color: #000000 !important;
+      }
+    }
+  }
+  .swal2-html-container {
+    z-index: 1;
+    justify-content: center;
+    margin: 0.5em 0.5em 0.3em;
+    padding: 0;
+    overflow: auto;
+    color: #8f9bb3;
+    font-size: 1.125em;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
 }
-.swal2-title {
-  position: relative;
-  max-width: 100%;
-  margin: 0;
-  padding: 0.2em 1em 0;
-  color: inherit;
-  font-size: 1.65em;
-  font-weight: 600;
-  text-align: center;
-  text-transform: none;
-  word-wrap: break-word;
+
+.sec_scrollbar {
+  height: 65vh;
+  overflow-y: auto;
+  padding-bottom: 60px;
+  /* width */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #f7f9fc;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #e1e2e4;
+    border-radius: 4px;
+    width: 10px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #cbcbcc;
+    width: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
 }

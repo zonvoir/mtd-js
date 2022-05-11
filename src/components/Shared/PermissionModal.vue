@@ -95,14 +95,13 @@ export default {
 
   computed: {
     ...mapGetters({
-      staffInfo: "staffData",
+      staffInfo: "staffDataLocal",
       permissonList: "memberPermissions",
       membersDepartment: "alocatedDepartments",
     }),
   },
   methods: {
     getLatestPermission(val) {
-      console.log("updated department permissions", val);
       this.updatedPermissionArr = this.permissionArr.filter(
         (dept, idx, deptArr) => {
           if (dept.id == val.dept_id) {
@@ -119,7 +118,9 @@ export default {
         auth_token: this.staffInfo.auth_token,
         staffid: this.currentStaffId,
       };
+      this.$store.dispatch("SET_LOADING_STATUS", true);
       CompanyService.setMemberPermission(data).then((res) => {
+        this.$store.dispatch("SET_LOADING_STATUS", false);
         if (res.data.status) {
           this.permissionArr = res.data.data;
           this.departmentArr = [];
