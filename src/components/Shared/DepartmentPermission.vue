@@ -1,9 +1,6 @@
 <template>
   <div>
     <div class="team_wrapper m-b-20">
-      <div class="m-b-24">
-        <h4 class="m-b-0 title-dark">Description Permission</h4>
-      </div>
       <div class="m-b-12">
         <p class="staff_desc">
           Simply dummy text of the printing and typesetting industry. Lorem

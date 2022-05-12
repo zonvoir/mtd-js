@@ -12,6 +12,7 @@
       <EssentialLink
         class="menu_link"
         v-for="link in essentialLinks"
+        :currentUrl="activeMenu"
         :key="link.title"
         v-bind="link"
       />
@@ -24,6 +25,7 @@
 <script>
 import EssentialLink from "./EssentialLinks.vue";
 import logo from "../../assets/images/mtd-logos-rgb_Main-Logo-Size-1-pos.png";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -75,8 +77,15 @@ export default {
       ],
     };
   },
+
   components: {
     EssentialLink,
+  },
+
+  computed: {
+    ...mapGetters({
+      activeMenu: "activeMenu",
+    }),
   },
   created() {
     console.log("vis", this.$i18n.t("personalAccount.personalAccount"));

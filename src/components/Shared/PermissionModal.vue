@@ -4,8 +4,11 @@
   </div>
   <div class="modal fade" ref="invitationModal">
     <div class="modal-dialog modal-xl invitation_dialog">
-      <div class="modal-content invitaion_content">
+      <div class="modal-content invitaion_content perms_content">
         <div class="modal-header invite_header">
+          <div class="">
+            <h4 class="m-b-0 title-dark">Description Permission</h4>
+          </div>
           <div class="m-l-auto">
             <button
               @click="closeModal"
@@ -189,7 +192,10 @@ export default {
 .invitation_dialog {
   width: 80%;
 }
-.invitaion_content {
+.perms_content {
+  padding: 10px 0;
+}
+.invitaion_content perms_content {
   background: #ffffff;
   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
   border-radius: 4px;

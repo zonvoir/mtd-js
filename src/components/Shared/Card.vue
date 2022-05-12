@@ -106,6 +106,7 @@ export default {
         this.page_parmas,
         componentId
       );
+
       this.$router.push({
         name: this.page_name,
         params: this.page_parmas,

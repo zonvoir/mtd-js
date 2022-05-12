@@ -5,7 +5,7 @@
         <div class="view_title_wrap pb-15">
           <div class="page_title_wrap">
             <div v-if="dept" class="m-r-6">
-              <button @click="$router.back()" class="btn btn-transaprent">
+              <button @click="$router.go(1)" class="btn btn-transaprent">
                 <img src="K_Icons/arrowhead-right.svg" alt="" />
               </button>
             </div>

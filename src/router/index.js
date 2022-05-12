@@ -49,10 +49,13 @@ import PaymentLayout from "../views/Payment/PaymentLayout.vue";
 import PaymentInvoice from "../views/Payment/PaymentInvoice.vue";
 import PaymentList from "../views/Payment/PaymentList.vue";
 import QuestionHint from "../views/Questionnarie/components/QuestionHint.vue";
+
+import store from "../store/index";
 import nProgress from "nprogress";
 import { loadLocaleMessages, setI18nLanguage, setupI18n } from "../i18n";
 import CommonService from "../Services/CommonService";
 import errorhandler from "../utils/Error";
+// import categoryRoutes from "./routes/category-routes";
 
 const locale = localStorage.getItem("language") || "en";
 const i18n = setupI18n({
@@ -223,7 +226,7 @@ const routes = [
           },
         ],
       },
-
+      // category Routes
       {
         path: "department/:did/categories",
         component: CategoryLayout,
@@ -353,11 +356,13 @@ const routes = [
         path: "hint",
         component: QuestionHint,
       },
+      // find Partners
       {
         path: "find-partner",
         component: FindPartner,
         name: "find-partner",
       },
+      // overview pages
       {
         path: "overview",
         component: OverviewLayout,
@@ -531,17 +536,18 @@ router.beforeEach(async (to, from, next) => {
 
 router.afterEach((to, from) => {
   // Complete the animation of the route progress bar.
-  console.log(to, from);
+  console.log(from);
+  let routeArr = to.path.split("/").filter((e) => String(e).trim());
+
+  console.log(routeArr[0]);
+  store.commit("getActiveMenu", routeArr[0]);
   const el = document.body;
   let activePage = to.path.split("/")[1];
-  // if (activePage === "signup" || activePage === "user") {
   if (activePage === "signup") {
     let activeSubPage = to.path.split("/")[2];
-    // console.log("current path", to.path.split("/")[2]);
     if (activeSubPage === "verify-account") {
       el.classList.add("auth_verify_account");
     } else {
-      // remove auth_verify_account  class here
       el.classList.remove("auth_verify_account");
     }
     el.classList.add("auth_pages");

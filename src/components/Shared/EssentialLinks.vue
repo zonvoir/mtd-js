@@ -30,6 +30,10 @@ export default {
       type: String,
       default: "",
     },
+    currentUrl: {
+      type: String,
+      default: "",
+    },
 
     icon: {
       type: String,
@@ -40,23 +44,18 @@ export default {
       default: 1,
     },
   },
+
   data() {
     return {
       tabId: 1,
-      currentUrl: "",
     };
   },
 
   methods: {
     changeRoute(data) {
       this.$router.push({ name: data });
-      this.getCurrentRoute();
     },
-    getCurrentRoute() {
-      let url = this.$route.path;
-      this.currentUrl = this.getRoutePath(url);
-      console.log("current url kk", this.currentUrl);
-    },
+
     getRoutePath(val) {
       return val.split("/")[1];
     },

@@ -222,8 +222,6 @@ export default {
             this.companyListArr = this.companies.map((item, indx, itemsArr) => {
               if (item.created_by_me == "1") {
                 defCompany = item.company_id;
-                // localStorage.setItem("selected_company", defCompany);
-                console.log("defCompany", defCompany);
               } else if (itemsArr.length - 1 === indx) {
                 defCompany = item.company_id;
               }

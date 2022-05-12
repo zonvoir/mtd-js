@@ -12,6 +12,7 @@ export default createStore({
 
   state: {
     agreedToPrivacy: false,
+    activeMenu: "overview",
     loadingStatus: false,
     staffDataLocal: undefined,
     internetStatus: undefined,
@@ -27,7 +28,6 @@ export default createStore({
         );
       }
       if (navigator.onLine) {
-        // this.connectionStatus = "Connected to internet.";
         state.internetStatus = true;
         console.log("Connected to internet.");
       } else {
@@ -40,6 +40,9 @@ export default createStore({
       localStorage.setItem("agreedToPrivacy", true);
       state.agreedToPrivacy = true;
     },
+    getActiveMenu(state, val) {
+      state.activeMenu = val;
+    },
     getLoadingStatus(state, val) {
       state.loadingStatus = val;
     },
@@ -51,6 +54,10 @@ export default createStore({
     },
   },
   actions: {
+    SET_ACTIVE_MENU: ({ commit }, val) => {
+      commit("getActiveMenu", val);
+    },
+
     SET_LOADING_STATUS: ({ commit }, val) => {
       commit("getLoadingStatus", val);
     },
@@ -62,6 +69,7 @@ export default createStore({
     },
   },
   getters: {
+    activeMenu: (state) => state.activeMenu,
     internetStatus: (state) => state.internetStatus,
     staffDataLocal: (state) => state.staffDataLocal, //get local storage data
     loadingStatus: (state) => state.loadingStatus,
