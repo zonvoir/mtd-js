@@ -439,7 +439,7 @@ export default {
 }
 .option_wrapper {
   // padding: 0 0 0 36px;
-  padding: 0 0 0 5px;
+  padding: 5px 0 0 5px;
 }
 .question_title {
   font-size: 22px;

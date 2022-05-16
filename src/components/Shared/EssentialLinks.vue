@@ -53,6 +53,7 @@ export default {
 
   methods: {
     changeRoute(data) {
+      console.log("data", data);
       this.$router.push({ name: data });
     },
 

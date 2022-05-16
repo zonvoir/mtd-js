@@ -32,8 +32,6 @@ import CategoryOverview from "../views/Overview/CategoryOverview.vue";
 import CategoryResults from "../views/Overview/CategoryResults.vue";
 import CategoryTeamManagement from "../views/Overview/CategoryTeamManagement.vue";
 import CategoryQuestionList from "../views/Overview/CategoryQuestionList.vue";
-// import QuestionnarieLayout from "../Layout/QuestionnarieLayout.vue";
-// import QuestionnarieTest from "../views/Questionnarie/QuestionnarieTest.vue";
 import ProjectsLayout from "../views/Projects/ProjectsLayout.vue";
 import ProjectList from "../views/Projects/ProjectList.vue";
 import CreateProject from "../views/Projects/CreateProject.vue";
@@ -81,7 +79,6 @@ function guardMyroute(_to, _from, next) {
       ({ data }) => {
         if (!data.status) {
           localStorage.removeItem("bWFpbCI6Inpvb");
-          // next("/user/login");
           next("/signup/signin");
         }
       }
@@ -89,7 +86,6 @@ function guardMyroute(_to, _from, next) {
     isAuthenticated = false;
   }
   if (isAuthenticated) {
-    // next("/user/login"); // go to '/login';
     next("/signup/signin"); // go to '/login';
   } else {
     if (
@@ -101,10 +97,8 @@ function guardMyroute(_to, _from, next) {
     } else if (!user.is_career_information_setup && user.invitation_id) {
       next({ name: "signup-career" });
     } else if (!user.is_first_step_complete) {
-      console.log("I kk1 company first step");
       next({ name: "company-step-one" });
     } else if (!user.is_second_step_complete) {
-      console.log("I kk2 company second step");
       next({ name: "company-step-two" });
     } else {
       console.log("no one will run");
@@ -504,6 +498,7 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+
   // mode: history,
 });
 

@@ -119,7 +119,6 @@
                   $t("login.otp_step.already_account")
                 }}</span>
                 <router-link
-                  target="_blank"
                   class="custom-link"
                   :to="{ name: 'signup-signin' }"
                   >{{ $t("login.otp_step.buttons.sign_in") }}</router-link
@@ -217,7 +216,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      staffInfo: "staffData",
+      staffInfo: "staffDataLocal",
     }),
   },
 

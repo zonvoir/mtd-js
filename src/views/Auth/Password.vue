@@ -96,7 +96,6 @@
               <div class="">
                 <div class="forgot_action_wrap m-l-auto">
                   <router-link
-                    target="_blank"
                     class="muted_link"
                     :to="{ name: 'signin-update-password' }"
                   >
@@ -132,7 +131,6 @@
                   $t("login.password_step.no_account")
                 }}</span>
                 <router-link
-                  target="_blank"
                   class="custom-link"
                   :to="{ name: 'signup-register' }"
                   >{{ $t("login.password_step.buttons.sign_up") }}</router-link

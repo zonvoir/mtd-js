@@ -73,7 +73,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      staffInfo: "staffData",
+      staffInfo: "staffDataLocal",
       allDepartments: "staffsDepartment",
       ownRole: "roleInCompany",
     }),

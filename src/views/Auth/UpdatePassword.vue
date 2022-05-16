@@ -59,10 +59,7 @@
           </div>
           <div class="im-user flex justify-center">
             <span class="para14"> No account yet ?</span>
-            <router-link
-              target="_blank"
-              class="custom-link"
-              :to="{ name: 'signup-register' }"
+            <router-link class="custom-link" :to="{ name: 'signup-register' }"
               >Sign Up</router-link
             >
           </div>

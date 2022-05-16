@@ -20,13 +20,15 @@
           </div>
           <div class="c_details_wrapper">
             <h4 class="text_heading fs-22 fw-700 m-b-9">
-              {{ companyAllInformation.company }},<span class="m-l-4">
-                {{ companyAllInformation.incorporation_year }}
-              </span>
+              {{ companyAllInformation.company }}
+              <span class="m-l-8 comp_id"> IN 5647234890 </span>
             </h4>
             <div class="d-inline-flex">
               <p class="m-b-0 text_light fs-16 fw-500">
                 {{ getTitleById(countryLists, companyAllInformation.country) }}
+              </p>
+              <p class="m-b-0 text_light fs-16 street_address fw-500">
+                Address Street Number
               </p>
               <span class="ph_no"
                 ><span class="text_light_code m-r-2">
@@ -202,6 +204,13 @@
             </h6>
           </div>
           <div class="col-lg-3 m-b-26">
+            <CustomRateModal>
+              <template v-slot:exchange-rate-button>
+                <a class="primary-link link_edit">{{
+                  $t("company_profile.company_tab.company_details.buttons.edit")
+                }}</a>
+              </template>
+            </CustomRateModal>
             <!-- <h6 class="c_base_head" @click="openCustomModal">
               {{
                 $t(
@@ -212,6 +221,25 @@
                 $t("company_profile.company_tab.company_details.buttons.edit")
               }}</a>
             </h6> -->
+          </div>
+          <div class="col-lg-3 m-b-26">
+            <h6 class="c_base_head">Country</h6>
+            <h6 class="c_base_value">
+              {{ getTitleById(regionLists, companyAllInformation.region) }}
+            </h6>
+          </div>
+          <div class="col-lg-3 m-b-26">
+            <h6 class="c_base_head">Economic Region</h6>
+            <h6 class="c_base_value">
+              <span>
+                {{
+                  companyAllInformation.currency_symbol
+                    ? companyAllInformation.currency_symbol
+                    : "$"
+                }}
+              </span>
+              {{ companyAllInformation.total_revenue }}
+            </h6>
           </div>
         </div>
       </div>
@@ -661,7 +689,7 @@ const tablist = [
   },
 ];
 import CompanyInfo from "./components/CompanyInfoTile.vue";
-
+import CustomRateModal from "./components/CustomRateModal.vue";
 import {
   getFirstLetter,
   getlabelValue,
@@ -680,6 +708,7 @@ export default {
 
   components: {
     CompanyInfo,
+    CustomRateModal,
   },
 
   created() {
@@ -746,6 +775,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.comp_id {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 16px;
+  color: rgba(121, 0, 216, 0.5);
+}
 .default_logo {
   justify-content: center;
   align-content: center;
@@ -770,6 +805,9 @@ export default {
   display: block;
   text-align: center;
   background-color: #222b45;
+}
+.street_address {
+  margin-left: 20px;
 }
 .ph_no {
   margin-left: 20px;

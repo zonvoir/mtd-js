@@ -52,7 +52,6 @@
               <div class="error_data_wrap">
                 <div class="forgot_action_wrap m-l-auto">
                   <router-link
-                    target="_blank"
                     class="muted_link"
                     :to="{ name: 'signin-update-password' }"
                   >
@@ -87,7 +86,6 @@
                   {{ $t("login.email_step.no_account") }}</span
                 >
                 <router-link
-                  target="_blank"
                   class="custom-link"
                   :to="{ name: 'signup-register' }"
                   >{{ $t("login.email_step.buttons.sign_up") }}</router-link
@@ -105,7 +103,7 @@
 import { required, email } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import loginService from "../../Services/LoginService";
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 import MainLogo from "../../components/Shared/MainLogo.vue";
 import errorhandler from "../../utils/Error";
 export default {
@@ -119,11 +117,11 @@ export default {
     };
   },
 
-  computed: {
-    ...mapGetters({
-      staffInfo: "staffData",
-    }),
-  },
+  // computed: {
+  //   ...mapGetters({
+  //     staffInfo: "staffData",
+  //   }),
+  // },
   components: {
     MainLogo,
   },
@@ -148,8 +146,8 @@ export default {
   },
   beforeCreate() {
     localStorage.removeItem("bWFInpvitedbpbUser");
-    // localStorage.removeItem("bWFpbCI6Inpvb");
-    localStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
+    sessionStorage.removeItem("QiLC1IUzI1JhbGciOiKV");
+    sessionStorage.removeItem("OiJKV1QiLCJhbGciOiJIUzI1");
   },
 
   created() {

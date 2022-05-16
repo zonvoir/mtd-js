@@ -76,7 +76,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      staffInfo: "staffData",
+      staffInfo: "staffDataLocal",
       categoriesArr: "allCategories",
       permissonList: "memberPermissions",
       allDepartments: "alocatedDepartments",

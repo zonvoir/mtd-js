@@ -190,10 +190,9 @@
                       </a>
                     </li>
                   </ul>
-                  <div
-                    v-if="ownRole.view_company_detail && people.set_permissions"
-                    class="permission_btns"
-                  >
+
+                  <!-- {{ ownRole.view_company_detail && people.set_permissions }} -->
+                  <div v-if="people.set_permissions" class="permission_btns">
                     <PermissionModal :key="people.staffid">
                       <template
                         v-slot:permission-button="{ openPermissionModal }"
@@ -257,7 +256,7 @@ export default {
     return {
       searchIcon,
       // myRole: "",
-      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      // staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
 
       myRole: [],
       userKeyword: undefined,
@@ -271,7 +270,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      staffInfo: "staffData",
+      staffData: "staffDataLocal",
       membersList: "companyMembers",
       ownRole: "roleInCompany",
       categoriesList: "allCategories",
@@ -315,7 +314,7 @@ export default {
           role_id: this.filterRole,
           department_id: this.dept_list,
           search: this.userKeyword,
-          auth_token: this.staffInfo.auth_token,
+          auth_token: this.staffData.auth_token,
         };
         this.filterMemberList(data);
       } else {
@@ -342,7 +341,7 @@ export default {
         department_id: this.dept_list.map(Number),
         category_id: this.categy_list.map(Number),
         search: this.userKeyword,
-        auth_token: this.staffInfo.auth_token,
+        auth_token: this.staffData.auth_token,
       };
       this.filterMemberList(data);
     },

@@ -72,10 +72,9 @@
               <span class="para14">
                 {{ $t("career_step.already_account") }}</span
               >
-              <a @click="goTo" target="_blank" class="custom-link">{{
+              <a @click="goTo" class="custom-link">{{
                 $t("career_step.buttons.sign_in")
               }}</a>
-              <!-- :to="{ name: 'signup-signin' }" -->
             </div>
           </div>
         </div>

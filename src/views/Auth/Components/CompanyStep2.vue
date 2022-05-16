@@ -41,6 +41,9 @@
                 </h5>
 
                 <div class="row">
+                  <!-- :placeholder="
+                          $t('company.step_two.form.placeholder.region')
+                        " -->
                   <div class="col-lg-6">
                     <div class="k_form_group k_select_single">
                       <MultiSelect
@@ -48,9 +51,7 @@
                         :disabled="!companyForm.operating_international"
                         optionLabel="label"
                         optionValue="value"
-                        :placeholder="
-                          $t('company.step_two.form.placeholder.region')
-                        "
+                        placeholder="Economic Region"
                         :options="filterdRegionList(regionLists)"
                         @change="onChangeRegion"
                         v-model="companyForm.region"
@@ -292,7 +293,7 @@
                   <span class="para14">
                     {{ $t("company.step_two.already_account") }}</span
                   >
-                  <a @click="goTo" target="_blank" class="custom-link">{{
+                  <a @click="goTo" class="custom-link">{{
                     $t("company.step_two.buttons.sign_in")
                   }}</a>
                 </div>

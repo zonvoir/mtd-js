@@ -555,12 +555,13 @@
                           }}</span>
                         </span>
                       </div>
+
                       <div class="in_department_wrap d-flex">
                         <span class="att_val">
                           {{ career.division ? career.division : "N/A" }}</span
                         >
                         <span class="att_val m-l-8">{{
-                          career.department_list
+                          career.department_list.length
                             ? formatDepartments(career.department_list)
                             : "N/A"
                         }}</span>
@@ -736,13 +737,10 @@ export default {
         { value: "en", label: "English", selected: true },
         { value: "de", label: "German" },
       ],
-      // industryLists: [],
-      // departmentLists: [],
-      // seniorityLevels: [],
+
       profileData: {},
       personalAccount: {
         auth_token: "",
-        // position: "",
         firstname: "",
         lastname: "",
         username: "",
@@ -753,10 +751,6 @@ export default {
         old_password: "",
         password: "",
         confirm_password: "",
-        // company: "",
-        // industry: null,
-        // seniority_level: null,
-        // department: [],
       },
     };
   },

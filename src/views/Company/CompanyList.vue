@@ -175,6 +175,12 @@ export default {
       companyLists: "staffsCompanies",
     }),
   },
+  mounted() {
+    Array.from(
+      document.querySelectorAll('a[data-bs-toggle="tooltip"]')
+    ).forEach((tooltipNode) => new Tooltip(tooltipNode));
+  },
+
   methods: {
     // get member name format
     formatMemberName(str) {
@@ -198,11 +204,6 @@ export default {
       this.$store.dispatch("getActiveCompany", id);
       this.$router.push({ name: "company-profile" });
     },
-  },
-  mounted() {
-    Array.from(
-      document.querySelectorAll('a[data-bs-toggle="tooltip"]')
-    ).forEach((tooltipNode) => new Tooltip(tooltipNode));
   },
 };
 </script>

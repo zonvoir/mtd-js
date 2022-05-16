@@ -365,7 +365,6 @@
                   $t("register_step.already_account")
                 }}</span>
                 <router-link
-                  target="_blank"
                   class="custom-link"
                   :to="{ name: 'signup-signin' }"
                   >{{ $t("register_step.buttons.sign_in") }}</router-link

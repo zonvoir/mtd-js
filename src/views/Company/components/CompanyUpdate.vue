@@ -26,7 +26,7 @@
             <div class="d-block m-r-10">
               <input
                 type="text"
-                class="form-control k_input_update_company m-r-10"
+                class="form-control k_input_update_company street_address"
                 :placeholder="
                   $t(
                     'company_profile.company_tab.company_setup_update.form.placeholder.company_name'
@@ -61,10 +61,8 @@
                 minlength="4"
                 @keypress="isNumber"
                 class="form-control k_input_update_company"
-                :placeholder="
-                  $t(
-                    'company_profile.company_tab.company_setup_update.form.placeholder.year_of_incorporation'
-                  )
+                placeholder="
+                  CompanyId
                 "
                 @blur="v$.companyForm.incorporation_year.$touch"
                 v-model="companyForm.incorporation_year"
@@ -114,7 +112,6 @@
             </div>
           </div>
           <div class="d-inline-flex">
-            <!-- {{ companyForm.country }} -->
             <div class="d-block m-r-10">
               <Dropdown
                 class="borderless_select country"
@@ -143,6 +140,33 @@
                   {{
                     $t(
                       "company_profile.company_tab.company_setup_update.form.invalid_msgs.country_headquater_is_required"
+                    )
+                  }}
+                </span>
+              </div>
+            </div>
+            <div class="d-block m-r-10">
+              <input
+                type="text"
+                class="form-control k_input_update_company"
+                placeholder=" Street Address"
+                @blur="v$.companyForm.company.$touch"
+                v-model="companyForm.company"
+                :class="{
+                  'is-invalid': v$.companyForm.company.$error,
+                }"
+              />
+              <div
+                v-if="v$.companyForm.company.$error"
+                class="invalid-feedback text-left"
+              >
+                <span
+                  v-if="v$.companyForm.company.required.$invalid"
+                  class="text-left fs-14"
+                >
+                  {{
+                    $t(
+                      "company_profile.company_tab.company_setup_update.form.invalid_msgs.company_name_is_required"
                     )
                   }}
                 </span>
@@ -476,6 +500,34 @@
             </template>
           </CustomRateModal>
         </div>
+        <div class="col-lg-3 m-b-26">
+          <h4 class="c_base_head">Country</h4>
+          <Dropdown
+            class="borderless_select"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="
+                   Country
+                  "
+            :options="currencyLists"
+            @change="onChangeCurrency"
+            v-model="companyForm.currency"
+          />
+        </div>
+        <div class="col-lg-3 m-b-26">
+          <h4 class="c_base_head">Economic Region</h4>
+          <Dropdown
+            class="borderless_select"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="
+                   Econmic Region
+                  "
+            :options="currencyLists"
+            @change="onChangeCurrency"
+            v-model="companyForm.currency"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -768,6 +820,10 @@ export default {
     color: #ffffff;
   }
 }
+.street_address {
+  margin-left: 20px;
+  margin-right: 20px;
+}
 
 .place_holder {
   &::placeholder {
@@ -826,6 +882,9 @@ export default {
     border-radius: 0;
     border: 0;
     box-shadow: none;
+    &:focus {
+      outline: 1px solid #db2c66;
+    }
   }
   &:focus {
     outline: 1px solid #e4e9f2;
@@ -858,6 +917,10 @@ export default {
     border-radius: 0;
     border: 0;
     box-shadow: none;
+    &:focus {
+      width: auto;
+      outline: 1px solid #db2c66;
+    }
   }
 
   &:focus {

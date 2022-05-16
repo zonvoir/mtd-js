@@ -5,7 +5,7 @@
     </div>
     <div class="container">
       <div class="register_auth_wrapper">
-        <div class="">
+        <div class="" v-if="usersCompanies.length">
           <div class="">
             <div class="main-heading-wrap text-center">
               <h2 class="main-heading">Add a new company</h2>
@@ -90,6 +90,11 @@
             </div>
           </div>
         </div>
+        <!-- <div v-else class="main-heading-wrap text-center">
+          <h2 class="main-heading success_heading">
+            Oops! Something went wrong
+          </h2>
+        </div> -->
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@
         <div class="view_title_wrap pb-15">
           <div class="page_title_wrap">
             <div v-if="dept" class="m-r-6">
-              <button @click="$router.go(1)" class="btn btn-transaprent">
+              <button @click="$router.back()" class="btn btn-transaprent">
                 <img src="K_Icons/arrowhead-right.svg" alt="" />
               </button>
             </div>
@@ -55,8 +55,7 @@
 <script>
 import { mapGetters } from "vuex";
 import TabsHr from "../../components/Shared/TabsHr.vue";
-// import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
-// import errorhandler from "../../utils/Error";
+
 import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
 export default {
   data() {
@@ -84,16 +83,6 @@ export default {
     }),
   },
   created() {
-    //     this.departmentId = this.$route.params.did;
-    //     this.categoryID = this.$route.params.id;
-    //     this.authToken = this.staffData.auth_token;
-    //     if (this.departmentId && this.categoryID && this.authToken) {
-    //       let data = {
-    //         auth_token: this.authToken,
-    //         department_id: this.departmentId,
-    //         category_id: this.categoryID,
-    //       };
-    // this.$store.dispatch("GET_QUESTIONNAIRE_ALL_DATA", data);
     //     }
     this.tablist = [
       {
@@ -153,35 +142,7 @@ export default {
     openModal() {
       this.$store.dispatch("GET_QUIZ_MODAL_STATUS", true);
     },
-    // getDeptAndCategoryDetails(data) {
-    //   console.log(this.category);
-    //   this.$store.dispatch("SET_LOADING_STATUS", true);
-    //   QuestionnaireService.getOneCategory(data).then((res) => {
-    //     this.$store.dispatch("SET_LOADING_STATUS", false);
-    //     if (res.data.status) {
-    //       this.$store.dispatch(
-    //         "GET_QUESTIONNAIRE",
-    //         res.data.data.category_details
-    //       );
 
-    //       console.log(this.category);
-
-    //       this.$store.dispatch(
-    //         "GET_QUESTIONNAIRE_DETAILS",
-    //         res.data.data.questionnaire.detail
-    //       );
-    //       this.$store.dispatch(
-    //         "GET_QUESTIONLIST",
-    //         res.data.data.questionnaire.questions
-    //       );
-    //     } else {
-    //       errorhandler(res, this);
-    //       this.$store.dispatch("GET_QUESTIONNAIRE", []);
-    //       this.$store.dispatch("GET_QUESTIONNAIRE_DETAILS", []);
-    //       this.$store.dispatch("GET_QUESTIONLIST", []);
-    //     }
-    //   });
-    // },
     ChangeT(title) {
       this.title = title;
     },

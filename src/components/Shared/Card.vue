@@ -98,6 +98,8 @@ export default {
       financeArr: ["advanced-kpi", "kpi"],
     };
   },
+  components: {},
+
   methods: {
     sectionDetail(componentId) {
       console.log(

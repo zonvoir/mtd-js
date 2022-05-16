@@ -144,6 +144,7 @@ export default {
               department_id: $th.defaultDepartment,
               auth_token: this.authToken,
             };
+            console.log("did", { did: $th.defaultDepartment });
             this.getDefaultDeptCategories(data);
             this.defaultDeptId = { did: $th.defaultDepartment };
           }
