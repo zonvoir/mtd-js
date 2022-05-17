@@ -49,8 +49,6 @@
             </a>
           </div>
           <!-- class="img_width_small" -->
-          {{ size_width }}
-          {{ size_height }}
           <img
             :class="
               size_width > 640 && size_height > 480
