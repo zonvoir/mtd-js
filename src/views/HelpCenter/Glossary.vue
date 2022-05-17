@@ -331,6 +331,8 @@ export default {
 .kActive {
   background-color: #7900d8;
   color: #ffffff;
+  border: 1px solid #7900d8;
+  box-shadow: 1px 1px 8px rgba(147, 50, 221, 0.404);
 }
 .help_conatiner {
   background: #ffffff;

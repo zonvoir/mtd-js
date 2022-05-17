@@ -416,6 +416,7 @@ export default {
   line-height: 16px;
   color: #222b45;
 }
+
 .btns_wrap {
   position: absolute;
   bottom: 0px;
@@ -428,25 +429,30 @@ export default {
   margin: 0 auto;
   margin-right: 0;
 }
+
 .dis_btn {
   color: #7900d8;
   &:hover {
     color: #7900d8;
   }
 }
+
 .exp_wrap {
   margin-bottom: 210px;
 }
+
 .option_wrapper {
   // padding: 0 0 0 36px;
   padding: 5px 0 0 5px;
 }
+
 .question_title {
   font-size: 22px;
   font-weight: 700;
   line-height: 25px;
   color: #000000;
 }
+
 .question_expaltion {
   font-size: 14px;
   margin-bottom: 0;

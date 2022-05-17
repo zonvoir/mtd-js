@@ -362,6 +362,8 @@ button[disabled] {
   &.kActive {
     color: $white;
     background-color: $primary;
+    border: 1px solid $primary;
+    box-shadow: 1px 1px 8px rgba(147, 50, 221, 0.404);
   }
 }
 .kbtn-primary {
