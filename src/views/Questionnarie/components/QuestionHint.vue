@@ -49,6 +49,8 @@
             </a>
           </div>
           <!-- class="img_width_small" -->
+          {{ size_width }}
+          {{ size_height }}
           <img
             :class="
               size_width > 640 && size_height > 480
@@ -63,7 +65,7 @@
 
     <div class="" v-if="hintType === 'video'">
       <div class="text-center">
-        <video style="width: 42.5rem" controls>
+        <video style="width: 35.5rem" controls>
           <source :src="hint" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -72,7 +74,7 @@
 
     <div v-if="hintType === 'pdf'" class="">
       <div class="text-center">
-        <iframe :src="hint" style="width: 58rem" height="500" width=""></iframe>
+        <iframe :src="hint" style="width: 43rem" height="500" width=""></iframe>
       </div>
     </div>
   </div>
@@ -103,7 +105,7 @@ export default {
 <style lang="scss" scoped>
 .imgpart {
   text-align: center;
-  margin: 0 16%;
+  // margin: 0 16%;
   .img_part_wrap {
     position: relative;
     // &:hover {
