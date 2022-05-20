@@ -70,11 +70,9 @@
       <h6 class="empty_list_warning">Question list is empty</h6>
     </div>
   </div>
-  <QuestionnaireModal ref="questinnaire_comp" />
 </template>
 
 <script>
-import QuestionnaireModal from "../Questionnarie/QuestionnaireModal.vue";
 import { mapGetters } from "vuex";
 export default {
   data() {
@@ -86,9 +84,7 @@ export default {
     };
   },
 
-  components: {
-    QuestionnaireModal,
-  },
+  components: {},
 
   computed: {
     ...mapGetters({

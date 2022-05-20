@@ -102,6 +102,7 @@ export default {
         confirmButtonText: "OK",
       }).then((result) => {
         if (result.isConfirmed) {
+          console.log("modal close clicked");
           if (this.departmentId && this.categoryID && this.authToken) {
             let data = {
               auth_token: this.authToken,
@@ -110,6 +111,7 @@ export default {
             };
             console.log("close the modal", data);
             this.$store.dispatch("GET_QUESTIONNAIRE_ALL_DATA", data);
+            this.$store.dispatch("GET_QUIZ_MODAL_STATUS", false);
             this.modal.hide();
           }
         } else {

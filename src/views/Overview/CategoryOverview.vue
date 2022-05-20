@@ -128,18 +128,15 @@
       </div>
     </div>
   </div>
-  <QuestionnaireModal ref="questinnaire_comp" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 
 import DonutChart from "../../components/Shared/DonutChart.vue";
-import QuestionnaireModal from "../Questionnarie/QuestionnaireModal.vue";
 export default {
   components: {
     DonutChart,
-    QuestionnaireModal,
   },
   data() {
     return {
