@@ -2,7 +2,7 @@
   <div class="row g-0">
     <div class="col lg-6 m-r-20 m-b-20">
       <div class="bg-white zp-10">
-        <div class="bottom_section_wrapper zp-10">
+        <!-- <div class="bottom_section_wrapper zp-10">
           <h4 class="desc_title">
             {{ $t("category_details.overiewTab.Questionnarie") }}
           </h4>
@@ -12,7 +12,6 @@
                 {{
                   $t("category_details.overiewTab.Fill_all_the_KPI_questions")
                 }}
-                <!-- Fill all the KPI questions -->
               </p>
               <div class="m-l-auto">
                 <button
@@ -28,7 +27,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="zp-10">
           <div class="description_wrapper">
             <h4 class="m-b-0 desc_title">
@@ -160,9 +159,9 @@ export default {
     this.categoryID = this.$route.params.id;
   },
   methods: {
-    startQuestionnarie() {
-      this.$store.dispatch("GET_QUIZ_MODAL_STATUS", true);
-    },
+    // startQuestionnarie() {
+    //   this.$store.dispatch("GET_QUIZ_MODAL_STATUS", true);
+    // },
   },
 };
 </script>
