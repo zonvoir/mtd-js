@@ -30,12 +30,22 @@
             </div>
           </div>
         </div>
-        <div class="invite_btn_wrap d-flex m-l-auto" v-if="ownRole.can_invite">
-          <InvitePeopleModal>
-            <template v-slot:invite-button>
-              {{ $t("overview_index.buttons.invite_people") }}
-            </template>
-          </InvitePeopleModal>
+        <div class="d-flex m-l-auto">
+          <div class="invite_btn_wrap" v-if="ownRole.can_invite">
+            <InvitePeopleModal>
+              <template v-slot:invite-button>
+                {{ $t("overview_index.buttons.invite_people") }}
+              </template>
+            </InvitePeopleModal>
+          </div>
+          <div class="m-l-8">
+            <button
+              @click="startQuestionnarie"
+              class="btn-primary btn btn-set text-uppercase"
+            >
+              Start
+            </button>
+          </div>
         </div>
       </div>
       <!-- tabs start -->
@@ -50,12 +60,13 @@
       </div>
     </div>
   </div>
+  <QuestionnaireModal ref="questinnaire_comp" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import TabsHr from "../../components/Shared/TabsHr.vue";
-
+import QuestionnaireModal from "../Questionnarie/QuestionnaireModal.vue";
 import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
 export default {
   data() {
@@ -74,6 +85,7 @@ export default {
   components: {
     TabsHr,
     InvitePeopleModal,
+    QuestionnaireModal,
   },
   computed: {
     ...mapGetters({
@@ -139,7 +151,7 @@ export default {
   },
 
   methods: {
-    openModal() {
+    startQuestionnarie() {
       this.$store.dispatch("GET_QUIZ_MODAL_STATUS", true);
     },
 
