@@ -305,6 +305,7 @@ export default {
     },
     SearchByKeyword(event) {
       this.userKeyword = event.target.value;
+      console.log(this.userKeyword);
       if (
         this.userKeyword != "" &&
         this.userKeyword != null &&
@@ -335,7 +336,6 @@ export default {
     },
     // filter by Department
     memberFilterbyDepartment() {
-      // role_id: this.filterRole,
       let data = {
         role_id: this.myRole.map(Number),
         department_id: this.dept_list.map(Number),

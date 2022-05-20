@@ -11,20 +11,10 @@
           class="catLogo"
           alt=""
         />
-        <!-- <img
-          src="
-             K_Icons/clipboard_60_logo.svg
-              "
-          class="catLogo"
-          alt=""
-        /> -->
       </div>
       <div class="">
         <h4 class="view_title_with_catgry">
           {{ questionnaire.name }}
-          <!-- Advance KPI -->
-          <!-- {{ questionnaireDetails.department_name }} /  -->
-          <!-- <span class="catgry_name"> </span> -->
         </h4>
       </div>
       <div class="m-l-auto">

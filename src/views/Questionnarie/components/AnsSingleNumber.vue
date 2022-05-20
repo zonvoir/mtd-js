@@ -20,7 +20,6 @@
 </template>
 
 <script>
-// import maskFormatter, { maskRemover } from "../../../utils/mask-formmater";
 import numfractionMixin from "../../../mixins/numeric-fraction-numbers";
 
 export default {
@@ -35,8 +34,6 @@ export default {
   },
   data() {
     return {
-      // numberPattern: /[0-9]/,
-      // numbersArr: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
       ansValue: "",
       isFieldValid: undefined,
       isValid: false,
@@ -53,25 +50,6 @@ export default {
   },
 
   methods: {
-    // checkDecimalLength(evt) {
-    //   if (this.ansValue.includes(".")) {
-    //     let afterDeimal = this.ansValue.split(".");
-    //     if (afterDeimal[1].length > 2) {
-    //       if (this.numbersArr.includes(evt.key)) {
-    //         evt.preventDefault();
-    //       }
-    //     }
-    //   }
-    // },
-
-    // onNegativeInput(event) {
-    //   if (event.key == "-" || event.key == "+") {
-    //     event.preventDefault();
-    //     return false;
-    //   } else {
-    //     this.checkDecimalLength(event);
-    //   }
-    // },
     onInput(event) {
       let dataI = "";
       if (event.target.value.includes(".")) {
@@ -115,54 +93,6 @@ export default {
         isFieldValid: this.isFieldValid,
       });
     },
-
-    // maskRemovers(number, seprator = ",") {
-    //   if (number == "") {
-    //     return maskRemover(number, seprator);
-    //   } else {
-    //     return number;
-    //   }
-    // },
-
-    // originalNumberBackup(ev) {
-    //   console.log(ev.target.value);
-    //   if (
-    //     ev.target.value != null &&
-    //     ev.target.value != "" &&
-    //     ev.target.value != undefined
-    //   ) {
-    //     let v = maskRemover(ev.target.value, this.default_seprator);
-    //     this.checkValidate(v);
-    //     ev.target.setAttribute("type", "number");
-    //     ev.target.setAttribute("min", "0");
-    //   }
-    // },
-
-    // formatMaskedNumber(ev) {
-    //   console.log(
-    //     ev.target.value,
-    //     ev.target.value == null,
-    //     ev.target.value == undefined,
-    //     ev.target.value == "",
-    //     "original number backup"
-    //   );
-    //   // if (ev.target.value) {
-    //   let fVal = 0;
-    //   if (ev.target.value != "") {
-    //     fVal = maskFormatter(ev.target.value, this.default_seprator);
-    //     ev.target.removeAttribute("min");
-    //     ev.target.setAttribute("type", "text");
-    //     this.checkValidate(fVal);
-    //   } else {
-    //     this.isValid = true;
-    //     console.log("ee", this.ansValue);
-    //     this.emitData(this.ansValue);
-    //     // this.emitData(this.ansValue);
-    //   }
-    //   console.log("numbrvis", fVal.toString());
-
-    //   // }
-    // },
   },
 };
 </script>

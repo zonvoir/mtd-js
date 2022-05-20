@@ -2,17 +2,9 @@
   <div>
     <!-- Left sidebar Start Here -->
     <div class="sidebar-wrapper sidebar_gray sidebar_container">
-      <!-- brand Logo Start Here -->
-      <!-- <div class="sidebar_logo_wrapper">
-        <router-link to="/" class="logo_wraper">
-          <img alt="More Than Digital" :src="logo" class="brand_logo" />
-        </router-link>
-      </div> -->
-      <!-- Brand Logo Ends Here -->
       <div class="link-list-wrapper">
         <div class="question_list_wrapper">
           <div class="list_wrap m-b-20">
-            <!-- {{ question }} -->
             <ul class="list-group">
               <li
                 v-for="(question, idx) in questions"
@@ -135,9 +127,6 @@ li {
   padding: 6px 8px 6px 14px;
 }
 .link-list-wrapper {
-  // padding: 10px 22px 10px 10px;
-  // height: 86vh;
-  // overflow: auto;
   padding: 10px 10px 10px 10px;
   height: 65vh;
   overflow: auto;

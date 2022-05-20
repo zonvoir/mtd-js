@@ -308,7 +308,6 @@ export default {
       return parseFloat((value * 1000).toFixed(4));
     },
     openCustomModal() {
-      // this.display = true;
       this.modal.show();
     },
     getNameById(listArr, id) {
@@ -330,7 +329,6 @@ export default {
           )
           .then((res) => {
             if (res.data.status) {
-              // this.display = false;
               this.modal.hide();
             }
           });
@@ -418,15 +416,13 @@ export default {
 }
 .custom_rate_modal {
   background: #ffffff;
-  // box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
   border-radius: 4px;
   width: 400px;
   height: auto;
 }
 .modal_body {
   background: #ffffff;
-  // box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
-  // border-radius: 4px;
+
   padding: 28px 24px;
   width: 400px;
   height: auto;

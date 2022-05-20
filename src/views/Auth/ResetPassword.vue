@@ -181,7 +181,6 @@ import { required, sameAs } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import LoginService from "../../Services/LoginService";
 import errorhandler, { successhandler } from "../../utils/Error";
-// import errorhandler from "../../utils/Error";
 import MainLogo from "../../components/Shared/MainLogo.vue";
 
 // MINIMUM 8 CHARCTER

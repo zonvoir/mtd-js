@@ -25,12 +25,7 @@
   top: 3.5rem;
   right: 0;
 }
-// ///////////////
-// .space_btn2 {
-//   padding-top: 509px;
-//   padding-bottom: 30px;
-// }
-// visibility button
+
 .psw_visibilty {
   position: relative;
 }
@@ -428,9 +423,6 @@
   float: left;
   background-color: #ced4da;
   text-align: center;
-  // outline-width: 2px 0 2px 2px !important;
-  // outline-style: solid;
-  // outline-color: #ced4da;
 }
 
 // otp Componnet
@@ -466,14 +458,3 @@
 .otp-input.is-complete {
   background-color: #e4e4e4;
 }
-// .otp-input::-webkit-inner-spin-button,
-// .otp-input::-webkit-outer-spin-button {
-//   -webkit-appearance: none;
-//   margin: 0;
-// }
-// input::placeholder {
-//   font-size: 15px;
-//   text-align: center;
-//   font-weight: 600;
-// }
-// otp Componnet

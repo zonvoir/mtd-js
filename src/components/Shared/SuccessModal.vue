@@ -1,11 +1,7 @@
 <template>
   <div>
     <!-- Modal -->
-    <!-- -->
-    <!-- data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true" -->
+
     <div
       class="modal custom_modal_email fade"
       id="exampleModal"

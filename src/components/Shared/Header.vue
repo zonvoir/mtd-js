@@ -138,7 +138,6 @@ export default {
         label: "",
         icon: "",
       },
-      // placeholder: "header.placeholder.select_your_company",
     };
   },
   computed: {
@@ -384,11 +383,6 @@ li {
   align-items: center;
 }
 .default_logo {
-  // justify-content: center;
-  // align-content: center;
-  // display: inline-flex;
-  // font-weight: bold;
-  // font-size: 18px;
   padding-top: 4px;
   line-height: 1.7rem;
   width: 1.7rem;

@@ -33,7 +33,6 @@
                 <QuestionsSidebar />
               </div>
               <div class="questionnaire_wrap">
-                <!-- :questionsArr="questionList" -->
                 <QuestionTest />
               </div>
             </div>
@@ -80,7 +79,6 @@ export default {
         this.modal.show();
       } else {
         this.closeQuestionModal();
-        // this.modal.hide();
       }
     },
   },
@@ -130,15 +128,11 @@ export default {
   display: grid;
   grid-template-columns: 2fr 5fr;
 }
-.questionnaire_wrap {
-  //   position: absolute;
-  //   margin-left: 300px;
-}
+
 .questionnaire_modal_body {
   position: relative;
 }
 .questionnnaire_modal_content {
-  // padding: 30px;
   padding: 24px 24px 16px 24px;
 }
 .k-header-wrapprer {

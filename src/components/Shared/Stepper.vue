@@ -35,23 +35,6 @@
             </div></a
           >
         </li>
-        <!-- {{
-          invitedUserData === null
-        }} -->
-        <!-- <li v-if="invitedUserData === null" class="">
-          <a class="step">
-            <div
-              class="step_number_wrap"
-              :class="
-                this.currentStep === 'company'
-                  ? 'step_active'
-                  : 'step_not_visited'
-              "
-            >
-              <span class="step_number">3</span>
-            </div>
-          </a>
-        </li> -->
       </ul>
     </div>
     <!-- stepper ends -->

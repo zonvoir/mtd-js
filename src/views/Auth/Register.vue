@@ -376,15 +376,12 @@
       </div>
     </div>
   </div>
-  <!-- Modal -->
-  <!-- <EmailNotificationModal ref="notifyEmail" :userEmail="registeredEmail" /> -->
 </template>
 <script>
 import { ref } from "vue";
 import { required, email, sameAs } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-// import { Modal } from "bootstrap";
-// import EmailNotificationModal from "./Components/EmailNotificationModal.vue";
+
 import signupService from "../../Services/SignupService";
 import errorhandler, { successhandler } from "../../utils/Error";
 
@@ -412,12 +409,10 @@ export default {
       visibilityIcon2: "icons/eye-off.svg",
       passwordFieldType1: "password",
       passwordFieldType2: "password",
-      // registeredEmail: undefined, no modal required
       visibilityPswd: false,
       visibilityConfirmPswd: false,
       isSubmitted: false,
       invitedUserData: undefined,
-      // openModal:false,
       registerForm: {
         privacy_policy: false,
         terms_service: false,
@@ -429,7 +424,6 @@ export default {
         password: "",
         confirm_password: "",
       },
-      // modal: null,
     };
   },
 
@@ -469,7 +463,6 @@ export default {
 
   mounted() {
     this.$refs.focusInp.focus();
-    // this.modal = new Modal(this.$refs.exampleModal);
     this.invitedUserData = JSON.parse(
       localStorage.getItem("bWFInpvitedbpbUser")
     );
@@ -480,7 +473,6 @@ export default {
   },
 
   created() {
-    //   let url = this.$route.path;
     let activePage = this.$route.path.split("/")[2];
     this.$store.dispatch("GET_ACTIVE_PAGE", activePage);
     let invitedStaffData = this.$route.query;
@@ -502,8 +494,6 @@ export default {
   },
   methods: {
     onSubmit() {
-      // console.log("all data ia filled", this.$refs.notifyEmail.modal.show());
-
       this.v$.$touch();
       if (this.v$.$invalid) {
         return;
@@ -514,7 +504,6 @@ export default {
           .then((response) => {
             if (response.data.status) {
               console.log("regitration respponse", response.data.data);
-              // this.registeredEmail = response.data.data.email; no maodal required
               successhandler(response);
               // new flow
               sessionStorage.setItem(
@@ -523,19 +512,6 @@ export default {
               );
               this.$router.push({ name: "signup-career" });
               this.formReset();
-              // new flow
-              // if (this.invitedUserData === null) {
-              //   this.$refs.notifyEmail.modal.show();
-              //   // this.modal.show(); no need here........
-              // } else {
-              //   sessionStorage.setItem(
-              //     "OiJKV1QiLCJhbGciOiJIUzI1",
-              //     JSON.stringify(response.data.data)
-              //   );
-              //   this.$router.push({ name: "signup-career" });
-              //   console.log("userSata");
-              // }
-              // this.formReset();
             } else {
               errorhandler(response, this);
             }
@@ -562,9 +538,7 @@ export default {
         invitation_id: "",
       };
     },
-    // closeModal() {
-    //   this.modal.hide();
-    // },
+
     switchVisibilityPswd() {
       this.visibilityPswd = !this.visibilityPswd;
       this.passwordFieldType1 = this.visibilityPswd ? "text" : "password";
@@ -572,6 +546,7 @@ export default {
         ? "icons/eye.svg"
         : "icons/eye-off.svg";
     },
+
     switchVisibilityConfirmPswd() {
       this.visibilityConfirmPswd = !this.visibilityConfirmPswd;
       this.passwordFieldType2 = this.visibilityConfirmPswd

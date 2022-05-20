@@ -1,30 +1,5 @@
 <template>
   <div>
-    <!-- Category Start  -->
-    <!-- <div class="d-flex align-items-center m-b-28">
-      <div class="view_title_wrap pb-15">
-        <div class="page_title_wrap">
-          <div class="k_icon_wrap m-r-10">
-            <img
-              :src="
-                questionnaire.image
-                  ? questionnaire.image
-                  : 'K_Icons/clipboard_60_logo.svg'
-              "
-              class="catLogo"
-              alt=""
-            />
-          </div>
-          <div class="">
-            <h4 class="view_title_with_catgry">
-              {{ questionnaireDetails.department_name }} /
-              <span class="catgry_name">{{ questionnaire.name }}</span>
-            </h4>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- category ends -->
     <div class="">
       <Question />
       <!--  -->

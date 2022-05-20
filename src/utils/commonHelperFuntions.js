@@ -37,41 +37,6 @@ export const getlabelValue = (legalFormsArr, id) => {
 
   return (legalForm && legalForm.label) || undefined;
 };
-// export const getCountryName = (countryArr, id) => {
-//   if (!countryArr.length) return;
-
-//   let country = countryArr.find((element) => element.value === id);
-
-//   return (country && country.label) || undefined;
-// };
-// export const getmainIndustryName = (mainIndustryArr, id) => {
-//   if (!mainIndustryArr.length) return;
-
-//   let mainIndustry = mainIndustryArr.find((element) => element.value === id);
-
-//   return (mainIndustry && mainIndustry.label) || undefined;
-// };
-// export const getSubIndustryName = (subIndustryArr, id) => {
-//   if (!subIndustryArr.length) return;
-
-//   let subIndustry = subIndustryArr.find((element) => element.value === id);
-
-//   return (subIndustry && subIndustry.label) || undefined;
-// };
-// export const getDetailedIndustryName = (detailedIndstry, id) => {
-//   if (!detailedIndstry.length) return;
-
-//   let detailIndustry = detailedIndstry.find((element) => element.value === id);
-
-//   return (detailIndustry && detailIndustry.label) || undefined;
-// };
-// export const getRegionName = (regionsArr, id) => {
-//   if (!regionsArr.length) return;
-
-//   let region = regionsArr.find((element) => element.value === id);
-
-//   return (region && region.label) || undefined;
-// };
 
 export const getCategoryModified = (categoryArr) => {
   if (!categoryArr.length) return;
@@ -106,12 +71,6 @@ export const setRandomBackground = () => {
   let background = backgrounds[Math.floor(Math.random() * backgrounds.length)];
   return background;
 };
-// to Update the local storage Object
-//single
-//updateStorage("company", [{name:"ACME"}])
-
-//multiple
-//updateLocalStorage("company", [{name:"ACME"},{location:"USA"}])
 
 export const updateLocalStorage = (keyName, newkeypairs = []) => {
   const obj = JSON.parse(localStorage.getItem(keyName));
@@ -136,12 +95,6 @@ export const renameKeys = (keysMap, obj) =>
   );
 
 export const phoneNumberMask = (number, seprator = ",") => {
-  // number = number.split(seprator);
-  // console.info(number, "vis");
-  // number = number.join("");
-  // console.info(number);
-  // number = +number;
-
   var numberString = new Intl.NumberFormat()
     .formatToParts(number)
     .map(({ type, value }) => {
@@ -165,4 +118,20 @@ export const phoneNumberMask = (number, seprator = ",") => {
   console.info("kk", numberString);
   return numberString;
 };
-// export default phoneNumberMask;
+
+// this function is not used till now
+export const shuffleArray = (array) => {
+  // function randomArrayShuffle(array) { send array as parameter
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+  // }
+};

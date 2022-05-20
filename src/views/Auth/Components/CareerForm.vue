@@ -270,23 +270,6 @@ export default {
     this.getAllCompany();
   },
 
-  // created() {
-  //   this.settings = {
-  //     tags: true,
-  //     allowClear: true,
-  //     multiple: true,
-  //     insertTag: function (data, tag) {
-  //       this.emailTag = tag;
-  //       console.log("data", data, "tag", tag);
-  //       data.push(tag);
-  //     },
-  //   };
-
-  //   this.mySettings = {
-  //     multiple: true,
-  //   };
-  // },
-
   methods: {
     clearFromDate() {
       this.careerForm.from = "";
@@ -298,11 +281,7 @@ export default {
       this.addNewDept = true;
       this.newDepartment = "";
     },
-    // mySelectEvent({ id, text }) {
-    //   console.log("id", { id, text });
 
-    //   console.log("my all department", this.myValue);
-    // },
     updateDepartment() {
       let deptData = {
         auth_token: this.staffData,
@@ -352,14 +331,11 @@ export default {
     },
 
     validateForm() {
-      // this.v$.careerForm.$touch();
-      // if (!this.v$.careerForm.$invalid) {
       this.isValid = true;
       this.careerForm.company = this.modifyCompanyData(
         this.careerForm.company,
         "label"
       );
-      // this.careerForm.workingAtPresent = this.workingAtPresent;
       this.careerForm.to = formatDate(this.careerForm["to"], "L");
       this.careerForm.from = formatDate(this.careerForm["from"], "L");
       console.log("check vali", this.careerForm);
@@ -369,9 +345,6 @@ export default {
       });
 
       return true;
-      // } else {
-      //   return false;
-      // }
     },
   },
 };

@@ -211,16 +211,6 @@
                 }}</a>
               </template>
             </CustomRateModal>
-            <!-- <h6 class="c_base_head" @click="openCustomModal">
-              {{
-                $t(
-                  "company_profile.company_tab.company_details.About_Company_lables.custom_rate"
-                )
-              }}
-              <a class="primary-link link_edit">{{
-                $t("company_profile.company_tab.company_details.buttons.edit")
-              }}</a>
-            </h6> -->
           </div>
           <div class="col-lg-3 m-b-26">
             <h6 class="c_base_head">Country</h6>
@@ -833,39 +823,6 @@ export default {
   position: absolute;
   transform: translate(-50%, -50%);
 }
-// .exchange_wrap {
-//   display: flex;
-//   align-items: center;
-//   .currency_amount {
-//     margin-right: 20px;
-//   }
-//   .currency_from {
-//     width: 10%;
-//     margin-right: 20px;
-//     margin-right: 20px;
-//   }
-//   .currency_to {
-//     width: 10%;
-//     margin-right: 20px;
-//     margin-right: 20px;
-//   }
-// }
-// .custom_exchange {
-//   font-size: 15px;
-//   font-weight: 400;
-//   color: #8f9bb3;
-//   margin-bottom: 0;
-// }
-// .modal_body {
-//   background: #ffffff;
-//   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);
-//   border-radius: 4px;
-//   width: 400px;
-//   height: 600px;
-// }
-// .modal-body {
-//   padding: 28px 24px;
-// }
 .bg_light {
   background-color: #f7f9fc;
 }
@@ -879,7 +836,6 @@ export default {
   font-size: 12px;
   font-weight: 700;
   color: #8f9bb3;
-  // margin-bottom: 13px;
   text-transform: uppercase;
   vertical-align: middle;
   line-height: normal;

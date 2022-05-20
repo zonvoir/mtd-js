@@ -185,21 +185,7 @@
                 :staffRole="staffrole.roleid"
                 :indexValue="index"
               />
-              <!-- <div class="text-center">
-                <p class="import_file_text">
-                  or you can
 
-                  <button
-                    :disabled="is_FileUploaded"
-                    :key="staffrole.roleid"
-                    @click="confirmModal(index)"
-                    class="btn btn_primary_transparent"
-                  >
-                    Import
-                  </button>
-                  a file with employee emails
-                </p>
-              </div> -->
               <input
                 type="file"
                 style="display: none"
@@ -440,31 +426,8 @@ export default {
 
     // upload csv File
     sendInvitationByFile(file, staffrole) {
-      // this.is_uploaded = false;
       this.is_FileUploaded = true;
-      // let data = {
-      //   auth_token: this.staffInfo.auth_token,
-      //   role_id: +staffrole,
-      //   departments: this.myDepartmensList.map(Number),
-      //   excel_file: file,
-      //   invitation_validity: this.validity_date,
-      // };
       console.log("fileData ", file, staffrole);
-      // this.$refs.confirmFile;
-      // CompanyService.invitationByFile(data).then((res) => {
-      //   if (res.data.status) {
-      //     this.is_FileUploaded = false;
-      //     console.log("all data", res.data.data);
-
-      //     successhandler(" file Uploaded !! update list after some time");
-      //     this.$store.dispatch(
-      //       "getInvitationList",
-      //       res.data.data.invitation_list
-      //     );
-      //   } else {
-      //     errorhandler(res, this);
-      //   }
-      // });
     },
     // send Invitation by Emails
     SendEmailsList(roleId) {

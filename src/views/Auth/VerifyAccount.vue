@@ -336,9 +336,7 @@ export default {
     // OTP For Registration
     OTPForRegistration() {
       console.log("opt form for Registration", this.otpForm);
-      // if (this.isValidOTP) {
-      //   return false;
-      // }
+
       if (this.isValidOTP == undefined || this.isValidOTP) {
         return false;
       }
@@ -395,17 +393,11 @@ export default {
     },
 
     onCompleted(ev) {
-      // this.isValidOTP = !ev.valiated;
-      // this.otpForm.otp = ev.asString;
-      // this.otpForm.code = ev.lists;
       this.otpForm.otp = ev;
       this.isValidOTP = false;
     },
 
     getChange() {
-      // this.isValidOTP = !ev.valiated;
-      // this.otpForm.otp = ev.asString;
-      // this.otpForm.code = ev.lists;
       this.isValidOTP = true;
     },
 

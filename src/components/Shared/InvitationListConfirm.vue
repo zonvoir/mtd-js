@@ -253,22 +253,6 @@ export default {
       }
     },
 
-    // inviteTeamByFile(file) {
-    //   this.is_FileUploaded = true;
-    //   let data = {
-    //     auth_token: this.staffInfo.auth_token,
-    //     role_id: this.staffRole,
-    //     excel_file: file,
-    //   };
-    //   CompanyService.invitationByFile(data).then((res) => {
-    //     if (res.data.status) {
-    //       this.members = [];
-    //       this.is_FileUploaded = false;
-    //       this.members = res.data.data;
-    //     }
-    //   });
-    // },
-
     closeModal() {
       this.modal.hide();
       this.dropFilename = "";
@@ -286,16 +270,10 @@ export default {
           role_id: this.staffRole,
           email_list: this.members,
         };
-        //  CompanyService.confirmedTeamMemberByList(data)
         this.$store
           .dispatch("GET_INVITE_TEAM_MEMBER_BY_FILELIST", data)
           .then((res) => {
             if (res.data.data) {
-              // this.$store.dispatch("GET_INVITATIONS_FOR_QUESTIONNAIRE_TEAM", {
-              //   auth_token: this.staffInfo.auth_token,
-              //   category_id: this.category_id,
-              //   department_id: this.department_id,
-              // });
               this.closeModal();
             } else {
               this.closeModal();
@@ -338,45 +316,12 @@ export default {
       el.classList.add("file_upload_modal");
 
       this.modal.show();
-      // if (this.department_List.length) {
-      // } else {
-      //   errorhandler("Please select department");
-      // }
     },
 
     // today
     toggleActive() {
       this.active = !this.active;
     },
-
-    // drop down start here
-    // remove(i) {
-    //   this.filelist.splice(i, 1);
-    // },
-
-    // dragover(event) {
-    //   event.preventDefault();
-    //   // Add some visual fluff to show the user can drop its files
-    //   if (!event.currentTarget.classList.contains("bg-green-300")) {
-    //     event.currentTarget.classList.remove("bg-gray-100");
-    //     event.currentTarget.classList.add("bg-green-300");
-    //   }
-    // },
-
-    // dragleave(event) {
-    //   // Clean up
-    //   event.currentTarget.classList.add("bg-gray-100");
-    //   event.currentTarget.classList.remove("bg-green-300");
-    // },
-
-    // drop(event) {
-    //   event.preventDefault();
-    //   this.$refs.file.files = event.dataTransfer.files;
-    //   this.onChange(); // Trigger the onChange event manually
-    //   // Clean up
-    //   event.currentTarget.classList.add("bg-gray-100");
-    //   event.currentTarget.classList.remove("bg-green-300");
-    // },
   },
 };
 </script>
@@ -500,8 +445,6 @@ li {
 .invitaion_content {
   border: 1px solid rgb(255, 255, 255) !important;
   box-shadow: 0px 10px 15px rgba(169, 180, 208, 0.89) !important;
-  // box-shadow: 9px 9px 16px rgba(163 177 198 / 60%),
-  //   -9px -9px 16px rgba(255 255 255 / 50%);
 }
 .file_upload_modal .modal-backdrop.fade.show {
   background-color: #ffffff;

@@ -48,11 +48,8 @@
               :currentAns="questions[currentIdx].staff_anwser"
             />
           </div>
-          <!-- <div v-if="questions[currentIdx].type == 'richText'">
-          <AnsTextArea :data="questions[currentIdx].choices" />
-        </div> -->
+
           <div v-if="questions[currentIdx].type == 'text'">
-            <!-- @getUserSelected="userGivenAnswer" -->
             <AnsInput
               ref="ans_freeText"
               :key="currentIdx"
@@ -80,14 +77,7 @@
               :data="questions[currentIdx].choices"
             />
           </div>
-          <!-- <div v-if="questions[currentIdx].type == 'manySelect'">
-          <AnsMultiSelect
-            :key="currentIdx"
-            v-model="answerValue"
-            @getUserSelected="userGivenAnswer"
-            :currentAns="questions[currentIdx].staff_anwser"
-          />
-        </div> -->
+
           <div v-if="questions[currentIdx].type == 'email'">
             <AnsEmail
               ref="ans_email"
@@ -135,9 +125,6 @@
               :currentAns="questions[currentIdx].staff_anwser"
             />
           </div>
-          <!-- <div v-if="questions[currentIdx].type == 'editor'">
-          <AnsTextEditor :data="questions[currentIdx].choices" />
-        </div> -->
 
           <div v-if="questions[currentIdx].type == 'date'">
             <AnsDate
@@ -217,18 +204,15 @@
 import AnsCheckbox from "./AnsCheckbox.vue";
 import AnsRadio from "./AnsRadio.vue";
 import AnsSwitch from "./AnsSwitch.vue";
-// import AnsTextArea from "./AnsTextArea.vue";
 import AnsInput from "./AnsInput.vue";
 import AnsMultipleNumber from "./AnsMultipleNumber.vue";
 import AnsSingleNumber from "./AnsSingleNumber.vue";
 import AnsPhone from "./AnsPhone.vue";
 import AnsEmail from "./AnsEmail.vue";
-// import AnsMultiSelect from "./AnsMultiSelect.vue";
 import AnsWebsite from "./AnsWebsite.vue";
 import AnsSelect from "./AnsSelect.vue";
 import AnsPercent from "./AnsPercent.vue";
-// import MaskPhInput from "./MaskPhInput.vue";
-// import AnsTextEditor from "./AnsTextEditor.vue";
+
 import AnsDate from "./AnsDate.vue";
 import QuestionnaireService from "../../../Services/QuestionnaireServices/Questionnaire";
 import { mapGetters } from "vuex";
@@ -362,18 +346,6 @@ export default {
         this.questions[this.currentIdx].is_answered = true;
         if (res.data.status) {
           if (this.currentIdx >= this.questions.length - 1) {
-            // this.$swal({
-            //   title: "Are you sure?",
-            //   text: "Your questionnaire will be closed !",
-            //   icon: "warning",
-            //   showCancelButton: true,
-            //   confirmButtonColor: "#7900d8 ",
-            //   cancelButtonColor: "#edf1f7",
-            //   confirmButtonText: "OK",
-            // }).then((result) => {
-            //   if (result.isConfirmed) {
-            //     }
-            // });
             this.$store.dispatch("GET_QUIZ_MODAL_STATUS", false);
           } else {
             this.questions[this.currentIdx].is_answered = true;
@@ -442,7 +414,6 @@ export default {
 }
 
 .option_wrapper {
-  // padding: 0 0 0 36px;
   padding: 5px 0 0 5px;
 }
 

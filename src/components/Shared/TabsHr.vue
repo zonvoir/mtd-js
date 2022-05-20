@@ -56,7 +56,6 @@ export default {
       &:hover {
         text-decoration: none;
         color: #7900d8;
-        // border-bottom: 4px solid #7900d8;
         border-radius: 1px;
       }
     }

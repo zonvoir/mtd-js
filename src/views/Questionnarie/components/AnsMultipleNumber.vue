@@ -28,7 +28,6 @@
 </template>
 
 <script>
-// import maskFormatter, { maskRemover } from "../../../utils/mask-formmater";
 import numfractionMixin from "../../../mixins/numeric-fraction-numbers";
 
 export default {
@@ -48,8 +47,6 @@ export default {
 
   data() {
     return {
-      // numberPattern: /^\d{0,}(?:\.\d{0,1}){0,1}$/,
-      // default_seprator: " ",
       staffAns: new Array(this.data.length).fill({
         subquestion_id: "",
         sub_ans: "",

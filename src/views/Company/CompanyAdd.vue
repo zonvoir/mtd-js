@@ -567,7 +567,6 @@ export default {
           maxLengthValue: maxLength(4),
           minLengthValue: minLength(4),
         },
-        // region: { required },
         corporation_legal_form: { required },
       },
     };
@@ -582,8 +581,7 @@ export default {
         this.companyForm.country_code = this.country_code;
         this.isSubmitted = true;
         SignupService.companyBasicInfo(this.companyForm)
-          // this.$store
-          //   .dispatch("CompanySetup", this.companyForm)
+
           .then((res) => {
             if (res.data.status) {
               console.log("company_data 11 res added", res.data.data);

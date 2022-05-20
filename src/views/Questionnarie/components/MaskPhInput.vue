@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <label>{{ cardNumber }}</label> -->
     <input
       placeholder="Enter Number Card"
       v-bind="$attrs"

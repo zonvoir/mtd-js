@@ -5,7 +5,6 @@
     </td>
     <td align="center" class="border_right_primary">
       <div class="perms_td">
-        <!-- :checkval="categoryPermit.permissions.ans" -->
         <BaseCheckBox
           v-if="categoryPermit.permissions != null"
           :checkval="categoryPermit.permissions.ans"

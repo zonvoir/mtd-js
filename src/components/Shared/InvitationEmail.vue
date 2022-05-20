@@ -24,21 +24,10 @@
         >
           <img src="K_Icons/more-vertical.svg" alt="" class="" />
         </button>
-        <!-- </div> -->
-        <!--  -->
-        <!-- <Button
-          type="button"
-          icon="pi pi-ellipsis-v"
-          class="kp_icon_btn p-button-text p-button-plain"
-          @click="toggle"
-          aria-haspopup="true"
-          aria-controls="overlay_tmenu"
-        /> :popup="true"-->
       </div>
     </div>
   </div>
-  <!-- :appendTo="'kk_drop'" -->
-  <!-- :appendTo="'.kk_drop'" -->
+
   <Menu id="overlay_tmenu" ref="menu" :model="items" :popup="true">
     <template #item="{ item }">
       <div
@@ -49,24 +38,12 @@
       </div>
     </template>
   </Menu>
-  <!-- <ul
-    :class="openDropdown ? 'active_dropdown' : ''"
-    class="dropdown-menu custom_dropdown"
-    ref="invitationModal"
-  >
-    <li @click="removeInvitaion(member.id)">
-      <a class="dropdown-item">Delete</a>
-    </li>
-  </ul> -->
 </template>
 
 <script>
-// import TieredMenu from "primevue/tieredmenu";
-// import Button from "primevue/button";
 import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
 import { mapGetters } from "vuex";
-// import { Dropdown } from "bootstrap";
 import Menu from "primevue/menu";
 
 export default {
@@ -89,12 +66,8 @@ export default {
 
   components: {
     Menu,
-    // TieredMenu,
-    // Button,
   },
-  mounted() {
-    // document.addEventListener("click", this.closeDropDrown);
-  },
+  mounted() {},
   data() {
     return {
       staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
@@ -103,7 +76,6 @@ export default {
       items: [
         {
           label: "Delete",
-          // icon: "pi pi-trash",
           command: () => {
             this.removeInvitaion();
           },
@@ -116,8 +88,6 @@ export default {
   },
   methods: {
     toggle() {
-      // console.log(this.dropdown);
-      // this.openDropdown = !this.openDropdown;
       this.$refs.menu.toggle(event);
     },
     getClass(value) {
@@ -143,11 +113,6 @@ export default {
       };
       if (this.teamModal) {
         this.$store.dispatch("GET_REMOVE_TEAM_MEMBER", data);
-        // CompanyService.removeTeamMember(data).then((res) => {
-        //   if (res.data.status) {
-        //     console.log("response come from remved team", res.data.data);
-        //   }
-        // });
       } else {
         CompanyService.deleleInvitation(data)
           .then((res) => {
@@ -265,12 +230,5 @@ export default {
 }
 .drop_cus_option {
   padding: 0 15px;
-}
-#overlay_tmenu {
-  // width: 7rem !important;
-  // left: 1015.08px;
-  // min-width: 26px;
-  // z-index: 9999;
-  // width: 7rem;
 }
 </style>

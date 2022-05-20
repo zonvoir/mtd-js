@@ -74,8 +74,6 @@
 </template>
 
 <script>
-// import QuestionnaireService from "../../Services/QuestionnaireServices/Questionnaire";
-// import errorhandler from "../../utils/Error";
 import QuestionnaireModal from "../Questionnarie/QuestionnaireModal.vue";
 import { mapGetters } from "vuex";
 export default {
@@ -99,35 +97,9 @@ export default {
     }),
   },
 
-  // mounted() {
-  //   this.departmentId = this.$route.params.did;
-  //   this.categoryID = this.$route.params.id;
-  //   this.authToken = this.staffData.auth_token;
-  //   if (this.departmentId && this.categoryID && this.authToken) {
-  //     let data = {
-  //       auth_token: this.authToken,
-  //       department_id: this.departmentId,
-  //       category_id: this.categoryID,
-  //     };
-  //     this.getDeptAndCategoryDetails(data);
-  //   }
-  // },
-
   methods: {
     getDeptAndCategoryDetails(data) {
       this.$store.dispatch("GET_QUESTIONNAIRE_ALL_DATA", data);
-
-      // this.$store.dispatch("SET_LOADING_STATUS", true);
-      // QuestionnaireService.getOneCategory(data).then((res) => {
-      //   this.$store.dispatch("SET_LOADING_STATUS", false);
-      //   if (res.data.status) {
-      //     this.optionsArr = res.data.data.questionnaire.questions;
-      //     this.questionList = res.data.data.questionnaire.questions;
-      //     this.questionnaireDetails = res.data.data.questionnaire.detail;
-      //   } else {
-      //     errorhandler(res);
-      //   }
-      // });
     },
     getValueOfAns(value) {
       if (value.type === "text") {

@@ -28,9 +28,6 @@ export default {
     var colors = ["#2E3A59", "#8F9BB3"];
 
     return {
-      //  credits: {
-      //           enabled: false,
-      //         },
       chartOptions: {
         chart: {
           type: "bar",

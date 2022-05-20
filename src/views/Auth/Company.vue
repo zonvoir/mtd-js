@@ -9,8 +9,6 @@
 </template>
 
 <script>
-// import SignupService from "../../Services/SignupService";
-
 import RegistrationHeader from "../../Layout/RegisterLayout/RegisterationHeader.vue";
 
 export default {

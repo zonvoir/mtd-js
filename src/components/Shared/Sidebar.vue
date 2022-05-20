@@ -97,13 +97,11 @@ export default {
 .menu_link {
   &:nth-last-child(2) {
     position: absolute;
-    // background-color: #04050a;
     bottom: 56px;
     width: 100%;
   }
   &:last-child {
     position: absolute;
-    // background-color: #04050a;
     bottom: 0;
     width: 100%;
   }

@@ -70,7 +70,6 @@ export default {
       phoneNumberMask("", this.default_seprator) == 0
         ? ""
         : phoneNumberMask("", this.default_seprator);
-    // this.ansValue = phoneNumberMask("", " ");
     if (this.currentAns != "") {
       this.isFieldValid = true;
       this.ansValue = this.currentAns;
@@ -94,10 +93,6 @@ export default {
     };
   },
 
-  updated() {
-    // this.ansValue = this.formatedData;
-  },
-
   methods: {
     onInput(value) {
       this.v$.$touch();
@@ -111,12 +106,14 @@ export default {
 
       this.emitData(val);
     },
+
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,
         isFieldValid: this.isFieldValid,
       });
     },
+
     numberKeyDown(evt) {
       let keysCodes = [
         ...this.numbersArr,

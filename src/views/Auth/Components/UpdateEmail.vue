@@ -3,8 +3,7 @@
     <div class="change_user_email">
       <slot name="change-email"> </slot>
     </div>
-    <!-- Modal -->
-    <!-- -->
+
     <div
       class="modal custom_modal_email fade"
       id="exampleModal"
