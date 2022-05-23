@@ -1,4 +1,5 @@
 <template>
+  <PermissionModal ref="perm_modal" />
   <div class="member_container">
     <div class="table_container">
       <div class="table_labels">
@@ -193,19 +194,27 @@
 
                   <!-- {{ ownRole.view_company_detail && people.set_permissions }} -->
                   <div v-if="people.set_permissions" class="permission_btns">
-                    <PermissionModal :key="people.staffid">
-                      <template
-                        v-slot:permission-button="{ openPermissionModal }"
+                    <!-- :class="{activeId==people.staffid ? '':'suceess'}" -->
+                    <button
+                      @click="openPermissionModal(people.staffid)"
+                      type="button"
+                      class="btn-light fs-14 btn-set fw-700 btn"
+                    >
+                      Permission
+                      <!-- <div
+                        ref="button_title"
+                        v-if="!$refs.perm_modal.isGettingData"
+                        class=""
                       >
-                        <button
-                          @click="openPermissionModal(people.staffid)"
-                          type="button"
-                          class="btn-light fs-14 btn-set fw-700 btn"
-                        >
-                          Permission
-                        </button>
-                      </template>
-                    </PermissionModal>
+                      </div>
+                      <div v-else>
+                        <DotLoader
+                          :bgColor="'#222b45'"
+                          :wideLength="btnDyanmicWidth"
+                          :isLoading="$refs.perm_modal.isGettingData"
+                        />
+                      </div> -->
+                    </button>
                   </div>
                 </div>
               </td>
@@ -232,6 +241,7 @@ import MultiSelect from "primevue/multiselect";
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
 import { mapGetters } from "vuex";
 import PermissionModal from "../../components/Shared/PermissionModal.vue";
+// import DotLoader from "../../components/Shared/DotLoader.vue";
 import CompanyService from "../../Services/Company/CompanyService";
 import { getFirstLetter } from "../../utils/commonHelperFuntions";
 
@@ -251,12 +261,12 @@ export default {
   components: {
     PermissionModal,
     MultiSelect,
+    // DotLoader,
   },
   data() {
     return {
       searchIcon,
-      // myRole: "",
-      // staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      activeId: 0,
 
       myRole: [],
       userKeyword: undefined,
@@ -300,6 +310,10 @@ export default {
     this.getCategoryList();
   },
   methods: {
+    openPermissionModal(val) {
+      this.activeId = val;
+      this.$refs.perm_modal.setPermission(val);
+    },
     formatMemberName(str) {
       return getFirstLetter(str);
     },

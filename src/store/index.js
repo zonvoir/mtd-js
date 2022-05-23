@@ -14,6 +14,7 @@ export default createStore({
     agreedToPrivacy: false,
     activeMenu: "overview",
     loadingStatus: false,
+    apiLoadingStatus: false,
     staffDataLocal: undefined,
     internetStatus: undefined,
   },
@@ -46,6 +47,9 @@ export default createStore({
     getLoadingStatus(state, val) {
       state.loadingStatus = val;
     },
+    getApiLoadingStatus(state, val) {
+      state.apiLoadingStatus = val;
+    },
     getStaffDataLocal(state, val) {
       state.staffDataLocal = val;
     },
@@ -61,6 +65,11 @@ export default createStore({
     SET_LOADING_STATUS: ({ commit }, val) => {
       commit("getLoadingStatus", val);
     },
+
+    SET_API_LOADING_STATUS: ({ commit }, val) => {
+      commit("getApiLoadingStatus", val);
+    },
+
     SET_STAFF_DATA_LOCAL: ({ commit }, val) => {
       commit("getStaffDataLocal", val);
     },
@@ -73,6 +82,7 @@ export default createStore({
     internetStatus: (state) => state.internetStatus,
     staffDataLocal: (state) => state.staffDataLocal, //get local storage data
     loadingStatus: (state) => state.loadingStatus,
+    apiLoadingStatus: (state) => state.apiLoadingStatus,
     agreedToPrivacyStatus: (state) => state.agreedToPrivacy,
   },
 });

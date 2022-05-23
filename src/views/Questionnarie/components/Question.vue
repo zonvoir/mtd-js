@@ -290,7 +290,6 @@ export default {
       this.isHint = !this.isHint;
     },
     enterClicked(ev) {
-      console.log("enter clicked", this.isValidated);
       if (ev.keyCode === 13) {
         if (this.isValidated) {
           if (this.currentIdx === this.questions.length - 1) {

@@ -220,35 +220,7 @@ const routes = [
           },
         ],
       },
-      // category Routes
-      {
-        path: "department/:did/categories",
-        component: CategoryLayout,
-        name: "cateogries",
-        redirect: "/categories/",
-        children: [
-          {
-            path: ":id/overview",
-            component: CategoryOverview,
-            name: "category-overview",
-          },
-          {
-            path: ":id/qustionlist",
-            component: CategoryQuestionList,
-            name: "category-qustionlist",
-          },
-          {
-            path: ":id/results",
-            component: CategoryResults,
-            name: "category-results",
-          },
-          {
-            path: ":id/team-management",
-            component: CategoryTeamManagement,
-            name: "category-team_management",
-          },
-        ],
-      },
+
       // results routes
       {
         path: "results",
@@ -321,6 +293,35 @@ const routes = [
           },
         ],
       },
+      // category Routes
+      // {
+      //   path: "department/:did/categories",
+      //   component: CategoryLayout,
+      //   name: "cateogries",
+      //   redirect: "/categories/",
+      //   children: [
+      //     {
+      //       path: ":id/overview",
+      //       component: CategoryOverview,
+      //       name: "category-overview",
+      //     },
+      //     {
+      //       path: ":id/qustionlist",
+      //       component: CategoryQuestionList,
+      //       name: "category-qustionlist",
+      //     },
+      //     {
+      //       path: ":id/results",
+      //       component: CategoryResults,
+      //       name: "category-results",
+      //     },
+      //     {
+      //       path: ":id/team-management",
+      //       component: CategoryTeamManagement,
+      //       name: "category-team_management",
+      //     },
+      //   ],
+      // },
       // payments routes
       {
         path: "payments",
@@ -367,6 +368,36 @@ const routes = [
             path: "index",
             component: OverviewIndex,
             name: "overview-home",
+            children: [
+              {
+                path: "department/:did/categories",
+                component: CategoryLayout,
+                name: "cateogries",
+                redirect: ":id/overview",
+                children: [
+                  {
+                    path: ":id/overview",
+                    component: CategoryOverview,
+                    name: "category-overview",
+                  },
+                  {
+                    path: ":id/qustionlist",
+                    component: CategoryQuestionList,
+                    name: "category-qustionlist",
+                  },
+                  {
+                    path: ":id/results",
+                    component: CategoryResults,
+                    name: "category-results",
+                  },
+                  {
+                    path: ":id/team-management",
+                    component: CategoryTeamManagement,
+                    name: "category-team_management",
+                  },
+                ],
+              },
+            ],
           },
           {
             path: "extended",

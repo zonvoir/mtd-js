@@ -12,8 +12,13 @@
       </div>
       <!-- tabs start -->
       <div class="tabs_wrap m-b-18">
+        <!-- {{ $route.path }} -->
         <div class="">
-          <TabsHr :tabs="tablist" @changeTitle="ChangeT($event)" />
+          <TabsHr
+            :tabs="tablist"
+            :activeTabUrl="$route.path"
+            @changeTitle="ChangeT($event)"
+          />
         </div>
         <div class="" v-if="ownRole.can_invite">
           <InvitePeopleModal>

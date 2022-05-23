@@ -58,7 +58,6 @@ export default {
     },
     staffRoles: {
       type: Array,
-      required: true,
     },
   },
   components: {

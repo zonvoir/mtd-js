@@ -8,7 +8,7 @@
           <tbody class="company_tbody">
             <tr class="company_tr">
               <td @click="addCompany" class="company_td add_new_company">
-                <AddCompanyModal ref="add_company_modal">
+                <AddCompanyModal :key="updateCount" ref="add_company_modal">
                   <template v-slot:add-company>
                     <div class="company_detail company_add">
                       <div class="company_pic">
@@ -168,6 +168,7 @@ export default {
       UserPic,
       tablist,
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      updateCount: 0,
     };
   },
   computed: {
@@ -193,6 +194,9 @@ export default {
 
     addCompany() {
       this.$refs.add_company_modal.modal.show();
+      // this.updateCount += 1;
+      // setTimeout(() => {
+      // }, 3000);
       // this.$router.push({ name: "company-update" });
     },
 

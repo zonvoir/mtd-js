@@ -3,15 +3,16 @@
     <Datepicker
       class="ans_date_picker"
       :enableTimePicker="false"
+      autoApply
       v-model="ansValue"
-      @open="clearDate"
-      @closed="updateDate"
+      @update:modelValue="updateDate"
       placeholder="mm/dd/yyyy"
       @blur="v$.ansValue.$touch"
       :class="{
         invalid_error: v$.ansValue.$error,
       }"
     />
+    <!-- @open="clearDate" -->
     <div v-if="v$.ansValue.$error" class="invalid_feedback text-left">
       <span v-if="v$.ansValue.required.$invalid" class="text-left fs-14">
         Answer is required
@@ -25,6 +26,7 @@ import Datepicker from "vue3-date-time-picker";
 import "vue3-date-time-picker/dist/main.css";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+import { formatDate } from "../../../utils/FormatDate";
 export default {
   emits: ["getUserSelected"],
 
@@ -66,36 +68,22 @@ export default {
   },
 
   methods: {
-    clearDate() {
-      this.ansValue = "";
-    },
-    updateDate() {
-      this.checkValidation();
-      this.formatMyDate(this.ansValue);
-    },
-    formatMyDate(value) {
-      let tempDate = new Date(value);
-      let date = tempDate.getDate();
-      let year = tempDate.getFullYear();
-      let month = tempDate.getMonth() + 1;
-      if (isNaN(date) && isNaN(month) && isNaN(year)) {
-        this.calcDate = "";
-      } else {
-        this.calcDate = date + "/" + month + "/" + year;
-      }
-      this.emitData(this.calcDate);
-      // this.ansValue = this.calcDate;
-      console.log("date", this.ansValue);
-    },
-    checkValidation() {
+    // clearDate() {
+    //   this.ansValue = "";
+    // },
+    updateDate(value) {
+      console.log("value updated", value);
       this.v$.$touch();
       this.isFieldValid = false;
       console.log(this.v$.$invalid);
       if (!this.v$.$invalid) {
         this.isFieldValid = true;
+        this.calcDate = formatDate(this.ansValue, "l");
+        console.log(this.calcDate);
+        this.emitData(this.calcDate);
       }
-      console.log("validation successful", this.isFieldValid);
     },
+
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,

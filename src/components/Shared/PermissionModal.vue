@@ -1,7 +1,7 @@
 <template>
-  <div class="">
+  <!-- <div class="">
     <slot name="permission-button" :openPermissionModal="setPermission"></slot>
-  </div>
+  </div> -->
   <div class="modal fade" ref="invitationModal">
     <div class="modal-dialog modal-xl invitation_dialog">
       <div class="modal-content invitaion_content perms_content">
@@ -80,7 +80,7 @@ export default {
       departmentArr: [],
       isAccordionArr: [],
       updatedPermissionArr: undefined,
-      isvalid: true,
+      isGettingData: false,
       currentStaffId: undefined,
     };
   },
@@ -121,30 +121,41 @@ export default {
         auth_token: this.staffInfo.auth_token,
         staffid: this.currentStaffId,
       };
-      this.$store.dispatch("SET_LOADING_STATUS", true);
-      CompanyService.setMemberPermission(data).then((res) => {
-        this.$store.dispatch("SET_LOADING_STATUS", false);
-        if (res.data.status) {
-          this.permissionArr = res.data.data;
-          this.departmentArr = [];
-          this.isAccordionArr = new Array(this.permissionArr.length).fill(
-            false
-          );
-          console.log("assign dept", this.permissionArr);
-          for (let i = 0; i < res.data.data.length; i++) {
-            let data = {
-              value: res.data.data[i].departmentid,
-              label: res.data.data[i].name,
-            };
-            this.departmentArr.push(data);
+      // this.$store.dispatch("SET_LOADING_STATUS", true);
+      this.isGettingData = true;
+      CompanyService.setMemberPermission(data)
+        .then((res) => {
+          // this.$store.dispatch("SET_LOADING_STATUS", false);
+          if (res.data.status) {
+            this.permissionArr = res.data.data;
+            this.departmentArr = [];
+            this.isAccordionArr = new Array(this.permissionArr.length).fill(
+              false
+            );
+            console.log("assign dept", this.permissionArr);
+            for (let i = 0; i < res.data.data.length; i++) {
+              let data = {
+                value: res.data.data[i].departmentid,
+                label: res.data.data[i].name,
+              };
+              this.departmentArr.push(data);
+            }
+            this.$store.dispatch(
+              "GET_ALOCATED_DEPARTMENTS",
+              this.departmentArr
+            );
+            this.$store.dispatch("GET_PERMISSION_ARRAY", this.permissionArr);
+            this.modal.show();
+          } else {
+            errorhandler(res, this);
           }
-          this.$store.dispatch("GET_ALOCATED_DEPARTMENTS", this.departmentArr);
-          this.$store.dispatch("GET_PERMISSION_ARRAY", this.permissionArr);
-          this.modal.show();
-        } else {
-          errorhandler(res, this);
-        }
-      });
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.isGettingData = false;
+        });
     },
     closeModal() {
       this.modal.hide();

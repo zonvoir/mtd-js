@@ -15,12 +15,27 @@
 
 <script>
 export default {
-  props: ["tabs"],
+  // props: "tabs"],
+  props: {
+    tabs: {
+      type: Array,
+    },
+    activeTabUrl: {
+      type: String,
+    },
+  },
   data() {
     return {
       url: "",
     };
   },
+
+  watch: {
+    activeTabUrl: function () {
+      this.url = this.$route.path;
+    },
+  },
+
   mounted() {
     this.url = this.$route.path;
   },
