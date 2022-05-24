@@ -13,6 +13,8 @@
           <div class="psw_visibilty">
             <input
               type="text"
+              v-model="word"
+              @input="getSearchData"
               class="form-control _search_filter k_inp_field"
               :placeholder="$t('help_center.placeholder.search_here')"
             />
@@ -32,7 +34,7 @@
         </div>
       </div>
       <!-- tabs end -->
-      <div class="overview_container">
+      <div ref="help_center_data" class="overview_container highlited_word">
         <router-view />
       </div>
     </div>
@@ -67,6 +69,9 @@ export default {
   data() {
     return {
       tablist,
+      word: "",
+      allPageData: undefined,
+      matchedData: undefined,
       searchIcon,
       dept: true,
       title: "Help Center",
@@ -78,6 +83,13 @@ export default {
   methods: {
     ChangeT(title) {
       this.title = title;
+    },
+
+    getSearchData(ev) {
+      console.log("data to be find", ev.target.value.toLowerCase());
+      this.allPageData = this.$refs.help_center_data.textContent.toLowerCase();
+      this.matchedData = this.allPageData.match(ev.target.value.toLowerCase());
+      console.log("data heap", this.matchedData);
     },
   },
 };

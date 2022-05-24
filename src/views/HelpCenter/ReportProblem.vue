@@ -5,14 +5,20 @@
         {{ $t("help_center.Report_a_problem_tab.labels.Report_a_problem") }}
       </h5>
     </div>
+    <p ref="paragraph">
+      Here is my solution. I found there are two ways to achieve this. In
+      Firefox, you can use selection api. Unfortunately, it will not work in
+      Chrome. A simpler solution is to just match the search text and highlight
+      it by enclosing it in
+    </p>
+
     <div class="form_container">
       <form @submit.prevent="submitReport">
         <div class="k_select_single k_inp_half m-b-20">
           <Dropdown
             optionLabel="label"
             optionValue="value"
-            :placeholder="
-              $t('help_center.Report_a_problem_tab.form.placeholder.role')
+            placeholder=" Issue type
             "
             class="k_prime_inp_select"
             :options="issues"
@@ -38,6 +44,7 @@
               $t('help_center.Report_a_problem_tab.form.placeholder.message')
             "
             v-model="reportProblem.message"
+            @input="getUpdatedData"
             class="form-control k_inp_field"
             rows="5"
             @blur="v$.reportProblem.message.$touch"
@@ -78,10 +85,11 @@ import Dropdown from "primevue/dropdown";
 import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 
-// import HelpCenterService from "../../Services/HelpCenterService";
-// import errorhandler from "../../utils/Error";
+import HelpCenterService from "../../Services/HelpCenterService";
+import errorhandler from "../../utils/Error";
 
 import DotLoader from "@/components/Shared/DotLoader";
+import { mapGetters } from "vuex";
 export default {
   components: {
     Dropdown,
@@ -90,14 +98,14 @@ export default {
 
   data() {
     return {
-      issues: [
-        { value: 0, label: "Issue 1" },
-        { value: 1, label: "Issue 2" },
-        { value: 2, label: "Issue 3" },
-        { value: 3, label: "Issue 4" },
-      ],
+      issues: undefined,
       btnDyanmicWidth: undefined,
       isSubmitted: false,
+      matchPattern1: /[.*+?^${}()|[\]\\]/g,
+      matchPattern2: "\\$&",
+      allData: "",
+      matchedData: "",
+      searchedterm: "",
       reportProblem: {
         issue: "",
         message: "",
@@ -105,8 +113,19 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters({
+      staffDataLocal: "staffDataLocal",
+    }),
+  },
+
   mounted() {
     this.btnDyanmicWidth = this.$refs.button_title.clientWidth;
+    this.getParaData();
+  },
+
+  created() {
+    this.getTypeofIssues();
   },
 
   validations() {
@@ -125,31 +144,66 @@ export default {
   },
 
   methods: {
+    getParaData() {
+      this.allData = this.$refs.paragraph.innerHTML.toLowerCase();
+    },
+
+    getUpdatedData() {
+      this.matchedData = this.allData.replace(
+        this.reportProblem.message,
+        `<mark class='highk'>${this.reportProblem.message}</mark>`
+      );
+      this.$refs.paragraph.innerHTML = this.matchedData;
+      console.log(this.matchedData, this.allData);
+    },
+    getTypeofIssues() {
+      HelpCenterService.getAllIssues()
+        .then((res) => {
+          if (res.data.status) {
+            this.issues = res.data.data.map((item) => {
+              return {
+                value: item.id,
+                label: item.name,
+              };
+            });
+          } else {
+            errorhandler(res);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     submitReport() {
+      // this.$refs.paragraph.innerHTML =
+      //   `Do you have any idea how to do this <mark class='highk'>when</mark> innerHTML already contains HTML tags?`;
+
       this.v$.$touch();
       if (this.v$.invalid) return;
       this.isSubmitted = true;
+      this.reportProblem.auth_token = this.staffDataLocal.auth_token;
+      HelpCenterService.reportAProblem()
+        .then((res) => {
+          if (res.data.status) {
+            this.formReset();
+          } else {
+            errorhandler(res);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.isSubmitted = false;
+        });
+    },
 
-      setTimeout(() => {
-        this.isSubmitted = false;
-        console.log("all fields are valid", this.isSubmitted);
-      }, 5000);
-      // this.isSubmitted = false;
-      // console.log("I am out of  the timeout function ", this.isSubmitted);
-      // HelpCenterService.reportAProblem()
-      //   .then((res) => {
-      //     if (res.data.status) {
-      //       console.log("res will come thia block ");
-      //     } else {
-      //       errorhandler(res);
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   })
-      //   .finally(() => {
-      //     console.log("this will run every time");
-      //   });
+    formReset() {
+      this.v$.$reset();
+      this.reportProblem = {
+        issue: "",
+        message: "",
+      };
     },
   },
 };
@@ -168,6 +222,7 @@ export default {
   padding-bottom: 16px;
   color: #7900d8;
 }
+
 .help_conatiner {
   background: #ffffff;
   box-shadow: 0px -2px 25px rgba(178, 187, 211, 0.1);

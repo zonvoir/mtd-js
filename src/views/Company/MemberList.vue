@@ -200,20 +200,19 @@
                       type="button"
                       class="btn-light fs-14 btn-set fw-700 btn"
                     >
-                      Permission
-                      <!-- <div
-                        ref="button_title"
-                        v-if="!$refs.perm_modal.isGettingData"
-                        class=""
+                      <div
+                        v-if="
+                          activeId == people.staffid &&
+                          $refs.perm_modal.isGettingData
+                        "
                       >
-                      </div>
-                      <div v-else>
                         <DotLoader
                           :bgColor="'#222b45'"
                           :wideLength="btnDyanmicWidth"
                           :isLoading="$refs.perm_modal.isGettingData"
                         />
-                      </div> -->
+                      </div>
+                      <div v-else class="">Permission</div>
                     </button>
                   </div>
                 </div>
@@ -241,7 +240,7 @@ import MultiSelect from "primevue/multiselect";
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
 import { mapGetters } from "vuex";
 import PermissionModal from "../../components/Shared/PermissionModal.vue";
-// import DotLoader from "../../components/Shared/DotLoader.vue";
+import DotLoader from "../../components/Shared/DotLoader.vue";
 import CompanyService from "../../Services/Company/CompanyService";
 import { getFirstLetter } from "../../utils/commonHelperFuntions";
 
@@ -261,7 +260,7 @@ export default {
   components: {
     PermissionModal,
     MultiSelect,
-    // DotLoader,
+    DotLoader,
   },
   data() {
     return {

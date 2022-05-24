@@ -109,10 +109,17 @@ export default {
         componentId
       );
 
-      this.$router.push({
-        name: this.page_name,
-        params: this.page_parmas,
-      });
+      this.$router
+        .push({
+          name: this.page_name,
+          params: this.page_parmas,
+        })
+        .then((res) => {
+          console.log("card view res", res);
+        })
+        .catch((err) => {
+          console.log("card route view error", err);
+        });
     },
   },
 };

@@ -179,7 +179,7 @@ button[disabled] {
   &:hover {
     background-color: $white;
     box-shadow: none;
-    border: 1px solid #d1d9e9;
+    border: 1px solid $primary;
     outline: none;
   }
   &:focus {
