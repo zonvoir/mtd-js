@@ -5,7 +5,7 @@
         <div class="_change_wrap pb-15">
           <div class="page_title_wrap">
             <div class="m-r-6">
-              <button @click="$router.back()" class="btn btn-transaprent">
+              <button @click="goToPreviousPage" class="btn btn-transaprent">
                 <img src="K_Icons/arrowhead-right.svg" alt="" />
               </button>
             </div>
@@ -17,9 +17,7 @@
               />
             </div>
             <div class="">
-              <h4 class="view_title">
-                {{ title }}
-              </h4>
+              <h4 class="view_title">{{ title }}</h4>
             </div>
           </div>
         </div>
@@ -55,15 +53,16 @@ export default {
       department: [],
       id: "",
       image: "",
-      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      // staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       authToken: "",
     };
   },
 
   created() {
-    this.url_dataID = this.$route.params.id;
+    // get the active route params details
+
+    this.url_dataID = this.$route.params.did;
     if (this.url_dataID) {
-      console.log("id on layout", this.url_dataID);
       this.getDepartmentDetails(this.url_dataID);
     }
     this.authToken = this.staffData.auth_token;
@@ -74,25 +73,42 @@ export default {
   },
 
   computed: {
+    // get vuex getters variables
     ...mapGetters({
       ownRole: "roleInCompany",
+      defaultDepartment: "defaultCompanyDeptId",
+      staffData: "staffDataLocal",
     }),
   },
 
   methods: {
+    // change the page title name by changing tab
+
     ChangeT(title) {
       this.title = title;
     },
+
+    // on send the user to previous page
+
+    goToPreviousPage() {
+      if (this.$route.params.did) {
+        this.$router.push({ name: "overview-extended" });
+      }
+    },
+
+    // just get one department  details
+
     oneDepartmentDetails(id) {
       let deptInfo = this.department.find((item) => {
         return item.departmentid === id;
       });
-      console.log("dept infokkkkk", deptInfo);
       this.title = deptInfo.name;
       this.id = deptInfo.id;
       this.image = deptInfo.image;
     },
-    // get DepartmentDetail
+
+    // get DepartmentDetail by the id
+
     getDepartmentDetails(id) {
       let data = {
         auth_token: this.staffData.auth_token,
@@ -101,15 +117,12 @@ export default {
       CommonService.getAllDepartments(data).then((res) => {
         if (res.data.status) {
           this.department = res.data.data;
-          console.log("one department details", this.department);
           this.oneDepartmentDetails(this.url_dataID);
         } else {
-          errorhandler(res, this);
+          //  possible error should be show as toast notifications
+          errorhandler(res);
         }
       });
-    },
-    backToMain() {
-      this.$router.push({ name: "overview-extended" });
     },
   },
 };

@@ -13,7 +13,7 @@
             :description="deparment.description"
             :image="deparment.image"
             :page_name="component_name"
-            :page_parmas="{ id: deparment.departmentid }"
+            :page_parmas="{ did: deparment.departmentid }"
           />
         </div>
       </div>
@@ -32,6 +32,7 @@ export default {
   components: {
     Card,
   },
+
   data() {
     return {
       component_name: "department-category",
@@ -41,17 +42,22 @@ export default {
       departmentLists: [],
     };
   },
+
+  // get vuex getters
   computed: {
     ...mapGetters({
       defaultDepartment: "defaultCompanyDeptId",
     }),
   },
+
   created() {
     this.authToken = this.staffData.auth_token;
     this.getdDepartmentList();
   },
 
   methods: {
+    // get categories list of all  department except company/default
+
     getdDepartmentList() {
       let data = { auth_token: this.authToken };
       this.$store
@@ -60,7 +66,7 @@ export default {
           let $th = this;
           if (res.data.status) {
             this.departmentLists = res.data.data.filter(function (depts) {
-              return depts.departmentid != $th.defaultDepartment; //5 is default company department id
+              return depts.departmentid != $th.defaultDepartment; // default company department id
             });
           }
         });

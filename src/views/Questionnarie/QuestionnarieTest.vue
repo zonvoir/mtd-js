@@ -8,18 +8,11 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import Question from "../Questionnarie/components/Question.vue";
 export default {
   props: {},
   components: {
     Question,
-  },
-  computed: {
-    ...mapGetters({
-      questionnaireDetails: "questionnaireDetails",
-      questionnaire: "questionnaireCategoryDetails",
-    }),
   },
 
   data() {

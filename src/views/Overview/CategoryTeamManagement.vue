@@ -42,6 +42,7 @@
             </div>
           </div>
         </form>
+        <!-- emails of uploaded file on modal -->
         <InvitationConfirmModal
           @uploadCSVFile="importFile(index)"
           ref="confirmFile"
@@ -75,6 +76,7 @@
               :key="member.id"
               class="list_group_item d-inline-flex m-b-8"
             >
+              <!-- invitaed email -->
               <InvitationEmail
                 :teamModal="true"
                 :key="member.id"
@@ -95,12 +97,6 @@ import InvitationEmail from "../../components/Shared/InvitationEmail.vue";
 import InvitationConfirmModal from "../../components/Shared/InvitationListConfirm.vue";
 import { successhandler } from "../../utils/Error";
 export default {
-  components: {
-    Select2,
-    InvitationEmail,
-    InvitationConfirmModal,
-  },
-
   data() {
     return {
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
@@ -113,6 +109,12 @@ export default {
       settings: {},
       myOptions: [],
     };
+  },
+
+  components: {
+    Select2,
+    InvitationEmail,
+    InvitationConfirmModal,
   },
 
   computed: {
@@ -144,13 +146,7 @@ export default {
     this.getInvitedTeam();
   },
   methods: {
-    addTeamMember() {
-      this.$store.dispatch("");
-    },
-
-    removeTeamMember() {
-      this.$store.dispatch("");
-    },
+    // get Invited team members list  on page load by vuex action
 
     getInvitedTeam() {
       let data = {
@@ -161,13 +157,7 @@ export default {
       this.$store.dispatch("GET_INVITATIONS_FOR_QUESTIONNAIRE_TEAM", data);
     },
 
-    chooseRoleStaff(data, id, isYes = false) {
-      if (isYes) {
-        return data.filter((val) => val.roleid == id);
-      } else {
-        return data.filter((val) => val.roleid != id);
-      }
-    },
+    // this function will indirectly trigger  onFilePicked  function
 
     importFile(fileNameIndex = 0) {
       console.log(this.v$);
@@ -175,8 +165,9 @@ export default {
       if (!this.v$.$invalid) {
         this.$refs["fileInput-" + fileNameIndex].click();
       }
-      // this.$refs["fileInput-" + fileNameIndex].click();
     },
+
+    // import a file of email list
 
     onFilePicked(event, roleId) {
       this.$refs.confirmFile.openModal;
@@ -191,7 +182,6 @@ export default {
         console.log("file extention type", fileType);
         const fileExtension = filename.split(".").pop();
         if (!allowedExtensions.includes(fileExtension)) {
-          // this.is_uploaded = false;
           this.$toast.error(" File type must be (.csv) only.", {
             position: "bottom-left",
             duration: 3712,
@@ -214,7 +204,8 @@ export default {
       }
     },
 
-    // upload excel File
+    // upload CSV File  of emails list
+
     sendInvitationByFile(file, staffrole) {
       this.is_FileUploaded = true;
       let data = {
@@ -225,7 +216,6 @@ export default {
         department_id: this.departmentId,
       };
       console.log("fileData ", data);
-      //  CompanyService.invitationByFile
       this.$store
         .dispatch("GET_INVITE_TEAM_MEMBER_BY_FILELIST", data)
         .then((res) => {
@@ -235,48 +225,34 @@ export default {
           }
         });
     },
+
     // send Invitation by Emails
+
     SendEmailsList(roleId) {
-      console.log(
-        "checking for consulant",
-        this.owner_roleId,
-        this.consulatant_roleId
-      );
-      if (this.owner_roleId == roleId) {
-        console.log("this is Owner", roleId);
-        let data = {
-          auth_token: this.staffData.auth_token,
-          role_id: +roleId,
-          recipient_emails: this.myValue,
-          category_id: this.categoryId,
-          department_id: this.departmentId,
-        };
-        this.invitePeople(data);
-      } else {
-        console.log("this is regular employee", roleId);
-        let data = {
-          auth_token: this.staffData.auth_token,
-          role_id: +roleId,
-          recipient_emails: this.myValue,
-          category_id: this.categoryId,
-          department_id: this.departmentId,
-        };
-        this.invitePeople(data);
-      }
+      let data = {
+        auth_token: this.staffData.auth_token,
+        role_id: +roleId,
+        recipient_emails: this.myValue,
+        category_id: this.categoryId,
+        department_id: this.departmentId,
+      };
+      this.invitePeople(data);
     },
 
-    // invite team
+    // invite team member by the vuex actin
     invitePeople(data) {
-      // CompanyService.invitationByEmails(data)
       this.$store.dispatch("GET_INVITE_TEAM_MEMBER", data).then((res) => {
         if (res.data.status) {
           this.myValue.length = 0;
           console.log("data emails", res.data.data);
           this.disbaleInvited = true;
+          // success notificataion utility function
           successhandler("Invitations have been sent ");
         }
       });
     },
+
+    // make the email input as input chip
 
     mySelectEvent({ id, text }) {
       console.log("id", { id, text });
@@ -294,10 +270,6 @@ export default {
         this.myValue.pop();
         return false;
       }
-    },
-
-    myChangeEvent(val) {
-      console.log(val);
     },
   },
 };

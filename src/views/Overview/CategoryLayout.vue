@@ -5,7 +5,7 @@
         <div class="view_title_wrap pb-15">
           <div class="page_title_wrap">
             <div v-if="dept" class="m-r-6">
-              <button @click="$router.back()" class="btn btn-transaprent">
+              <button @click="goToPreviousPage" class="btn btn-transaprent">
                 <img src="K_Icons/arrowhead-right.svg" alt="" />
               </button>
             </div>
@@ -87,21 +87,28 @@ export default {
     InvitePeopleModal,
     QuestionnaireModal,
   },
+
+  // get vue x getters variables
   computed: {
     ...mapGetters({
       questionnaireDetails: "questionnaireDetails",
+      getQuestionList: "getQuestionList",
       category: "questionnaireCategoryDetails",
       ownRole: "roleInCompany",
+      defaultDepartment: "defaultCompanyDeptId",
     }),
   },
+
   created() {
-    //     }
+    // tab name and other details are send to tabsHr module
+
     this.tablist = [
       {
         tabId: 0,
         title: "KPI",
         tabTitle: "OVERVIEW",
         component_url: this.$router.resolve({
+          // this line are used to send department and categories id
           name: "category-overview",
           params: this.$route.params,
         }).path,
@@ -111,6 +118,7 @@ export default {
         title: "KPI",
         tabTitle: "QUESTIONS",
         component_url: this.$router.resolve({
+          // this line are used to send department and categories id
           name: "category-qustionlist",
           params: this.$route.params,
         }).path,
@@ -120,6 +128,7 @@ export default {
         title: "KPI",
         tabTitle: "RESULTS",
         component_url: this.$router.resolve({
+          // this line are used to send department and categories id
           name: "category-results",
           params: this.$route.params,
         }).path,
@@ -129,6 +138,7 @@ export default {
         title: "KPI",
         tabTitle: "TEAM MANAGEMENT",
         component_url: this.$router.resolve({
+          // this line are used to send department and categories id
           name: "category-team_management",
           params: this.$route.params,
         }).path,
@@ -146,20 +156,34 @@ export default {
         department_id: this.departmentId,
         category_id: this.categoryID,
       };
-      this.$store.dispatch("GET_QUESTIONNAIRE_ALL_DATA", data);
+      this.$store.dispatch("GET_QUESTIONNAIRE_ALL_DATA", data); // get all questionnaire detail by using vuex action
     }
   },
 
   methods: {
+    // to open the questionnaire modal via vuex actions
     startQuestionnarie() {
       this.$store.dispatch("GET_QUIZ_MODAL_STATUS", true);
     },
 
+    // change the page title
     ChangeT(title) {
       this.title = title;
     },
-    backToMain() {
-      this.$router.push({ name: "overview-home" });
+
+    // to send the previous page
+    goToPreviousPage() {
+      if (
+        this.$route.params.did === this.defaultDepartment &&
+        this.$route.params.id
+      ) {
+        this.$router.push({ name: "overview-home" });
+      } else {
+        this.$router.push({
+          name: "department-category",
+          params: { did: this.departmentId },
+        });
+      }
     },
   },
 };

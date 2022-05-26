@@ -21,20 +21,20 @@
             placeholder=" Issue type
             "
             class="k_prime_inp_select"
-            :options="issues"
-            v-model="reportProblem.issue"
-            :class="{ 'is-invalid': v$.reportProblem.issue.$error }"
-            @blur="v$.reportProblem.issue.$touch"
+            :options="issueList"
+            v-model="reportProblem.issue_type"
+            :class="{ 'is-invalid': v$.reportProblem.issue_type.$error }"
+            @blur="v$.reportProblem.issue_type.$touch"
           />
           <div
-            v-if="v$.reportProblem.issue.$error"
+            v-if="v$.reportProblem.issue_type.$error"
             class="invalid-feedback text-left"
           >
             <span
-              v-if="v$.reportProblem.issue.required.$invalid"
+              v-if="v$.reportProblem.issue_type.required.$invalid"
               class="text-left fs-14"
             >
-              Issue is required
+              Issue type is required
             </span>
           </div>
         </div>
@@ -98,7 +98,7 @@ export default {
 
   data() {
     return {
-      issues: undefined,
+      issueList: undefined,
       btnDyanmicWidth: undefined,
       isSubmitted: false,
       matchPattern1: /[.*+?^${}()|[\]\\]/g,
@@ -107,7 +107,7 @@ export default {
       matchedData: "",
       searchedterm: "",
       reportProblem: {
-        issue: "",
+        issue_type: "",
         message: "",
       },
     };
@@ -121,7 +121,7 @@ export default {
 
   mounted() {
     this.btnDyanmicWidth = this.$refs.button_title.clientWidth;
-    this.getParaData();
+    // this.getParaData();
   },
 
   created() {
@@ -131,7 +131,7 @@ export default {
   validations() {
     return {
       reportProblem: {
-        issue: { required },
+        issue_type: { required },
         message: { required },
       },
     };
@@ -144,23 +144,23 @@ export default {
   },
 
   methods: {
-    getParaData() {
-      this.allData = this.$refs.paragraph.innerHTML.toLowerCase();
-    },
+    // getParaData() {
+    //   this.allData = this.$refs.paragraph.innerHTML.toLowerCase();
+    // },
 
-    getUpdatedData() {
-      this.matchedData = this.allData.replace(
-        this.reportProblem.message,
-        `<mark class='highk'>${this.reportProblem.message}</mark>`
-      );
-      this.$refs.paragraph.innerHTML = this.matchedData;
-      console.log(this.matchedData, this.allData);
-    },
+    // getUpdatedData() {
+    //   this.matchedData = this.allData.replace(
+    //     this.reportProblem.message,
+    //     `<mark class='highk'>${this.reportProblem.message}</mark>`
+    //   );
+    //   this.$refs.paragraph.innerHTML = this.matchedData;
+    //   console.log(this.matchedData, this.allData);
+    // },
     getTypeofIssues() {
       HelpCenterService.getAllIssues()
         .then((res) => {
           if (res.data.status) {
-            this.issues = res.data.data.map((item) => {
+            this.issueList = res.data.data.map((item) => {
               return {
                 value: item.id,
                 label: item.name,
@@ -174,15 +174,14 @@ export default {
           console.log(err);
         });
     },
-    submitReport() {
-      // this.$refs.paragraph.innerHTML =
-      //   `Do you have any idea how to do this <mark class='highk'>when</mark> innerHTML already contains HTML tags?`;
 
+    submitReport() {
       this.v$.$touch();
-      if (this.v$.invalid) return;
+      console.log(this.v$.$invalid);
+      if (this.v$.$invalid) return;
       this.isSubmitted = true;
       this.reportProblem.auth_token = this.staffDataLocal.auth_token;
-      HelpCenterService.reportAProblem()
+      HelpCenterService.reportAProblem(this.reportProblem)
         .then((res) => {
           if (res.data.status) {
             this.formReset();

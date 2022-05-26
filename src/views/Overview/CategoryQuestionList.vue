@@ -94,9 +94,13 @@ export default {
   },
 
   methods: {
+    // get all the questionnaire relted data using vuex actions
     getDeptAndCategoryDetails(data) {
       this.$store.dispatch("GET_QUESTIONNAIRE_ALL_DATA", data);
     },
+
+    // get the Ans value of respective component type
+
     getValueOfAns(value) {
       if (value.type === "text") {
         return value.staff_anwser;
@@ -149,6 +153,9 @@ export default {
         return value.staff_anwser;
       }
     },
+
+    // edit question to open Questionnaire modal by random question
+
     editQuetion(id) {
       this.$store.dispatch("GET_RANDOM_QUESTION_INDEX", id);
       this.$store.dispatch("GET_QUIZ_MODAL_STATUS", true);

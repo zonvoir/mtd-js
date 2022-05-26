@@ -19,7 +19,7 @@
         <h2 class="m-b-0 letter_title">{{ lists[tagId].tag_name }}</h2>
       </div>
       <!-- list_wrap -->
-      <!-- <div v-for="list in lists" :key="list.id" class=""> -->
+
       <Accordion :activeIndex="0" class="prime_accordion">
         <AccordionTab
           v-for="item in lists[tagId].tag_list"
@@ -30,7 +30,6 @@
           <p class="desc_cont">{{ item.description }}</p>
         </AccordionTab>
       </Accordion>
-      <!-- </div> -->
       <!-- list_wrap -->
     </div>
   </div>
@@ -57,15 +56,17 @@ export default {
 
   computed: {
     ...mapGetters({
-      loadingStatus: "loadingStatus",
+      loadingStatus: "loadingStatus", //get The api loading status
     }),
   },
 
   created() {
+    // this will run when component view is created
     this.getAllGlossaryList();
   },
 
   methods: {
+    // get All Glossary list
     getAllGlossaryList() {
       this.$store.dispatch("SET_LOADING_STATUS", true);
       HelpCenterService.getGlossaries().then((res) => {
@@ -79,19 +80,15 @@ export default {
         }
       });
     },
-
+    // get Active filer letter
     getActiveList(value) {
-      console.log(value);
       this.currentIdx = value;
-      console.log(this.currentIdx);
       return this.currentIdx;
     },
 
+    // filter by  letter
     openList(idx) {
       this.tagId = idx;
-    },
-    checkArray(arr) {
-      return Array.isArray(arr);
     },
   },
 };

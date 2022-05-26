@@ -46,7 +46,7 @@
           >{{ status }}</span
         >
       </div>
-      <div @click="sectionDetail(id)" class="card_link">
+      <div @click="sectionDetail()" class="card_link">
         <a class="page_link m-l-auto"
           >{{ $t("overview_index.buttons.view") }}
           <img src="K_Icons/next.svg" alt="" class="next_icon p-l-6"
@@ -101,25 +101,11 @@ export default {
   components: {},
 
   methods: {
-    sectionDetail(componentId) {
-      console.log(
-        "current dept id",
-        this.page_name,
-        this.page_parmas,
-        componentId
-      );
-
-      this.$router
-        .push({
-          name: this.page_name,
-          params: this.page_parmas,
-        })
-        .then((res) => {
-          console.log("card view res", res);
-        })
-        .catch((err) => {
-          console.log("card route view error", err);
-        });
+    sectionDetail() {
+      this.$router.push({
+        name: this.page_name,
+        params: this.page_parmas,
+      });
     },
   },
 };

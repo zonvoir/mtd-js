@@ -277,10 +277,12 @@ export default {
     this.quiz = this.questions[this.currentIdx];
     this.authToken = this.staffData.auth_token;
   },
+
   mounted() {
     this.currentIdx = this.questionIdex || 0;
     this.calculateAnserdQuestion();
   },
+
   methods: {
     userGivenAnswer(value) {
       this.answerValue = value.ansData;

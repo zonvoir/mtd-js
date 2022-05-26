@@ -281,47 +281,67 @@ const routes = [
 
       // departments routes
       {
-        path: "departments",
+        path: "overview/department",
         component: DepartmentLayout,
         name: "departments",
-        redirect: "/departments/",
+        redirect: "overview/department:did?/categories",
         children: [
           {
-            path: ":id?/categories",
+            path: ":did?/categories",
             component: DepartmentsCategory,
             name: "department-category",
           },
         ],
       },
       // category Routes
-      // {
-      //   path: "department/:did/categories",
-      //   component: CategoryLayout,
-      //   name: "cateogries",
-      //   redirect: "/categories/",
-      //   children: [
-      //     {
-      //       path: ":id/overview",
-      //       component: CategoryOverview,
-      //       name: "category-overview",
-      //     },
-      //     {
-      //       path: ":id/qustionlist",
-      //       component: CategoryQuestionList,
-      //       name: "category-qustionlist",
-      //     },
-      //     {
-      //       path: ":id/results",
-      //       component: CategoryResults,
-      //       name: "category-results",
-      //     },
-      //     {
-      //       path: ":id/team-management",
-      //       component: CategoryTeamManagement,
-      //       name: "category-team_management",
-      //     },
-      //   ],
-      // },
+      {
+        path: "overview/department/:did/categories",
+        component: CategoryLayout,
+        name: "cateogries",
+        redirect: "/categories/",
+        children: [
+          {
+            path: ":id/overview",
+            component: CategoryOverview,
+            name: "category-overview",
+          },
+          {
+            path: ":id/qustionlist",
+            component: CategoryQuestionList,
+            name: "category-qustionlist",
+          },
+          {
+            path: ":id/results",
+            component: CategoryResults,
+            name: "category-results",
+          },
+          {
+            path: ":id/team-management",
+            component: CategoryTeamManagement,
+            name: "category-team_management",
+          },
+        ],
+      },
+
+      // overview pages
+      {
+        path: "overview",
+        component: OverviewLayout,
+        name: "overview",
+        redirect: "/overview/index",
+        children: [
+          {
+            path: "index",
+            component: OverviewIndex,
+            name: "overview-home",
+          },
+          {
+            path: "extended",
+            component: Extended,
+            name: "overview-extended",
+          },
+        ],
+      },
       // payments routes
       {
         path: "payments",
@@ -357,71 +377,9 @@ const routes = [
         component: FindPartner,
         name: "find-partner",
       },
-      // overview pages
-      {
-        path: "overview",
-        component: OverviewLayout,
-        name: "overview",
-        redirect: "/overview/index",
-        children: [
-          {
-            path: "index",
-            component: OverviewIndex,
-            name: "overview-home",
-            children: [
-              {
-                path: "department/:did/categories",
-                component: CategoryLayout,
-                name: "cateogries",
-                redirect: ":id/overview",
-                children: [
-                  {
-                    path: ":id/overview",
-                    component: CategoryOverview,
-                    name: "category-overview",
-                  },
-                  {
-                    path: ":id/qustionlist",
-                    component: CategoryQuestionList,
-                    name: "category-qustionlist",
-                  },
-                  {
-                    path: ":id/results",
-                    component: CategoryResults,
-                    name: "category-results",
-                  },
-                  {
-                    path: ":id/team-management",
-                    component: CategoryTeamManagement,
-                    name: "category-team_management",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            path: "extended",
-            component: Extended,
-            name: "overview-extended",
-          },
-        ],
-      },
     ],
   },
-  // {
-  //   path: "/:departmentid/questionnarie/:categoryId",
-  //   component: QuestionnarieLayout,
-  //   beforeEnter: guardMyroute,
-  //   name: "questionnarie",
-  //   redirect: "/questionnarie/questionnarie-test",
-  //   children: [
-  //     {
-  //       path: "questionnarie-test",
-  //       component: QuestionnarieTest,
-  //       name: "questionnarie-test",
-  //     },
-  //   ],
-  // },
+
   {
     path: "/signup",
     redirect: "/signup/register",

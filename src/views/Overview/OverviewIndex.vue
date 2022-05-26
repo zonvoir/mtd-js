@@ -128,6 +128,8 @@ export default {
   },
 
   methods: {
+    // get categories list of the company/default department
+
     getdDepartmentList() {
       let data = { auth_token: this.authToken };
 
@@ -150,10 +152,15 @@ export default {
           }
         });
     },
+
     // get categories lists
+
     getDefaultDeptCategories(data) {
       this.$store.dispatch("GET_QUESTIONNAIRE_CATEGORY_ARRAY", data);
     },
+
+    // filter categories card by status
+
     filterCategory(val) {
       this.isFiltered = val;
     },

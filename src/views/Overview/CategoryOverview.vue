@@ -108,31 +108,21 @@ import { mapGetters } from "vuex";
 
 import DonutChart from "../../components/Shared/DonutChart.vue";
 export default {
+  data() {
+    return {};
+  },
+
   components: {
     DonutChart,
   },
-  data() {
-    return {
-      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
-      authToken: "",
-      categoryID: "",
-      departmentId: "",
-      isInvalidUser: true,
-      isQuestionnireExpired: undefined,
-    };
-  },
 
   computed: {
+    // get vuex getters vaiable
     ...mapGetters({
       questionnaireDetails: "questionnaireDetails",
       category: "questionnaireCategoryDetails",
     }),
   },
-  created() {
-    this.departmentId = this.$route.params.did;
-    this.categoryID = this.$route.params.id;
-  },
-  methods: {},
 };
 </script>
 

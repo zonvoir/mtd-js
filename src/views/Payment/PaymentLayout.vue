@@ -48,7 +48,7 @@ export default {
       tablist,
       searchIcon,
       dept: true,
-      title: "Help Center",
+      title: "Payments",
     };
   },
   components: {

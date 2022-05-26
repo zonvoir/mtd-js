@@ -23,6 +23,7 @@
         </div>
         <div class="modal-body invitaion_body">
           <div class=""></div>
+          <!-- interface that will show to the admin going to invite -->
           <InvitationRole :departments="departmentLists" />
         </div>
 
@@ -49,39 +50,48 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      // staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       modal: null,
       rolesOfStaff: [],
       departmentLists: [],
     };
   },
+
   components: {
     InvitationRole,
   },
+
   mounted() {
     this.modal = new Modal(this.$refs.invitationModal);
   },
   computed: {
+    // vuex getters
     ...mapGetters({
       allDepartments: "staffsDepartment",
+      staffInfo: "staffDataLocal",
     }),
   },
 
   methods: {
+    //  to open the invite people modal and
+
     invitePeople() {
       this.modal.show();
       if (this.staffInfo && Object.keys(this.staffInfo).length != 0) {
-        // this.departmentByStaffId();
         console.log("data", this.allDepartments);
         this.getInvitaionPeopleListByRole();
         this.departmentLists = this.allDepartments;
       }
     },
 
+    // close modal
+
     closeModal() {
       this.modal.hide();
     },
-    // get List of invited people
+
+    // get List of invited people using vues actions
+
     getInvitaionPeopleListByRole() {
       CompanyService.getInvitationByRole({
         auth_token: this.staffInfo.auth_token,
@@ -90,11 +100,14 @@ export default {
           this.rolesOfStaff = res.data.data;
           this.$store.dispatch("GET_INVITATION_STAFFROLE_LIST", res.data.data);
         } else {
-          errorhandler(res, this);
+          // error notifications function
+          errorhandler(res);
         }
       });
     },
+
     // get list of departments
+
     departmentByStaffId() {
       this.$store
         .dispatch("GET_STAFFS_DEPARTMENT", {

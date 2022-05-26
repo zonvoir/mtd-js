@@ -45,8 +45,8 @@
 const tablist = [
   {
     tabId: 0,
-    title: "help_center.Help_Center",
-    tabTitle: "help_center.tab.Help_Center",
+    title: "Videos & FAQ",
+    tabTitle: "Videos & FAQ",
     component_url: "/help-center/video-faq",
   },
   {

@@ -117,6 +117,7 @@
                     :key="member.id"
                     class="list_group_item d-inline-flex m-b-8"
                   >
+                    <!-- invited email -->
                     <InvitationEmail :member="member" />
                   </li>
                 </ul>
@@ -177,6 +178,7 @@
                   </div>
                 </div>
               </form>
+              <!-- on Import file modal to be opend -->
               <InvitationConfirmModal
                 @uploadCSVFile="importFile(index)"
                 ref="confirmFile"
@@ -211,6 +213,7 @@
                     :key="member.id"
                     class="list_group_item d-inline-flex m-b-8"
                   >
+                    <!-- invited email  -->
                     <InvitationEmail :key="member.id" :member="member" />
                   </li>
                 </ul>
@@ -240,7 +243,7 @@ import CompanyService from "../../Services/Company/CompanyService";
 import InvitationEmail from "../Shared/InvitationEmail.vue";
 import Accordion from "primevue/accordion";
 import AccordionTab from "primevue/accordiontab";
-import { departmentModify } from "../../utils/DepartmentModify";
+// import { departmentModify } from "../../utils/DepartmentModify";
 export default {
   props: {
     departments: {
@@ -281,6 +284,7 @@ export default {
   },
 
   computed: {
+    // get vuex getter variables
     ...mapGetters({
       staffRoles: "invitationStaffRoleList",
       companyLists: "staffsCompanies",
@@ -288,12 +292,17 @@ export default {
     }),
     ...mapGetters(["owner_roleId", "consulatant_roleId"]),
   },
+
+  //  initializing vuex variable
+
   setup() {
     return {
       v$: useVuelidate(),
     };
   },
-  //vis
+
+  //list of variables that are required
+
   validations() {
     return {
       myDepartmensList: { required },
@@ -301,7 +310,7 @@ export default {
   },
 
   created() {
-    // this.getCompanyDetails(this.companyData);
+    // setting that are required for making emails data as input chips
     this.settings = {
       tags: true,
       allowClear: true,
@@ -319,19 +328,24 @@ export default {
     };
   },
   methods: {
+    // clear expiry  date
     clearDate() {
       this.expiryDate = "";
     },
 
-    departmentModifyComp(val) {
-      return departmentModify(val);
-    },
+    // departmentModifyComp(val) {
+    //   return departmentModify(val);
+    // },
+
+    // check if role is consultant in selected company
 
     checkRoles() {
       if (this.ownRole.roleId == this.consulatant_roleId) {
         return true;
       } else return false;
     },
+
+    // get the active role according to selected company
 
     chooseRoleStaff(data, id, isYes = false) {
       if (isYes) {
@@ -341,11 +355,13 @@ export default {
       }
     },
 
+    // update date format
+
     updateDate() {
-      // this.checkValidation();
       this.validity_date = this.expiryDate.toISOString().slice(0, 10);
-      console.log("date", this.validity_date);
     },
+
+    //   this function indirectly triggers onFilePicked Funtion
 
     importFile(fileNameIndex = 0) {
       console.log(this.v$);
@@ -353,8 +369,9 @@ export default {
       if (!this.v$.$invalid) {
         this.$refs["fileInput-" + fileNameIndex].click();
       }
-      // this.$refs["fileInput-" + fileNameIndex].click();
     },
+
+    // to upload the file(csv) of email list
 
     onFilePicked(event, roleId) {
       this.$refs.confirmFile.openModal;
@@ -369,7 +386,6 @@ export default {
         console.log("file extention type", fileType);
         const fileExtension = filename.split(".").pop();
         if (!allowedExtensions.includes(fileExtension)) {
-          // this.is_uploaded = false;
           this.$toast.error(" File type must be (.csv) only.", {
             position: "bottom-left",
             duration: 3712,
@@ -393,24 +409,27 @@ export default {
     },
 
     //  filter invitation list by departments
+
     filterInvitationList() {
       let data = {
         auth_token: this.staffInfo.auth_token,
         departments: this.myDepartmensList.map(Number),
       };
       if (this.myDepartmensList.length > 0) {
+        // department is selected
         CompanyService.getInvitationByRole(data).then((res) => {
           if (res.data.status) {
-            console.log("filterd invitaion list ", res.data.data);
             this.$store.dispatch(
               "GET_INVITATION_STAFFROLE_LIST",
               res.data.data
             );
           } else {
+            // error notificataion utility function
             errorhandler(res, this);
           }
         });
       } else {
+        // department is not selected
         CompanyService.getInvitationByRole(data).then((res) => {
           if (res.data.status) {
             this.$store.dispatch(
@@ -418,41 +437,36 @@ export default {
               res.data.data
             );
           } else {
+            // error notificataion utility function
             errorhandler(res, this);
           }
         });
       }
     },
 
-    // upload csv File
+    // upload csv File status success for failed
     sendInvitationByFile(file, staffrole) {
       this.is_FileUploaded = true;
       console.log("fileData ", file, staffrole);
     },
-    // send Invitation by Emails
+
+    // send Invitation by Emails by manually entered
     SendEmailsList(roleId) {
-      console.log(
-        "checking for consulant",
-        this.owner_roleId,
-        this.consulatant_roleId
-      );
       if (this.owner_roleId == roleId) {
-        console.log("this is Owner", roleId);
+        // Invite for role Owner by consultant
         let data = {
           auth_token: this.staffInfo.auth_token,
           role_id: +roleId,
           recipient_emails: this.myValue,
-          // departments: this.myDepartmensList.map(Number),
           invitation_validity: this.validity_date,
         };
         this.invitePeople(data);
       } else {
-        console.log("this is regular employee", roleId);
         this.v$.$touch();
         if (this.v$.$invalid) {
           return;
         } else {
-          console.log("emailsArray", this.tempEmails, this.myDepartmensList);
+          // Invite people to give access of whole department, all role except Owner
           let data = {
             auth_token: this.staffInfo.auth_token,
             role_id: +roleId,
@@ -465,20 +479,25 @@ export default {
       }
     },
 
+    // Invite people
+
     invitePeople(data) {
       CompanyService.invitationByEmails(data).then((res) => {
         if (res.data.status) {
           this.myValue.length = 0;
-          console.log("data emails", res.data.data);
           this.$store.dispatch("GET_INVITATION_STAFFROLE_LIST", res.data.data);
 
           this.disbaleInvited = true;
+          // success notificataion utility function
           successhandler("Invitations have been sent ");
         } else {
+          // error notificataion utility function
           errorhandler(res);
         }
       });
     },
+
+    // to create tags/chips of emails entered manually
 
     mySelectEvent({ id, text }) {
       console.log("id", { id, text });
@@ -486,9 +505,13 @@ export default {
       this.myValue.length > 0
         ? (this.disbaleInvited = false)
         : (this.disbaleInvited = true);
+
+      // testing for valid email type
       if (this.emailPattern.test(text)) {
+        //  valid email type
         return true;
       } else {
+        //  invalid email type
         this.$toast.error("please enter valid email.", {
           position: "bottom-left",
           duration: 3712,

@@ -20,7 +20,11 @@
       <!-- tabs  -->
       <div class="tabs_wrap m-b-18">
         <div class="">
-          <TabsHr :tabs="tablist" @changeTitle="ChangeT($event)" />
+          <TabsHr
+            :tabs="tablist"
+            :activeTabUrl="$route.path"
+            @changeTitle="ChangeT($event)"
+          />
         </div>
       </div>
       <!-- tabs end -->
@@ -33,6 +37,11 @@
 
 <script>
 import { mapGetters } from "vuex";
+import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
+import TabsHr from "../../components/Shared/TabsHr.vue";
+
+// static list of tab name and tab details
+
 const tablist = [
   {
     tabId: 0,
@@ -47,25 +56,27 @@ const tablist = [
     component_url: "/overview/extended",
   },
 ];
-import InvitePeopleModal from "../../components/Shared/InvitePeopleModal.vue";
-import TabsHr from "../../components/Shared/TabsHr.vue";
 export default {
   data() {
     return {
       tablist,
       dept: true,
       invitedId: undefined,
-      title: "Company",
+      title: this.$route.path == "/overview/index" ? "Company" : "Extended",
     };
   },
+
   components: {
     TabsHr,
     InvitePeopleModal,
   },
 
+  // remove the invited user from localstorage
   beforeCreate() {
     localStorage.removeItem("bWFInpvitedbpbUser");
   },
+
+  // get vuex getters
   computed: {
     ...mapGetters({
       ownRole: "roleInCompany",
@@ -73,6 +84,7 @@ export default {
   },
 
   methods: {
+    // change page title
     ChangeT(title) {
       this.title = title;
     },

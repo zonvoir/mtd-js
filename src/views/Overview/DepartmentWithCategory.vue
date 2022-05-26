@@ -96,8 +96,9 @@ export default {
     }),
   },
   created() {
-    this.component_params = { did: this.$route.params.id };
-    this.departmentId = this.$route.params.id;
+    console.log(this.$route.params);
+    this.component_params = { did: this.$route.params.did };
+    this.departmentId = this.$route.params.did;
     this.authToken = this.staffData.auth_token;
     let data = {
       department_id: this.departmentId,

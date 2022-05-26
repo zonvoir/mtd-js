@@ -135,10 +135,9 @@ import { Modal } from "bootstrap";
 import InvitationEmail from "./InvitationEmail.vue";
 import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
+import { mapGetters } from "vuex";
 
 export default {
-  emits: ["uploadCSVFile"],
-
   props: {
     department_List: {
       type: Array,
@@ -170,8 +169,8 @@ export default {
       modal: null,
       active: false,
       dropFilename: undefined,
-      filelist: [], //https://codepen.io/stenvdb/pen/wvBoYQO
-      staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      filelist: [],
+      // staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       is_FileUploaded: false,
       departmentsArr: this.department_List,
       members: [],
@@ -182,14 +181,24 @@ export default {
     InvitationEmail,
   },
 
+  computed: {
+    // vuex getters variables
+    ...mapGetters({
+      staffInfo: "staffDataLocal",
+    }),
+  },
+
   mounted() {
     this.modal = new Modal(this.$refs.invitationConfirmModal);
   },
 
   methods: {
+    // this function indirectlty triggers onFilePicked funtions
     importFile(fileNameIndex = 0) {
       this.$refs["fileInput-" + fileNameIndex].click();
     },
+
+    // this funtion is used for uploading csv file of email list
 
     onFilePicked(event) {
       const allowedExtensions = ["csv"];
@@ -200,7 +209,6 @@ export default {
         var fileType = files[0].type;
         const fileExtension = filename.split(".").pop();
         if (!allowedExtensions.includes(fileExtension)) {
-          // this.is_uploaded = false;
           this.$toast.error(" File type must be (.csv) only.", {
             position: "bottom-left",
             duration: 3712,
@@ -253,6 +261,7 @@ export default {
       }
     },
 
+    //  close confirmation emails modal
     closeModal() {
       this.modal.hide();
       this.dropFilename = "";
@@ -261,8 +270,10 @@ export default {
       setTimeout(document.body.classList.remove("file_upload_modal"), 60000);
     },
 
+    // invite people by emails in uploaded file and update
     proceedForward() {
       if (this.teamModal) {
+        // this code will upload emails file comming from team member
         let data = {
           auth_token: this.staffInfo.auth_token,
           category_id: this.category_id,
@@ -281,6 +292,7 @@ export default {
             }
           });
       } else {
+        // this code will upload file of emails comming from normal invitation modal
         let data = {
           auth_token: this.staffInfo.auth_token,
           role_id: this.staffRole,
@@ -303,6 +315,7 @@ export default {
       }
     },
 
+    // upload file that are comming from normal invitation process
     invitaionsFile() {
       if (this.department_List.length) {
         this.modal.show();
@@ -311,6 +324,8 @@ export default {
       }
     },
 
+    // upload  file that are comming from team mangement page
+
     invitaionsForTeamFile() {
       const el = document.body;
       el.classList.add("file_upload_modal");
@@ -318,7 +333,7 @@ export default {
       this.modal.show();
     },
 
-    // today
+    // this function is used for dynamically adding class on drag and drop
     toggleActive() {
       this.active = !this.active;
     },

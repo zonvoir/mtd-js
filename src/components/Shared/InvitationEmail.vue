@@ -15,7 +15,6 @@
             {{ member.status }}
           </p>
         </div>
-        <!-- <div class="dropdown"> -->
         <button
           v-if="member.sender_id"
           class="btn btn-transaprent kk_drop"
@@ -59,18 +58,20 @@ export default {
   },
 
   computed: {
+    // vuex getter variables
     ...mapGetters({
       ownRole: "roleInCompany",
+      staffInfo: "staffDataLocal",
     }),
   },
 
   components: {
     Menu,
   },
-  mounted() {},
+
   data() {
     return {
-      staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      // staffInfo: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       dropdown: null,
       openDropdown: false,
       items: [
@@ -83,13 +84,20 @@ export default {
       ],
     };
   },
+
+  // onclick outside close the dropdown
   beforeUnmount() {
     document.removeEventListener("click", this.closeDropDrown);
   },
+
   methods: {
+    // to show and hide remove drop down
     toggle() {
       this.$refs.menu.toggle(event);
     },
+
+    // apply the dyanamic class according to te current status of the invited emails
+
     getClass(value) {
       return {
         expired: "expired",
@@ -99,12 +107,18 @@ export default {
         invalid: "expired",
       }[value];
     },
+
+    // close the dropdown menu
+
     closeDropDrown(e) {
       console.log(e);
       if (!this.$el.contains(e.target)) {
         this.openDropdown = false;
       }
     },
+
+    // remove invitaion from the list by user id  using vuex action and  update list
+
     removeInvitaion(inv_Id) {
       this.openDropdown = false;
       let data = {
@@ -112,18 +126,19 @@ export default {
         invitation_id: inv_Id,
       };
       if (this.teamModal) {
+        // if remove member request is commig from team management
         this.$store.dispatch("GET_REMOVE_TEAM_MEMBER", data);
       } else {
+        // remove member request is commig from normal Invitaion Modal page
         CompanyService.deleleInvitation(data)
           .then((res) => {
             if (res.data.status) {
-              this.deletedInvitaion(inv_Id);
-              console.log("deleted invitaion res ", res.data);
               this.$store.dispatch(
                 "GET_INVITATION_STAFFROLE_LIST",
                 res.data.data
               );
             } else {
+              // error notificataion utility function
               errorhandler(res, this);
             }
           })
@@ -131,11 +146,6 @@ export default {
             console.log(err);
           });
       }
-    },
-
-    // deleted list
-    deletedInvitaion(id) {
-      console.log("id deletedInvitaion ", id);
     },
   },
 };
