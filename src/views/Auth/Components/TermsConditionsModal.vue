@@ -195,6 +195,7 @@ export default {
   },
 
   methods: {
+    // accept privacy and policy modal open only once
     acceptTermsCondtions() {
       localStorage.setItem("agreedToPrivacy", true);
       this.modal.hide();

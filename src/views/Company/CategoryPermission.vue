@@ -259,9 +259,8 @@ export default {
   },
 
   methods: {
+    // emmit data(in which department/category permission change) to PermissionTable component
     getPermissionValue(ev, keyname, departmentId, categoryId) {
-      console.log(ev.checkedData, keyname, departmentId, categoryId);
-
       this.$emit("getPermitData", {
         dept_id: departmentId,
         cat_id: categoryId,

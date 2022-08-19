@@ -141,7 +141,6 @@ class CompanyService {
 
   // member filter by roleId
   memberByRoleId(data) {
-    console.log("all words", data);
     return http.post("customers/filter_member", data, {
       headers: {
         "X-Company": localStorage.getItem("selected_company"),

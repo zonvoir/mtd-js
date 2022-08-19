@@ -62,7 +62,7 @@
             <!--  -->
             <button
               type="button"
-              @click="editCompany(companyAllInformation.company_id)"
+              @click="editCompany()"
               class="btn btn-primary btn_size"
             >
               <img
@@ -691,7 +691,7 @@ export default {
   data() {
     return {
       tablist,
-      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      // staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       currency: undefined,
     };
   },
@@ -702,6 +702,7 @@ export default {
   },
 
   created() {
+    // on page load get all currency, main industry, legal form of incorporation and regions list
     this.$store.dispatch("GET_ALL_CURRENCY");
     this.$store.dispatch("GET_MAIN_INDUSTRIES");
     this.$store.dispatch("GET_ALL_LEGAL_FORM_CORPORATION");
@@ -714,8 +715,10 @@ export default {
   },
 
   computed: {
+    // vuex getter variables
     ...mapGetters({
-      companyAllInformation: "companyData",
+      staffData: "staffDataLocal", // get auth token from local storage
+      companyAllInformation: "companyData", //get company information
       industryLists: "mainIndustries",
       subIndustryLists: "subIndustries",
       detailedIndustryLists: "detailIndustries",
@@ -739,27 +742,33 @@ export default {
       return getlabelValue(givenArr, id);
     },
 
-    editCompany(id) {
-      console.log("cliked company", id);
+    // edit company details
+    editCompany() {
       this.$router.push({ name: "company-profile-edit" });
     },
+
+    // get company all informations
     getCompanyInformation() {
       this.$store.dispatch("CAMPNAY_PROFILE_DATA", {
         auth_token: this.staffData.auth_token,
       });
     },
+
+    // get sub Industry list when main industry changed
     onChangeMainIndustry(id) {
       this.$store.dispatch("GET_SUB_INDUSTRIES", id);
     },
 
+    // get detailed industry when sub Industry changed
     onChangeSubIndustry(id) {
       this.$store.dispatch("GET_DEATAIL_INDUSTRIES", id);
     },
+
+    // get list of countries
+
     getCountries(id) {
       this.$store.dispatch("GET_COUNTRIES", id);
     },
-
-    onChangeCurrency() {},
   },
 };
 </script>

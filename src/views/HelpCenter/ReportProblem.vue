@@ -121,7 +121,6 @@ export default {
 
   mounted() {
     this.btnDyanmicWidth = this.$refs.button_title.clientWidth;
-    // this.getParaData();
   },
 
   created() {
@@ -144,18 +143,6 @@ export default {
   },
 
   methods: {
-    // getParaData() {
-    //   this.allData = this.$refs.paragraph.innerHTML.toLowerCase();
-    // },
-
-    // getUpdatedData() {
-    //   this.matchedData = this.allData.replace(
-    //     this.reportProblem.message,
-    //     `<mark class='highk'>${this.reportProblem.message}</mark>`
-    //   );
-    //   this.$refs.paragraph.innerHTML = this.matchedData;
-    //   console.log(this.matchedData, this.allData);
-    // },
     getTypeofIssues() {
       HelpCenterService.getAllIssues()
         .then((res) => {

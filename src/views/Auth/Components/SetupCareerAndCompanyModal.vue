@@ -55,9 +55,9 @@ export default {
     this.modal = new Modal(this.$refs.exampleModal);
   },
 
+  // close modal
   onCloseModal() {
     this.modal.hide();
-    console.log("hi");
   },
 };
 </script>

@@ -47,7 +47,6 @@
 import "vue3-date-time-picker/dist/main.css";
 import MultiSelect from "primevue/multiselect";
 import { mapGetters } from "vuex";
-import { departmentModify } from "../../utils/DepartmentModify";
 import CompanyService from "../../Services/Company/CompanyService";
 import errorhandler from "../../utils/Error";
 export default {
@@ -60,20 +59,21 @@ export default {
       type: Array,
     },
   },
+
   components: {
     MultiSelect,
   },
+
   data() {
     return {
       dept_list: [],
-      count: 0,
       catgry_list: [],
-      categoriesList: [],
       permissonsArr: [],
     };
   },
 
   computed: {
+    // vuex getter variables
     ...mapGetters({
       staffInfo: "staffDataLocal",
       categoriesArr: "allCategories",
@@ -82,25 +82,8 @@ export default {
     }),
   },
 
-  watch: {
-    permissonList: {
-      handler(val) {
-        this.count++;
-        if (this.count == 1) {
-          this.permissonsArr = val;
-        }
-      },
-      deep: true,
-    },
-  },
   methods: {
-    // get All dept lists
-    modifyDept(data) {
-      return departmentModify(data);
-    },
-    modifyCategories(data) {
-      return data;
-    },
+    // filder member permission by the category and department id
 
     permissionFilter() {
       let data = {
@@ -113,13 +96,15 @@ export default {
       if (this.catgry_list.length > 0 || this.dept_list.length > 0) {
         CompanyService.filterMemberPermission(data).then((res) => {
           if (res.data.status) {
-            console.log("res off filter data", res.data.data);
+            // get updated permission array
             this.$store.dispatch("GET_PERMISSION_ARRAY", res.data.data);
           } else {
-            errorhandler(res, this);
+            // error notifications
+            errorhandler(res);
           }
         });
       } else {
+        // get permission list with out any filters
         this.$store.dispatch("GET_PERMISSION_ARRAY", this.permissonsArr);
       }
     },

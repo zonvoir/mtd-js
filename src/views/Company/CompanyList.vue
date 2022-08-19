@@ -7,6 +7,7 @@
           <thead></thead>
           <tbody class="company_tbody">
             <tr class="company_tr">
+              <!-- add new comapny -->
               <td @click="addCompany" class="company_td add_new_company">
                 <AddCompanyModal :key="updateCount" ref="add_company_modal">
                   <template v-slot:add-company>
@@ -146,6 +147,7 @@ import {
   getFirstLetter,
   setRandomBackground,
 } from "../../utils/commonHelperFuntions";
+// tab title and other details
 const tablist = [
   {
     tabId: 0,
@@ -158,6 +160,7 @@ const tablist = [
     pageUrl: "company-member",
   },
 ];
+
 export default {
   components: {
     AddCompanyModal,
@@ -167,16 +170,20 @@ export default {
     return {
       UserPic,
       tablist,
-      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      // staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       updateCount: 0,
     };
   },
+
   computed: {
     ...mapGetters({
-      companyLists: "staffsCompanies",
+      companyLists: "staffsCompanies", // get all companies list
+      staffData: "staffDataLocal", // get user auth token from local storage
     }),
   },
+
   mounted() {
+    // tooltip intializing
     Array.from(
       document.querySelectorAll('a[data-bs-toggle="tooltip"]')
     ).forEach((tooltipNode) => new Tooltip(tooltipNode));
@@ -187,20 +194,20 @@ export default {
     formatMemberName(str) {
       return getFirstLetter(str);
     },
+
     // get member name format
     getBgColor() {
       return setRandomBackground();
     },
 
+    // add new company by opening modal
     addCompany() {
       this.$refs.add_company_modal.modal.show();
-      // this.updateCount += 1;
-      // setTimeout(() => {
-      // }, 3000);
-      // this.$router.push({ name: "company-update" });
     },
 
+    // get company detail and open company profile page
     companyDetails(id) {
+      // get company detail using vuex action
       this.$store.dispatch("CAMPNAY_PROFILE_DATA", {
         auth_token: this.staffData.auth_token,
       });

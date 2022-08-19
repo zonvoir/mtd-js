@@ -46,11 +46,11 @@ export default {
     Accordion,
     AccordionTab,
   },
+
   data() {
     return {
       tagId: 0,
       lists: undefined,
-      // tag_list:undefined
     };
   },
 
@@ -80,6 +80,7 @@ export default {
         }
       });
     },
+
     // get Active filer letter
     getActiveList(value) {
       this.currentIdx = value;

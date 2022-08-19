@@ -556,20 +556,23 @@ export default {
   data() {
     return {
       tablist,
-      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      // staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
     };
   },
   computed: {
     ...mapGetters({
       companyProfileData: "companyData",
+      staffData: "staffDataLocal",
     }),
   },
+
   created() {
     this.$store.dispatch("GET_CUSTOM_CURRENCY_EXCHANGE_RATES", {
       auth_token: this.staffData.auth_token,
     });
     this.getCompanyInformation();
   },
+
   components: {
     CompanyUpdate,
   },
@@ -580,6 +583,7 @@ export default {
         auth_token: this.staffData.auth_token,
       });
     },
+
     isAuthenticUser() {
       if (
         this.companyProfileData &&

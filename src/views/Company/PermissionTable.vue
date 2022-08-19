@@ -88,10 +88,13 @@ export default {
   components: {
     CategoryPermission,
   },
+
   mounted() {
     this.updatedCategories = this.categoryList;
   },
+
   methods: {
+    // get data emmited by category permission component
     getPermitData(val) {
       let updated = this.updatedCategories.filter((category, idx, catArr) => {
         if (category.id == val.cat_id) {
@@ -99,6 +102,8 @@ export default {
         }
         return catArr;
       });
+
+      // emmit data(in which department/category permission change) to PermissionModal component
       this.$emit("getUpdatedPermission", {
         deptPermission: updated,
         dept_id: val.dept_id,

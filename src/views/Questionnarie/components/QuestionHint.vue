@@ -1,6 +1,8 @@
 <template>
   <div class="hint_box">
+    <!-- hint type is text -->
     <div class="textpart" v-if="hintType === 'text'" v-html="hint"></div>
+    <!-- hint type is image -->
     <div class="imgpart" v-if="hintType === 'image'">
       <div class="img_part_wrap">
         <div
@@ -27,7 +29,6 @@
               </div>
             </a>
           </div>
-          <!-- class="img_width_small" -->
           <img
             :class="
               size_width > 640 && size_height > 480
@@ -39,7 +40,8 @@
         </div>
       </div>
     </div>
-
+    <!-- hint type image end -->
+    <!-- hint type is video -->
     <div class="" v-if="hintType === 'video'">
       <div class="text-center">
         <video style="width: 35.5rem" controls>
@@ -48,12 +50,15 @@
         </video>
       </div>
     </div>
+    <!-- hint type is video close -->
 
+    <!-- hint type is pdf -->
     <div v-if="hintType === 'pdf'" class="">
       <div class="text-center">
         <iframe :src="hint" style="width: 43rem" height="500" width=""></iframe>
       </div>
     </div>
+    <!-- hint type is pdf closed -->
   </div>
 </template>
 

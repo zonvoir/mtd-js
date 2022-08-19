@@ -12,7 +12,8 @@
       </div>
       <!-- tabs start -->
       <div class="tabs_wrap m-b-18">
-        <!-- {{ $route.path }} -->
+        <!-- v-bind="$attrs"
+            :class="activehr_tab" -->
         <div class="">
           <TabsHr
             :tabs="tablist"
@@ -37,6 +38,7 @@
 </template>
 
 <script>
+// static tab's title
 const tablist = [
   {
     tabId: 0,
@@ -72,11 +74,20 @@ export default {
       title: "company_profile.Company",
     };
   },
+
   components: {
     TabsHr,
     InvitePeopleModal,
   },
+
+  watch: {
+    "$route.path": function () {
+      console.log(this.$route.path, "kk");
+    },
+  },
+
   computed: {
+    // vuex getters variables
     ...mapGetters({
       staffInfo: "staffDataLocal",
       allDepartments: "staffsDepartment",
@@ -91,18 +102,11 @@ export default {
       this.departmentLists = this.allDepartments;
     }
   },
+
   methods: {
+    // change page title
     ChangeT(title) {
       this.title = title;
-    },
-    departmentByStaffId() {
-      this.$store
-        .dispatch("GET_STAFFS_DEPARTMENT", {
-          auth_token: this.staffInfo.auth_token,
-        })
-        .then((res) => {
-          console.log("res from vuex", res);
-        });
     },
   },
 };

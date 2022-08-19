@@ -47,11 +47,7 @@
                 <div class="hint_message_wrap">
                   <p class="text-secodary m-b-0">
                     {{ $t("company.step_one.image_size") }}
-                    <!-- Images should be 100 x 100 px as a png or jpeg file -->
                   </p>
-                  <!-- v-if="valiImage" <p v-else class="text-danger m-b-0">
-                    Images Must be 100 x 100 px as a png or jpeg file
-                  </p> -->
                 </div>
               </div>
             </div>
@@ -638,17 +634,9 @@ export default {
       }
     },
 
-    // setPlace(e) {
-    //   this.companyForm.address = e.formatted_address;
-    //   console.log(e.geometry.location.lat(), e.geometry.location.lng());
-    // },
-    // updateValue(e) {
-    //   this.companyForm.address = e.target.value;
-    //   console.log(e.target.value);
-    // },
-
     // create company on company profile end
 
+    // go to sign In pages
     goTo() {
       localStorage.removeItem("bWFpbCI6Inpvb");
       localStorage.removeItem("selected_company");
@@ -657,10 +645,7 @@ export default {
       this.$router.push({ name: "signup-signin" });
     },
 
-    visRedirect() {
-      this.$router.push({ name: "signup-signin" });
-    },
-
+    // save company basic details step 1
     saveCompanyInfo() {
       this.v$.$touch();
       if (this.v$.$invalid) {
@@ -702,7 +687,8 @@ export default {
               }
               this.formReset();
             } else {
-              errorhandler(response, this);
+              // error notifications
+              errorhandler(response);
             }
           })
           .catch((error) => {
@@ -714,6 +700,7 @@ export default {
       }
     },
 
+    // clear company form
     clearForm() {
       this.v$.$reset();
       this.country_flag = "";
@@ -735,6 +722,7 @@ export default {
       };
     },
 
+    // trigger clear comapny form and send to company step 2
     formReset() {
       this.clearForm();
 
@@ -771,6 +759,7 @@ export default {
       this.$refs.fileInput.click();
     },
 
+    // pick company profile image
     onFilePicked(event) {
       this.valiImage = true;
       const files = event.target.files;
@@ -797,10 +786,12 @@ export default {
       }
     },
 
+    // remove selected image
     removeImage() {
       this.defaultImg = "icons/cloud-upload.svg";
     },
 
+    // set comapny profile data to a variable
     uploadCompanyLogo(file) {
       let $th = this;
       var reader = new FileReader();
@@ -814,6 +805,7 @@ export default {
       };
     },
 
+    // on change country
     onChangeCountry() {
       this.$store.dispatch("GET_STATES_BY_COUNTRY", "");
       this.$store.dispatch("GET_CITIES_BY_STATE_ID", "");
@@ -831,6 +823,7 @@ export default {
     getCountries() {
       this.$store.dispatch("GET_COUNTRIES");
     },
+
     // get states lists
     // id
     getAllStates(id) {
@@ -851,6 +844,7 @@ export default {
       }
     },
 
+    // check comapny  step 1 is completed or not
     checkCompany() {
       if (this.staffData != null) {
         SignupService.checkCompany({
@@ -890,12 +884,12 @@ export default {
             } else {
               this.$router.push({ name: "signin-verify-account" });
             }
-            // this.$router.push({ name: "Dashboard" });
           }
         });
       }
     },
 
+    // get country flag and country code by selected country id
     selectedCountryCode(id) {
       CommonService.getCountryCode({ country_id: id }).then((resp) => {
         if (resp.data.status) {

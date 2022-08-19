@@ -35,7 +35,6 @@
                     {{ $t("career_step.buttons.remove") }}
                   </button>
                 </div>
-                <!-- @isFormValid="checkFormValidation" -->
                 <career-form
                   :ref="'childCareer' + idx"
                   @addNewCareer="isCareerFilled"
@@ -107,7 +106,6 @@ export default {
       modal: null,
       from: "From",
       to: "To",
-      // emitedValidation: undefined,
       staffData:
         JSON.parse(sessionStorage.getItem("OiJKV1QiLCJhbGciOiJIUzI1")) ||
         JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
@@ -130,6 +128,9 @@ export default {
   components: {
     CareerForm,
   },
+
+  //  all the variables declare here that are need validation
+
   validations: {
     carreerForm: {
       company: { required },
@@ -139,18 +140,26 @@ export default {
       seniority_level: { required },
     },
   },
+
   setup() {
     return {
+      // vuelidate variable decalaration
+
       v$: useVuelidate(),
     };
   },
+
   mounted() {
     this.modal = new Modal(this.$refs.careerModal);
   },
+
   methods: {
+    // close the modal
     closeModal() {
       this.modal.hide();
     },
+
+    // reset career form
     resetCareer() {
       this.v$.$reset();
       this.carreerForm = [
@@ -164,25 +173,32 @@ export default {
       ];
       this.modal.hide();
     },
+
+    // addd more career
     addMultipleCareer() {
       this.newAddedCareer = [];
       this.modal.show();
       this.multifrom = true;
     },
+
+    //  get the emmited data from careerForm component to check that career is filled or not
     isCareerFilled(value) {
       if (value && Object.keys(value).length != 0) {
         this.newAddedCareer.push(value.newCareer);
         console.log("career array ", this.newAddedCareer);
       }
     },
+
+    // remove added career form
     removeForm(id) {
-      console.log(id);
       console.log(
         this.carreerForm,
         this.carreerForm.splice(id, 1),
         this.carreerForm
       );
     },
+
+    // save all the career form data
     saveData() {
       this.v$.$touch();
       let data = [];
@@ -201,6 +217,8 @@ export default {
         this.modal.hide();
       }
     },
+
+    // add more career on modal page
     addMoreCareerInformation() {
       this.carreerForm.push({
         company: "",
@@ -209,7 +227,6 @@ export default {
         department: [],
         seniority_level: "",
       });
-      console.log("add more", this.carreerForm);
     },
   },
 };

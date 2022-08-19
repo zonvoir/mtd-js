@@ -618,12 +618,14 @@ export default {
       this.$store.dispatch("GET_MAIN_INDUSTRIES");
     },
 
+    // get subindustries list on change company main Industry
     onChangeMainIndustry() {
       this.$store.dispatch(
         "GET_SUB_INDUSTRIES",
         this.companyForm.main_industry
       );
     },
+    // get detailed industries list on change company Sub Industry
 
     onChangeSubIndustry() {
       this.$store.dispatch(
@@ -632,14 +634,10 @@ export default {
       );
     },
 
+    // get countries list according to region
     onChangeRegion() {
-      // console.log("country_lists", this.companyForm.company_country);
       this.getCountries(this.companyForm.region);
     },
-
-    // onChangeCountry() {
-    //   console.log("country_lists", this.companyForm.company_country);
-    // },
 
     // get regions lists
     getRegions() {
@@ -653,6 +651,7 @@ export default {
       }
     },
 
+    // filter region by region id
     filterdRegionList(regArr) {
       let arr = regArr.filter((item) => {
         return this.RegionsArr.includes(item.value);
@@ -660,6 +659,7 @@ export default {
       return arr;
     },
 
+    // on page load get selected region according  to country id on step 1
     getSelctedRegion() {
       CommonService.getRegionByCountryId(this.countryId).then((res) => {
         if (res.data.status) {
@@ -678,6 +678,7 @@ export default {
       this.$store.dispatch("GET_COUNTRIES", { region_id: id });
     },
 
+    // checking for company step 2 is completed or not
     checkCompany() {
       if (this.staffData != null) {
         SignupService.checkCompany({

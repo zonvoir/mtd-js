@@ -141,7 +141,6 @@
 
         <div v-if="questions[currentIdx].hint" class="">
           <div class="d-flex align-items-center m-b-15">
-            <!-- <QuestionExpalnaion /> -->
             <div class="info_icon_wrap m-r-10">
               <img src="K_Icons/info_gray_24dp.svg" alt="" class="svg_icon" />
             </div>
@@ -164,7 +163,6 @@
       <!-- bottom section start -->
     </div>
     <div class="btns_wrap">
-      <!-- {{ questions.length }} -->
       <div v-if="questions.length > 1" class="">
         <button
           :key="currentIdx"
@@ -212,7 +210,6 @@ import AnsEmail from "./AnsEmail.vue";
 import AnsWebsite from "./AnsWebsite.vue";
 import AnsSelect from "./AnsSelect.vue";
 import AnsPercent from "./AnsPercent.vue";
-
 import AnsDate from "./AnsDate.vue";
 import QuestionnaireService from "../../../Services/QuestionnaireServices/Questionnaire";
 import { mapGetters } from "vuex";
@@ -220,6 +217,7 @@ import QuestionHint from "./QuestionHint.vue";
 import errorhandler from "../../../utils/Error";
 export default {
   props: {},
+
   components: {
     AnsCheckbox,
     AnsRadio,
@@ -235,6 +233,7 @@ export default {
     AnsPercent,
     AnsSelect,
   },
+
   data() {
     return {
       currentIdx: 0,
@@ -242,23 +241,27 @@ export default {
       quiz: [],
       isHint: false,
       isValidated: false,
-      staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
+      // staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
       authToken: "",
       answerValue: "" | [],
     };
   },
 
   computed: {
+    // vuex getter variables
     ...mapGetters({
       questions: "getQuestionList",
+      staffData: "staffDataLocal",
     }),
 
+    // random clicked questio on questionnaire sidebar
     questionIdex() {
       return this.$store.getters.randomQuizIndex;
     },
   },
 
   watch: {
+    // watch the question index value, to check is comming from random selected Question or normal next question
     questionIdex: function () {
       if (this.questionIdex == 0) {
         this.currentIdx = this.questionIdex;
@@ -268,6 +271,8 @@ export default {
       this.isHint = false;
       this.answerValue = this.questions[this.currentIdx].staff_anwser;
     },
+
+    // calculate the percentage when any change in question list i.e answerd is given
     questions: function () {
       this.calculateAnserdQuestion();
     },
@@ -284,28 +289,38 @@ export default {
   },
 
   methods: {
+    // Ans value given emmited by child value
     userGivenAnswer(value) {
       this.answerValue = value.ansData;
       this.isValidated = value.isFieldValid;
     },
+
+    //  show and  hide the hint section
     updateIsHint() {
       this.isHint = !this.isHint;
     },
+
+    // next Question will show when user enter after giving  ans
     enterClicked(ev) {
       if (ev.keyCode === 13) {
         if (this.isValidated) {
           if (this.currentIdx === this.questions.length - 1) {
+            // current question is last question
             let id = this.questions[this.currentIdx].id;
             this.finishQuestion(id);
           } else {
+            // current question is not last question
             let id = this.questions[this.currentIdx].id;
             this.nextQuestion(id);
           }
         } else {
+          // error notifaction message
           errorhandler("Please answer the question");
         }
       }
     },
+
+    // To move the next question in Questionnaire
     nextQuestion(id) {
       this.isHint = false;
       if (
@@ -314,6 +329,7 @@ export default {
         this.answerValue == ""
       ) {
         this.isValidated = false;
+        // send error notification
         errorhandler("Please answer the question");
         return;
       }
@@ -327,6 +343,8 @@ export default {
       this.isValidated = false;
       return this.currentIdx;
     },
+
+    // finish or submit the questionnaire
     finishQuestion(id) {
       console.log(id);
       let data = {
@@ -337,32 +355,39 @@ export default {
 
       this.submitAnswer(data);
     },
+
+    // got to previous Question
     prevoiusQuestion() {
       this.isHint = false;
       this.currentIdx = this.currentIdx - 1;
       this.quiz = this.questions[this.currentIdx];
       return this.currentIdx;
     },
+
+    // submit the given answer
     submitAnswer(data) {
       QuestionnaireService.submitAnswer(data).then((res) => {
         this.questions[this.currentIdx].is_answered = true;
         if (res.data.status) {
           if (this.currentIdx >= this.questions.length - 1) {
+            // close the Questionnaire  modal using vues action
             this.$store.dispatch("GET_QUIZ_MODAL_STATUS", false);
           } else {
             this.questions[this.currentIdx].is_answered = true;
             this.questions[this.currentIdx].staff_anwser = data.answer;
-            console.log("vis csum", this.questions);
             this.isValidated = false;
             this.currentIdx = this.currentIdx + 1;
             this.quiz = this.questions[this.currentIdx];
           }
           this.calculateAnserdQuestion();
         } else {
+          // send error notification by helper function
           errorhandler(res);
         }
       });
     },
+
+    // calculate the percentage of question ahas been given and show that on progress bar
     calculateAnserdQuestion() {
       let answeredArr = [];
       let totalQuestions = this.questions.length;
@@ -377,6 +402,7 @@ export default {
         perValue = 0;
       }
       perValue = parseInt(perValue);
+      // send percentage value of given questions to progressbar using vuex anction
       this.$store.dispatch("GET_INCREMENT_PROGRESS_VALUE", perValue);
     },
   },

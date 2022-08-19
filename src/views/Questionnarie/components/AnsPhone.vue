@@ -66,7 +66,10 @@ export default {
   },
 
   created() {
+    // if ans is given set the ans value
+
     this.ansValue =
+      // phoneNumberMask is helper funtion that are used for formatting number like 123 123 123
       phoneNumberMask("", this.default_seprator) == 0
         ? ""
         : phoneNumberMask("", this.default_seprator);
@@ -76,6 +79,8 @@ export default {
       this.emitData(this.ansValue);
     }
   },
+
+  //  all the variables declare here that are need validation and its type
 
   validations() {
     return {
@@ -89,11 +94,14 @@ export default {
 
   setup() {
     return {
+      // vuelidate variable decalaration
+
       v$: useVuelidate(),
     };
   },
 
   methods: {
+    // get the value of user given ans and validate it
     onInput(value) {
       this.v$.$touch();
       this.isFieldValid = false;
@@ -107,12 +115,15 @@ export default {
       this.emitData(val);
     },
 
+    // send the data to Question Component
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,
         isFieldValid: this.isFieldValid,
       });
     },
+
+    // allow the keys which are going to press and restrict other
 
     numberKeyDown(evt) {
       let keysCodes = [
@@ -129,23 +140,22 @@ export default {
 
         return false;
       }
-      console.log("dello2");
     },
 
+    // get the value of user given ans
+
     isNumber(evt) {
-      console.log(evt, "kk");
       if (this.tabBackDel.includes(evt.keyCode)) {
-        console.log("going to delete the code", evt.target.value);
         this.onInput(evt.target.value);
       }
 
       let char = evt.key;
       if (this.numberPattern.test(char)) {
         this.formatedData = phoneNumberMask(
+          // maskRemover function is to format number like 123123123
           maskRemover(evt.target.value, this.default_seprator),
           this.default_seprator
         );
-        console.log("fromated phone number", this.formatedData);
         this.onInput(this.ansValue);
         this.ansValue = this.formatedData;
         return true;

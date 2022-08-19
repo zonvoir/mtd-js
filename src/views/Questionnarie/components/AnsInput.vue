@@ -34,6 +34,7 @@ export default {
       type: String,
     },
   },
+
   data() {
     return {
       ansValue: "",
@@ -42,23 +43,33 @@ export default {
   },
 
   created() {
+    // if ans is given set the ans value
     if (this.currentAns != "") {
       this.isFieldValid = true;
       this.ansValue = this.currentAns;
       this.emitData(this.ansValue);
     }
   },
+
+  //  all the variables declare here that are need validation
+
   validations() {
     return {
       ansValue: { required },
     };
   },
+
   setup() {
     return {
+      // vuelidate variable decalaration
+
       v$: useVuelidate(),
     };
   },
+
   methods: {
+    // get the value of user given ans
+
     onInput(event) {
       this.v$.$touch();
       this.isFieldValid = false;
@@ -70,6 +81,8 @@ export default {
 
       this.emitData(val);
     },
+
+    // send the data to Question Component
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,

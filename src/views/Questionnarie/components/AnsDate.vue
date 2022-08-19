@@ -36,6 +36,7 @@ export default {
       type: String,
     },
   },
+
   data() {
     return {
       ansValue: "",
@@ -43,11 +44,13 @@ export default {
       isFieldValid: false,
     };
   },
+
   components: {
     Datepicker,
   },
+
   created() {
-    console.log(this.currentAns);
+    // if ans is given set the ans value
     if (this.currentAns != "") {
       this.isFieldValid = true;
       let parts = this.currentAns.split("/");
@@ -56,21 +59,23 @@ export default {
       this.emitData(this.currentAns);
     }
   },
+
+  //  all the variables declare here that are need validation
   validations() {
     return {
       ansValue: { required },
     };
   },
+
   setup() {
     return {
+      // vuelidate variable decalaration
       v$: useVuelidate(),
     };
   },
 
   methods: {
-    // clearDate() {
-    //   this.ansValue = "";
-    // },
+    // get the Ans value
     updateDate(value) {
       console.log("value updated", value);
       this.v$.$touch();
@@ -84,6 +89,7 @@ export default {
       }
     },
 
+    // send the data to Question Component
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,

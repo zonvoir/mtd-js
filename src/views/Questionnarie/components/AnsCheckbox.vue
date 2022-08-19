@@ -39,7 +39,10 @@ export default {
       answer: new Array(this.data.length).fill(false),
     };
   },
+
   created() {
+    // if ans is given set the ans value
+
     this.data.forEach((opt, index) => {
       if (this.currentAns.includes(opt.option_id)) {
         this.answer[index] = true;
@@ -51,7 +54,10 @@ export default {
       console.log("is staff ans", this.currentAns);
     }
   },
+
   methods: {
+    // get checknox value
+
     updateAnswer() {
       let ansArr = [];
       this.answer.forEach((val, ind) => {
@@ -66,6 +72,9 @@ export default {
       }
       this.emitData(ansArr);
     },
+
+    // send the data to Question Component
+
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,

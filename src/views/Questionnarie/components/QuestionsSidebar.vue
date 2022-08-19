@@ -56,12 +56,14 @@ export default {
   },
 
   computed: {
+    // vuex variable to get QuestionList
     ...mapGetters({
       questions: "getQuestionList",
     }),
   },
 
   methods: {
+    // select the random question id and send to Question component via vuex
     getQuestionById(id) {
       this.$store.dispatch("GET_RANDOM_QUESTION_INDEX", id);
     },

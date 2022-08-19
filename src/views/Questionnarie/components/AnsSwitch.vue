@@ -31,11 +31,8 @@ export default {
       isFieldValid: true,
     };
   },
-  beforeUnmount() {
-    console.log("i am from before unmunted");
-  },
+
   unmounted() {
-    console.log("i am from un mounted");
     this.isFieldValid = false;
     if (this.tempAns != "") {
       this.emitData(this.tempAns);
@@ -43,7 +40,9 @@ export default {
       this.emitData(this.tempAns);
     }
   },
+
   created() {
+    // if ans is given set the ans value
     if (this.currentAns != "") {
       if (this.currentAns === "yes") {
         this.answer = true;
@@ -56,32 +55,43 @@ export default {
       this.emitData(this.tempAns);
     }
   },
+
+  //  all the variables declare here that are need validation and its type
+
   validations() {
     return {
       ansValue: { required },
     };
   },
+
   setup() {
     return {
+      // vuelidate variable decalaration
+
       v$: useVuelidate(),
     };
   },
   methods: {
+    // get the value of user given ans
+
     updateAnswer() {
       this.v$.$touch();
       this.isFieldValid = true;
 
       this.changeAns(this.answer.toString());
       this.tempAns = this.changeAns(this.answer);
-      console.log("ans", this.tempAns);
       this.emitData(this.tempAns);
     },
+
+    // send the data to Question Component
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,
         isFieldValid: this.isFieldValid,
       });
     },
+
+    // convert string value to boolean value
     changeAns(value) {
       return {
         true: "yes",

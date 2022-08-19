@@ -32,6 +32,7 @@ export default {
       required: true,
     },
   },
+
   data() {
     return {
       isValid: false,
@@ -40,6 +41,7 @@ export default {
     };
   },
   created() {
+    // if ans is given set the ans value
     let stfAns = this.currentAns[0];
     if (stfAns != "") {
       this.isFieldValid = true;
@@ -49,9 +51,10 @@ export default {
   },
 
   methods: {
+    // get the value of user given ans
+
     updateAnswer() {
       let ansArr = [this.answer];
-      console.log(ansArr.length > 0);
       if (ansArr.length > 0) {
         this.isValid = false;
         this.isFieldValid = true;
@@ -59,9 +62,10 @@ export default {
         this.isValid = true;
         this.isFieldValid = false;
       }
-      console.log("updated value", this.isFieldValid);
       this.emitData(ansArr);
     },
+
+    // send the data to Question Component
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,

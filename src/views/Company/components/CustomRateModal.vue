@@ -252,7 +252,9 @@ export default {
       },
     };
   },
+
   computed: {
+    // vuex getter variables
     ...mapGetters({
       currencyLists: "allCurrency",
       exchangeRates: "currencyExRates",
@@ -261,6 +263,8 @@ export default {
   },
 
   created() {
+    // get currency selected on page load
+
     if (this.exchangeRates && Object.keys(this.exchangeRates).length != 0) {
       this.standardCurrency = this.exchangeRates;
     } else {
@@ -277,6 +281,9 @@ export default {
   mounted() {
     this.modal = new Modal(this.$refs.exampleModal);
   },
+
+  //  all the variables declare here that are need validation
+
   validations() {
     return {
       standardCurrency: {
@@ -286,12 +293,16 @@ export default {
       },
     };
   },
+
   setup() {
     return {
+      // vuelidate variable decalaration
+
       v$: useVuelidate(),
     };
   },
   methods: {
+    // enter only number
     isNumber(ev) {
       let numberStr = ev.target.value;
       if (this.numberPattern.test(numberStr)) {
@@ -304,20 +315,29 @@ export default {
         }
       }
     },
+
+    // custom exchange rates value must be 4 digits
     customExchangeValues(value) {
       return parseFloat((value * 1000).toFixed(4));
     },
+
+    // open custom exchage  modal
     openCustomModal() {
       this.modal.show();
     },
+
+    // get name of currency by id
     getNameById(listArr, id) {
       return getlabelValue(listArr, id);
     },
+
+    // close modal
     onCancel() {
       this.display = false;
       this.modal.hide();
     },
 
+    // save custom rates
     saveCustomRates() {
       this.v$.$touch();
       if (!this.v$.$invalid) {
@@ -335,11 +355,14 @@ export default {
       }
     },
 
+    // get all currency on page load
     getCurrency() {
       this.$store.dispatch("GET_ALL_CURRENCY");
     },
 
+    // change currency
     onChangeCurrency() {
+      // get change exchange currency rates
       this.$store
         .dispatch("GET_CUSTOM_CURRENCY_EXCHANGE_RATES", {
           currency_id: this.standardCurrency.currency_id,
@@ -348,7 +371,6 @@ export default {
         .then((res) => {
           if (res.data.status) {
             this.standardCurrency = this.exchangeRates;
-            console.log("", res.data.data);
             return;
           }
         });

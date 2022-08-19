@@ -192,9 +192,7 @@
                     </li>
                   </ul>
 
-                  <!-- {{ ownRole.view_company_detail && people.set_permissions }} -->
                   <div v-if="people.set_permissions" class="permission_btns">
-                    <!-- :class="{activeId==people.staffid ? '':'suceess'}" -->
                     <button
                       @click="openPermissionModal(people.staffid)"
                       type="button"
@@ -262,6 +260,7 @@ export default {
     MultiSelect,
     DotLoader,
   },
+
   data() {
     return {
       searchIcon,
@@ -277,7 +276,9 @@ export default {
       allMembersList: [],
     };
   },
+
   computed: {
+    // vuex getters variables
     ...mapGetters({
       staffData: "staffDataLocal",
       membersList: "companyMembers",
@@ -287,6 +288,7 @@ export default {
       departmentLists: "staffsDepartment",
     }),
   },
+
   watch: {
     membersList: function () {
       this.allMembersList = this.membersList;
@@ -299,7 +301,9 @@ export default {
       document.querySelectorAll('a[data-bs-toggle="tooltip_dept"]')
     ).forEach((tooltipNode) => new Tooltip(tooltipNode));
   },
+
   created() {
+    // get all member list, department list and category list on page load
     this.allMembersList = this.membersList;
     this.$store.dispatch("GET_STAFFS_DEPARTMENT", {
       auth_token: this.staffData.auth_token,
@@ -308,14 +312,20 @@ export default {
     this.getdDepartmentList();
     this.getCategoryList();
   },
+
   methods: {
+    // open member permissionaModal
     openPermissionModal(val) {
       this.activeId = val;
       this.$refs.perm_modal.setPermission(val);
     },
+
+    // get the firt letter from the member name
     formatMemberName(str) {
       return getFirstLetter(str);
     },
+
+    // filter member by the search inputs
     SearchByKeyword(event) {
       this.userKeyword = event.target.value;
       console.log(this.userKeyword);
@@ -332,21 +342,16 @@ export default {
         };
         this.filterMemberList(data);
       } else {
+        // default member list without any filter
         this.memberListDeafault();
       }
     },
 
-    validRoleToSetPermission(role) {
-      console.log(role);
-      if (role == "5") {
-        return false;
-      } else {
-        return true;
-      }
-    },
+    // default member list with no filter are applied
     memberListDeafault() {
       this.allMembersList = this.membersList;
     },
+
     // filter by Department
     memberFilterbyDepartment() {
       let data = {
@@ -358,6 +363,8 @@ export default {
       };
       this.filterMemberList(data);
     },
+
+    // filter member list
 
     filterMemberList(filterParams) {
       CompanyService.memberByRoleId(filterParams).then((res) => {

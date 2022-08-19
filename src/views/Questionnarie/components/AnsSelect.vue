@@ -38,6 +38,7 @@ export default {
       required: true,
     },
   },
+
   data() {
     return {
       ansValue: null,
@@ -46,20 +47,28 @@ export default {
       tempAns: [],
     };
   },
+
   components: {
     Dropdown,
   },
+
   setup() {
     return {
+      // vuelidate variable decalaration
       v$: useValidator(),
     };
   },
+
   validations() {
     return {
+      //  all the variables declare here that are need validation
+
       ansValue: { required },
     };
   },
+
   created() {
+    // if ans is given set the ans value
     this.data.forEach((item) => {
       const element = {
         value: item.option_id,
@@ -73,7 +82,10 @@ export default {
       this.emitData(this.ansValue);
     }
   },
+
   methods: {
+    // get the value of user given ans and validate it
+
     updateAnswer() {
       this.v$.$touch();
       this.isFieldValid = false;
@@ -83,6 +95,8 @@ export default {
       }
       this.emitData(this.tempAns);
     },
+
+    // send the data to Question Component
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,

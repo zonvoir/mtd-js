@@ -66,24 +66,29 @@ export default {
   },
 
   computed: {
+    // vuex getter variables
     ...mapGetters({
-      valuenow: "quizProgressValue",
-      quizModalStatus: "quizModalStatus",
-      staffData: "staffDataLocal",
+      valuenow: "quizProgressValue", // get the ans given questin percentage
+      quizModalStatus: "quizModalStatus", // status that questionnaire modal closed or opened
+      staffData: "staffDataLocal", //user auth token
     }),
   },
 
   watch: {
+    // when questinnaire modal status  change
     quizModalStatus: function (val) {
       if (val) {
+        // modal status true
         this.modal.show();
       } else {
+        // modal status false
         this.closeQuestionModal();
       }
     },
   },
 
   mounted() {
+    // on page mount initailize the modal reference
     this.modal = new Modal(this.$refs.questinnaire_modal);
     this.departmentId = this.$route.params.did;
     this.categoryID = this.$route.params.id;
@@ -91,6 +96,7 @@ export default {
   },
 
   methods: {
+    // confiramtion modal closeing questionnaire
     closeQuestionModal() {
       this.$swal({
         title: "Are you sure?",
@@ -102,19 +108,21 @@ export default {
         confirmButtonText: "OK",
       }).then((result) => {
         if (result.isConfirmed) {
-          console.log("modal close clicked");
+          // confirmation as yes to close questionnaire
           if (this.departmentId && this.categoryID && this.authToken) {
             let data = {
               auth_token: this.authToken,
               department_id: this.departmentId,
               category_id: this.categoryID,
             };
-            console.log("close the modal", data);
+
             this.$store.dispatch("GET_QUESTIONNAIRE_ALL_DATA", data);
+            // close confirmation modal and questionnaire modal
             this.$store.dispatch("GET_QUIZ_MODAL_STATUS", false);
             this.modal.hide();
           }
         } else {
+          // confirmation as "no" to close Questionnaire
           this.$store.dispatch("GET_QUIZ_MODAL_STATUS", true);
         }
       });

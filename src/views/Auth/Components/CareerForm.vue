@@ -194,6 +194,7 @@ import CompanyService from "../../../Services/Company/CompanyService";
 import { formatDate } from "../../../utils/FormatDate";
 export default {
   emits: ["addNewCareer"],
+
   props: {
     className: {
       required: true,
@@ -220,6 +221,7 @@ export default {
       required: true,
     },
   },
+
   data() {
     return {
       staffData: this.authToken,
@@ -237,51 +239,66 @@ export default {
       companies: [],
     };
   },
+
   setup() {
     return {
+      // vuelidate variable decalaration
+
       v$: useVuelidate(),
     };
   },
+
   components: {
     Datepicker,
     MultiSelect,
     AutoComplete,
     Dropdown,
   },
+
   watch: {
+    // clear date when working at present is checked
     "careerForm.workingAtPresent": function () {
       this.clearToDate();
     },
-    "careerForm.from": function () {
-      if (this.careerForm.from > new Date()) {
-        errorhandler("Future date is not accepeted");
-        return (this.careerForm.from = "");
-      }
-    },
+
+    // "careerForm.from": function () {
+    //   if (this.careerForm.from > new Date()) {
+    //     errorhandler("Future date is not accepeted");
+    //     return (this.careerForm.from = "");
+    //   }
+    // },
   },
 
+  // get updated career information from its parent component
   updated() {
     this.careerForm = this.myCareer;
   },
 
   mounted() {
+    // on page mounted get updated career information and working and
     this.careerForm = this.myCareer;
     this.careerForm.workingAtPresent = this.workingAtPresent;
     this.getAllCompany();
   },
 
   methods: {
+    // clear from date
     clearFromDate() {
       this.careerForm.from = "";
     },
+
+    // clear to date
     clearToDate() {
       this.careerForm.to = "";
     },
+
+    // add new department
     extrernalDepartment() {
       this.addNewDept = true;
       this.newDepartment = "";
     },
 
+    // update department list
     updateDepartment() {
       let deptData = {
         auth_token: this.staffData,
@@ -296,6 +313,7 @@ export default {
         });
     },
 
+    //  auto compalete companies list
     searchCompany(event) {
       setTimeout(() => {
         if (!event.query.trim().length) {
@@ -310,17 +328,20 @@ export default {
       }, 250);
     },
 
+    // get all list of companies for suggestions
     getAllCompany() {
       CompanyService.companySuggestions().then((res) => {
         if (res.data.status) {
           this.companies = [];
           this.companies = res.data.data;
         } else {
-          console.log("ff");
+          // error notification message
           errorhandler(res, this);
         }
       });
     },
+
+    // modify company data (company name)
     modifyCompanyData(data, parmas) {
       if (typeof data === "object") {
         console.log("this is object");
@@ -330,15 +351,15 @@ export default {
       }
     },
 
+    // validate all input form
     validateForm() {
       this.isValid = true;
       this.careerForm.company = this.modifyCompanyData(
         this.careerForm.company,
         "label"
       );
-      this.careerForm.to = formatDate(this.careerForm["to"], "L");
-      this.careerForm.from = formatDate(this.careerForm["from"], "L");
-      console.log("check vali", this.careerForm);
+      this.careerForm.to = formatDate(this.careerForm["to"], "L"); //format date like
+      this.careerForm.from = formatDate(this.careerForm["from"], "L"); //format date like
       this.$emit("addNewCareer", {
         isvalid: this.isValid,
         newCareer: this.careerForm,

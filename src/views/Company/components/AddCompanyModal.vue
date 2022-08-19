@@ -97,12 +97,12 @@ import CompanyStep2 from "../../Auth/Components/CompanyStep2.vue";
 import SignupService from "../../../Services/SignupService";
 import errorhandler from "../../../utils/Error";
 export default {
-  // emits: ["agreeToComplete"],
   components: {
     Stepper,
     CompanyStep1,
     CompanyStep2,
   },
+
   data() {
     return {
       staffData: JSON.parse(localStorage.getItem("bWFpbCI6Inpvb")),
@@ -122,6 +122,7 @@ export default {
   methods: {
     // get company basic info from step one
     nextStep() {
+      // click component CompanyStep1's function
       this.$refs.create_company_modal_step_first.companyProfileStepOne();
       if (
         this.$refs.create_company_modal_step_first.isStepOneProfileCompleted
@@ -172,6 +173,7 @@ export default {
               this.activeStep = 1;
               this.$router.push({ name: "company-list" });
             } else {
+              // error notifaction function
               errorhandler(res);
             }
           });
@@ -182,6 +184,7 @@ export default {
     // close modal
     closeModal() {
       this.modal.hide();
+      // clear both form input values
       this.$refs.create_company_modal_step_first.clearForm();
       this.$refs.create_company_modal_step_second.clearForm();
     },

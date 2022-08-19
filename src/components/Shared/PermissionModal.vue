@@ -1,7 +1,4 @@
 <template>
-  <!-- <div class="">
-    <slot name="permission-button" :openPermissionModal="setPermission"></slot>
-  </div> -->
   <div class="modal fade" ref="invitationModal">
     <div class="modal-dialog modal-xl invitation_dialog">
       <div class="modal-content invitaion_content perms_content">
@@ -27,10 +24,11 @@
               <AccordionTab
                 v-for="(department, index) in permissonList"
                 :key="index"
-                class="prime_accordion_tab"
                 :header="department.name"
+                class="prime_accordion_tab"
               >
                 <div class="staff_desc">
+                  <!-- permission component  -->
                   <PermissionTable
                     @getUpdatedPermission="getLatestPermission"
                     :categoryList="department.categories"
@@ -97,13 +95,16 @@ export default {
   },
 
   computed: {
+    // vuex getter varables
     ...mapGetters({
-      staffInfo: "staffDataLocal",
-      permissonList: "memberPermissions",
-      membersDepartment: "alocatedDepartments",
+      staffInfo: "staffDataLocal", // auth token from local storage
+      permissonList: "memberPermissions", // default permission given to the user
+      membersDepartment: "alocatedDepartments", // department in which permemission will be change
     }),
   },
+
   methods: {
+    // get data emmited by permissionTable component
     getLatestPermission(val) {
       this.updatedPermissionArr = this.permissionArr.filter(
         (dept, idx, deptArr) => {
@@ -113,26 +114,25 @@ export default {
           return deptArr;
         }
       );
-      console.log("updated permissions", this.updatedPermissionArr);
     },
+
+    // update the member default permission
     setPermission(id) {
       this.currentStaffId = id;
       let data = {
         auth_token: this.staffInfo.auth_token,
         staffid: this.currentStaffId,
       };
-      // this.$store.dispatch("SET_LOADING_STATUS", true);
       this.isGettingData = true;
       CompanyService.setMemberPermission(data)
         .then((res) => {
-          // this.$store.dispatch("SET_LOADING_STATUS", false);
           if (res.data.status) {
             this.permissionArr = res.data.data;
             this.departmentArr = [];
             this.isAccordionArr = new Array(this.permissionArr.length).fill(
               false
             );
-            console.log("assign dept", this.permissionArr);
+
             for (let i = 0; i < res.data.data.length; i++) {
               let data = {
                 value: res.data.data[i].departmentid,
@@ -140,14 +140,19 @@ export default {
               };
               this.departmentArr.push(data);
             }
+
+            // get members department
             this.$store.dispatch(
               "GET_ALOCATED_DEPARTMENTS",
               this.departmentArr
             );
+
+            // get member updated permissions
             this.$store.dispatch("GET_PERMISSION_ARRAY", this.permissionArr);
             this.modal.show();
           } else {
-            errorhandler(res, this);
+            // error notifications
+            errorhandler(res);
           }
         })
         .catch((error) => {
@@ -157,34 +162,26 @@ export default {
           this.isGettingData = false;
         });
     },
+
+    // closeModal
     closeModal() {
       this.modal.hide();
     },
+
+    // save the modifiied permission list
     saveMemberPermission() {
-      console.log("updated permission", this.updatedPermissionArr);
       let data = {
         auth_token: this.staffInfo.auth_token,
         staffid: this.currentStaffId,
         member_permissions: this.updatedPermissionArr,
       };
+
       CompanyService.updateMemberPermission(data).then((res) => {
         if (res.data.status) {
           this.permissionArr = res.data.data;
+          // set the member permission
           this.$store.dispatch("GET_PERMISSION_ARRAY", this.permissionArr);
-          console.log(
-            "response is comming from updated permissions",
-            res.data.data
-          );
           this.modal.hide();
-        }
-      });
-      console.log("modal closed");
-    },
-    // toggle accordion
-    toggleAccordion(index) {
-      this.isAccordionArr.forEach((ac, i) => {
-        if (index === i) {
-          this.isAccordionArr[i] = !this.isAccordionArr[i];
         }
       });
     },

@@ -118,11 +118,16 @@ export default {
   mounted() {
     this.modal = new Modal(this.$refs.exampleModal);
   },
+
   setup() {
     return {
+      // vuelidate variable decalaration
+
       v$: useVuelidate(),
     };
   },
+  //  all the variables declare here that are need validation
+
   validations() {
     return {
       updateEmailForm: {
@@ -130,7 +135,9 @@ export default {
       },
     };
   },
+
   methods: {
+    // save changed email
     onChangeEmail() {
       this.updateEmailForm.auth_token = this.staffData.auth_token;
       this.v$.$touch();
@@ -148,6 +155,8 @@ export default {
         });
       }
     },
+
+    // reset form
     resetForm() {
       this.v$.$reset();
 
@@ -156,10 +165,12 @@ export default {
       };
       this.modal.hide();
     },
+
+    // open update email modal
     openModal() {
       this.modal.show();
     },
-
+    // close update email modal
     closeModal() {
       this.resetForm();
     },

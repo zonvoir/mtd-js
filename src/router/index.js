@@ -18,7 +18,7 @@ import Dashboard from "../Layout/MainLayout.vue";
 import CompanyLayout from "../views/Company/CompanyLayout.vue";
 import Members from "../views/Company/MemberList.vue";
 import Peers from "../views/Company/Peers.vue";
-import CompanyAdd from "../views/Company/CompanyAdd.vue";
+// import CompanyAdd from "../views/Company/CompanyAdd.vue";
 import CompanyList from "../views/Company/CompanyList.vue";
 import CompanyProfile from "../views/Company/CompanyProfile.vue";
 import CompanyProfileEdit from "../views/Company/CompanyProfileEdit.vue";
@@ -198,11 +198,11 @@ const routes = [
             name: "company-peer",
             component: Peers,
           },
-          {
-            path: "company-setup-update",
-            name: "company-update",
-            component: CompanyAdd,
-          },
+          // {
+          //   path: "company-setup-update",
+          //   name: "company-update",
+          //   component: CompanyAdd,
+          // },
           {
             path: "company-list",
             name: "company-list",

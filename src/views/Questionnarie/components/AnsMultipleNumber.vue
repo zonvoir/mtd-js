@@ -32,6 +32,7 @@ import numfractionMixin from "../../../mixins/numeric-fraction-numbers";
 
 export default {
   emits: ["getUserSelected"],
+  // external mixin code that used for input only number and decimal (.)
   mixins: [numfractionMixin],
 
   props: {
@@ -59,7 +60,7 @@ export default {
   },
 
   created() {
-    console.log(this.staffAns);
+    // if ans is given set the ans value
     if (this.currentAns != "") {
       this.staffAns = this.currentAns;
       this.allAnsFilled = true;
@@ -69,6 +70,8 @@ export default {
   },
 
   methods: {
+    // get the value of user given ans
+
     onInput(qid, index, event) {
       console.log(qid, index, event);
       let dataI = "";
@@ -77,6 +80,7 @@ export default {
         let dataValArr = event.target.value.split(".");
         let str_first = dataValArr[0];
         let str_last = dataValArr[1];
+        // format input like 123 123.123
         let itermediatData =
           str_first //below code modify in middle
             .replace(/ /g, "")
@@ -86,6 +90,7 @@ export default {
           (str_last.length > 3 ? "" : str_last);
         dataI = itermediatData;
       } else {
+        // format input like 123 123 123
         console.log("no decimal", event.target.value);
 
         if (event.target.value !== "") {
@@ -97,8 +102,9 @@ export default {
       }
       this.checkValidate(dataI, qid, index);
     },
+
+    // this will function check that all ans are filled or not
     checkValidate(tempAns, tempid, index) {
-      console.log("checking for null values", tempAns, tempid, index);
       this.staffAns[index] = {
         subquestion_id: tempid,
         sub_ans: tempAns,
@@ -115,6 +121,7 @@ export default {
       this.emitData(this.staffAns);
     },
 
+    // send the data to Question Component
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,

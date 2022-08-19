@@ -36,6 +36,8 @@ import numfractionMixin from "../../../mixins/numeric-fraction-numbers";
 
 export default {
   emits: ["getUserSelected"],
+  // external mixin code that used for input only number and decimal (.)
+
   mixins: [numfractionMixin],
 
   props: {
@@ -62,22 +64,23 @@ export default {
   },
 
   created() {
-    console.log(this.staffAns);
+    // if ans is given set the ans value
     if (this.currentAns != "") {
       this.staffAns = this.currentAns;
       this.allAnsFilled = true;
       this.emitData(this.currentAns);
-      console.log("current ans", this.staffAns);
     }
   },
 
   methods: {
+    // get the value of user given ans
     onInput(id, index, event) {
-      console.log("refined value", event.target.value);
       let tempAns = event.target.value;
       let tempid = id;
       this.checkValidate(tempAns, tempid, index);
     },
+
+    // this will function check that all ans are filled or not
 
     checkValidate(tempAns, tempid, index) {
       this.staffAns[index] = {
@@ -102,6 +105,7 @@ export default {
       this.emitData(this.staffAns);
     },
 
+    // send the data to Question Component
     emitData(val) {
       this.$emit("getUserSelected", {
         ansData: val,
