@@ -51,7 +51,7 @@ app
   .use(VueSweetalert2)
   .use(VueGoogleMaps, {
     load: {
-      key: "AIzaSyBWPNwmej6ChgvyBY9e4EwFjkTrJUQr0Sg",
+      key: "GOOGLE_API_KEY",
       libraries: "places",
     },
   })
